@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, staging, main, 'feature/**', 'hotfix/**']
+  pull_request:
+    branches: [develop, staging, main]
+
+jobs:
+  ci:
+    name: Lint · Typecheck · Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci --legacy-peer-deps
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        env:
+          # Use dev vars for CI build verification
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID_DEV || 'placeholder' }}
+          NEXT_PUBLIC_SANITY_DATASET: staging
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL_DEV || 'https://placeholder.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY_DEV || 'placeholder' }}
+          NEXT_PUBLIC_SITE_URL: https://dev.emudev.cc
+          NEXT_PUBLIC_SITE_DOMAIN: emudev.cc
+          SANITY_REVALIDATE_SECRET: ci-placeholder
+        run: npm run build

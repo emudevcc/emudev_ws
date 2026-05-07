@@ -1,0 +1,57 @@
+{
+  "name": "emudev-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "sanity:dev": "sanity dev",
+    "sanity:types": "sanity typegen generate",
+    "supabase:types": "supabase gen types typescript --linked > types/supabase.types.ts",
+    "supabase:push": "supabase db push",
+    "test:smoke": "playwright test tests/smoke/",
+    "test:smoke:local": "BASE_URL=http://localhost:3000 playwright test tests/smoke/",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,mjs}": [
+      "prettier --write"
+    ],
+    "*.{json,css}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@portabletext/react": "^6.2.0",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^3.99.0",
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.105.3",
+    "next": "15.5.18",
+    "next-sanity": "^5.5.11",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "resend": "^6.12.3",
+    "sanity": "^3.99.0",
+    "styled-components": "^6.4.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@playwright/test": "^1.59.1",
+    "@sanity/codegen": "^6.0.3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^10.3.0",
+    "eslint-config-next": "^16.2.6",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.2",
+    "prettier": "^3.8.3",
+    "tailwindcss": "^4",
+    "typescript": "^5.9.3"
+  }
+}

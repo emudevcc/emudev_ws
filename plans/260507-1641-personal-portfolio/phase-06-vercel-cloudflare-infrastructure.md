@@ -11,91 +11,139 @@ dependencies: [5]
 
 ## Overview
 
-Provision the 3 Vercel projects (dev/staging/prod), configure Cloudflare as CDN + WAF in front of all three, set up DNS (root domain + `dev.` + `qa.` subdomains), define cache rules for Next.js ISR pages, and configure WAF rules for portfolio security. This phase is mostly configuration — no application code changes.
+Provision 3 Vercel projects (dev/staging/prod), configure Cloudflare as CDN + WAF in front of all three, set up DNS (root domain + `dev.` + `qa.` subdomains), define cache rules for Next.js ISR pages, and configure WAF rules for portfolio security. This phase is mostly configuration — no application code changes.
+
+## Branch → Environment → Domain Mapping
+
+| Git Branch | GitHub Environment | Vercel Project | Domain |
+|---|---|---|---|
+| `develop` | `development` | `portfolio-dev` | `dev.emudev.cc` |
+| `staging` | `staging` | `portfolio-staging` | `qa.emudev.cc` |
+| `main` | `production` | `portfolio-prod` | `emudev.cc` |
 
 ## Key Insights
 
 - **Orange cloud = manual deploy required:** Cloudflare proxy intercepts Vercel's deploy webhook. All deploys MUST go through GitHub Actions `vercel deploy --prebuilt` (Phase 5). Never use Vercel's "Connect Git" auto-deploy when Cloudflare is in proxy mode.
-- **3 Vercel projects, 1 repo:** Create 3 separate Vercel projects, each tracking a different branch (`develop`, `staging`, `main`). Disable Vercel's auto-deploy on all 3 — GitHub Actions drives deploys.
-- **CF cache vs. ISR:** Cloudflare full-page cache can stale Next.js ISR responses. Use `purge_everything: true` post-deploy (simpler than selective purge). Add cache rules that bypass `/api/*` and `/studio/*`.
+- **3 Vercel projects, 1 repo:** Each project tracks a different branch (`develop`, `staging`, `main`). Disable Vercel auto-deploy on all 3 — GitHub Actions drives deploys.
+- **VERCEL_PROJECT_ID is per-environment:** The `VERCEL_PROJECT_ID` secret must be set separately in each GitHub Environment (`development`, `staging`, `production`) with that environment's Vercel project ID.
+- **NEXT_PUBLIC_SITE_URL is hardcoded in the workflow:** The deploy.yml hardcodes the URL per job (`https://dev.emudev.cc`, `https://qa.emudev.cc`, `https://emudev.cc`) — do NOT configure this as a per-environment secret.
+- **CF cache vs. ISR:** Cloudflare full-page cache can stale Next.js ISR responses. Dev purges by prefix (`dev.emudev.cc`); staging/prod purge by prefix too. Use `purge_everything: true` only as a fallback.
 - **SSL:** Cloudflare issues free SSL for proxied (orange-cloud) domains — no cert management needed.
-- **WAF rules:** Start in "Challenge" mode (CAPTCHA), not "Block". Escalate after validating no false positives.
-- **Vercel `vercel.json`:** Define build command and output directory for CLI-driven builds to avoid Vercel dashboard config drift.
+- **WAF rules:** Start in "Challenge" mode (CAPTCHA), not "Block". Escalate after 48h validation.
 
 ## Requirements
 
 **Functional:**
-- 3 Vercel projects created with CLI/dashboard, auto-deploy disabled
-- `vercel.json` in repo root defining build settings
-- Cloudflare nameservers managing the domain
-- DNS: root → prod Vercel, `dev.` → dev Vercel, `qa.` → staging Vercel (all orange-cloud)
+- 3 Vercel projects created, auto-deploy disabled
+- `vercel.json` in repo root (already committed)
+- Cloudflare nameservers managing `emudev.cc`
+- DNS: `emudev.cc` → prod Vercel, `dev.emudev.cc` → dev Vercel, `qa.emudev.cc` → staging Vercel (all orange-cloud)
 - Cache rules: bypass `/api/*`, `/studio/*`, `/admin/*`; cache static assets 1 year; cache ISR pages 24h edge
 - WAF rules: rate limiting, bot score challenge, SQL injection block
+- Cloudflare cache purge fires after every deploy (all 3 environments)
 
 **Non-functional:**
-- All 3 subdomains resolve with valid SSL (Cloudflare universal cert)
-- CF cache purge API call returns 200
+- All 3 subdomains resolve with valid SSL
+- CF cache purge API call returns `{"success":true}`
 
 ## Architecture
 
 ```
 Internet
-  └── Cloudflare (CDN + WAF + DNS)
-       ├── example.com         → Vercel prod project (proxied ☁️)
-       ├── qa.example.com      → Vercel staging project (proxied ☁️)
-       └── dev.example.com     → Vercel dev project (proxied ☁️)
+  └── Cloudflare (CDN + WAF + DNS) — emudev.cc zone
+       ├── emudev.cc          → Vercel portfolio-prod  (proxied ☁️)
+       ├── qa.emudev.cc       → Vercel portfolio-staging (proxied ☁️)
+       └── dev.emudev.cc      → Vercel portfolio-dev  (proxied ☁️)
               └── Vercel Edge Network
                    └── Next.js App (SSG/ISR pages)
 
 GitHub Actions → vercel deploy --prebuilt → Vercel project
-              → CF cache purge → Cloudflare zone
+              → CF prefix purge → Cloudflare zone (emudev.cc)
 ```
 
-**Vercel project mapping:**
+## GitHub Environments — Secrets Matrix
 
-| Project Name | Branch | Environment | Domain |
-|---|---|---|---|
-| `portfolio-dev` | `develop` | development | `dev.example.com` |
-| `portfolio-staging` | `staging` | staging | `qa.example.com` |
-| `portfolio-prod` | `main` | production | `example.com` |
+Each GitHub Environment needs these secrets configured. Repo-level secrets are shared across all environments.
+
+### Repo-level secrets (Settings → Secrets → Actions)
+
+| Secret | Value |
+|--------|-------|
+| `VERCEL_ORG_ID` | Your Vercel org/team ID |
+| `VERCEL_TOKEN` | Vercel API token (all environments share one) |
+| `CF_ZONE_ID` | Cloudflare Zone ID for `emudev.cc` |
+| `CF_API_TOKEN` | CF token with Cache Purge permission on `emudev.cc` zone |
+
+### `development` environment secrets (develop → dev.emudev.cc)
+
+| Secret | Value |
+|--------|-------|
+| `VERCEL_PROJECT_ID` | Vercel project ID for `portfolio-dev` |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID |
+| `NEXT_PUBLIC_SANITY_DATASET` | `production` |
+| `NEXT_PUBLIC_SUPABASE_URL` | Dev Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Dev Supabase anon key |
+| `SUPABASE_DB_URL` | Dev Supabase postgres connection string |
+| `SUPABASE_PAT` | Supabase personal access token |
+| `SANITY_REVALIDATE_SECRET` | Random string for Sanity webhook |
+
+### `staging` environment secrets (staging → qa.emudev.cc)
+
+| Secret | Value |
+|--------|-------|
+| `VERCEL_PROJECT_ID` | Vercel project ID for `portfolio-staging` |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID |
+| `NEXT_PUBLIC_SANITY_DATASET` | `production` |
+| `NEXT_PUBLIC_SUPABASE_URL` | Staging Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Staging Supabase anon key |
+| `SUPABASE_DB_URL` | Staging Supabase postgres connection string |
+| `SUPABASE_PAT` | Supabase personal access token |
+| `SANITY_REVALIDATE_SECRET` | Same or distinct from dev |
+
+### `production` environment secrets (main → emudev.cc)
+
+| Secret | Value |
+|--------|-------|
+| `VERCEL_PROJECT_ID` | Vercel project ID for `portfolio-prod` |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID |
+| `NEXT_PUBLIC_SANITY_DATASET` | `production` |
+| `NEXT_PUBLIC_SUPABASE_URL` | Prod Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Prod Supabase anon key |
+| `SUPABASE_DB_URL` | Prod Supabase postgres connection string |
+| `SUPABASE_PAT` | Supabase personal access token |
+| `SANITY_REVALIDATE_SECRET` | Prod-specific secret |
+
+> **Note:** `NEXT_PUBLIC_SITE_URL` is NOT a GitHub Environment secret — it's hardcoded per job in `deploy.yml`.
 
 ## Related Code Files
 
-**Create:**
+**Already committed:**
 - `vercel.json` — build config (prevents dashboard drift)
+- `.github/workflows/deploy.yml` — 3-environment deploy pipeline with CF purge on all jobs
 
-**No application code changes.** All work is external configuration.
+**No application code changes needed.** All remaining work is external configuration.
 
 ## Implementation Steps
 
-1. **Create 3 Vercel projects** — via Vercel dashboard or CLI:
-   ```bash
-   # Install Vercel CLI globally
-   npm install -g vercel
+1. **Create 3 Vercel projects** — via Vercel dashboard:
+   - Framework Preset: Next.js | Root Directory: `.`
+   - Git Integration: Connect repo → set correct branch → **DISABLE auto-deploy**
+   - Copy each **Project ID** → store in the corresponding GitHub Environment secret `VERCEL_PROJECT_ID`
 
-   # Link/create project for each env (run in project dir)
-   vercel link   # creates .vercel/project.json locally
-   ```
-   In Vercel dashboard for each project:
-   - **Framework Preset:** Next.js
-   - **Root Directory:** `.`
-   - **Git Integration:** Connect repo → set correct branch → **DISABLE auto-deploy**
-   - Copy **Project ID** → store in GitHub environment secret `VERCEL_PROJECT_ID`
+   | Project Name | Branch | Domain to add |
+   |---|---|---|
+   | `portfolio-dev` | `develop` | `dev.emudev.cc` |
+   | `portfolio-staging` | `staging` | `qa.emudev.cc` |
+   | `portfolio-prod` | `main` | `emudev.cc` |
 
-2. **Add `vercel.json`** to repo root:
-   ```json
-   {
-     "buildCommand": "npm run build",
-     "outputDirectory": ".next",
-     "installCommand": "npm ci",
-     "framework": "nextjs"
-   }
-   ```
-   This ensures `vercel build --token` in GitHub Actions uses consistent settings.
+2. **Configure GitHub Environments** (Settings → Environments):
+   - `development`: add secrets per matrix above; no protection rules needed
+   - `staging`: add secrets per matrix above; add reviewer approval gate
+   - `production`: add secrets per matrix above; add reviewer approval gate
 
-3. **Configure Cloudflare DNS** (Cloudflare dashboard → DNS):
+3. **Configure Cloudflare DNS** (CF dashboard → DNS):
    - Transfer domain nameservers to Cloudflare (registrar → update NS records)
-   - Add DNS records after Vercel projects are deployed once:
+   - After Vercel projects are deployed once, add:
 
    | Type | Name | Target | Proxy |
    |------|------|--------|-------|
@@ -103,13 +151,12 @@ GitHub Actions → vercel deploy --prebuilt → Vercel project
    | CNAME | `dev` | `cname.vercel-dns.com` | ☁️ Proxied |
    | CNAME | `qa` | `cname.vercel-dns.com` | ☁️ Proxied |
 
-   Note: All 3 point to `cname.vercel-dns.com`. Vercel routes by custom domain configured per project.
+   All 3 point to `cname.vercel-dns.com`. Vercel routes by custom domain configured per project.
 
 4. **Add custom domains in Vercel** (each project → Settings → Domains):
-   - `portfolio-prod`: add `example.com`
-   - `portfolio-staging`: add `qa.example.com`
-   - `portfolio-dev`: add `dev.example.com`
-   - Vercel will verify domain via Cloudflare DNS automatically
+   - `portfolio-prod`: add `emudev.cc`
+   - `portfolio-staging`: add `qa.emudev.cc`
+   - `portfolio-dev`: add `dev.emudev.cc`
 
 5. **Configure Cloudflare cache rules** (CF dashboard → Caching → Cache Rules):
 
@@ -140,109 +187,108 @@ GitHub Actions → vercel deploy --prebuilt → Vercel project
 
 6. **Configure WAF rules** (CF dashboard → Security → WAF → Custom Rules):
 
-   **Rule 1 — Rate limiting:**
+   **Rule 1 — Allow verified crawlers (highest priority):**
    ```
-   Name: Rate limit portfolio
-   Expression: (http.request.uri.path eq "/" or contains "/projects" or contains "/blog")
-   Action: Challenge (CAPTCHA)
-   Rate: 100 req / 10 min per IP
+   Expression: cf.bot_management.verified_bot
+   Action: Skip all remaining rules
+   Priority: 1
    ```
 
-   **Rule 2 — Bot score challenge:**
+   **Rule 2 — Rate limiting:**
    ```
-   Name: Challenge low-score bots
+   Expression: (http.request.uri.path eq "/" or contains "/projects" or contains "/blog")
+   Action: Challenge (CAPTCHA) | Rate: 100 req / 10 min per IP
+   ```
+
+   **Rule 3 — Bot score challenge:**
+   ```
    Expression: cf.bot_management.score lt 30 and not cf.bot_management.verified_bot
    Action: Challenge
    ```
 
-   **Rule 3 — Block SQL injection (OWASP):**
+   **Rule 4 — Block SQL injection (OWASP):**
    ```
-   Name: Block SQLi
    Expression: cf.waf.score.sqli > 40
    Action: Block
    ```
 
-   **Rule 4 — Allow verified crawlers:**
-   ```
-   Name: Allow search engines
-   Expression: cf.bot_management.verified_bot
-   Action: Skip all remaining rules
-   Priority: 1 (highest)
-   ```
-
-   Start all rules in **Challenge** mode; escalate to **Block** after 48h of validation.
+   Start Rules 2–4 in **Challenge** mode; escalate to **Block** after 48h validation.
 
 7. **Configure Cloudflare SSL/TLS** (CF dashboard → SSL/TLS):
-   - Mode: **Full (strict)** — encrypts CF ↔ Vercel (Vercel has valid cert)
+   - Mode: **Full (strict)**
    - Enable **Always Use HTTPS**
-   - Enable **HSTS** (1 year, include subdomains) — only after confirming all 3 subdomains work
+   - Enable **HSTS** (1 year, include subdomains) — only after all 3 subdomains resolve
 
-8. **Retrieve Zone ID and API token** for GitHub secrets:
-   - Zone ID: CF dashboard → Overview → right sidebar → Zone ID
-   - API Token: CF dashboard → Profile → API Tokens → Create token:
-     - Template: "Edit zone DNS" + add "Cache Purge" permission
-     - Zone resources: your domain only
+8. **Retrieve CF Zone ID + create API token** for GitHub repo-level secrets:
+   - Zone ID: CF dashboard → Overview → right sidebar
+   - API Token: CF dashboard → Profile → API Tokens → Create:
+     - Permissions: "Zone" → "Cache Purge" → Edit
+     - Zone resources: `emudev.cc` only
 
 9. **Test CF cache purge** (validate before CI uses it):
    ```bash
-   CF_API_TOKEN=xxx
-   CF_ZONE_ID=yyy
    curl -sf -X POST \
      "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/purge_cache" \
      -H "Authorization: Bearer $CF_API_TOKEN" \
      -H "Content-Type: application/json" \
-     -d '{"purge_everything":true}'
-   # Expected: {"success":true,"errors":[],"messages":[],"result":{"id":"..."}}
+     -d '{"prefixes":["dev.emudev.cc"]}'
+   # Expected: {"success":true,...}
    ```
 
-10. **Disable Vercel auto-deploy** on all 3 projects (critical):
-    - Vercel dashboard → each project → Settings → Git → Production Branch → set "Don't deploy automatically"
-    - This prevents Vercel from deploying on push (GitHub Actions handles it)
+10. **Disable Vercel auto-deploy** on all 3 projects:
+    - Vercel dashboard → each project → Settings → Git → Production Branch → "Don't deploy automatically"
 
 ## Todo List
 
-- [ ] Create 3 Vercel projects in dashboard (portfolio-dev, portfolio-staging, portfolio-prod)
+- [ ] Create 3 Vercel projects (`portfolio-dev`, `portfolio-staging`, `portfolio-prod`)
 - [ ] Disable auto-deploy on all 3 Vercel projects
-- [ ] Add `vercel.json` to repo root with build config
-- [ ] Transfer domain to Cloudflare nameservers (registrar change)
-- [ ] Add 3 CNAME DNS records in Cloudflare (root, dev., qa.) — all orange-cloud
-- [ ] Add custom domains in each Vercel project (verify via Cloudflare)
+- [ ] Add custom domains in each Vercel project (`dev.emudev.cc`, `qa.emudev.cc`, `emudev.cc`)
+- [ ] Configure `development` GitHub Environment: add secrets, no approval gate
+- [ ] Configure `staging` GitHub Environment: add secrets + approval gate
+- [ ] Configure `production` GitHub Environment: add secrets + approval gate
+- [ ] Transfer domain to Cloudflare nameservers (registrar NS update)
+- [ ] Add 3 CNAME DNS records in Cloudflare — all orange-cloud
+- [ ] Verify Vercel domain ownership via Cloudflare DNS
 - [ ] Configure 4 Cloudflare cache rules (static assets, ISR pages, API bypass, studio bypass)
-- [ ] Configure 4 WAF rules (rate limit, bot challenge, SQLi block, verified bots allow)
-- [ ] Set SSL mode to Full (strict) + Always Use HTTPS
-- [ ] Retrieve CF Zone ID + create API token with Cache Purge permission
-- [ ] Store Zone ID + API token in GitHub repo-level secrets
+- [ ] Configure 4 WAF rules (verified bots allow, rate limit, bot challenge, SQLi block)
+- [ ] Set SSL mode to Full (strict) + Always Use HTTPS + HSTS
+- [ ] Create CF API token with Cache Purge permission scoped to `emudev.cc` zone
+- [ ] Add `CF_ZONE_ID` + `CF_API_TOKEN` as repo-level GitHub Actions secrets
 - [ ] Test `purge_everything` API call returns `{"success":true}`
-- [ ] Verify all 3 subdomains resolve with valid SSL in browser
+- [ ] Trigger a test deploy on `develop` — verify `https://dev.emudev.cc` resolves
+- [ ] Trigger a test deploy on `staging` — verify `https://qa.emudev.cc` resolves
+- [ ] Verify `https://emudev.cc` resolves with valid SSL
 
 ## Success Criteria
 
-- [ ] `https://dev.example.com` → returns HTTP 200, valid SSL
-- [ ] `https://qa.example.com` → returns HTTP 200, valid SSL
-- [ ] `https://example.com` → returns HTTP 200, valid SSL
-- [ ] CF cache purge API call returns `{"success":true}`
-- [ ] `/api/health` returns 200 (cache bypass rule working — no stale response)
-- [ ] Lighthouse: no mixed-content warnings
-- [ ] WAF challenge triggers on curl with bot-like user agent (validate in CF Firewall Events)
+- [ ] `https://dev.emudev.cc` → HTTP 200, valid SSL, built from `develop` branch
+- [ ] `https://qa.emudev.cc` → HTTP 200, valid SSL, built from `staging` branch
+- [ ] `https://emudev.cc` → HTTP 200, valid SSL, built from `main` branch
+- [ ] CF cache purge API call returns `{"success":true}` for each prefix
+- [ ] `/api/health` (or any API route) returns 200 with no CF cache hit (bypass rule working)
+- [ ] Lighthouse: no mixed-content warnings on any subdomain
+- [ ] WAF challenge triggers on curl with bot-like user agent (visible in CF Firewall Events)
 
 ## Risk Assessment
 
 | Risk | Severity | Mitigation |
 |------|----------|-----------|
 | Orange cloud breaks Vercel webhook | High | Auto-deploy disabled; GitHub Actions only |
-| DNS propagation delay (NS change) | Medium | Allow 24-48h; test with `dig +short NS example.com` |
-| CF cache serves stale ISR after deploy | Medium | `purge_everything` in deploy job; `Cache-Control: no-store` on API routes |
-| WAF false positives (blocks legitimate users) | Medium | Start in Challenge mode; monitor CF Firewall Events for 48h before escalating |
-| Vercel custom domain verification fails | Low | Ensure DNS is fully propagated before adding domain in Vercel |
+| DNS propagation delay after NS change | Medium | Allow 24–48h; check with `dig +short NS emudev.cc` |
+| CF cache serves stale ISR after deploy | Medium | Prefix purge in all 3 deploy jobs; `Cache-Control: no-store` on API routes |
+| WAF false positives (blocks real users) | Medium | Start in Challenge; monitor CF Firewall Events 48h before escalating to Block |
+| Wrong `VERCEL_PROJECT_ID` per environment | High | Double-check each GitHub Environment has the correct project's ID |
+| Vercel domain verification fails | Low | Ensure DNS fully propagated before adding domain in Vercel |
 
 ## Security Considerations
 
 - CF API token scoped to single zone + Cache Purge only — minimal privilege
+- `VERCEL_TOKEN` is repo-level (not per-environment) — rotate if compromised
 - SSL Full (strict) mode prevents MITM between CF and Vercel edge
 - HSTS enforced → no HTTP fallback after first visit
-- `/studio` route bypassed from cache AND blocked in `robots.txt` (Phase 4)
-- WAF rules applied to all 3 environments (including dev — bots don't care about environment)
+- `/studio` route bypassed from cache AND blocked in `robots.txt`
+- WAF rules applied to all 3 environments
 
 ## Next Steps
 
-- Phase 7: Smoke tests validate all 3 environment URLs
+- Phase 7: Smoke tests validate all 3 environment URLs (`dev.emudev.cc`, `qa.emudev.cc`, `emudev.cc`)

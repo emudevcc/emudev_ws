@@ -26,7 +26,7 @@ jobs:
       - run: npm ci --legacy-peer-deps
 
       - name: Apply Supabase migrations
-        run: npx supabase db push --project-ref lsfvrtqsbbziodomikxz
+        run: npx supabase db push --db-url "${{ secrets.SUPABASE_DB_URL }}" --dns-resolver https
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_PAT }}
 

@@ -108,11 +108,11 @@ Ship a zero-maintenance portfolio that:
 ## Phase Roadmap
 
 - **Phase 1** ✅ (Complete): Scaffold, tooling, Sanity schema, Supabase migrations, CI/CD
-- **Phase 2** (Pending): Populate Sanity content, generate types
-- **Phase 3** (Pending): Link Supabase projects to all environments
+- **Phase 2** ✅ (Complete): Populate Sanity content, generate types
+- **Phase 3** ✅ (Complete): Link Supabase projects to all environments
 - **Phase 4** ✅ (Complete): UI components, OG images, tag filter, post cards, draft mode
 - **Phase 5** ✅ (Complete): GitHub Actions workflows (ci.yml, deploy.yml, hotfix.yml)
-- **Phase 6** (Pending): Cloudflare WAF rules + cache configuration
+- **Phase 6** 🔄 (In Progress): Cloudflare WAF rules + cache configuration (branch: feature/phase-6-cloudflare)
 - **Phase 7** (Pending): Smoke tests → green, production readiness
 
 ---

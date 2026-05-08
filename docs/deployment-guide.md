@@ -108,7 +108,7 @@ For staging & production:
 
 2. **Staging Project**
    - Name: `emudev-portfolio-staging`
-   - Domain: `staging.emudev.cc`
+   - Domain: `qa.emudev.cc`
    - Git integration: Link to `staging` branch (auto-deploy disabled)
 
 3. **Production Project**
@@ -132,7 +132,6 @@ For each environment (`development`, `staging`, `production`):
 | Secret | Dev Value | Staging Value | Prod Value |
 |--------|-----------|---------------|-----------|
 | `VERCEL_PROJECT_ID` | [dev-project-id] | [staging-project-id] | [prod-project-id] |
-| `NEXT_PUBLIC_SITE_URL` | https://dev.emudev.cc | https://staging.emudev.cc | https://emudev.cc |
 | `NEXT_PUBLIC_SITE_DOMAIN` | emudev.cc | emudev.cc | emudev.cc |
 | `SANITY_REVALIDATE_SECRET` | [random-string] | [random-string] | [random-string] |
 
@@ -181,7 +180,7 @@ In Sanity project settings:
 3. Save webhook
 4. Test webhook → should get 200 response
 
-Repeat for staging (`https://staging.emudev.cc/api/revalidate-tag`) if using separate Sanity dataset.
+Repeat for staging (`https://qa.emudev.cc/api/revalidate-tag`) if using separate Sanity dataset.
 
 ---
 
@@ -297,7 +296,7 @@ In Cloudflare dashboard for `emudev.cc`:
 |------|------|-------|-------|
 | CNAME | @ | cname.vercel-dns.com | Proxied (orange) |
 | CNAME | dev | cname.vercel-dns.com | Proxied (orange) |
-| CNAME | staging | cname.vercel-dns.com | Proxied (orange) |
+| CNAME | qa | cname.vercel-dns.com | Proxied (orange) |
 | TXT | _acme-challenge.emudev.cc | [vercel-acme] | Not proxied (gray) |
 
 ### 3. Configure Caching Rules
@@ -356,7 +355,18 @@ curl https://dev.emudev.cc
 # Should return HTML with emudev portfolio
 ```
 
-Test key pages:
+#### Cloudflare Cache Purge (Dev)
+
+Dev environment purges by prefix (not entire zone):
+
+```json
+{"prefixes":["dev.emudev.cc"]}
+```
+
+This limits impact to development URLs only.
+
+#### Key Pages to Test
+
 - [ ] Homepage loads (hero + featured projects)
 - [ ] `/projects` loads (project list)
 - [ ] `/blog` loads (blog list)
@@ -385,7 +395,15 @@ GitHub will hold deploy until you manually approve:
 
 ### 3. Monitor
 
-Same as dev, but tests run against `https://staging.emudev.cc`.
+Same as dev, but tests run against `https://qa.emudev.cc`.
+
+#### Cloudflare Cache Purge (Staging)
+
+Staging environment purges entire zone:
+
+```json
+{"purge_everything":true}
+```
 
 ### 4. Manual QA
 
@@ -418,6 +436,14 @@ Same as staging:
 ### 3. Monitor
 
 Tests run against `https://emudev.cc`.
+
+#### Cloudflare Cache Purge (Production)
+
+Production environment purges entire zone:
+
+```json
+{"purge_everything":true}
+```
 
 ### 4. Verify
 

@@ -20,7 +20,7 @@ export async function sanityFetch<T>({
   isDraft?: boolean
 }): Promise<T> {
   // During build without env vars, return empty data rather than throwing
-  if (!projectId) return (Array.isArray([]) ? [] : null) as T
+  if (!projectId) return null as T
 
   return sanityClient.fetch<T>(query, params, {
     token: isDraft ? process.env.SANITY_API_READ_TOKEN : undefined,

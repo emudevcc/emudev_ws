@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 
 export default async function BlogPage() {
-  const posts = await getPosts()
+  const posts = (await getPosts()) ?? []
 
   return (
     <section className="mx-auto max-w-3xl px-6 py-20">

@@ -6,7 +6,7 @@ import { PortableTextRenderer } from '@/components/portable-text-renderer'
 type Props = { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
-  const posts = await getPosts()
+  const posts = (await getPosts()) ?? []
   return posts.map((p) => ({ slug: p.slug?.current ?? '' })).filter((p) => p.slug)
 }
 

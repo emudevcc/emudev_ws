@@ -4,7 +4,7 @@ import { HeroSection } from '@/components/ui/hero-section'
 
 export default async function HomePage() {
   const [projects, settings] = await Promise.all([getProjects(), getSiteSettings()])
-  const featured = projects.slice(0, 3)
+  const featured = (projects ?? []).slice(0, 3)
 
   return (
     <>

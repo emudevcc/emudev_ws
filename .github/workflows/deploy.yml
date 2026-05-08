@@ -6,9 +6,11 @@ on:
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
   # ── DEVELOPMENT ──────────────────────────────────────────────────────────────
+  # develop → preview deploy → alias dev.emudev.cc (grey-cloud DNS, no WAF)
   deploy-dev:
     if: github.ref_name == 'develop'
     name: Deploy → Development
@@ -24,14 +26,8 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
-      - name: Apply Supabase migrations
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_PAT }}
-        run: npx supabase db push --db-url "${{ secrets.SUPABASE_DB_URL }}"
-
       - name: Build
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
@@ -41,20 +37,19 @@ jobs:
           SANITY_REVALIDATE_SECRET: ${{ secrets.SANITY_REVALIDATE_SECRET }}
         run: npx vercel build --token "${{ secrets.VERCEL_TOKEN }}"
 
-      - name: Deploy to Vercel (dev)
-        run: npx vercel deploy --prebuilt --prod --token "${{ secrets.VERCEL_TOKEN }}"
-        env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      - name: Purge Cloudflare cache (dev)
+      - name: Deploy preview to Vercel
+        id: deploy
         run: |
-          curl -sf -X POST \
-            "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{"prefixes":["dev.emudev.cc"]}'
+          URL=$(npx vercel deploy --prebuilt --token "${{ secrets.VERCEL_TOKEN }}")
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Alias to dev.emudev.cc
+        run: |
+          npx vercel alias "${{ steps.deploy.outputs.url }}" dev.emudev.cc \
+            --token "${{ secrets.VERCEL_TOKEN }}"
 
   # ── STAGING ──────────────────────────────────────────────────────────────────
+  # staging → preview deploy → alias qa.emudev.cc (grey-cloud DNS, no WAF)
   deploy-staging:
     if: github.ref_name == 'staging'
     name: Deploy → Staging
@@ -77,7 +72,6 @@ jobs:
 
       - name: Build
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
@@ -87,10 +81,16 @@ jobs:
           SANITY_REVALIDATE_SECRET: ${{ secrets.SANITY_REVALIDATE_SECRET }}
         run: npx vercel build --token "${{ secrets.VERCEL_TOKEN }}"
 
-      - name: Deploy to Vercel (staging)
-        run: npx vercel deploy --prebuilt --prod --token "${{ secrets.VERCEL_TOKEN }}"
-        env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Deploy preview to Vercel
+        id: deploy
+        run: |
+          URL=$(npx vercel deploy --prebuilt --token "${{ secrets.VERCEL_TOKEN }}")
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Alias to qa.emudev.cc
+        run: |
+          npx vercel alias "${{ steps.deploy.outputs.url }}" qa.emudev.cc \
+            --token "${{ secrets.VERCEL_TOKEN }}"
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
@@ -120,15 +120,8 @@ jobs:
           Commit: \`${{ github.sha }}\` | [View run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
           EOF
 
-      - name: Purge Cloudflare cache (staging)
-        run: |
-          curl -sf -X POST \
-            "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{"purge_everything":true}'
-
   # ── PRODUCTION ───────────────────────────────────────────────────────────────
+  # main → production deploy → emudev.cc (Cloudflare orange-cloud, WAF + CDN)
   deploy-prod:
     if: github.ref_name == 'main'
     name: Deploy → Production
@@ -155,7 +148,6 @@ jobs:
 
       - name: Build
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
@@ -165,10 +157,8 @@ jobs:
           SANITY_REVALIDATE_SECRET: ${{ secrets.SANITY_REVALIDATE_SECRET }}
         run: npx vercel build --token "${{ secrets.VERCEL_TOKEN }}"
 
-      - name: Deploy to Vercel (prod)
+      - name: Deploy to Vercel (production)
         run: npx vercel deploy --prebuilt --prod --token "${{ secrets.VERCEL_TOKEN }}"
-        env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
@@ -178,7 +168,7 @@ jobs:
         env:
           BASE_URL: https://emudev.cc
 
-      - name: Purge Cloudflare cache (prod)
+      - name: Purge Cloudflare cache
         run: |
           curl -sf -X POST \
             "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \

@@ -387,11 +387,29 @@ See [`docs/system-architecture.md`](./docs/system-architecture.md#environment-st
 
 ### Branch Strategy
 
-- **develop** — Development environment (auto-deploy)
-- **staging** — Staging environment (manual approval)
-- **main** — Production (manual approval, release tags)
-- **feature/*** — Feature branches (delete after merge)
-- **hotfix/*** — Hotfix branches (auto-deploy on merge to main)
+| Branch | Purpose | Deploys To | Gate |
+|--------|---------|------------|------|
+| `main` | Production-only | emudev.cc | Manual approval |
+| `staging` | Pre-release QA | staging.emudev.cc | Manual approval |
+| `develop` | Integration / dev testing | dev.emudev.cc | Auto |
+| `feature/*` | New phases & features | — | PR into `develop` |
+| `hotfix/*` | Emergency fixes | prod (direct) | PR into `main` |
+
+**Rules:**
+- **Never push directly to `main`, `staging`, or `develop`**
+- All new work starts on a `feature/` branch
+- Merge path: `feature/*` → `develop` → `staging` → `main`
+- Hotfix path: `hotfix/*` → `main` (auto-deploys, backports to `develop`)
+
+**Starting new work:**
+```bash
+git checkout develop
+git pull origin develop
+git checkout -b feature/phase-6-cloudflare
+# ... work ...
+git push origin feature/phase-6-cloudflare
+# Open PR → develop
+```
 
 ### Pre-Commit
 

@@ -1,5 +1,39 @@
 # Deployment Guide
 
+## Developer Workflow
+
+All new work must go through feature branches — never push directly to `develop`, `staging`, or `main`.
+
+**Standard flow (new phase, feature, or fix):**
+```bash
+# 1. Start from develop
+git checkout develop && git pull origin develop
+
+# 2. Create feature branch
+git checkout -b feature/phase-6-cloudflare   # or fix/..., chore/...
+
+# 3. Work, commit, push
+git push origin feature/phase-6-cloudflare
+
+# 4. Open PR → develop (CI runs: lint + typecheck + build)
+# 5. Merge PR → develop auto-deploys to dev.emudev.cc
+
+# 6. When ready for QA: open PR develop → staging
+# 7. Merge PR → staging waits for manual approval → deploys to staging.emudev.cc + smoke tests
+
+# 8. When QA passes: open PR staging → main
+# 9. Merge PR → prod waits for manual approval → deploys to emudev.cc + smoke tests + git tag
+```
+
+**Emergency hotfix:**
+```bash
+git checkout -b hotfix/fix-name main
+# fix, commit, push
+# Open PR → main (skips staging, auto-deploys on merge, backports to develop)
+```
+
+---
+
 ## Workflow Decision Matrix
 
 Choose which workflow triggers based on your branch and intent:

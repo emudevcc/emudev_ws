@@ -405,6 +405,30 @@ if (name.length > 100) {
 
 ## Git & Commit Standards
 
+### Branch Workflow
+
+**Merge path:** `feature/*` → `develop` → `staging` → `main`
+
+```
+feature/phase-6-cloudflare  ──PR──►  develop  ──PR──►  staging  ──PR──►  main
+hotfix/fix-broken-form       ──PR──►  main (auto-deploy, backports to develop)
+```
+
+**Rules:**
+- Never commit directly to `main`, `staging`, or `develop`
+- Branch from `develop` for all new phases, features, and fixes
+- Branch from `main` only for hotfixes
+- Delete feature branches after merge
+- PR title must follow conventional commit format (used as merge commit message)
+
+**Naming:**
+```bash
+feature/phase-6-cloudflare       # new phase
+feature/add-dark-mode-toggle     # new feature
+fix/contact-form-validation      # bug fix
+hotfix/broken-rls-policy         # emergency production fix
+```
+
 ### Conventional Commits
 
 ```

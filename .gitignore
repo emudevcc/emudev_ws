@@ -189,3 +189,4 @@ next-env.d.ts
 schema.json
 /sanity.types.ts
 .sanity/
+.env*.local

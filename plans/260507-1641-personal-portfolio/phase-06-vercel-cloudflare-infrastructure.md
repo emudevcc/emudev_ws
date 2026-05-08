@@ -149,27 +149,7 @@ jobs:
    URI path starts with /studio OR /admin → Bypass
    ```
 
-5. **Configure Cloudflare WAF rules** (Challenge mode first, escalate after 48h):
-
-   **Rule 1 — Allow verified crawlers (priority 1):**
-   ```
-   cf.bot_management.verified_bot → Skip all remaining rules
-   ```
-
-   **Rule 2 — Rate limiting:**
-   ```
-   path in [/, /projects, /blog] → Challenge | 100 req / 10 min per IP
-   ```
-
-   **Rule 3 — Bot score challenge:**
-   ```
-   cf.bot_management.score lt 30 AND NOT verified_bot → Challenge
-   ```
-
-   **Rule 4 — Block SQLi:**
-   ```
-   cf.waf.score.sqli > 40 → Block
-   ```
+5. **WAF** — Free plan uses Cloudflare Managed Free Ruleset (already active). Custom WAF rules require Pro plan ($20/mo) — skip for personal portfolio. Managed ruleset already covers SQLi, XSS, and common attack patterns.
 
 6. **Configure Cloudflare SSL/TLS**:
    - Mode: **Full (strict)**
@@ -188,14 +168,14 @@ jobs:
 - [x] `ci.yml` updated (branch list, SITE_URL)
 - [x] `hotfix.yml` simplified (deploy job removed, backport → `development`)
 - [x] GitHub Environment `production` created with all secrets
-- [x] Repo-level CF secrets set (`CF_ZONE_ID`, `CF_API_TOKEN`)
+- [x] Repo-level CF secrets set (`CF_ZONE_ID`, `CF_API_TOKEN`) — updated to working token
+- [x] Root + www CNAMEs → orange-cloud (proxied) via API
+- [x] 4 cache rules deployed via API (static 1yr, API bypass, studio bypass, ISR 24h/1h)
+- [x] WAF — Managed Free Ruleset already active; custom rules skipped (require Pro plan)
 - [ ] Enable Vercel git integration for `emudev-ws` (production branch = `main`)
 - [ ] Add `emudev.cc` as production domain in Vercel project
-- [ ] Transfer `emudev.cc` to Cloudflare nameservers (if not already done)
-- [ ] Add CNAME record in Cloudflare (`@` → `cname.vercel-dns.com`, orange-cloud)
-- [ ] Configure 4 Cloudflare cache rules
-- [ ] Configure 4 WAF rules (Challenge mode first)
-- [ ] Set SSL Full (strict) + Always HTTPS + HSTS
+- [ ] Set SSL Full (strict) in CF dashboard (SSL/TLS → Overview)
+- [ ] Set Always HTTPS + HSTS in CF dashboard (SSL/TLS → Edge Certificates)
 - [ ] Test deploy on `main` → `emudev.cc` resolves + CF headers present
 - [ ] Test deploy on `development` → preview URL in Vercel dashboard
 - [ ] Validate CF cache purge returns `{"success":true}`

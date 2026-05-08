@@ -9,7 +9,7 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection
-        name={settings?.siteName ?? 'Esteban Montero'}
+        name={settings?.siteName ?? 'Esteban Montero Urena'}
         bio={settings?.description ?? 'Software Engineer'}
       />
 

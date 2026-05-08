@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: "Project Scaffold & Tooling"
-status: pending
+status: complete
 priority: P1
 effort: "4h"
 dependencies: []

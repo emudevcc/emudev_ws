@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "Portfolio UI Pages"
-status: pending
+status: complete
 priority: P1
 effort: "6h"
 dependencies: [2, 3]

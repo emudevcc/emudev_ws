@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: "GitHub Actions CI/CD Pipeline"
-status: in-progress
+status: complete
 priority: P1
 effort: "4h"
 dependencies: [1]

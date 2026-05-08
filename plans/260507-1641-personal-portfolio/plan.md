@@ -1,7 +1,7 @@
 ---
 title: "Personal Portfolio — Next.js 15 + Sanity + Supabase + Vercel/CF"
 description: "Full-stack personal portfolio with headless CMS, Supabase auth/DB, and a 3-environment CI/CD pipeline (dev → staging → prod) on Vercel + Cloudflare."
-status: pending
+status: in-progress
 priority: P1
 effort: 25h
 branch: "main"
@@ -25,11 +25,11 @@ Personal portfolio website built with Next.js 15 App Router (SSG/ISR), Magic UI 
 
 | Phase | Name | Status | Effort | Depends On |
 |-------|------|--------|--------|------------|
-| 1 | [Project Scaffold & Tooling](./phase-01-project-scaffold-tooling.md) | Pending | 4h | — |
+| 1 | [Project Scaffold & Tooling](./phase-01-project-scaffold-tooling.md) | Complete | 4h | — |
 | 2 | [Sanity CMS Setup](./phase-02-sanity-cms-setup.md) | Pending | 3h | 1 |
 | 3 | [Supabase Setup](./phase-03-supabase-setup.md) | Pending | 3h | 1 |
-| 4 | [Portfolio UI Pages](./phase-04-portfolio-ui-pages.md) | Pending | 6h | 2, 3 |
-| 5 | [GitHub Actions CI/CD Pipeline](./phase-05-github-actions-ci-cd-pipeline.md) | In Progress | 4h | 1 |
+| 4 | [Portfolio UI Pages](./phase-04-portfolio-ui-pages.md) | Complete | 6h | 2, 3 |
+| 5 | [GitHub Actions CI/CD Pipeline](./phase-05-github-actions-ci-cd-pipeline.md) | Complete | 4h | 1 |
 | 6 | [Vercel + Cloudflare Infrastructure](./phase-06-vercel-cloudflare-infrastructure.md) | Pending | 3h | 5 |
 | 7 | [Smoke Tests & QA](./phase-07-smoke-tests-qa.md) | Pending | 2h | 4, 6 |
 

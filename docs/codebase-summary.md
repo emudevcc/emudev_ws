@@ -68,7 +68,7 @@ emudev_ws/
 │
 ├── .github/workflows/            # CI/CD pipelines
 │   ├── ci.yml                    # PR: lint, typecheck, build
-│   ├── deploy.yml                # 3-env deploy (dev/staging/prod)
+│   ├── deploy.yml                # 3-env deploy w/ CF cache purge (dev=prefix, staging/prod=full)
 │   └── hotfix.yml                # Hotfix workflow
 │
 ├── .claude/rules/                # Project development rules
@@ -98,7 +98,7 @@ emudev_ws/
 | `app/blog/[slug]/page.tsx` | 52 | Dynamic blog post page (SSG per route) |
 | `components/portable-text-renderer.tsx` | 46 | Rich text rendering for Sanity content |
 | `app/blog/page.tsx` | 43 | Blog list page (ISR) |
-| `app/api/revalidate-tag/route.ts` | 41 | Sanity webhook handler → revalidateTag |
+| `app/api/revalidate-tag/route.ts` | 41 | Sanity webhook handler → revalidateTag (validates x-sanity-webhook-secret header) |
 | `components/ui/hero-section.tsx` | 39 | Animated hero with name + bio |
 | `tests/smoke/pages.spec.ts` | 35 | Playwright smoke tests for all routes |
 | `sanity/schemas/project-type.ts` | 33 | Sanity project schema |

@@ -341,13 +341,16 @@ Steps:
   3. supabase db push (apply migrations)
      └─ Uses SUPABASE_DB_URL + SUPABASE_PAT
   4. npm run build
-     └─ Env: real NEXT_PUBLIC_SANITY_PROJECT_ID, etc.
+     └─ Env: NEXT_PUBLIC_SITE_URL = https://dev.emudev.cc (hardcoded)
+     └─ Real NEXT_PUBLIC_SANITY_PROJECT_ID, etc.
   5. vercel deploy --prebuilt --prod
      └─ Deploys to dev.emudev.cc
   6. npm run test:smoke (optional)
+  7. Purge Cloudflare cache by prefix
+     └─ curl purge_cache with {"prefixes":["dev.emudev.cc"]}
 ```
 
-No approval gate; auto-deploys on push.
+No approval gate; auto-deploys on push. CF cache purge is prefix-only (limited scope).
 
 #### Staging Branch → Staging Environment
 
@@ -356,14 +359,21 @@ Trigger: push to staging
 Environment: staging (requires manual approval in UI)
 
 Steps:
-  1-5. Same as develop
+  1. Checkout code
+  2. npm ci --legacy-peer-deps
+  3. supabase db push (apply migrations)
+  4. npm run build
+     └─ Env: NEXT_PUBLIC_SITE_URL = https://qa.emudev.cc (hardcoded)
+  5. vercel deploy --prebuilt --prod (deploys to qa.emudev.cc)
   6. npm run test:smoke
-     └─ Playwright tests against staging URL
+     └─ Playwright tests against qa.emudev.cc
   7. Post QA checklist to GitHub Actions summary
   8. Purge Cloudflare cache (entire zone)
+     └─ curl purge_cache with {"purge_everything":true}
 ```
 
 **Gate:** Manual approval via GitHub Environments UI (no required reviewers on Free plan).
+**Domain:** `qa.emudev.cc` (NOT staging.emudev.cc)
 
 #### Main Branch → Production Environment
 
@@ -372,15 +382,22 @@ Trigger: push to main
 Environment: production (requires manual approval in UI)
 
 Steps:
-  1-5. Same as develop
+  1. Checkout code (fetch-depth: 0 for git history)
+  2. npm ci --legacy-peer-deps
+  3. supabase db push (apply migrations)
+  4. npm run build
+     └─ Env: NEXT_PUBLIC_SITE_URL = https://emudev.cc (hardcoded)
+  5. vercel deploy --prebuilt --prod
   6. npm run test:smoke
      └─ Tests against https://emudev.cc
-  7. Purge Cloudflare cache
+  7. Purge Cloudflare cache (entire zone)
+     └─ curl purge_cache with {"purge_everything":true}
   8. Create git tag: prod-YYYYMMDD-HHMMSS
      └─ Pushed to origin (release reference)
 ```
 
 **Gate:** Manual approval via GitHub Environments UI (no required reviewers on Free plan).
+**CF Purge:** Entire zone purge (purge_everything=true)
 
 ---
 
@@ -426,13 +443,19 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY    # Anon key (safe to expose)
 SUPABASE_SERVICE_ROLE_KEY        # Private key (if admin client needed)
 SUPABASE_DB_URL                  # Postgres connection (migrations)
 SUPABASE_PAT                     # Personal access token (db push)
-NEXT_PUBLIC_SITE_URL             # https://dev.emudev.cc, etc.
-NEXT_PUBLIC_SITE_DOMAIN          # emudev.cc
+NEXT_PUBLIC_SITE_DOMAIN          # emudev.cc (same for all environments)
 SANITY_API_TOKEN                 # Read token (optional, for drafts)
 SANITY_REVALIDATE_SECRET         # Webhook secret (unique per env)
 RESEND_API_KEY                   # Resend API key
 ADMIN_EMAIL                      # Allow-list for Magic Link
 ```
+
+**Note:** `NEXT_PUBLIC_SITE_URL` is now hardcoded in `deploy.yml` per job (not a GitHub secret):
+- Dev: `https://dev.emudev.cc`
+- Staging: `https://qa.emudev.cc`
+- Production: `https://emudev.cc`
+
+This prevents accidental mismatches between domain and deployment.
 
 ### CI Build-Time Env Vars
 
@@ -460,7 +483,19 @@ Allows PR CI to succeed even without real project IDs.
 - **HTTPS Only:** Redirect HTTP to HTTPS
 
 ### Cache Purge
-On each deploy (staging + prod), workflow runs:
+
+Automatic purge on all three environments after successful deploy:
+
+**Development:** Purge by prefix (limited to dev domain)
+```bash
+curl -X POST \
+  "https://api.cloudflare.com/client/v4/zones/{CF_ZONE_ID}/purge_cache" \
+  -H "Authorization: Bearer $CF_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"prefixes":["dev.emudev.cc"]}'
+```
+
+**Staging & Production:** Purge entire zone
 ```bash
 curl -X POST \
   "https://api.cloudflare.com/client/v4/zones/{CF_ZONE_ID}/purge_cache" \
@@ -469,7 +504,7 @@ curl -X POST \
   -d '{"purge_everything":true}'
 ```
 
-Ensures fresh content after deploy.
+Dev uses prefix purge to minimize CDN impact; staging/prod use full zone purge for safety.
 
 ---
 

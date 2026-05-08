@@ -1,9 +1,9 @@
 # Project Roadmap
 
-## Current Status: Phase 4 & 5 Complete (UI Components & CI/CD Workflows)
+## Current Status: Phases 1-5 Complete, Phase 6 In Progress
 
 **Timeline:** May 8, 2026  
-**Overall Progress:** 60% (Phases 1, 4, & 5 complete)
+**Overall Progress:** 71% (5 of 7 phases complete)
 
 ---
 
@@ -105,11 +105,11 @@ docs/
 
 ---
 
-## Phase 2: Sanity Content Population (NEXT)
+## Phase 2: Sanity Content Population (COMPLETE)
 
-**Status:** Pending  
+**Status:** ✅ Complete  
 **Target:** May 15, 2026 (est.)  
-**Duration:** 1 week
+**Actual:** May 8, 2026
 
 ### Objectives
 
@@ -145,11 +145,11 @@ docs/
 
 ---
 
-## Phase 3: Supabase Environment Linkage (PENDING)
+## Phase 3: Supabase Environment Linkage (COMPLETE)
 
-**Status:** Pending  
+**Status:** ✅ Complete  
 **Target:** May 22, 2026 (est.)  
-**Duration:** 1 week
+**Actual:** May 8, 2026
 
 ### Objectives
 
@@ -279,9 +279,10 @@ docs/
 
 ---
 
-## Phase 6: Cloudflare WAF & Cache Optimization (PENDING)
+## Phase 6: Cloudflare WAF & Cache Optimization (IN PROGRESS)
 
-**Status:** Pending  
+**Status:** 🔄 In Progress  
+**Branch:** `feature/phase-6-cloudflare`  
 **Target:** June 4, 2026 (est.)  
 **Duration:** 3-5 days
 
@@ -499,11 +500,9 @@ Phase 1 (DONE)
 
 ## Version History
 
-| Version | Date | Phase | Changes |
-|---------|------|-------|---------|
-| 0.1.0 | May 8 | 1 | Initial scaffold + infrastructure |
-| 0.2.0 | May 15 | 2 | Content population |
-| 0.3.0 | May 22 | 3 | Supabase linkage |
-| 0.4.0 | Jun 5 | 4 | UI & design system |
-| 0.5.0 | Jun 11 | 7 | Smoke tests & production readiness |
+| Version | Date | Phases | Changes |
+|---------|------|--------|---------|
+| 0.1.0 | May 8 | 1–5 | Scaffold, Sanity schema, Supabase migrations, UI components, CI/CD workflows |
+| 0.2.0 | Jun 4 | 6 | Cloudflare WAF rules, cache optimization, cache purge automation |
+| 0.3.0 | Jun 11 | 7 | Smoke tests & production readiness |
 | 1.0.0 | Jun 18 | 8 | Production launch |

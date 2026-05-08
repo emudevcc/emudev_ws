@@ -1,0 +1,399 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_03_supabase_setup_md",
+      "label": "phase-03-supabase-setup.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "label": "Phase 3: Supabase Setup",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_overview",
+      "label": "Overview",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_key_insights",
+      "label": "Key Insights",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L16"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_requirements",
+      "label": "Requirements",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L25"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_architecture",
+      "label": "Architecture",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L39"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_1",
+      "label": "code:block1 (supabase/)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L41"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_2",
+      "label": "code:block2 (contact_submissions)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L57"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_related_code_files",
+      "label": "Related Code Files",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L68"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "label": "Implementation Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L79"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_3",
+      "label": "code:bash (supabase login)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L82"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_4",
+      "label": "code:sql (CREATE TABLE IF NOT EXISTS contact_submissions ()",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L89"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_5",
+      "label": "code:sql (-- contact_submissions: public INSERT (contact form), admin )",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L103"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_6",
+      "label": "code:sql (ALTER DATABASE postgres SET app.admin_email = 'your@email.co)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L118"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_7",
+      "label": "code:bash (supabase db push)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L123"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_8",
+      "label": "code:typescript (import { createServerClient } from '@supabase/ssr')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L128"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_9",
+      "label": "code:typescript (import { createClient } from '@supabase/supabase-js')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L169"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_10",
+      "label": "code:typescript ('use server')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L185"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_11",
+      "label": "code:bash (# Add to package.json scripts:)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L206"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_12",
+      "label": "code:json (\"supabase:types\": \"supabase gen types typescript --linked > )",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L219"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_todo_list",
+      "label": "Todo List",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L224"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_success_criteria",
+      "label": "Success Criteria",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L238"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_risk_assessment",
+      "label": "Risk Assessment",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L247"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_security_considerations",
+      "label": "Security Considerations",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L256"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_03_supabase_setup_next_steps",
+      "label": "Next Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L263"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_03_supabase_setup_md",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_overview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_key_insights",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_requirements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_architecture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_architecture",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_architecture",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_related_code_files",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_3",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_4",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_5",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_6",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_7",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_8",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_9",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L169",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_10",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_11",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_codeblock_12",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_todo_list",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L224",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_success_criteria",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L238",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_risk_assessment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L247",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_security_considerations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L256",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_03_supabase_setup_phase_3_supabase_setup",
+      "target": "260507_1641_personal_portfolio_phase_03_supabase_setup_next_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md",
+      "source_location": "L263",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

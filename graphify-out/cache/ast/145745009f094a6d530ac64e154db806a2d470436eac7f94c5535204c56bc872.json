@@ -1,0 +1,71 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_client_ts",
+      "label": "sanity-client.ts",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-client.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_sanity_client_sanityclient",
+      "label": "sanityClient",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-client.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "lib_sanity_client_sanityfetch",
+      "label": "sanityFetch()",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-client.ts",
+      "source_location": "L13"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_client_ts",
+      "target": "next_sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-client.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_client_ts",
+      "target": "lib_sanity_client_sanityclient",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-client.ts",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_client_ts",
+      "target": "lib_sanity_client_sanityfetch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-client.ts",
+      "source_location": "L13",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "lib_sanity_client_sanityfetch",
+      "callee": "isArray",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-client.ts",
+      "source_location": "L23"
+    },
+    {
+      "caller_nid": "lib_sanity_client_sanityfetch",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-client.ts",
+      "source_location": "L25"
+    }
+  ]
+}

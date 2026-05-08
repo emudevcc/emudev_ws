@@ -1,0 +1,767 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_md",
+      "label": "researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "label": "Supabase + Vercel + Cloudflare + GitHub Actions CI/CD Research Report",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_executive_summary",
+      "label": "Executive Summary",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L6"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_1_supabase_multi_project_strategy",
+      "label": "1. SUPABASE MULTI-PROJECT STRATEGY",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L18"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_schema_migrations_across_3_projects",
+      "label": "Schema Migrations Across 3 Projects",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L20"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_1",
+      "label": "code:bash (# Local: Create migration)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L28"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_row_level_security_rls_patterns",
+      "label": "Row Level Security (RLS) Patterns",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L57"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_2",
+      "label": "code:sql (-- Table: portfolio_projects)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L61"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_type_generation_for_typescript",
+      "label": "Type Generation for TypeScript",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L113"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_3",
+      "label": "code:bash (# In package.json)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L117"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_4",
+      "label": "code:yaml (- name: Generate Supabase types)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L128"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_2_github_actions_ci_cd_pipeline",
+      "label": "2. GITHUB ACTIONS CI/CD PIPELINE",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L144"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_workflow_structure_develop_staging_main",
+      "label": "Workflow Structure: develop \u2192 staging \u2192 main",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L146"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_5",
+      "label": "code:yaml (name: Deploy)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L155"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_environment_level_secrets_scoping",
+      "label": "Environment-Level Secrets Scoping",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L283"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_manual_approval_gates_branch_protection",
+      "label": "Manual Approval Gates & Branch Protection",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L317"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_6",
+      "label": "code:bash (# Via gh CLI (requires admin token))",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L321"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_vercel_deployment_via_github_actions",
+      "label": "Vercel Deployment via GitHub Actions",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L345"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_smoke_test_integration",
+      "label": "Smoke Test Integration",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L361"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_7",
+      "label": "code:bash (# tests/smoke/health.spec.ts)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L365"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_8",
+      "label": "code:yaml (- name: Smoke test)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L387"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_cloudflare_cache_purge",
+      "label": "Cloudflare Cache Purge",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L396"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_9",
+      "label": "code:bash (curl -X POST \"https://api.cloudflare.com/client/v4/zones/$CF)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L399"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_10",
+      "label": "code:bash (# Purge only changed pages (requires tracking file changes))",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L409"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_git_tagging_on_prod_deploy",
+      "label": "Git Tagging on Prod Deploy",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L425"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_11",
+      "label": "code:bash (git tag -a \"prod-$(date +%Y%m%d-%H%M%S)\" -m \"Production rele)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L427"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_12",
+      "label": "code:bash (# Requires version file tracking or commit parsing)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L433"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_3_secrets_model_implementation",
+      "label": "3. SECRETS MODEL IMPLEMENTATION",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L441"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_matrix_mapping",
+      "label": "Matrix Mapping",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L443"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_13",
+      "label": "code:block13 (\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2510)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L445"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_4_cloudflare_vercel_setup",
+      "label": "4. CLOUDFLARE + VERCEL SETUP",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L477"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_reverse_proxy_configuration",
+      "label": "Reverse Proxy Configuration",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L479"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_waf_rules_for_portfolio_site",
+      "label": "WAF Rules for Portfolio Site",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L492"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_14",
+      "label": "code:block14 (Rule 1: Block known bots)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L494"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_cache_rules_for_next_js_isr",
+      "label": "Cache Rules for Next.js ISR",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L517"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_15",
+      "label": "code:block15 (Rule 1: Cache static assets (versioned))",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L523"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_custom_domain_for_3_subdomains",
+      "label": "Custom Domain for 3 Subdomains",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L551"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_5_hotfix_workflow",
+      "label": "5. HOTFIX WORKFLOW",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L565"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_16",
+      "label": "code:yaml (name: Hotfix CI/CD)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L571"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_6_codex_review_integration_github_copilot_codex",
+      "label": "6. CODEX REVIEW INTEGRATION (GitHub Copilot/Codex)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L626"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_option_1_github_copilot_via_vs_code_local",
+      "label": "Option 1: GitHub Copilot via VS Code (Local)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L630"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_option_2_third_party_ai_review_bot",
+      "label": "Option 2: Third-party AI Review Bot",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L634"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_17",
+      "label": "code:yaml (name: AI Code Review (Experimental))",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L641"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_gotchas_mitigations",
+      "label": "GOTCHAS & MITIGATIONS",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L665"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_implementation_checklist",
+      "label": "IMPLEMENTATION CHECKLIST",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L682"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_unresolved_questions",
+      "label": "UNRESOLVED QUESTIONS",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L703"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_architecture_summary",
+      "label": "ARCHITECTURE SUMMARY",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L713"
+    },
+    {
+      "id": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_18",
+      "label": "code:block18 (GitHub (source of truth))",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L715"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_md",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_executive_summary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_1_supabase_multi_project_strategy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_1_supabase_multi_project_strategy",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_schema_migrations_across_3_projects",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_schema_migrations_across_3_projects",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_1_supabase_multi_project_strategy",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_row_level_security_rls_patterns",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_row_level_security_rls_patterns",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_1_supabase_multi_project_strategy",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_type_generation_for_typescript",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_type_generation_for_typescript",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_3",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_type_generation_for_typescript",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_4",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_2_github_actions_ci_cd_pipeline",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_2_github_actions_ci_cd_pipeline",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_workflow_structure_develop_staging_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_workflow_structure_develop_staging_main",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_5",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_2_github_actions_ci_cd_pipeline",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_environment_level_secrets_scoping",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L283",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_2_github_actions_ci_cd_pipeline",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_manual_approval_gates_branch_protection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L317",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_manual_approval_gates_branch_protection",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_6",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L321",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_2_github_actions_ci_cd_pipeline",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_vercel_deployment_via_github_actions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L345",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_2_github_actions_ci_cd_pipeline",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_smoke_test_integration",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L361",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_smoke_test_integration",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_7",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L365",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_smoke_test_integration",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_8",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L387",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_2_github_actions_ci_cd_pipeline",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_cloudflare_cache_purge",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L396",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_cloudflare_cache_purge",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_9",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L399",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_cloudflare_cache_purge",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_10",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L409",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_2_github_actions_ci_cd_pipeline",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_git_tagging_on_prod_deploy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L425",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_git_tagging_on_prod_deploy",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_11",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L427",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_git_tagging_on_prod_deploy",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_12",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L433",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_3_secrets_model_implementation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L441",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_3_secrets_model_implementation",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_matrix_mapping",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L443",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_matrix_mapping",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_13",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L445",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_4_cloudflare_vercel_setup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L477",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_4_cloudflare_vercel_setup",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_reverse_proxy_configuration",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L479",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_4_cloudflare_vercel_setup",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_waf_rules_for_portfolio_site",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L492",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_waf_rules_for_portfolio_site",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_14",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L494",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_4_cloudflare_vercel_setup",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_cache_rules_for_next_js_isr",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L517",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_cache_rules_for_next_js_isr",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_15",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L523",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_4_cloudflare_vercel_setup",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_custom_domain_for_3_subdomains",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L551",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_5_hotfix_workflow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L565",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_5_hotfix_workflow",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_16",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L571",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_6_codex_review_integration_github_copilot_codex",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L626",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_6_codex_review_integration_github_copilot_codex",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_option_1_github_copilot_via_vs_code_local",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L630",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_6_codex_review_integration_github_copilot_codex",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_option_2_third_party_ai_review_bot",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L634",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_option_2_third_party_ai_review_bot",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_17",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L641",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_gotchas_mitigations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L665",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_implementation_checklist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L682",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_unresolved_questions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L703",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_supabase_vercel_cloudflare_github_actions_ci_cd_research_report",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_architecture_summary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L713",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_architecture_summary",
+      "target": "reports_researcher_260507_1643_supabase_vercel_cloudflare_cicd_codeblock_18",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md",
+      "source_location": "L715",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

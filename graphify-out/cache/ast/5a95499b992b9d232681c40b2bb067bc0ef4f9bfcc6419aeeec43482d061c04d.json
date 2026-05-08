@@ -1,0 +1,191 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_claude_md",
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "emudev_ws_claude_claude_md",
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "emudev_ws_claude_role_responsibilities",
+      "label": "Role & Responsibilities",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L5"
+    },
+    {
+      "id": "emudev_ws_claude_workflows",
+      "label": "Workflows",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L9"
+    },
+    {
+      "id": "emudev_ws_claude_git",
+      "label": "Git",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L24"
+    },
+    {
+      "id": "emudev_ws_claude_hook_response_protocol",
+      "label": "Hook Response Protocol",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L28"
+    },
+    {
+      "id": "emudev_ws_claude_privacy_block_hook_privacy_prompt",
+      "label": "Privacy Block Hook (`@@PRIVACY_PROMPT@@`)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L30"
+    },
+    {
+      "id": "emudev_ws_claude_codeblock_1",
+      "label": "code:json ({)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L43"
+    },
+    {
+      "id": "emudev_ws_claude_python_scripts_skills",
+      "label": "Python Scripts (Skills)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L59"
+    },
+    {
+      "id": "emudev_ws_claude_important_consider_modularization",
+      "label": "[IMPORTANT] Consider Modularization",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L69"
+    },
+    {
+      "id": "emudev_ws_claude_documentation_management",
+      "label": "Documentation Management",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L78"
+    },
+    {
+      "id": "emudev_ws_claude_codeblock_2",
+      "label": "code:block2 (./docs)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L82"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_claude_md",
+      "target": "emudev_ws_claude_claude_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_claude_md",
+      "target": "emudev_ws_claude_role_responsibilities",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_claude_md",
+      "target": "emudev_ws_claude_workflows",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_claude_md",
+      "target": "emudev_ws_claude_git",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_claude_md",
+      "target": "emudev_ws_claude_hook_response_protocol",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_hook_response_protocol",
+      "target": "emudev_ws_claude_privacy_block_hook_privacy_prompt",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_privacy_block_hook_privacy_prompt",
+      "target": "emudev_ws_claude_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_claude_md",
+      "target": "emudev_ws_claude_python_scripts_skills",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_claude_md",
+      "target": "emudev_ws_claude_important_consider_modularization",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_claude_md",
+      "target": "emudev_ws_claude_documentation_management",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "emudev_ws_claude_documentation_management",
+      "target": "emudev_ws_claude_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md",
+      "source_location": "L82",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

@@ -1,0 +1,163 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "label": "sanity-queries.ts",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_sanity_queries_getprojects",
+      "label": "getProjects",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "lib_sanity_queries_getprojectbyslug",
+      "label": "getProjectBySlug()",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L35"
+    },
+    {
+      "id": "lib_sanity_queries_getposts",
+      "label": "getPosts",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L66"
+    },
+    {
+      "id": "lib_sanity_queries_getpostbyslug",
+      "label": "getPostBySlug()",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L88"
+    },
+    {
+      "id": "lib_sanity_queries_getsitesettings",
+      "label": "getSiteSettings",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L117"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "target": "cache",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "target": "next_sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "target": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_client_ts",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "target": "lib_sanity_client_sanityfetch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "target": "lib_sanity_queries_getprojects",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "target": "lib_sanity_queries_getprojectbyslug",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "target": "lib_sanity_queries_getposts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "target": "lib_sanity_queries_getpostbyslug",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "target": "lib_sanity_queries_getsitesettings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L117",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "lib_sanity_queries_getprojectbyslug",
+      "callee": "unstable_cache(\n    async () =>\n      sanityFetch<{\n        _id: string\n        title: string\n        slug: { current: string }\n        description: string\n        featuredImage: string\n        content: unknown[]\n        tags: Array<{ _id: string; title: string }>\n        liveUrl: string\n        repoUrl: string\n        publishedAt: string\n        _createdAt: string\n      } | null>({\n        query: groq`*[_type == \"project\" && slug.current == $slug][0] {\n          ...,\n          \"featuredImage\": featuredImage.asset->url,\n          tags[]->{ _id, title }\n        }`,\n        params: { slug },\n      }),\n    [`project-${slug}`],\n    { tags: ['projects', `project:${slug}`], revalidate: 3600 }\n  )",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L36"
+    },
+    {
+      "caller_nid": "lib_sanity_queries_getprojectbyslug",
+      "callee": "unstable_cache",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L36"
+    },
+    {
+      "caller_nid": "lib_sanity_queries_getpostbyslug",
+      "callee": "unstable_cache(\n    async () =>\n      sanityFetch<{\n        _id: string\n        title: string\n        slug: { current: string }\n        excerpt: string\n        content: unknown[]\n        publishedAt: string\n        _createdAt: string\n        author: { name: string; image: string }\n        tags: Array<{ _id: string; title: string }>\n      } | null>({\n        query: groq`*[_type == \"post\" && slug.current == $slug][0] {\n          ...,\n          \"author\": author->{ name, \"image\": image.asset->url },\n          tags[]->{ _id, title }\n        }`,\n        params: { slug },\n      }),\n    [`post-${slug}`],\n    { tags: ['posts', `post:${slug}`], revalidate: 3600 }\n  )",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L89"
+    },
+    {
+      "caller_nid": "lib_sanity_queries_getpostbyslug",
+      "callee": "unstable_cache",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts",
+      "source_location": "L89"
+    }
+  ]
+}

@@ -1,0 +1,399 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_md",
+      "label": "phase-06-vercel-cloudflare-infrastructure.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "label": "Phase 6: Vercel + Cloudflare Infrastructure",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_overview",
+      "label": "Overview",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_key_insights",
+      "label": "Key Insights",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L16"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_requirements",
+      "label": "Requirements",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L25"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_architecture",
+      "label": "Architecture",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L39"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_1",
+      "label": "code:block1 (Internet)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L41"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_related_code_files",
+      "label": "Related Code Files",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L62"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "label": "Implementation Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L69"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_2",
+      "label": "code:bash (# Install Vercel CLI globally)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L72"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_3",
+      "label": "code:json ({)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L86"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_4",
+      "label": "code:block4 (If: URI path matches regex: /_next/static/.*)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L117"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_5",
+      "label": "code:block5 (If: URI path does not contain [/api, /studio, /admin, /_next)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L123"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_6",
+      "label": "code:block6 (If: URI path starts with /api)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L130"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_7",
+      "label": "code:block7 (If: URI path starts with /studio OR starts with /admin)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L136"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_8",
+      "label": "code:block8 (Name: Rate limit portfolio)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L144"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_9",
+      "label": "code:block9 (Name: Challenge low-score bots)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L152"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_10",
+      "label": "code:block10 (Name: Block SQLi)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L159"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_11",
+      "label": "code:block11 (Name: Allow search engines)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L166"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_12",
+      "label": "code:bash (CF_API_TOKEN=xxx)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L187"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_todo_list",
+      "label": "Todo List",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L202"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_success_criteria",
+      "label": "Success Criteria",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L218"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_risk_assessment",
+      "label": "Risk Assessment",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L228"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_security_considerations",
+      "label": "Security Considerations",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L238"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_next_steps",
+      "label": "Next Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L246"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_md",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_overview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_key_insights",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_requirements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_architecture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_architecture",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_related_code_files",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_3",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_4",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_5",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_6",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_7",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_8",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_9",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_10",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_11",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L166",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_codeblock_12",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L187",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_todo_list",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L202",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_success_criteria",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_risk_assessment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L228",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_security_considerations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L238",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_phase_6_vercel_cloudflare_infrastructure",
+      "target": "260507_1641_personal_portfolio_phase_06_vercel_cloudflare_infrastructure_next_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md",
+      "source_location": "L246",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

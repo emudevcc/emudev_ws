@@ -1,0 +1,303 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_docs_journals_260508_portfolio_scaffold_md",
+      "label": "260508-portfolio-scaffold.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_next_js_15_5_sanity_supabase_portfolio_scaffold",
+      "label": "Next.js 15.5 + Sanity + Supabase Portfolio Scaffold",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_what_happened",
+      "label": "What Happened",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L8"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_the_brutal_truth",
+      "label": "The Brutal Truth",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_technical_details",
+      "label": "Technical Details",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L18"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_cache_directives_use_cache_unstable_cache",
+      "label": "Cache Directives: `'use cache'` \u2192 `unstable_cache`",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L20"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_codeblock_1",
+      "label": "code:typescript (// lib/sanity-queries.ts)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L24"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_eslint_flat_config_v10_incompatibility",
+      "label": "ESLint Flat Config: v10 incompatibility",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L37"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_codeblock_2",
+      "label": "code:javascript (// eslint.config.mjs)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L41"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_sanity_dependencies_sanity_vision_5_incompatibility",
+      "label": "Sanity Dependencies: `@sanity/vision@5` incompatibility",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L49"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_sanity_client_build_time_guard",
+      "label": "Sanity Client: Build-time guard",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L53"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_codeblock_3",
+      "label": "code:typescript (// lib/sanity-client.ts)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L55"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_supabase_types_format_mismatch",
+      "label": "Supabase Types: Format mismatch",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L62"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_experimental_actions_removed_from_schema",
+      "label": "`__experimental_actions`: Removed from schema",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L71"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_scaffolding_workaround_non_empty_directory",
+      "label": "Scaffolding Workaround: Non-empty directory",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L75"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_what_we_tried",
+      "label": "What We Tried",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L79"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_root_cause_analysis",
+      "label": "Root Cause Analysis",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L86"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_lessons_learned",
+      "label": "Lessons Learned",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L97"
+    },
+    {
+      "id": "journals_260508_portfolio_scaffold_next_steps",
+      "label": "Next Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L111"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_docs_journals_260508_portfolio_scaffold_md",
+      "target": "journals_260508_portfolio_scaffold_next_js_15_5_sanity_supabase_portfolio_scaffold",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_next_js_15_5_sanity_supabase_portfolio_scaffold",
+      "target": "journals_260508_portfolio_scaffold_what_happened",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_next_js_15_5_sanity_supabase_portfolio_scaffold",
+      "target": "journals_260508_portfolio_scaffold_the_brutal_truth",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_next_js_15_5_sanity_supabase_portfolio_scaffold",
+      "target": "journals_260508_portfolio_scaffold_technical_details",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_technical_details",
+      "target": "journals_260508_portfolio_scaffold_cache_directives_use_cache_unstable_cache",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_cache_directives_use_cache_unstable_cache",
+      "target": "journals_260508_portfolio_scaffold_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_technical_details",
+      "target": "journals_260508_portfolio_scaffold_eslint_flat_config_v10_incompatibility",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_eslint_flat_config_v10_incompatibility",
+      "target": "journals_260508_portfolio_scaffold_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_technical_details",
+      "target": "journals_260508_portfolio_scaffold_sanity_dependencies_sanity_vision_5_incompatibility",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_technical_details",
+      "target": "journals_260508_portfolio_scaffold_sanity_client_build_time_guard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_sanity_client_build_time_guard",
+      "target": "journals_260508_portfolio_scaffold_codeblock_3",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_technical_details",
+      "target": "journals_260508_portfolio_scaffold_supabase_types_format_mismatch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_technical_details",
+      "target": "journals_260508_portfolio_scaffold_experimental_actions_removed_from_schema",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_technical_details",
+      "target": "journals_260508_portfolio_scaffold_scaffolding_workaround_non_empty_directory",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_next_js_15_5_sanity_supabase_portfolio_scaffold",
+      "target": "journals_260508_portfolio_scaffold_what_we_tried",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_next_js_15_5_sanity_supabase_portfolio_scaffold",
+      "target": "journals_260508_portfolio_scaffold_root_cause_analysis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_next_js_15_5_sanity_supabase_portfolio_scaffold",
+      "target": "journals_260508_portfolio_scaffold_lessons_learned",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "journals_260508_portfolio_scaffold_next_js_15_5_sanity_supabase_portfolio_scaffold",
+      "target": "journals_260508_portfolio_scaffold_next_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md",
+      "source_location": "L111",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

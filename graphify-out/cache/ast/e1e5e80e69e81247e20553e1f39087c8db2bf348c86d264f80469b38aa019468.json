@@ -1,0 +1,319 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_templates_refactor_template_md",
+      "label": "refactor-template.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "templates_refactor_template_component_module_refactoring_plan",
+      "label": "[Component/Module] Refactoring Plan",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "templates_refactor_template_executive_summary",
+      "label": "Executive Summary",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L8"
+    },
+    {
+      "id": "templates_refactor_template_current_state_analysis",
+      "label": "Current State Analysis",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L11"
+    },
+    {
+      "id": "templates_refactor_template_issues_with_current_implementation",
+      "label": "Issues with Current Implementation",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "templates_refactor_template_metrics_before",
+      "label": "Metrics (Before)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L17"
+    },
+    {
+      "id": "templates_refactor_template_context_links",
+      "label": "Context Links",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L22"
+    },
+    {
+      "id": "templates_refactor_template_refactoring_strategy",
+      "label": "Refactoring Strategy",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L27"
+    },
+    {
+      "id": "templates_refactor_template_approach",
+      "label": "Approach",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L28"
+    },
+    {
+      "id": "templates_refactor_template_architecture_changes",
+      "label": "Architecture Changes",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L31"
+    },
+    {
+      "id": "templates_refactor_template_codeblock_1",
+      "label": "code:mermaid ([Before/After comparison diagram])",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L32"
+    },
+    {
+      "id": "templates_refactor_template_key_improvements",
+      "label": "Key Improvements",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L36"
+    },
+    {
+      "id": "templates_refactor_template_implementation_plan",
+      "label": "Implementation Plan",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L40"
+    },
+    {
+      "id": "templates_refactor_template_phase_1_preparation_est_x_days",
+      "label": "Phase 1: Preparation (Est: X days)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L42"
+    },
+    {
+      "id": "templates_refactor_template_phase_2_core_refactoring_est_x_days",
+      "label": "Phase 2: Core Refactoring (Est: X days)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L48"
+    },
+    {
+      "id": "templates_refactor_template_phase_3_integration_testing_est_x_days",
+      "label": "Phase 3: Integration & Testing (Est: X days)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L54"
+    },
+    {
+      "id": "templates_refactor_template_backward_compatibility",
+      "label": "Backward Compatibility",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L60"
+    },
+    {
+      "id": "templates_refactor_template_success_metrics_after",
+      "label": "Success Metrics (After)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L65"
+    },
+    {
+      "id": "templates_refactor_template_risk_assessment",
+      "label": "Risk Assessment",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L70"
+    },
+    {
+      "id": "templates_refactor_template_todo_checklist",
+      "label": "TODO Checklist",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L76"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_templates_refactor_template_md",
+      "target": "templates_refactor_template_component_module_refactoring_plan",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_component_module_refactoring_plan",
+      "target": "templates_refactor_template_executive_summary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_component_module_refactoring_plan",
+      "target": "templates_refactor_template_current_state_analysis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_current_state_analysis",
+      "target": "templates_refactor_template_issues_with_current_implementation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_current_state_analysis",
+      "target": "templates_refactor_template_metrics_before",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_component_module_refactoring_plan",
+      "target": "templates_refactor_template_context_links",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_component_module_refactoring_plan",
+      "target": "templates_refactor_template_refactoring_strategy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_refactoring_strategy",
+      "target": "templates_refactor_template_approach",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_refactoring_strategy",
+      "target": "templates_refactor_template_architecture_changes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_architecture_changes",
+      "target": "templates_refactor_template_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_refactoring_strategy",
+      "target": "templates_refactor_template_key_improvements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_component_module_refactoring_plan",
+      "target": "templates_refactor_template_implementation_plan",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_implementation_plan",
+      "target": "templates_refactor_template_phase_1_preparation_est_x_days",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_implementation_plan",
+      "target": "templates_refactor_template_phase_2_core_refactoring_est_x_days",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_implementation_plan",
+      "target": "templates_refactor_template_phase_3_integration_testing_est_x_days",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_component_module_refactoring_plan",
+      "target": "templates_refactor_template_backward_compatibility",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_component_module_refactoring_plan",
+      "target": "templates_refactor_template_success_metrics_after",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_component_module_refactoring_plan",
+      "target": "templates_refactor_template_risk_assessment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_refactor_template_component_module_refactoring_plan",
+      "target": "templates_refactor_template_todo_checklist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md",
+      "source_location": "L76",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

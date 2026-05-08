@@ -1,0 +1,191 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_templates_template_usage_guide_md",
+      "label": "template-usage-guide.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "templates_template_usage_guide_plan_template_usage_guide",
+      "label": "Plan Template Usage Guide",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "templates_template_usage_guide_template_selection",
+      "label": "Template Selection",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L3"
+    },
+    {
+      "id": "templates_template_usage_guide_feature_implementation_template",
+      "label": "Feature Implementation Template",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L5"
+    },
+    {
+      "id": "templates_template_usage_guide_bug_fix_template",
+      "label": "Bug Fix Template",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "templates_template_usage_guide_refactoring_template",
+      "label": "Refactoring Template",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L15"
+    },
+    {
+      "id": "templates_template_usage_guide_context_management_best_practices",
+      "label": "Context Management Best Practices",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L20"
+    },
+    {
+      "id": "templates_template_usage_guide_keep_plans_focused",
+      "label": "Keep Plans Focused",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L22"
+    },
+    {
+      "id": "templates_template_usage_guide_template_adaptation",
+      "label": "Template Adaptation",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L28"
+    },
+    {
+      "id": "templates_template_usage_guide_cross_references_instead_of_duplication",
+      "label": "Cross-References Instead of Duplication",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L34"
+    },
+    {
+      "id": "templates_template_usage_guide_quality_checklist",
+      "label": "Quality Checklist",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L40"
+    },
+    {
+      "id": "templates_template_usage_guide_context_refresh_triggers",
+      "label": "Context Refresh Triggers",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L50"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_templates_template_usage_guide_md",
+      "target": "templates_template_usage_guide_plan_template_usage_guide",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_plan_template_usage_guide",
+      "target": "templates_template_usage_guide_template_selection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_template_selection",
+      "target": "templates_template_usage_guide_feature_implementation_template",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_template_selection",
+      "target": "templates_template_usage_guide_bug_fix_template",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_template_selection",
+      "target": "templates_template_usage_guide_refactoring_template",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_plan_template_usage_guide",
+      "target": "templates_template_usage_guide_context_management_best_practices",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_context_management_best_practices",
+      "target": "templates_template_usage_guide_keep_plans_focused",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_context_management_best_practices",
+      "target": "templates_template_usage_guide_template_adaptation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_context_management_best_practices",
+      "target": "templates_template_usage_guide_cross_references_instead_of_duplication",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_plan_template_usage_guide",
+      "target": "templates_template_usage_guide_quality_checklist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "templates_template_usage_guide_plan_template_usage_guide",
+      "target": "templates_template_usage_guide_context_refresh_triggers",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md",
+      "source_location": "L50",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

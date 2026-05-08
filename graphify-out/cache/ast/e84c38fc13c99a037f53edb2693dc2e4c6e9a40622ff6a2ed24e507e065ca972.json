@@ -1,0 +1,120 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_sitemap_ts",
+      "label": "sitemap.ts",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_sitemap_sitemap",
+      "label": "sitemap()",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L4"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_sitemap_ts",
+      "target": "next",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_sitemap_ts",
+      "target": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_sanity_queries_ts",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_sitemap_ts",
+      "target": "lib_sanity_queries_getprojects",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_sitemap_ts",
+      "target": "lib_sanity_queries_getposts",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_sitemap_ts",
+      "target": "app_sitemap_sitemap",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "app_sitemap_sitemap",
+      "callee": "all",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L6"
+    },
+    {
+      "caller_nid": "app_sitemap_sitemap",
+      "callee": "getProjects",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L6"
+    },
+    {
+      "caller_nid": "app_sitemap_sitemap",
+      "callee": "getPosts",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L6"
+    },
+    {
+      "caller_nid": "app_sitemap_sitemap",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L14"
+    },
+    {
+      "caller_nid": "app_sitemap_sitemap",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L14"
+    },
+    {
+      "caller_nid": "app_sitemap_sitemap",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L21"
+    },
+    {
+      "caller_nid": "app_sitemap_sitemap",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts",
+      "source_location": "L21"
+    }
+  ]
+}

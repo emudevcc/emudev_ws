@@ -1,0 +1,1055 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_reports_researcher_260507_1643_portfolio_stack_research_md",
+      "label": "researcher-260507-1643-portfolio-stack-research.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "label": "Portfolio Stack Research: Next.js 15 + Sanity v3 + Magic UI Pro",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_research_summary",
+      "label": "RESEARCH SUMMARY",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L7"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_1_next_js_15_app_router_for_portfolio",
+      "label": "1. NEXT.JS 15 APP ROUTER FOR PORTFOLIO",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L19"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_page_types_rendering_strategy",
+      "label": "Page Types & Rendering Strategy",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L21"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_generatestaticparams_pattern",
+      "label": "generateStaticParams Pattern",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L36"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_1",
+      "label": "code:typescript (// app/projects/[slug]/page.tsx)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L38"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_isr_revalidation_with_cache_components_new",
+      "label": "ISR Revalidation with Cache Components (NEW)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L60"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_2",
+      "label": "code:typescript (// app/api/revalidate-tag/route.ts)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L66"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_3",
+      "label": "code:typescript (// lib/sanity-queries.ts)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L85"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_2_sanity_v3_next_js_integration",
+      "label": "2. SANITY V3 + NEXT.JS INTEGRATION",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L100"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_package_versions",
+      "label": "Package Versions",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L102"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_groq_query_patterns_for_portfolio",
+      "label": "GROQ Query Patterns for Portfolio",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L112"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_4",
+      "label": "code:groq (*[_type == \"project\" && defined(slug)] {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L115"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_5",
+      "label": "code:groq (*[_type == \"project\" && slug.current == $slug][0] {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L129"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_real_time_preview_via_presentation_tool",
+      "label": "Real-Time Preview via Presentation Tool",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L137"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_6",
+      "label": "code:typescript (import { defineConfig } from 'sanity')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L142"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_7",
+      "label": "code:typescript (// app/projects/[slug]/page.tsx)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L159"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_typescript_code_generation",
+      "label": "TypeScript Code Generation",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L177"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_8",
+      "label": "code:bash (npm install -D @sanity/codegen)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L180"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_9",
+      "label": "code:typescript (import type { Project } from '@/sanity.types')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L188"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_10",
+      "label": "code:typescript (type Project = {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L196"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_3_magic_ui_pro_in_next_js_15",
+      "label": "3. MAGIC UI PRO IN NEXT.JS 15",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L207"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_installation_setup",
+      "label": "Installation & Setup",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L209"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_11",
+      "label": "code:bash (npm install magic-ui @react-motion/framer-motion)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L211"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_import_pattern",
+      "label": "Import Pattern",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L217"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_12",
+      "label": "code:typescript (// app/components/hero.tsx)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L219"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_component_library_inventory_magic_ui_pro_typical_set",
+      "label": "Component Library Inventory (Magic UI Pro typical set)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L230"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_rsc_compatibility",
+      "label": "RSC Compatibility",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L240"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_13",
+      "label": "code:typescript (// app/page.tsx (Server Component))",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L243"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_4_sanity_v3_schema_design_for_portfolio",
+      "label": "4. SANITY V3 SCHEMA DESIGN FOR PORTFOLIO",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L261"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_document_types",
+      "label": "Document Types",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L263"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_14",
+      "label": "code:typescript (export const projectType = {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L266"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_15",
+      "label": "code:typescript (export const postType = {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L285"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_16",
+      "label": "code:typescript (export const authorType = {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L300"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_17",
+      "label": "code:typescript (export const tagType = {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L314"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_18",
+      "label": "code:typescript (export const siteSettingsType = {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L326"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_reference_patterns",
+      "label": "Reference Patterns",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L345"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_5_seo_with_next_js_15_metadata_api",
+      "label": "5. SEO WITH NEXT.JS 15 METADATA API",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L353"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_dynamic_metadata_for_project_pages",
+      "label": "Dynamic Metadata for Project Pages",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L355"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_19",
+      "label": "code:typescript (// app/projects/[slug]/page.tsx)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L357"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_sitemap_next_15",
+      "label": "Sitemap (Next 15)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L401"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_20",
+      "label": "code:typescript (// app/sitemap.ts)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L403"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_robots_txt_next_15",
+      "label": "Robots.txt (Next 15)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L432"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_21",
+      "label": "code:typescript (// app/robots.ts)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L434"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_6_typescript_type_generation",
+      "label": "6. TYPESCRIPT TYPE GENERATION",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L452"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_sanity_codegen_setup",
+      "label": "@sanity/codegen Setup",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L454"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_22",
+      "label": "code:bash (npm install -D @sanity/codegen)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L457"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_23",
+      "label": "code:typescript (import { defineConfig } from '@sanity/codegen')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L462"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_24",
+      "label": "code:bash (sanity typegen generate)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L472"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_25",
+      "label": "code:typescript (// types/sanity.types.ts (auto-generated))",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L477"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_26",
+      "label": "code:typescript (import type { Project } from '@/types/sanity.types')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L489"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_7_contact_form_with_server_actions_resend",
+      "label": "7. CONTACT FORM WITH SERVER ACTIONS + RESEND",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L500"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_pattern_server_action_resend",
+      "label": "Pattern: Server Action + Resend",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L502"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_27",
+      "label": "code:bash (npm install resend)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L505"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_28",
+      "label": "code:env (RESEND_API_KEY=re_xxx)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L510"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_29",
+      "label": "code:typescript (// app/actions/contact.ts)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L515"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_30",
+      "label": "code:typescript (// app/contact/page.tsx)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L546"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_31",
+      "label": "code:typescript (// app/api/contact/route.ts)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L571"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_architectural_recommendations",
+      "label": "ARCHITECTURAL RECOMMENDATIONS",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L599"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_directory_structure",
+      "label": "Directory Structure",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L601"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_32",
+      "label": "code:block32 (.)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L602"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_performance_considerations",
+      "label": "Performance Considerations",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L634"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_security",
+      "label": "Security",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L643"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_compatibility_matrix",
+      "label": "COMPATIBILITY MATRIX",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L652"
+    },
+    {
+      "id": "reports_researcher_260507_1643_portfolio_stack_research_unresolved_questions",
+      "label": "UNRESOLVED QUESTIONS",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L663"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_reports_researcher_260507_1643_portfolio_stack_research_md",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_research_summary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_1_next_js_15_app_router_for_portfolio",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_1_next_js_15_app_router_for_portfolio",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_page_types_rendering_strategy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_1_next_js_15_app_router_for_portfolio",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_generatestaticparams_pattern",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_generatestaticparams_pattern",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_1_next_js_15_app_router_for_portfolio",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_isr_revalidation_with_cache_components_new",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_isr_revalidation_with_cache_components_new",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_isr_revalidation_with_cache_components_new",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_3",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_2_sanity_v3_next_js_integration",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_2_sanity_v3_next_js_integration",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_package_versions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_2_sanity_v3_next_js_integration",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_groq_query_patterns_for_portfolio",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_groq_query_patterns_for_portfolio",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_4",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_groq_query_patterns_for_portfolio",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_5",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_2_sanity_v3_next_js_integration",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_real_time_preview_via_presentation_tool",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_real_time_preview_via_presentation_tool",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_6",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_real_time_preview_via_presentation_tool",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_7",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_2_sanity_v3_next_js_integration",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_typescript_code_generation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_typescript_code_generation",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_8",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L180",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_typescript_code_generation",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_9",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_typescript_code_generation",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_10",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L196",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_3_magic_ui_pro_in_next_js_15",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_3_magic_ui_pro_in_next_js_15",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_installation_setup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_installation_setup",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_11",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_3_magic_ui_pro_in_next_js_15",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_import_pattern",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_import_pattern",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_12",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_3_magic_ui_pro_in_next_js_15",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_component_library_inventory_magic_ui_pro_typical_set",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L230",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_3_magic_ui_pro_in_next_js_15",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_rsc_compatibility",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L240",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_rsc_compatibility",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_13",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_4_sanity_v3_schema_design_for_portfolio",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L261",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_4_sanity_v3_schema_design_for_portfolio",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_document_types",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L263",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_document_types",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_14",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L266",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_document_types",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_15",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L285",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_document_types",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_16",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L300",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_document_types",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_17",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L314",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_document_types",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_18",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L326",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_4_sanity_v3_schema_design_for_portfolio",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_reference_patterns",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L345",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_5_seo_with_next_js_15_metadata_api",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L353",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_5_seo_with_next_js_15_metadata_api",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_dynamic_metadata_for_project_pages",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L355",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_dynamic_metadata_for_project_pages",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_19",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L357",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_5_seo_with_next_js_15_metadata_api",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_sitemap_next_15",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L401",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_sitemap_next_15",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_20",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L403",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_5_seo_with_next_js_15_metadata_api",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_robots_txt_next_15",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L432",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_robots_txt_next_15",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_21",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L434",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_6_typescript_type_generation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L452",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_6_typescript_type_generation",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_sanity_codegen_setup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L454",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_sanity_codegen_setup",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_22",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L457",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_sanity_codegen_setup",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_23",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L462",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_sanity_codegen_setup",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_24",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L472",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_sanity_codegen_setup",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_25",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L477",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_sanity_codegen_setup",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_26",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L489",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_7_contact_form_with_server_actions_resend",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L500",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_7_contact_form_with_server_actions_resend",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_pattern_server_action_resend",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L502",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_pattern_server_action_resend",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_27",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L505",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_pattern_server_action_resend",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_28",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L510",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_pattern_server_action_resend",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_29",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L515",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_pattern_server_action_resend",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_30",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L546",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_pattern_server_action_resend",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_31",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L571",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_architectural_recommendations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L599",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_architectural_recommendations",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_directory_structure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L601",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_directory_structure",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_codeblock_32",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L602",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_architectural_recommendations",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_performance_considerations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L634",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_architectural_recommendations",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_security",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L643",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_compatibility_matrix",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L652",
+      "weight": 1.0
+    },
+    {
+      "source": "reports_researcher_260507_1643_portfolio_stack_research_portfolio_stack_research_next_js_15_sanity_v3_magic_ui_pro",
+      "target": "reports_researcher_260507_1643_portfolio_stack_research_unresolved_questions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md",
+      "source_location": "L663",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

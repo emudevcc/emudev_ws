@@ -1,0 +1,119 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_actions_auth_ts",
+      "label": "auth.ts",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "actions_auth_sendmagiclink",
+      "label": "sendMagicLink()",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "actions_auth_signout",
+      "label": "signOut()",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L17"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_actions_auth_ts",
+      "target": "navigation",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_actions_auth_ts",
+      "target": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_lib_supabase_server_ts",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_actions_auth_ts",
+      "target": "lib_supabase_server_createsupabaseserverclient",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_actions_auth_ts",
+      "target": "actions_auth_sendmagiclink",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_actions_auth_ts",
+      "target": "actions_auth_signout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L17",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "actions_auth_sendmagiclink",
+      "callee": "trim",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L7"
+    },
+    {
+      "caller_nid": "actions_auth_sendmagiclink",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L7"
+    },
+    {
+      "caller_nid": "actions_auth_sendmagiclink",
+      "callee": "createSupabaseServerClient",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L10"
+    },
+    {
+      "caller_nid": "actions_auth_sendmagiclink",
+      "callee": "signInWithOtp",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L11"
+    },
+    {
+      "caller_nid": "actions_auth_signout",
+      "callee": "createSupabaseServerClient",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L18"
+    },
+    {
+      "caller_nid": "actions_auth_signout",
+      "callee": "redirect",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts",
+      "source_location": "L20"
+    }
+  ]
+}

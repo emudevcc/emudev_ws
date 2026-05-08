@@ -1,0 +1,24 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_tests_smoke_contact_form_spec_ts",
+      "label": "contact-form.spec.ts",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/contact-form.spec.ts",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_tests_smoke_contact_form_spec_ts",
+      "target": "test",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/contact-form.spec.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": []
+}

@@ -1,0 +1,64 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_site_nav_tsx",
+      "label": "site-nav.tsx",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/site-nav.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "components_site_nav_links",
+      "label": "links",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/site-nav.tsx",
+      "source_location": "L3"
+    },
+    {
+      "id": "components_site_nav_sitenav",
+      "label": "SiteNav()",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/site-nav.tsx",
+      "source_location": "L11"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_site_nav_tsx",
+      "target": "link",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/site-nav.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_site_nav_tsx",
+      "target": "components_site_nav_links",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/site-nav.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_site_nav_tsx",
+      "target": "components_site_nav_sitenav",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/site-nav.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "components_site_nav_sitenav",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/site-nav.tsx",
+      "source_location": "L19"
+    }
+  ]
+}

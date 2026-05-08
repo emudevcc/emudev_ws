@@ -1,0 +1,415 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_02_sanity_cms_setup_md",
+      "label": "phase-02-sanity-cms-setup.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "label": "Phase 2: Sanity CMS Setup",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_overview",
+      "label": "Overview",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_key_insights",
+      "label": "Key Insights",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L16"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_requirements",
+      "label": "Requirements",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L26"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_architecture",
+      "label": "Architecture",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L40"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_1",
+      "label": "code:block1 (sanity/)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L42"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_2",
+      "label": "code:block2 (Sanity editor publishes \u2192 webhook fires \u2192 POST /api/revalida)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L71"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_related_code_files",
+      "label": "Related Code Files",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L76"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "label": "Implementation Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L96"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_3",
+      "label": "code:bash (npm install sanity@^3 next-sanity@^5 @sanity/vision)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L99"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_4",
+      "label": "code:typescript (import { defineType, defineField } from 'sanity')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L107"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_5",
+      "label": "code:typescript (export const postType = defineType({)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L136"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_6",
+      "label": "code:typescript (import { projectType } from './schemas/project-type')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L156"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_7",
+      "label": "code:typescript (import { defineConfig } from 'sanity')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L167"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_8",
+      "label": "code:typescript ('use client')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L193"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_9",
+      "label": "code:typescript (import { cacheTag } from 'next/cache')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L205"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_10",
+      "label": "code:typescript (import { revalidateTag } from 'next/cache')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L256"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_11",
+      "label": "code:typescript (import { defineConfig } from '@sanity/codegen')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L285"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_12",
+      "label": "code:bash (npx sanity typegen generate)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L294"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_13",
+      "label": "code:json (\"sanity:types\": \"sanity typegen generate\",)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L305"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_todo_list",
+      "label": "Todo List",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L310"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_success_criteria",
+      "label": "Success Criteria",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L324"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_risk_assessment",
+      "label": "Risk Assessment",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L333"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_security_considerations",
+      "label": "Security Considerations",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L342"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_next_steps",
+      "label": "Next Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L349"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_02_sanity_cms_setup_md",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_overview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_key_insights",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_requirements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_architecture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_architecture",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_architecture",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_related_code_files",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_3",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_4",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_5",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_6",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_7",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_8",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L193",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_9",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L205",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_10",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L256",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_11",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L285",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_12",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L294",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_codeblock_13",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L305",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_todo_list",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L310",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_success_criteria",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L324",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_risk_assessment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L333",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_security_considerations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L342",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_phase_2_sanity_cms_setup",
+      "target": "260507_1641_personal_portfolio_phase_02_sanity_cms_setup_next_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md",
+      "source_location": "L349",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

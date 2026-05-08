@@ -1,0 +1,383 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_md",
+      "label": "phase-04-portfolio-ui-pages.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "label": "Phase 4: Portfolio UI Pages",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_overview",
+      "label": "Overview",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_key_insights",
+      "label": "Key Insights",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L16"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_requirements",
+      "label": "Requirements",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L25"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_architecture",
+      "label": "Architecture",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L42"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_1",
+      "label": "code:block1 (app/)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L44"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_related_code_files",
+      "label": "Related Code Files",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L81"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "label": "Implementation Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L110"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_2",
+      "label": "code:bash (npm install @portabletext/react @sanity/image-url resend)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L113"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_3",
+      "label": "code:typescript (import type { Metadata } from 'next')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L118"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_4",
+      "label": "code:typescript (import { AnimatedHero } from '@/components/ui/animated-hero')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L144"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_5",
+      "label": "code:typescript (import { getProjectBySlug, getProjects } from '@/lib/sanity-)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L172"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_6",
+      "label": "code:typescript (import { PortableText } from '@portabletext/react')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L210"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_7",
+      "label": "code:typescript ('use server')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L230"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_8",
+      "label": "code:typescript ('use client')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L264"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_9",
+      "label": "code:typescript (import { getProjects, getPosts } from '@/lib/sanity-queries')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L287"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_10",
+      "label": "code:typescript (import type { MetadataRoute } from 'next')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L315"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_11",
+      "label": "code:bash (npm run build)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L334"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_todo_list",
+      "label": "Todo List",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L339"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_success_criteria",
+      "label": "Success Criteria",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L358"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_risk_assessment",
+      "label": "Risk Assessment",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L368"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_security_considerations",
+      "label": "Security Considerations",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L377"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_next_steps",
+      "label": "Next Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L384"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_md",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_overview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_key_insights",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_requirements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_architecture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_architecture",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_related_code_files",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_3",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_4",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_5",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_6",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L210",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_7",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L230",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_8",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_9",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L287",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_10",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L315",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_codeblock_11",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L334",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_todo_list",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L339",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_success_criteria",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L358",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_risk_assessment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L368",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_security_considerations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L377",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_phase_4_portfolio_ui_pages",
+      "target": "260507_1641_personal_portfolio_phase_04_portfolio_ui_pages_next_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md",
+      "source_location": "L384",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

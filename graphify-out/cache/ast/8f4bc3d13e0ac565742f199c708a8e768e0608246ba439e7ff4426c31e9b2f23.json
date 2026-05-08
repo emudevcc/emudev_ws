@@ -1,0 +1,101 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_contact_form_tsx",
+      "label": "contact-form.tsx",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "components_contact_form_submitbutton",
+      "label": "SubmitButton()",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L7"
+    },
+    {
+      "id": "components_contact_form_contactform",
+      "label": "ContactForm()",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L20"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_contact_form_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_contact_form_tsx",
+      "target": "react_dom",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_contact_form_tsx",
+      "target": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_app_actions_contact_ts",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_contact_form_tsx",
+      "target": "actions_contact_submitcontact",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_contact_form_tsx",
+      "target": "components_contact_form_submitbutton",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_components_contact_form_tsx",
+      "target": "components_contact_form_contactform",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L20",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "components_contact_form_submitbutton",
+      "callee": "useFormStatus",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L8"
+    },
+    {
+      "caller_nid": "components_contact_form_contactform",
+      "callee": "useActionState",
+      "is_member_call": false,
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx",
+      "source_location": "L21"
+    }
+  ]
+}

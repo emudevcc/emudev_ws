@@ -1,0 +1,415 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_md",
+      "label": "phase-01-project-scaffold-tooling.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "label": "Phase 1: Project Scaffold & Tooling",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_overview",
+      "label": "Overview",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_key_insights",
+      "label": "Key Insights",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L16"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_requirements",
+      "label": "Requirements",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L24"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_architecture",
+      "label": "Architecture",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L40"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_1",
+      "label": "code:block1 (/                               \u2190 git root)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L42"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_related_code_files",
+      "label": "Related Code Files",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L83"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "label": "Implementation Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L105"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_2",
+      "label": "code:bash (npx create-next-app@latest . \\)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L108"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_3",
+      "label": "code:bash (npm install next-sanity@^5 sanity@^3 @sanity/codegen \\)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L118"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_4",
+      "label": "code:json ({)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L133"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_5",
+      "label": "code:typescript (import type { NextConfig } from 'next')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L144"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_6",
+      "label": "code:typescript (import { createClient } from 'next-sanity')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L162"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_7",
+      "label": "code:typescript (import { createClient } from '@supabase/supabase-js')",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L189"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_8",
+      "label": "code:typescript (export async function GET() {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L200"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_9",
+      "label": "code:env (# Sanity)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L207"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_10",
+      "label": "code:bash (npx husky init)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L233"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_11",
+      "label": "code:json (\"lint-staged\": {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L239"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_12",
+      "label": "code:bash (supabase init)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L247"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_13",
+      "label": "code:bash (npm run lint)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L253"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_todo_list",
+      "label": "Todo List",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L258"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_success_criteria",
+      "label": "Success Criteria",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L275"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_risk_assessment",
+      "label": "Risk Assessment",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L284"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_security_considerations",
+      "label": "Security Considerations",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L292"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_next_steps",
+      "label": "Next Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L298"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_md",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_overview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_key_insights",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_requirements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_architecture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_architecture",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_related_code_files",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_3",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_4",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_5",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_6",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_7",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L189",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_8",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_9",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_10",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L233",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_11",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L239",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_12",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L247",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_codeblock_13",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L253",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_todo_list",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L258",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_success_criteria",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L275",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_risk_assessment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L284",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_security_considerations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L292",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_phase_1_project_scaffold_tooling",
+      "target": "260507_1641_personal_portfolio_phase_01_project_scaffold_tooling_next_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md",
+      "source_location": "L298",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

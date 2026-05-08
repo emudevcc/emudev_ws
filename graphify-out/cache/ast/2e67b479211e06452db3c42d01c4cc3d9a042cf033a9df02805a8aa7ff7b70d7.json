@@ -1,0 +1,72 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_tests_smoke_pages_spec_ts",
+      "label": "pages.spec.ts",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/pages.spec.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "smoke_pages_spec_publicpages",
+      "label": "publicPages",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/pages.spec.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "smoke_pages_spec_errors",
+      "label": "errors",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/pages.spec.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "smoke_pages_spec_apperrors",
+      "label": "appErrors",
+      "file_type": "code",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/pages.spec.ts",
+      "source_location": "L15"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_tests_smoke_pages_spec_ts",
+      "target": "test",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/pages.spec.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_tests_smoke_pages_spec_ts",
+      "target": "smoke_pages_spec_publicpages",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/pages.spec.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_tests_smoke_pages_spec_ts",
+      "target": "smoke_pages_spec_errors",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/pages.spec.ts",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_tests_smoke_pages_spec_ts",
+      "target": "smoke_pages_spec_apperrors",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/pages.spec.ts",
+      "source_location": "L15",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": []
+}

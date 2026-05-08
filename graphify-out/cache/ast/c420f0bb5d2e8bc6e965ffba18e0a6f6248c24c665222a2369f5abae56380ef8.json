@@ -1,0 +1,351 @@
+{
+  "nodes": [
+    {
+      "id": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_md",
+      "label": "phase-05-github-actions-ci-cd-pipeline.md",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "label": "Phase 5: GitHub Actions CI/CD Pipeline",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_overview",
+      "label": "Overview",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_key_insights",
+      "label": "Key Insights",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L16"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_requirements",
+      "label": "Requirements",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L25"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_architecture",
+      "label": "Architecture",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L41"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_1",
+      "label": "code:block1 (.github/)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L43"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_related_code_files",
+      "label": "Related Code Files",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L66"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "label": "Implementation Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L73"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_2",
+      "label": "code:yaml (name: CI)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L76"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_3",
+      "label": "code:yaml (name: Deploy)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L117"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_4",
+      "label": "code:yaml (name: Hotfix)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L269"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_5",
+      "label": "code:block5 (VERCEL_TOKEN          \u2190 Vercel account token)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L343"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_6",
+      "label": "code:block6 (VERCEL_PROJECT_ID)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L352"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_7",
+      "label": "code:bash (# Protect main)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L368"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_8",
+      "label": "code:yaml (- name: Install Playwright browsers)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L389"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_9",
+      "label": "code:json (\"scripts\": {)",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L396"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_todo_list",
+      "label": "Todo List",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L403"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_success_criteria",
+      "label": "Success Criteria",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L418"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_risk_assessment",
+      "label": "Risk Assessment",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L429"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_security_considerations",
+      "label": "Security Considerations",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L439"
+    },
+    {
+      "id": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_next_steps",
+      "label": "Next Steps",
+      "file_type": "document",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L447"
+    }
+  ],
+  "edges": [
+    {
+      "source": "users_esteban_documents_code_ai_emudev_ws_emudev_ws_plans_260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_md",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_overview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_key_insights",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_requirements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_architecture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_architecture",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_1",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_related_code_files",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_2",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_3",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_4",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L269",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_5",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L343",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_6",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L352",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_7",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L368",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_8",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L389",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_implementation_steps",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_codeblock_9",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L396",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_todo_list",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L403",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_success_criteria",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L418",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_risk_assessment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L429",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_security_considerations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L439",
+      "weight": 1.0
+    },
+    {
+      "source": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_phase_5_github_actions_ci_cd_pipeline",
+      "target": "260507_1641_personal_portfolio_phase_05_github_actions_ci_cd_pipeline_next_steps",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md",
+      "source_location": "L447",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

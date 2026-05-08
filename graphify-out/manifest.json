@@ -1,0 +1,274 @@
+{
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/postcss.config.mjs": {
+    "mtime": 1778196028.6432881,
+    "hash": "cb2ccb27c4cc2a6f427821fed28e927e"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/next-env.d.ts": {
+    "mtime": 1778194749.8385966,
+    "hash": "ba64ff7d54714a8f64db89b1003207d8"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/sanity.config.ts": {
+    "mtime": 1778246348.5905695,
+    "hash": "fa018d032c06a9445a886c9709df1fd9"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/sanity.codegen.ts": {
+    "mtime": 1778195942.4023066,
+    "hash": "285a0c9947afacf74f86465e955869f7"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/playwright.config.ts": {
+    "mtime": 1778196028.640766,
+    "hash": "7c512d02d3cc324c5cd25dcc1c52fc45"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/eslint.config.mjs": {
+    "mtime": 1778195986.6302555,
+    "hash": "995bc34a526a6af2ea0c2a16e8e1b76c"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/next.config.ts": {
+    "mtime": 1778196028.638582,
+    "hash": "9fed8da012a3dddb2857ef3f00205a2b"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/types/supabase.types.ts": {
+    "mtime": 1778195942.4049106,
+    "hash": "addb2f5ecd21ec45b09d3ad7e5b85ae7"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/types/sanity.types.ts": {
+    "mtime": 1778195942.404765,
+    "hash": "657546857f4f4dad7562f5bd4535aa70"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/robots.ts": {
+    "mtime": 1778195942.3939304,
+    "hash": "7c620b80b4fa1eda59a7046d41de158f"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/sitemap.ts": {
+    "mtime": 1778195942.3941007,
+    "hash": "21bdebd3fd5ea20660a288f2228c428a"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/layout.tsx": {
+    "mtime": 1778195942.393321,
+    "hash": "a721cd54dd72180e5c4da4a395e9bfb3"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/page.tsx": {
+    "mtime": 1778195942.3934479,
+    "hash": "aaf8cd5cf0b3aeeed9a45faa958d5acf"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/studio/[[...tool]]/page.tsx": {
+    "mtime": 1778195942.3943765,
+    "hash": "21c40c4b906f9447610268278edf1a4b"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/contact/page.tsx": {
+    "mtime": 1778195942.3927143,
+    "hash": "90668046a9908db430f09c2e3e4c74a5"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/projects/page.tsx": {
+    "mtime": 1778195942.3938026,
+    "hash": "4875805dff45046b23256b7bc2c20b0c"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/projects/[slug]/page.tsx": {
+    "mtime": 1778196028.5039194,
+    "hash": "c2be3ae3e7aed902416445fe3850bacd"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/about/page.tsx": {
+    "mtime": 1778195942.3909147,
+    "hash": "e9c166a291de205e2adcac047537d42f"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/blog/page.tsx": {
+    "mtime": 1778195942.392534,
+    "hash": "23f3f07395fd755147bf00668e3ffe5e"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/blog/[slug]/page.tsx": {
+    "mtime": 1778196028.440487,
+    "hash": "780de1042c197622bc29978a53f9e38b"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/contact.ts": {
+    "mtime": 1778195942.3913627,
+    "hash": "6c5918734a5537ee2d3648d6839e33e7"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/actions/auth.ts": {
+    "mtime": 1778195942.3911104,
+    "hash": "a96fbb111535e06c159f6e5f3dc37d8e"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/api/health/route.ts": {
+    "mtime": 1778195942.3916645,
+    "hash": "6ede09afd95ed486273360e4afaca70e"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/app/api/revalidate-tag/route.ts": {
+    "mtime": 1778195942.392079,
+    "hash": "f43052611dd9fbc86adf9d010b480eeb"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/navigation.spec.ts": {
+    "mtime": 1778195942.4042382,
+    "hash": "90e478af09612670ed314608f5e57881"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/pages.spec.ts": {
+    "mtime": 1778195942.4043553,
+    "hash": "7ee9bbce3217035cd23f2742cc4b30a5"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/contact-form.spec.ts": {
+    "mtime": 1778195942.4039967,
+    "hash": "694b0116545c8dcf303b22bee1a9aae1"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/tests/smoke/health.spec.ts": {
+    "mtime": 1778195942.404115,
+    "hash": "238f93b2d45f414247ea01766a8e9c46"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/supabase/migrations/20260507000002_create-rls-policies.sql": {
+    "mtime": 1778195942.4037695,
+    "hash": "524bfb791d2667000076221ef9cb9ddc"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/supabase/migrations/20260507000001_create-contact-submissions.sql": {
+    "mtime": 1778195942.4036489,
+    "hash": "202390ba6630e5ed46a43b3bc0d06817"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/sanity/schema.ts": {
+    "mtime": 1778195942.4027648,
+    "hash": "316401f97d243e13c920f3f6a493c516"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/sanity/sanity.config.ts": {
+    "mtime": 1778195942.402643,
+    "hash": "a59ff0456bf2ec5fb657e46ebd0347bc"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/sanity/schemas/post-type.ts": {
+    "mtime": 1778195942.403069,
+    "hash": "6e84173d6067e99b6f2469e7bf9dab02"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/sanity/schemas/tag-type.ts": {
+    "mtime": 1778195942.4034383,
+    "hash": "d95e3bed9c57cd7c7d42e53396b0f715"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/sanity/schemas/project-type.ts": {
+    "mtime": 1778195942.4031944,
+    "hash": "f1eb49ece3717f1c17e691d694a8b63b"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/sanity/schemas/site-settings-type.ts": {
+    "mtime": 1778195942.403317,
+    "hash": "c5919122375ac31e9e292c72bed1d513"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/sanity/schemas/author-type.ts": {
+    "mtime": 1778195942.4029381,
+    "hash": "1ce603dc6c085aa54a7950cce3e6dab4"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/project-card.tsx": {
+    "mtime": 1778195942.3948557,
+    "hash": "deb1308c6e1fd3004f7f12dc661217ed"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/portable-text-renderer.tsx": {
+    "mtime": 1778195942.394729,
+    "hash": "01a2c4f115b3050c518708468a47e1c2"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/site-nav.tsx": {
+    "mtime": 1778195942.3950038,
+    "hash": "e79da3f35bcc0f3d0531c2e7046e915f"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/contact-form.tsx": {
+    "mtime": 1778195942.3945892,
+    "hash": "ea1dd6f9262db4482ad3715ef00cbcdf"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/components/ui/hero-section.tsx": {
+    "mtime": 1778195942.3952153,
+    "hash": "cacfabe33e642df39f4f4ec3b39f68cb"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-queries.ts": {
+    "mtime": 1778195942.3955734,
+    "hash": "d94376da44905880e96915c5791261f9"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/supabase-server.ts": {
+    "mtime": 1778196028.6360145,
+    "hash": "bb2e158ee2d5cce26d74e700946c9ea0"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/sanity-client.ts": {
+    "mtime": 1778195942.3954215,
+    "hash": "dc68f8dfa8e5debe1c3e8b3bd4409699"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/lib/supabase-browser.ts": {
+    "mtime": 1778196028.631455,
+    "hash": "8058234fbe329bd58e958a7568a0486c"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/README.md": {
+    "mtime": 1778186927.5816643,
+    "hash": "351cefccba3ac4becf2df4d3d31c5dc0"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/CLAUDE.md": {
+    "mtime": 1778195942.3906233,
+    "hash": "94d0e39b5bd088970814d6683cc116e4"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/template-usage-guide.md": {
+    "mtime": 1778195942.400449,
+    "hash": "10f95e5de9c1e2df78274a2b7c72142b"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/feature-implementation-template.md": {
+    "mtime": 1778195942.400159,
+    "hash": "89fe97c841975a7fdffd3cd9ac069c1e"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/bug-fix-template.md": {
+    "mtime": 1778195942.4000092,
+    "hash": "313910100c728a7e06d527d1224ec33b"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/templates/refactor-template.md": {
+    "mtime": 1778195942.400302,
+    "hash": "59d528c79229d44c5ae90bdb09702938"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-02-sanity-cms-setup.md": {
+    "mtime": 1778195942.3983324,
+    "hash": "a85404dd3cc389ef0484fc08f4ee9c28"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-07-smoke-tests-qa.md": {
+    "mtime": 1778195942.3992355,
+    "hash": "3e6740ab8285cdffdda525b3e6a5c93a"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-03-supabase-setup.md": {
+    "mtime": 1778195942.3985157,
+    "hash": "8872ac7b3bf10977bf5ac5069739e89f"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-06-vercel-cloudflare-infrastructure.md": {
+    "mtime": 1778195942.399058,
+    "hash": "6a6dc82ef473e56dee9a482794bf0058"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/plan.md": {
+    "mtime": 1778195942.399385,
+    "hash": "83bf960bfa292f991cb790cba08cc011"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-01-project-scaffold-tooling.md": {
+    "mtime": 1778195942.3981533,
+    "hash": "a5ad988c4b3e759706371c50bfea8070"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-04-portfolio-ui-pages.md": {
+    "mtime": 1778195942.3986924,
+    "hash": "efba1c1bdfb34e6c3e5554c9476b9ff7"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/260507-1641-personal-portfolio/phase-05-github-actions-ci-cd-pipeline.md": {
+    "mtime": 1778195942.398863,
+    "hash": "7e8b806bf67de0a86e3562c600cf19bc"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-portfolio-stack-research.md": {
+    "mtime": 1778195942.3996096,
+    "hash": "75b71a001666cde57f14b709bbf29437"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/plans/reports/researcher-260507-1643-supabase-vercel-cloudflare-cicd.md": {
+    "mtime": 1778195942.3998053,
+    "hash": "26ef99195d12d3d872ac4c60006e17da"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/docs/journals/260508-portfolio-scaffold.md": {
+    "mtime": 1778245169.2553136,
+    "hash": "f25a1fd6546bef06a035aba043198679"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/public/file.svg": {
+    "mtime": 1778195942.400923,
+    "hash": "d09f95206c3fa0bb9bd9fefabfd0ea71"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/public/vercel.svg": {
+    "mtime": 1778195942.4013255,
+    "hash": "c0af2f507b369b085b35ef4bbe3bcf1e"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/public/next.svg": {
+    "mtime": 1778195942.4011984,
+    "hash": "8e061864f388b47f33a1c3780831193e"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/public/globe.svg": {
+    "mtime": 1778195942.4010603,
+    "hash": "2aaafa6a49b6563925fe440891e32717"
+  },
+  "/Users/esteban/Documents/code_ai/emudev_ws/emudev_ws/public/window.svg": {
+    "mtime": 1778195942.401454,
+    "hash": "a2760511c65806022ad20adf74370ff3"
+  }
+}

@@ -9,7 +9,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "sanity:dev": "sanity dev",
-    "sanity:types": "sanity schema extract && sanity typegen generate",
+    "sanity:types": "sanity schema extract && sanity typegen generate && mv -f sanity.types.ts types/sanity.types.ts",
     "supabase:types": "supabase gen types typescript --linked > types/supabase.types.ts",
     "supabase:push": "supabase db push",
     "test:smoke": "playwright test tests/smoke/",

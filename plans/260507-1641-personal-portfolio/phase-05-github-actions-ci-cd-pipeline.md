@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: "GitHub Actions CI/CD Pipeline"
-status: pending
+status: in-progress
 priority: P1
 effort: "4h"
 dependencies: [1]
@@ -402,14 +402,16 @@ Secrets Matrix:
 
 ## Todo List
 
-- [ ] Create `.github/workflows/ci.yml`
-- [ ] Create `.github/workflows/deploy.yml` (dev + staging + prod jobs)
-- [ ] Create `.github/workflows/hotfix.yml`
-- [ ] Configure 3 GitHub Environments with protection rules (UI or API)
-- [ ] Set all repo-level secrets (VERCEL_TOKEN, CF_API_TOKEN, CF_ZONE_ID, VERCEL_ORG_ID)
-- [ ] Set all environment-level secrets (dev / staging / prod)
-- [ ] Apply branch protection on `main` and `staging` via `gh` CLI
-- [ ] Install `@playwright/test` and add `tests/smoke/` directory (Phase 7 fills this)
+- [x] Create `.github/workflows/ci.yml`
+- [x] Create `.github/workflows/deploy.yml` (dev + staging + prod jobs)
+- [x] Create `.github/workflows/hotfix.yml`
+- [x] Fix `VERCEL_PROJECT_ID` missing from build steps in deploy.yml
+- [x] Create GitHub Environments: `development`, `staging` (production already existed)
+- [ ] Set all repo-level secrets (VERCEL_TOKEN, CF_API_TOKEN, CF_ZONE_ID, VERCEL_ORG_ID) — **user action required**
+- [ ] Set all environment-level secrets (dev / staging / prod) — **user action required**
+- [ ] Apply branch protection on `main` and `staging` — **requires GitHub Pro for private repos**
+- [ ] Add required reviewers to staging/production environments — **requires GitHub Pro for private repos**
+- [x] Playwright config and `tests/smoke/` directory ready
 - [ ] Test develop → deploy-dev job runs without approval
 - [ ] Test staging PR → approval prompt appears before deploy-staging runs
 - [ ] Test prod PR → approval prompt appears before deploy-prod runs

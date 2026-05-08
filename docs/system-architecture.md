@@ -58,13 +58,17 @@
 | Route | Generation | Cache | Purpose |
 |-------|-----------|-------|---------|
 | `/` | SSG | 1 hour | Homepage with hero + featured projects |
-| `/projects` | ISR | 1 hour | Projects list (gallery) |
-| `/projects/[slug]` | SSG (per-route) | 1 hour | Project detail page |
+| `/projects` | ISR | 1 hour | Projects list (gallery with tag filter) |
+| `/projects/[slug]` | SSG (per-route) | 1 hour | Project detail page with OG image |
 | `/blog` | ISR | 1 hour | Blog post list |
-| `/blog/[slug]` | SSG (per-route) | 1 hour | Blog post detail |
+| `/blog/[slug]` | SSG (per-route) | 1 hour | Blog post detail with OG image |
 | `/about` | SSR | None | Static about page |
 | `/contact` | SSR | None | Contact form (no cache) |
 | `/studio` | SSR | None | Embedded Sanity Studio |
+| `/api/draft-mode/enable` | Route | None | Enable Sanity draft mode |
+| `/api/draft-mode/disable` | Route | None | Disable draft mode |
+| `/robots.txt` | Generated | Static | Robots.txt (allow all except /studio, /api, /admin) |
+| `/sitemap.xml` | Generated | Static | XML sitemap with dynamic routes + priorities |
 
 #### Dynamic Params (SSG)
 ```typescript
@@ -121,6 +125,11 @@ SiteSettings (document)
 └── socialLinks (array: {platform, url})
 ```
 
+#### TypeScript Types
+- **Real types generated:** `types/sanity.types.ts` (334 LOC) covers all documents
+- **Draft mode:** API routes `/api/draft-mode/enable` and `/api/draft-mode/disable` for Sanity Presentation tool
+- **OG images:** Dynamic image generation for social sharing (1200×630, dark gradient)
+
 #### Query Execution Flow
 ```
 Page component (SSG/ISR)
@@ -175,6 +184,10 @@ CREATE TABLE contact_submissions (
 -- Sessions (managed by Supabase Auth)
 -- auth.sessions (user_id, refresh_token, etc.)
 ```
+
+#### TypeScript Types
+- **Real types generated:** `types/supabase.types.ts` (188 LOC) covers all tables + auth tables
+- **RLS policies fixed:** Admin policies now correctly reference `app.admin_email` setting
 
 #### RLS Policies
 ```sql
@@ -280,6 +293,18 @@ User submits form (submitContact action)
 
 ## Deployment Pipeline (GitHub Actions)
 
+### Workflow Decision Matrix
+
+| Workflow | Trigger | Node | Env | Steps | Gate |
+|----------|---------|------|-----|-------|------|
+| **ci.yml** | PR to any branch | 20 | Placeholder | Lint, typecheck, build | PR required |
+| **deploy.yml (develop)** | Push to develop | 20 | dev | Migrations, build, vercel deploy, smoke tests | None |
+| **deploy.yml (staging)** | Push to staging | 20 | staging | Migrations, build, vercel deploy, smoke tests, CF purge | Manual (UI) |
+| **deploy.yml (main)** | Push to main | 20 | production | Migrations, build, vercel deploy, smoke tests, CF purge, git tag | Manual (UI) |
+| **hotfix.yml** | PR hotfix/* → main | 20 | production | Lint, typecheck, build (fast), auto-deploy on merge, backport | Production env |
+
+---
+
 ### CI Workflow (`ci.yml`)
 
 Runs on: PR to any branch, push to develop/staging/main/feature/*
@@ -288,7 +313,7 @@ Runs on: PR to any branch, push to develop/staging/main/feature/*
 Steps:
   1. Checkout code
   2. Setup Node 20
-  3. npm ci (clean install from lock file)
+  3. npm ci --legacy-peer-deps (clean install from lock file)
   4. npm run lint
   5. npm run typecheck
   6. npm run build
@@ -312,13 +337,14 @@ Environment: development
 
 Steps:
   1. Checkout code
-  2. npm ci
+  2. npm ci --legacy-peer-deps
   3. supabase db push (apply migrations)
      └─ Uses SUPABASE_DB_URL + SUPABASE_PAT
   4. npm run build
      └─ Env: real NEXT_PUBLIC_SANITY_PROJECT_ID, etc.
   5. vercel deploy --prebuilt --prod
      └─ Deploys to dev.emudev.cc
+  6. npm run test:smoke (optional)
 ```
 
 No approval gate; auto-deploys on push.
@@ -327,7 +353,7 @@ No approval gate; auto-deploys on push.
 
 ```yaml
 Trigger: push to staging
-Environment: staging (requires manual approval)
+Environment: staging (requires manual approval in UI)
 
 Steps:
   1-5. Same as develop
@@ -337,13 +363,13 @@ Steps:
   8. Purge Cloudflare cache (entire zone)
 ```
 
-**Gate:** Manual approval via GitHub Environments UI.
+**Gate:** Manual approval via GitHub Environments UI (no required reviewers on Free plan).
 
 #### Main Branch → Production Environment
 
 ```yaml
 Trigger: push to main
-Environment: production (requires manual approval)
+Environment: production (requires manual approval in UI)
 
 Steps:
   1-5. Same as develop
@@ -354,7 +380,7 @@ Steps:
      └─ Pushed to origin (release reference)
 ```
 
-**Gate:** Manual approval via GitHub Environments UI.
+**Gate:** Manual approval via GitHub Environments UI (no required reviewers on Free plan).
 
 ---
 
@@ -363,14 +389,17 @@ Steps:
 Runs on: PR hotfix/* → main
 
 ```yaml
-Trigger: PR from hotfix/* to main
+Trigger: PR created from hotfix/* to main
 Steps:
-  1. CI (lint, typecheck, build)
-  2. On merge: auto-deploy to production
-     └─ No manual approval gate
+  1. Minimal CI (lint, typecheck, build only — no smoke tests)
+  2. On merge: Use production environment for auto-deploy
+  3. Deploy to production (no approval gate)
+  4. Run smoke tests against production
+  5. Backport merged commits to develop branch
 ```
 
-Used for emergency fixes that bypass staging.
+**Purpose:** Emergency fixes that bypass staging and normal approval gates.  
+**Note:** Does NOT skip the production environment or its configuration — uses production environment directly.
 
 ---
 

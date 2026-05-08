@@ -5,24 +5,36 @@
 ```
 emudev_ws/
 ├── app/                          # Next.js App Router pages & actions
-│   ├── api/revalidate-tag/       # Sanity webhook endpoint
+│   ├── api/
+│   │   ├── revalidate-tag/route.ts    # Sanity webhook endpoint
+│   │   └── draft-mode/
+│   │       ├── enable/route.ts        # Enable Next.js draft mode
+│   │       └── disable/route.ts       # Disable draft mode
 │   ├── actions/                  # Server actions (contact, auth)
 │   ├── layout.tsx                # Root layout + metadata
 │   ├── page.tsx                  # Homepage (hero + featured projects)
 │   ├── about/page.tsx            # About page
 │   ├── projects/
 │   │   ├── page.tsx              # Projects list (ISR)
-│   │   └── [slug]/page.tsx       # Project detail (SSG per-route)
+│   │   └── [slug]/
+│   │       ├── page.tsx          # Project detail (SSG per-route)
+│   │       └── opengraph-image.tsx # Dynamic OG image (1200×630)
 │   ├── blog/
 │   │   ├── page.tsx              # Blog list (ISR)
-│   │   └── [slug]/page.tsx       # Blog post (SSG per-route)
+│   │   └── [slug]/
+│   │       ├── page.tsx          # Blog post (SSG per-route)
+│   │       └── opengraph-image.tsx # Dynamic OG image (1200×630)
 │   ├── contact/page.tsx          # Contact page with form
+│   ├── robots.ts                 # Robots.txt generator
+│   ├── sitemap.ts                # Dynamic XML sitemap
 │   └── studio/[[...tool]]/page.tsx # Sanity Studio (embedded)
 │
 ├── components/                   # React components
 │   ├── contact-form.tsx          # Contact form (useActionState)
 │   ├── portable-text-renderer.tsx # @portabletext/react for rich text
 │   ├── project-card.tsx          # Project card in grids
+│   ├── post-card.tsx             # Blog post preview card
+│   ├── tag-filter.tsx            # Client component for tag filtering
 │   ├── site-nav.tsx              # Navigation + auth state
 │   └── ui/hero-section.tsx       # Animated hero on homepage
 │
@@ -76,21 +88,20 @@ emudev_ws/
 
 | File | LOC | Purpose |
 |------|-----|---------|
+| `types/sanity.types.ts` | 334 | Generated Sanity document types (Project, Post, Author, Tag, SiteSettings) |
+| `types/supabase.types.ts` | 188 | Generated Supabase table types (contact_submissions, auth.users, etc.) |
 | `lib/sanity-queries.ts` | 133 | ISR-cached GROQ queries (getProjects, getPosts, getSiteSettings, getProjectBySlug, getPostBySlug) with 1-hour revalidate |
 | `components/contact-form.tsx` | 83 | React 19 useActionState form with validation feedback |
 | `app/projects/[slug]/page.tsx` | 82 | Dynamic project detail page (SSG per route) |
-| `types/sanity.types.ts` | 66 | Sanity document type definitions |
 | `components/project-card.tsx` | 56 | Reusable project card for grids |
 | `app/actions/contact.ts` | 54 | Server action: validate → Supabase insert → Resend email |
 | `app/blog/[slug]/page.tsx` | 52 | Dynamic blog post page (SSG per route) |
-| `types/supabase.types.ts` | 47 | Generated Supabase types from CLI |
 | `components/portable-text-renderer.tsx` | 46 | Rich text rendering for Sanity content |
 | `app/blog/page.tsx` | 43 | Blog list page (ISR) |
 | `app/api/revalidate-tag/route.ts` | 41 | Sanity webhook handler → revalidateTag |
 | `components/ui/hero-section.tsx` | 39 | Animated hero with name + bio |
 | `tests/smoke/pages.spec.ts` | 35 | Playwright smoke tests for all routes |
 | `sanity/schemas/project-type.ts` | 33 | Sanity project schema |
-| `app/sitemap.ts` | 31 | Dynamic sitemap (null-guarded for build) |
 | `components/site-nav.tsx` | 30 | Navigation + auth state display |
 | `app/page.tsx` | 30 | Homepage with hero + featured projects |
 | `app/layout.tsx` | 28 | Root layout with metadata |
@@ -98,6 +109,14 @@ emudev_ws/
 | `sanity/schemas/post-type.ts` | 27 | Sanity post schema |
 | `app/projects/page.tsx` | 27 | Projects list page (ISR) |
 | `app/actions/auth.ts` | 27 | sendMagicLink + signOut server actions |
+| `components/post-card.tsx` | ~25 | Blog post preview card (date, title, excerpt, author) |
+| `app/blog/[slug]/opengraph-image.tsx` | ~20 | Dynamic OG image for blog posts (1200×630, dark gradient) |
+| `app/projects/[slug]/opengraph-image.tsx` | ~20 | Dynamic OG image for projects (1200×630, title + description) |
+| `components/tag-filter.tsx` | ~18 | Client component for project filtering by tags |
+| `app/api/draft-mode/enable/route.ts` | ~15 | Enable Next.js draft mode with secret validation |
+| `app/api/draft-mode/disable/route.ts` | ~10 | Disable draft mode and redirect to home |
+| `app/robots.ts` | ~8 | Robots.txt generator (allow all except /studio, /api, /admin) |
+| `app/sitemap.ts` | ~30 | Dynamic XML sitemap with ISR entries + priorities |
 | `lib/supabase-server.ts` | 21 | createSupabaseServerClient (cookie-based) |
 | `lib/supabase-browser.ts` | 7 | createSupabaseBrowserClient (browser context) |
 

@@ -1,5 +1,24 @@
 # Deployment Guide
 
+## Workflow Decision Matrix
+
+Choose which workflow triggers based on your branch and intent:
+
+| Branch | Workflow | Env | Deploy Gate | Smoke Tests | Use For |
+|--------|----------|-----|-------------|-------------|---------|
+| `develop` | deploy.yml | dev | None (auto) | Optional | Dev testing |
+| `staging` | deploy.yml | staging | Manual (UI) | Yes | QA testing |
+| `main` | deploy.yml | prod | Manual (UI) | Yes | Production release |
+| `hotfix/*` → `main` | hotfix.yml | prod | None (auto) | Yes | Emergency fixes |
+| Any PR | ci.yml | — | Required to pass | No | Pre-merge checks |
+
+**GitHub Pro Limitation (Free Plan):**
+- Branch protection with **required reviewers** not available on private repos
+- **Environment approval gates** available, but without required reviewer enforcement
+- Manual approval via GitHub Actions UI recommended as workaround
+
+---
+
 ## Pre-Deployment Checklist
 
 Before any environment (dev/staging/prod), ensure:
@@ -387,7 +406,7 @@ nslookup emudev.cc
 For emergency fixes to production:
 
 ```bash
-# Create hotfix branch
+# Create hotfix branch from main
 git checkout -b hotfix/fix-name main
 
 # Make changes
@@ -402,7 +421,13 @@ gh pr create --base main --title "Hotfix: description"
 gh pr merge --auto --squash
 ```
 
-No manual approval gate — hotfix deploys immediately.
+**Hotfix Behavior:**
+1. PR triggered minimal CI (lint, typecheck, build only — no smoke tests initially)
+2. On merge: hotfix.yml automatically runs with production environment
+3. Deploys to production without approval gate (uses production environment for deploy)
+4. Smoke tests run against production post-deploy
+5. Backports merged commits to develop branch automatically
+6. **Note:** This does NOT skip the production environment configuration — it still uses all production secrets and settings
 
 ---
 

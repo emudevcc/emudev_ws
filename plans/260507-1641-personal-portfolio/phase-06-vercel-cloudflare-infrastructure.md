@@ -11,80 +11,88 @@ dependencies: [5]
 
 ## Overview
 
-Configure the single Vercel project (`emudev-ws`) to serve 3 stable environments using `vercel alias`, set up Cloudflare as CDN + WAF for production only, and configure DNS so each branch maps to its own subdomain. No new Vercel projects needed.
+Configure Vercel git integration to auto-deploy `main` → production and all other branches → preview URLs. Set up Cloudflare as CDN + WAF for `emudev.cc` (production only). GitHub Actions handles post-deploy tasks on `main` only: Supabase migrations, Cloudflare cache purge, release tag.
 
-## Vercel Environment Model (Key Constraint)
+## Branch Model
 
-Each Vercel project has exactly **2 deployment environment types**:
-- **Production** — stable URL, custom domain, triggered by `vercel deploy --prod`
-- **Preview** — unique URL per deployment (e.g. `emudev-ws-abc123.vercel.app`), no stable custom domain by default
+| Git Branch | Vercel Deploy Type | URL | Cloudflare |
+|---|---|---|---|
+| `main` | Production | `emudev.cc` | ☁️ Orange (WAF + CDN) |
+| `development` | Preview (auto) | `emudev-ws-*.vercel.app` | None |
+| `feature/**`, `hotfix/**` | Preview (auto) | `emudev-ws-*.vercel.app` | None |
 
-To get 3 stable URLs from 1 project without creating multiple projects, we use `vercel alias` — it points a custom domain to any specific preview deployment URL. This alias is updated on every CI deploy.
-
-## Branch → Environment → Domain Mapping
-
-| Git Branch | GitHub Environment | Vercel Deploy Type | Domain | Cloudflare |
-|---|---|---|---|---|
-| `develop` | `development` | Preview + alias | `dev.emudev.cc` | Grey cloud ⬜ (DNS only) |
-| `staging` | `staging` | Preview + alias | `qa.emudev.cc` | Grey cloud ⬜ (DNS only) |
-| `main` | `production` | Production (`--prod`) | `emudev.cc` | Orange cloud ☁️ (WAF + CDN) |
-
-**Why grey cloud for dev/staging?** Cloudflare proxy intercepts domain ownership verification. Dev/staging don't need WAF — Vercel's SSL handles HTTPS directly. Only production traffic deserves CDN + WAF overhead.
+**Why Vercel git integration instead of GitHub Actions deploys?**
+Vercel's native integration is simpler, faster, and handles preview URLs automatically with no CLI tokens or `vercel deploy` commands in CI. GitHub Actions only runs post-deploy tasks that Vercel can't do (DB migrations, CF purge, git tagging).
 
 ## Architecture
 
 ```
 Internet
-  ├── emudev.cc  ──→  Cloudflare (WAF + CDN + SSL) ──→  Vercel emudev-ws [Production deploy]
-  ├── qa.emudev.cc ─→  Cloudflare (DNS only) ──────────→  Vercel emudev-ws [Preview alias, updated per push]
-  └── dev.emudev.cc ─→  Cloudflare (DNS only) ──────────→  Vercel emudev-ws [Preview alias, updated per push]
+  └── emudev.cc  ──→  Cloudflare (WAF + CDN + SSL) ──→  Vercel [Production]
 
-GitHub Actions (develop) → vercel deploy --prebuilt → preview URL → vercel alias dev.emudev.cc
-GitHub Actions (staging) → vercel deploy --prebuilt → preview URL → vercel alias qa.emudev.cc
-GitHub Actions (main)    → vercel deploy --prebuilt --prod      → emudev.cc (production)
-                         → CF purge_everything
+push to main:
+  1. Vercel git integration auto-builds + deploys to emudev.cc
+  2. GitHub Actions post-deploy job runs:
+     - supabase db push (migrations)
+     - CF purge_everything
+     - git tag prod-YYYYMMDD-HHMMSS
+
+push to development/feature/*:
+  - Vercel git integration auto-builds → preview URL (*.vercel.app)
+  - No GitHub Actions triggered
 ```
+
+## GitHub Actions — deploy.yml
+
+Triggered only on push to `main`. Uses `production` GitHub Environment for secret scoping.
+
+```yaml
+on:
+  push:
+    branches: [main]
+
+jobs:
+  post-deploy:
+    environment: production
+    steps:
+      - npm ci
+      - supabase db push --db-url $SUPABASE_DB_URL
+      - curl CF purge_everything
+      - git tag prod-<timestamp>
+```
+
+**No Vercel CLI in GitHub Actions** — Vercel git integration handles builds and deploys.
 
 ## GitHub Secrets — Final Matrix
 
 ### Repo-level secrets
 
-| Secret | Value | Status |
-|--------|-------|--------|
-| `VERCEL_ORG_ID` | Vercel team ID | ✅ Set |
-| `VERCEL_TOKEN` | Vercel API token | ✅ Set |
-| `VERCEL_PROJECT_ID` | `prj_Fef2SHgb8jU3lN5V71b59AhmSiIG` (`emudev-ws`) | ✅ Set |
-| `CF_ZONE_ID` | Cloudflare Zone ID for `emudev.cc` | ✅ Set |
-| `CF_API_TOKEN` | CF token with Cache Purge permission | ✅ Set |
+| Secret | Status |
+|--------|--------|
+| `CF_ZONE_ID` | ✅ Set |
+| `CF_API_TOKEN` | ✅ Set |
 
-### Per-environment secrets (same values across all 3 — one Supabase + one Sanity project)
+### Production environment secrets
 
-| Secret | `development` | `staging` | `production` |
-|--------|--------------|-----------|--------------|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | ✅ Set | ✅ Set | ✅ Set |
-| `NEXT_PUBLIC_SANITY_DATASET` | ✅ Set | ✅ Set | ✅ Set |
-| `NEXT_PUBLIC_SUPABASE_URL` | ✅ Set | ✅ Set | ✅ Set |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ Set | ✅ Set | ✅ Set |
-| `SUPABASE_DB_URL` | ✅ Set | ✅ Set | ✅ Set |
-| `SUPABASE_PAT` | ✅ Set | ✅ Set | ✅ Set |
-| `SANITY_REVALIDATE_SECRET` | ✅ Set | ✅ Set | ✅ Set |
+| Secret | Status |
+|--------|--------|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | ✅ Set |
+| `NEXT_PUBLIC_SANITY_DATASET` | ✅ Set |
+| `NEXT_PUBLIC_SUPABASE_URL` | ✅ Set |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ Set |
+| `SUPABASE_DB_URL` | ✅ Set |
+| `SUPABASE_PAT` | ✅ Set |
+| `SANITY_REVALIDATE_SECRET` | ✅ Set |
 
-> `NEXT_PUBLIC_SITE_URL` is NOT a secret — hardcoded per job in `deploy.yml`.
-> `VERCEL_PROJECT_ID` is repo-level (single project shared across all environments).
-
-## deploy.yml — What Changed
-
-| Concern | Old | New |
-|---------|-----|-----|
-| dev/staging deploy | `vercel deploy --prod` | `vercel deploy` (preview) + `vercel alias` |
-| CF purge | All 3 environments | Production only (grey-cloud envs don't go through CF) |
-| Supabase migrations | All 3 environments | Staging + production only (dev shares same DB, reduce risk) |
-| `VERCEL_PROJECT_ID` | Per-environment secret | Workflow-level env var (repo-level secret) |
+> `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` are NOT needed — Vercel git integration handles deploys.
+> `NEXT_PUBLIC_SITE_URL` is hardcoded in build env, not a secret.
 
 ## Related Code Files
 
 **Updated:**
-- `.github/workflows/deploy.yml` — revised deploy strategy (alias-based for dev/staging)
+- `.github/workflows/deploy.yml` — post-deploy tasks only (migrations, CF purge, tag)
+- `.github/workflows/ci.yml` — branch list: `[development, main, 'feature/**', 'hotfix/**']`
+- `.github/workflows/hotfix.yml` — removed deploy job; backport targets `development`
 
 **No application code changes needed.**
 
@@ -92,34 +100,32 @@ GitHub Actions (main)    → vercel deploy --prebuilt --prod      → emudev.cc 
 
 ### Already Done ✅
 - `vercel.json` committed
-- GitHub Environments created (`development`, `staging`, `production`)
-- All environment secrets set
-- Repo-level secrets set (`VERCEL_ORG_ID`, `VERCEL_TOKEN`, `CF_ZONE_ID`, `CF_API_TOKEN`)
-- `deploy.yml` updated with alias-based strategy
+- `deploy.yml` simplified to post-deploy tasks only
+- `ci.yml` updated to correct branch list
+- `hotfix.yml` simplified (deploy job removed, backport → `development`)
+- GitHub Environment `production` created with all secrets set
+- Repo-level CF secrets set
 
 ### Still Required
 
-1. **Add repo-level `VERCEL_PROJECT_ID` secret** (currently only set per-environment):
-   ```bash
-   printf '%s' 'prj_Fef2SHgb8jU3lN5V71b59AhmSiIG' | gh secret set VERCEL_PROJECT_ID
-   ```
+1. **Enable Vercel git integration** (Vercel dashboard → `emudev-ws` → Settings → Git):
+   - Connect to GitHub repo `emudev-ws`
+   - Production branch: `main`
+   - Preview deployments: all other branches
 
-2. **Add custom domains to Vercel project** (Settings → Domains in `emudev-ws`):
-   - `emudev.cc` — mark as Production domain
-   - `dev.emudev.cc` — add as custom domain (alias target)
-   - `qa.emudev.cc` — add as custom domain (alias target)
+2. **Add `emudev.cc` as production domain** (Vercel dashboard → `emudev-ws` → Settings → Domains):
+   - Add `emudev.cc` → mark as Production domain
+   - Vercel shows DNS instructions → use CNAME pointing to `cname.vercel-dns.com`
 
-3. **Configure Cloudflare DNS** (CF dashboard → DNS → `emudev.cc` zone):
+3. **Configure Cloudflare DNS** (CF dashboard → `emudev.cc` zone):
 
    | Type | Name | Target | Proxy |
    |------|------|--------|-------|
    | CNAME | `@` (root) | `cname.vercel-dns.com` | ☁️ Orange (proxied) |
-   | CNAME | `dev` | `cname.vercel-dns.com` | ⬜ Grey (DNS only) |
-   | CNAME | `qa` | `cname.vercel-dns.com` | ⬜ Grey (DNS only) |
 
-   **Domain nameservers:** Transfer `emudev.cc` to Cloudflare at registrar first if not done.
+   **Transfer `emudev.cc` to Cloudflare nameservers at registrar first** if not done.
 
-4. **Configure Cloudflare cache rules** (production only — `emudev.cc`):
+4. **Configure Cloudflare cache rules** (`emudev.cc` only):
 
    **Rule 1 — Static assets:**
    ```
@@ -143,7 +149,7 @@ GitHub Actions (main)    → vercel deploy --prebuilt --prod      → emudev.cc 
    URI path starts with /studio OR /admin → Bypass
    ```
 
-5. **Configure Cloudflare WAF rules** (production only):
+5. **Configure Cloudflare WAF rules** (Challenge mode first, escalate after 48h):
 
    **Rule 1 — Allow verified crawlers (priority 1):**
    ```
@@ -165,65 +171,60 @@ GitHub Actions (main)    → vercel deploy --prebuilt --prod      → emudev.cc 
    cf.waf.score.sqli > 40 → Block
    ```
 
-   Start Rules 2–4 in Challenge mode; escalate to Block after 48h.
-
-6. **Configure Cloudflare SSL/TLS** (production only):
+6. **Configure Cloudflare SSL/TLS**:
    - Mode: **Full (strict)**
    - Always Use HTTPS: on
-   - HSTS (1 year, include subdomains): on — only after all 3 domains resolve
+   - HSTS (1 year): on — only after `emudev.cc` resolves correctly
 
 7. **Trigger test deploys:**
-   - Push to `develop` → verify `https://dev.emudev.cc` resolves (Vercel SSL)
-   - Push to `staging` → verify `https://qa.emudev.cc` resolves (Vercel SSL)
-   - Push to `main` → verify `https://emudev.cc` resolves (Cloudflare SSL)
+   - Push to `main` → verify `https://emudev.cc` resolves with `cf-cache-status` header
+   - Push to `development` → verify preview URL appears in Vercel dashboard
+   - Verify CF cache purge returns `{"success":true}` in GitHub Actions logs
 
 ## Todo List
 
 - [x] `vercel.json` committed
-- [x] GitHub Environments created
-- [x] All environment secrets set
-- [x] Repo-level CF + Vercel secrets set
-- [x] `deploy.yml` updated with alias-based strategy
-- [ ] Add `VERCEL_PROJECT_ID` as repo-level secret (currently only per-environment)
-- [ ] Add 3 custom domains to `emudev-ws` Vercel project (`emudev.cc`, `dev.emudev.cc`, `qa.emudev.cc`)
+- [x] `deploy.yml` simplified (post-deploy tasks only)
+- [x] `ci.yml` updated (branch list, SITE_URL)
+- [x] `hotfix.yml` simplified (deploy job removed, backport → `development`)
+- [x] GitHub Environment `production` created with all secrets
+- [x] Repo-level CF secrets set (`CF_ZONE_ID`, `CF_API_TOKEN`)
+- [ ] Enable Vercel git integration for `emudev-ws` (production branch = `main`)
+- [ ] Add `emudev.cc` as production domain in Vercel project
 - [ ] Transfer `emudev.cc` to Cloudflare nameservers (if not already done)
-- [ ] Add 3 CNAME records in Cloudflare (root=orange, dev=grey, qa=grey)
+- [ ] Add CNAME record in Cloudflare (`@` → `cname.vercel-dns.com`, orange-cloud)
 - [ ] Configure 4 Cloudflare cache rules
 - [ ] Configure 4 WAF rules (Challenge mode first)
 - [ ] Set SSL Full (strict) + Always HTTPS + HSTS
-- [ ] Test deploy on `develop` → `dev.emudev.cc` resolves
-- [ ] Test deploy on `staging` → `qa.emudev.cc` resolves
 - [ ] Test deploy on `main` → `emudev.cc` resolves + CF headers present
+- [ ] Test deploy on `development` → preview URL in Vercel dashboard
 - [ ] Validate CF cache purge returns `{"success":true}`
 
 ## Success Criteria
 
-- [ ] `https://dev.emudev.cc` → HTTP 200, built from `develop`, Vercel SSL
-- [ ] `https://qa.emudev.cc` → HTTP 200, built from `staging`, Vercel SSL
 - [ ] `https://emudev.cc` → HTTP 200, built from `main`, `cf-cache-status` header present
-- [ ] `vercel alias` step succeeds in CI without manual intervention
+- [ ] `development` push → preview URL visible in Vercel dashboard (no CI job required)
 - [ ] CF cache purge returns `{"success":true}` after production deploy
-- [ ] No mixed-content warnings on any subdomain
+- [ ] GitHub Actions `post-deploy` job succeeds on `main` push
+- [ ] No mixed-content warnings on `emudev.cc`
 
 ## Risk Assessment
 
 | Risk | Severity | Mitigation |
 |------|----------|-----------|
-| `vercel alias` stale if deploy fails mid-run | Medium | Alias runs after deploy step; if deploy fails, alias is skipped → old alias stays |
-| Orange cloud breaks Vercel domain verification | High | Use grey cloud for dev/qa; verify emudev.cc with grey cloud first, then switch to orange |
-| Supabase migration on staging breaks shared DB | Medium | Migrations are idempotent; review each migration carefully before merging to staging |
+| Orange cloud breaks Vercel domain verification | High | Verify with grey cloud first, then switch to orange |
+| Supabase migration on main breaks production DB | High | Migrations must be idempotent; test on preview first |
 | DNS propagation delay after NS change | Medium | Allow 24–48h; check with `dig +short NS emudev.cc` |
-| CF cache serves stale ISR after prod deploy | Medium | `purge_everything` in prod job after each deploy |
-| WAF false positives | Medium | Start in Challenge, monitor CF Firewall Events 48h before escalating to Block |
+| CF cache serves stale ISR after prod deploy | Medium | `purge_everything` in post-deploy job |
+| WAF false positives block legit traffic | Medium | Start in Challenge, monitor 48h before escalating to Block |
 
 ## Security Considerations
 
-- Dev/staging skip Cloudflare WAF by design — they're not public-facing environments
-- Only production traffic goes through WAF + CDN; reduces false positive risk on dev/staging
-- CF API token scoped to Cache Purge on `emudev.cc` zone only — minimal privilege
-- `VERCEL_TOKEN` rotated at Vercel dashboard → Profile → Tokens
-- Supabase migrations run on staging (gating check) then production — never on raw develop push
+- Only production traffic goes through Cloudflare WAF — preview URLs bypass CF by design
+- CF API token scoped to Cache Purge on `emudev.cc` zone only (minimal privilege)
+- No Vercel tokens stored in GitHub — git integration uses OAuth, not CLI tokens
+- Supabase migrations gated to `production` GitHub Environment (requires environment approval if configured)
 
 ## Next Steps
 
-- Phase 7: Smoke tests validate all 3 environment URLs
+- Phase 7: Smoke tests validate `emudev.cc` and a preview URL

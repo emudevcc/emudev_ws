@@ -19,61 +19,23 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
 
-  deploy-hotfix:
+  backport-to-development:
     if: |
       startsWith(github.head_ref, 'hotfix/') &&
       github.event.action == 'closed' &&
       github.event.pull_request.merged == true
-    name: Deploy hotfix → Production
-    needs: ci-hotfix
+    name: Backport hotfix → development
     runs-on: ubuntu-latest
-    environment: production
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - run: npm ci --legacy-peer-deps
-
-      - name: Apply Supabase migrations
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_PAT }}
-        run: npx supabase db push --db-url "${{ secrets.SUPABASE_DB_URL }}"
-
-      - name: Build & Deploy (hotfix)
-        env:
-          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
-          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          NEXT_PUBLIC_SITE_URL: https://emudev.cc
-          NEXT_PUBLIC_SITE_DOMAIN: emudev.cc
-          SANITY_REVALIDATE_SECRET: ${{ secrets.SANITY_REVALIDATE_SECRET }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          npx vercel build --token "${{ secrets.VERCEL_TOKEN }}"
-          npx vercel deploy --prebuilt --prod --token "${{ secrets.VERCEL_TOKEN }}"
-
-      - name: Purge Cloudflare cache
-        run: |
-          curl -sf -X POST \
-            "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{"purge_everything":true}'
-
-      - name: Backport to develop
+      - name: Backport to development
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
-          git fetch origin develop
-          git checkout develop
-          git merge origin/main --no-ff -m "chore: backport hotfix to develop"
-          git push origin develop
+          git fetch origin development
+          git checkout development
+          git merge origin/main --no-ff -m "chore: backport hotfix to development"
+          git push origin development

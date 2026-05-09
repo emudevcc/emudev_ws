@@ -14,7 +14,10 @@ export default defineConfig({
     visionTool(),
     presentationTool({
       previewUrl: {
-        previewMode: { enable: '/api/draft-mode/enable' },
+        origin: process.env.SANITY_STUDIO_PREVIEW_URL ?? 'http://localhost:3000',
+        previewMode: {
+          enable: `/api/draft-mode/enable?secret=${process.env.SANITY_STUDIO_REVALIDATE_SECRET ?? ''}`,
+        },
       },
     }),
   ],

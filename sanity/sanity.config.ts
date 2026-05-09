@@ -7,8 +7,8 @@ import { schema } from './schema'
 export default defineConfig({
   name: 'emudev-portfolio',
   title: 'Portfolio CMS',
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  projectId: 'zziqxayh',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production',
   plugins: [
     structureTool(),
     visionTool(),

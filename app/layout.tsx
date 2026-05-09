@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { draftMode } from 'next/headers'
-import { VisualEditing } from '@sanity/visual-editing/react'
+import { SanityVisualEditing } from '@/components/sanity-visual-editing'
 import './globals.css'
 import { SiteNav } from '@/components/site-nav'
 
@@ -25,7 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={`${inter.className} antialiased bg-background text-foreground`}>
         <SiteNav />
         <main>{children}</main>
-        {isDraft && <VisualEditing portal={false} />}
+        {isDraft && <SanityVisualEditing />}
       </body>
     </html>
   )

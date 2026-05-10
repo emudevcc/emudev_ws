@@ -1,7 +1,13 @@
 import type { NextConfig } from 'next'
 
+const isDev = process.env.NODE_ENV === 'development'
+
 const securityHeaders = [
-  { key: 'X-Frame-Options', value: 'DENY' },
+  // Dev: allow Sanity Studio (localhost:3333) to iframe the frontend for Presentation mode
+  // Prod: deny all framing
+  isDev
+    ? { key: 'Content-Security-Policy', value: "frame-ancestors 'self' http://localhost:3333" }
+    : { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },

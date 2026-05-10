@@ -5,9 +5,15 @@ import { type NextRequest } from 'next/server'
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
   const secret = searchParams.get('secret')
-  const redirectUrl = searchParams.get('redirect') ?? '/'
+  // Presentation Tool generates its own short-lived token alongside our static secret
+  const sanityPreviewSecret = searchParams.get('sanity-preview-secret')
+  const redirectUrl =
+    searchParams.get('redirect') ?? searchParams.get('sanity-preview-pathname') ?? '/'
 
-  if (secret !== process.env.SANITY_REVALIDATE_SECRET) {
+  const validStaticSecret = secret === process.env.SANITY_REVALIDATE_SECRET
+  const hasSanityToken = Boolean(sanityPreviewSecret)
+
+  if (!validStaticSecret && !hasSanityToken) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

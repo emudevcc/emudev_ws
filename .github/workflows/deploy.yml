@@ -10,6 +10,8 @@ jobs:
   post-deploy:
     name: Post-Deploy (migrations + CF purge + tag)
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     environment:
       name: production
       url: https://emudev.cc

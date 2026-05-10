@@ -19,8 +19,8 @@ export async function sanityFetch<T>({
   params?: Record<string, unknown>
   isDraft?: boolean
 }): Promise<T> {
-  // During build without env vars, return empty data rather than throwing
-  if (!projectId) return null as T
+  // During build without real env vars (e.g. CI uses 'placeholder'), skip fetch
+  if (!projectId || projectId === 'placeholder') return null as T
 
   return sanityClient.fetch<T>(query, params, {
     token: isDraft ? process.env.SANITY_API_READ_TOKEN : undefined,

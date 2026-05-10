@@ -274,12 +274,20 @@ User submits form (submitContact action)
     │
     ├─ Supabase INSERT contact_submissions (authoritative)
     │
-    └─ try { await resend.emails.send(...) } catch
-        │
-        └─ Log error, continue (best-effort)
+    └─ try { 
+         const resend = new Resend(process.env.RESEND_API_KEY)
+         await resend.emails.send(...)
+       } catch (err) {
+         log error, continue (best-effort)
+       }
 ```
 
-**Key Detail:** Database insert is the contract; email is a bonus notification.
+**Key Details:**
+- Database insert is the contract; email is a bonus notification
+- `new Resend()` instantiated **inside try/catch** at runtime (not module level)
+  - Prevents 500 error if `RESEND_API_KEY` missing from env
+  - `RESEND_API_KEY` must be set in Vercel production env vars
+- If email send fails, submission succeeds (already in DB)
 
 #### Email Template
 ```html
@@ -398,20 +406,20 @@ CF_ZONE_ID            # emudev.cc zone ID
 Each of `development`, `staging`, `production` has its own copy:
 
 ```
-VERCEL_PROJECT_ID                # Project ID in that environment
-NEXT_PUBLIC_SANITY_PROJECT_ID    # Sanity project (may be same for all)
-NEXT_PUBLIC_SANITY_DATASET       # Sanity dataset (dev/staging/prod)
-NEXT_PUBLIC_SUPABASE_URL         # Supabase project URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY    # Anon key (safe to expose)
-SUPABASE_SERVICE_ROLE_KEY        # Private key (if admin client needed)
-SUPABASE_DB_URL                  # Postgres connection (migrations)
-SUPABASE_PAT                     # Personal access token (db push)
+VERCEL_PROJECT_ID                      # Project ID in that environment
+NEXT_PUBLIC_SANITY_PROJECT_ID          # Sanity project (may be same for all)
+NEXT_PUBLIC_SANITY_DATASET             # Sanity dataset (dev/staging/prod)
+NEXT_PUBLIC_SUPABASE_URL               # Supabase project URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY          # Anon key (safe to expose)
+SUPABASE_SERVICE_ROLE_KEY              # Private key (if admin client needed)
+SUPABASE_DB_URL                        # Postgres connection (migrations)
+SUPABASE_PAT                           # Personal access token (db push)
 NEXT_PUBLIC_SITE_DOMAIN                # emudev.cc
 SANITY_API_READ_TOKEN                  # Viewer token for draft content (optional)
 SANITY_REVALIDATE_SECRET               # Webhook secret (must match webhook in Sanity)
 SANITY_STUDIO_PREVIEW_URL              # https://emudev.cc (for Presentation Tool)
 SANITY_STUDIO_REVALIDATE_SECRET        # Must match SANITY_REVALIDATE_SECRET
-RESEND_API_KEY                         # Resend email API key
+RESEND_API_KEY                         # Resend email API key (CRITICAL for contact form emails; must be set at runtime)
 ADMIN_EMAIL                            # esteban.montero@gmail.com
 ```
 

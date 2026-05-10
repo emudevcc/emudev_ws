@@ -1,7 +1,7 @@
 ---
 phase: 6
 title: "Vercel + Cloudflare Infrastructure"
-status: in-progress
+status: completed
 priority: P1
 effort: "3h"
 dependencies: [5]
@@ -172,21 +172,21 @@ jobs:
 - [x] Root + www CNAMEs → orange-cloud (proxied) via API
 - [x] 4 cache rules deployed via API (static 1yr, API bypass, studio bypass, ISR 24h/1h)
 - [x] WAF — Managed Free Ruleset already active; custom rules skipped (require Pro plan)
-- [ ] Enable Vercel git integration for `emudev-ws` (production branch = `main`)
-- [ ] Add `emudev.cc` as production domain in Vercel project
-- [ ] Set SSL Full (strict) in CF dashboard (SSL/TLS → Overview)
-- [ ] Set Always HTTPS + HSTS in CF dashboard (SSL/TLS → Edge Certificates)
-- [ ] Test deploy on `main` → `emudev.cc` resolves + CF headers present
-- [ ] Test deploy on `development` → preview URL in Vercel dashboard
-- [ ] Validate CF cache purge returns `{"success":true}`
+- [x] Enable Vercel git integration for `emudev-ws` (production branch = `main`)
+- [x] Add `emudev.cc` as production domain in Vercel project
+- [x] Set SSL Full (strict) in CF dashboard (SSL/TLS → Overview)
+- [x] Set Always HTTPS + HSTS in CF dashboard (SSL/TLS → Edge Certificates)
+- [x] Test deploy on `main` → `emudev.cc` resolves + CF headers present
+- [x] Test deploy on `development` → preview URL in Vercel dashboard
+- [x] Validate CF cache purge returns `{"success":true}` (Deploy workflow ✅ on main)
 
 ## Success Criteria
 
-- [ ] `https://emudev.cc` → HTTP 200, built from `main`, `cf-cache-status` header present
-- [ ] `development` push → preview URL visible in Vercel dashboard (no CI job required)
-- [ ] CF cache purge returns `{"success":true}` after production deploy
-- [ ] GitHub Actions `post-deploy` job succeeds on `main` push
-- [ ] No mixed-content warnings on `emudev.cc`
+- [x] `https://emudev.cc` → HTTP 200, built from `main`, `cf-cache-status` header present
+- [x] `development` push → preview URL visible in Vercel dashboard (no CI job required)
+- [x] CF cache purge returns `{"success":true}` after production deploy
+- [x] GitHub Actions `post-deploy` job succeeds on `main` push
+- [x] No mixed-content warnings on `emudev.cc`
 
 ## Risk Assessment
 

@@ -16,4 +16,5 @@ test('nav links resolve without 404', async ({ page }) => {
 test('home page renders', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('h1').first()).toBeVisible()
+  await expect(page.locator('h1').first()).not.toBeEmpty()
 })

@@ -340,11 +340,19 @@ GitHub Actions `deploy.yml` runs automatically on `main` push:
 1. **CI stage:** Lint, typecheck, build
 2. **Deploy stage:** Push to Vercel (git integration triggers deploy)
 3. **Post-deploy tasks (production only):**
+   - Wait 15s for Cloudflare propagation
+   - Playwright smoke tests: `npm run test:smoke` against `https://emudev.cc` (11 tests, ~7s)
    - Supabase migrations: `npx supabase db push --db-url`
    - Cloudflare cache purge: `{"purge_everything":true}`
    - Git release tag: `prod-YYYYMMDD-HHMMSS`
 
 Check **Actions** tab for logs. Vercel deployment happens in parallel.
+
+**Smoke Test Details:**
+- Tests run only on `main` branch (production) after Vercel deploy succeeds
+- Validates: health check (/api/health), public pages (/, /about, /projects, /blog, /contact), navigation performance, sitemap XML validity, robots.txt
+- All 11 tests must pass; job fails if any test fails
+- Logs available in GitHub Actions UI
 
 ### 3. Verify Deployment
 
@@ -359,14 +367,19 @@ nslookup emudev.cc
 
 ### 4. Post-Deploy Checklist
 
-- [ ] Visit https://emudev.cc — homepage loads
-- [ ] `/projects`, `/blog`, `/contact` pages work
-- [ ] Contact form submits successfully
-- [ ] Admin email receives contact notification
-- [ ] GitHub release tag created (`prod-*`)
-- [ ] Vercel deployment status: green
-- [ ] Cloudflare cache purge completed
-- [ ] Supabase migrations applied (check schema)
+- [x] Visit https://emudev.cc — homepage loads
+- [x] `/projects`, `/blog`, `/contact` pages work
+- [x] GitHub release tag created (`prod-*`)
+- [x] Vercel deployment status: green
+- [x] Cloudflare cache purge completed (Deploy workflow ✅)
+- [x] HSTS active (`strict-transport-security: max-age=31536000; includeSubDomains`)
+- [x] Smoke tests pass (11/11, Phase 7)
+- [x] Health check responds (/api/health → 200)
+- [x] Sitemap valid XML
+- [x] robots.txt returns 200
+- [ ] Contact form submits successfully (Supabase email integration — Phase 8)
+- [ ] Admin email receives contact notification (Phase 8)
+- [ ] Supabase migrations applied (check schema — Phase 8)
 
 ---
 

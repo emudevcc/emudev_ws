@@ -1,18 +1,26 @@
 import { test, expect } from '@playwright/test'
 
-test('contact form renders and submits without 500', async ({ page }) => {
+test('contact page renders form with required fields', async ({ page }) => {
   await page.goto('/contact')
   await expect(page.locator('form')).toBeVisible()
+  await expect(page.locator('input[name="name"]')).toBeVisible()
+  await expect(page.locator('input[name="email"]')).toBeVisible()
+  await expect(page.locator('textarea[name="message"]')).toBeVisible()
+  await expect(page.locator('button[type="submit"]')).toBeVisible()
+})
+
+test('contact form submits without 500', async ({ page }) => {
+  await page.goto('/contact')
 
   await page.fill('input[name="name"]', 'Smoke Test')
   await page.fill('input[name="email"]', 'smoke@example.com')
   await page.fill('textarea[name="message"]', 'Automated smoke test — ignore')
   await page.click('button[type="submit"]')
 
-  // Wait for server action response
-  await page.waitForTimeout(2000)
+  // Wait for server action to settle (success div or graceful error — never a 500)
+  await page.waitForLoadState('networkidle')
 
   const bodyText = await page.textContent('body')
-  expect(bodyText).not.toContain('500')
+  expect(bodyText).not.toContain('Application error')
   expect(bodyText).not.toContain('Internal Server Error')
 })

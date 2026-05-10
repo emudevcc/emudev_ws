@@ -128,7 +128,10 @@ SiteSettings (document)
 #### TypeScript Types
 - **Real types generated:** `types/sanity.types.ts` (334 LOC) covers all documents
 - **Draft mode:** API routes `/api/draft-mode/enable` and `/api/draft-mode/disable` for Sanity Presentation tool
+  - Uses `validatePreviewUrl()` from `@sanity/preview-url-secret` for token validation
+  - Static fallback: `?secret=` path kept for manual testing
 - **OG images:** Dynamic image generation for social sharing (1200×630, dark gradient)
+- **Sanity Studio:** Embedded at `/studio` using `next-sanity` (Studio component runs inside Next.js app)
 
 #### Query Execution Flow
 ```
@@ -295,30 +298,30 @@ User submits form (submitContact action)
 
 ### Workflow Decision Matrix
 
-| Workflow | Trigger | Node | Env | Steps | Gate |
-|----------|---------|------|-----|-------|------|
-| **ci.yml** | PR to any branch | 20 | Placeholder | Lint, typecheck, build | PR required |
-| **deploy.yml (develop)** | Push to develop | 20 | dev | Migrations, build, vercel deploy, smoke tests | None |
-| **deploy.yml (staging)** | Push to staging | 20 | staging | Migrations, build, vercel deploy, smoke tests, CF purge | Manual (UI) |
-| **deploy.yml (main)** | Push to main | 20 | production | Migrations, build, vercel deploy, smoke tests, CF purge, git tag | Manual (UI) |
-| **hotfix.yml** | PR hotfix/* → main | 20 | production | Lint, typecheck, build (fast), auto-deploy on merge, backport | Production env |
+| Workflow | Trigger | Node | Branch | Env | Steps | Gate |
+|----------|---------|------|--------|-----|-------|------|
+| **ci.yml** | PR to any branch | 20 | any | placeholder | Lint, typecheck, build | PR required |
+| **deploy.yml (dev preview)** | Push to development | 20 | development | preview | Migrations, build, vercel deploy, smoke tests, CF purge (prefix) | None (auto) |
+| **deploy.yml (production)** | Push to main | 20 | main | production | Migrations, build, vercel deploy, smoke tests, CF purge (zone), git tag | Manual (UI) |
+| **hotfix.yml** | PR hotfix/* → main | 20 | hotfix/* → main | production | Minimal CI, auto-deploy on merge, backport to development | None (auto) |
 
 ---
 
 ### CI Workflow (`ci.yml`)
 
-Runs on: PR to any branch, push to develop/staging/main/feature/*
+Runs on: PR to any branch
 
 ```yaml
 Steps:
   1. Checkout code
   2. Setup Node 20
   3. npm ci --legacy-peer-deps (clean install from lock file)
-  4. npm run lint
+  4. npm run lint (ESLint v9)
   5. npm run typecheck
   6. npm run build
-     └─ Env: NEXT_PUBLIC_SANITY_PROJECT_ID=placeholder (dev vars)
-        └─ Build succeeds with null-guarded data
+     └─ Env: NEXT_PUBLIC_SANITY_PROJECT_ID=zziqxayh (fallback to real project ID)
+                NEXT_PUBLIC_SANITY_DATASET=${{ vars.NEXT_PUBLIC_SANITY_DATASET || 'production' }}
+        └─ Build succeeds with real Sanity data if env vars available, else null-guarded fallback
 ```
 
 **Gate:** All PRs require CI to pass before merge.
@@ -327,77 +330,37 @@ Steps:
 
 ### Deploy Workflow (`deploy.yml`)
 
-Runs on: push to develop, staging, or main
+Runs on: **push to `main` only**. Vercel git integration handles builds and deployments for all branches automatically — `deploy.yml` only runs post-deploy tasks after `main` is updated.
 
-#### Develop Branch → Development Environment
+#### Development Branch → Preview URL
 
-```yaml
-Trigger: push to develop
-Environment: development
+No `deploy.yml` steps run on `development` push. Vercel git integration detects the push and automatically builds + deploys to a preview URL (e.g., `emudev-ws-abc123.vercel.app`). No migrations, no CF purge, no smoke tests.
 
-Steps:
-  1. Checkout code
-  2. npm ci --legacy-peer-deps
-  3. supabase db push (apply migrations)
-     └─ Uses SUPABASE_DB_URL + SUPABASE_PAT
-  4. npm run build
-     └─ Env: NEXT_PUBLIC_SITE_URL = https://dev.emudev.cc (hardcoded)
-     └─ Real NEXT_PUBLIC_SANITY_PROJECT_ID, etc.
-  5. vercel deploy --prebuilt --prod
-     └─ Deploys to dev.emudev.cc
-  6. npm run test:smoke (optional)
-  7. Purge Cloudflare cache by prefix
-     └─ curl purge_cache with {"prefixes":["dev.emudev.cc"]}
-```
+**Gate:** None; Vercel auto-deploys on push.  
+**Domain:** Vercel auto-generated preview URL.
 
-No approval gate; auto-deploys on push. CF cache purge is prefix-only (limited scope).
+#### Main Branch → Production at emudev.cc
 
-#### Staging Branch → Staging Environment
-
-```yaml
-Trigger: push to staging
-Environment: staging (requires manual approval in UI)
-
-Steps:
-  1. Checkout code
-  2. npm ci --legacy-peer-deps
-  3. supabase db push (apply migrations)
-  4. npm run build
-     └─ Env: NEXT_PUBLIC_SITE_URL = https://qa.emudev.cc (hardcoded)
-  5. vercel deploy --prebuilt --prod (deploys to qa.emudev.cc)
-  6. npm run test:smoke
-     └─ Playwright tests against qa.emudev.cc
-  7. Post QA checklist to GitHub Actions summary
-  8. Purge Cloudflare cache (entire zone)
-     └─ curl purge_cache with {"purge_everything":true}
-```
-
-**Gate:** Manual approval via GitHub Environments UI (no required reviewers on Free plan).
-**Domain:** `qa.emudev.cc` (NOT staging.emudev.cc)
-
-#### Main Branch → Production Environment
+Vercel git integration builds and deploys `main` → `emudev.cc` automatically. Once the deployment is live, `deploy.yml` runs post-deploy tasks:
 
 ```yaml
 Trigger: push to main
-Environment: production (requires manual approval in UI)
+Environment: production
 
 Steps:
   1. Checkout code (fetch-depth: 0 for git history)
   2. npm ci --legacy-peer-deps
   3. supabase db push (apply migrations)
-  4. npm run build
-     └─ Env: NEXT_PUBLIC_SITE_URL = https://emudev.cc (hardcoded)
-  5. vercel deploy --prebuilt --prod
-  6. npm run test:smoke
-     └─ Tests against https://emudev.cc
-  7. Purge Cloudflare cache (entire zone)
+     └─ Uses SUPABASE_DB_URL + SUPABASE_PAT
+  4. Purge Cloudflare cache (entire zone)
      └─ curl purge_cache with {"purge_everything":true}
-  8. Create git tag: prod-YYYYMMDD-HHMMSS
+  5. Create git tag: prod-YYYYMMDD-HHMMSS
      └─ Pushed to origin (release reference)
 ```
 
-**Gate:** Manual approval via GitHub Environments UI (no required reviewers on Free plan).
-**CF Purge:** Entire zone purge (purge_everything=true)
+**Gate:** `production` GitHub Environment (secrets scoped to this env).  
+**CF Purge:** Entire zone purge after every production deploy.  
+**Domain:** `emudev.cc` (production)
 
 ---
 
@@ -443,30 +406,31 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY    # Anon key (safe to expose)
 SUPABASE_SERVICE_ROLE_KEY        # Private key (if admin client needed)
 SUPABASE_DB_URL                  # Postgres connection (migrations)
 SUPABASE_PAT                     # Personal access token (db push)
-NEXT_PUBLIC_SITE_DOMAIN          # emudev.cc (same for all environments)
-SANITY_API_TOKEN                 # Read token (optional, for drafts)
-SANITY_REVALIDATE_SECRET         # Webhook secret (unique per env)
-RESEND_API_KEY                   # Resend API key
-ADMIN_EMAIL                      # Allow-list for Magic Link
+NEXT_PUBLIC_SITE_DOMAIN                # emudev.cc
+SANITY_API_READ_TOKEN                  # Viewer token for draft content (optional)
+SANITY_REVALIDATE_SECRET               # Webhook secret (must match webhook in Sanity)
+SANITY_STUDIO_PREVIEW_URL              # https://emudev.cc (for Presentation Tool)
+SANITY_STUDIO_REVALIDATE_SECRET        # Must match SANITY_REVALIDATE_SECRET
+RESEND_API_KEY                         # Resend email API key
+ADMIN_EMAIL                            # esteban.montero@gmail.com
 ```
 
-**Note:** `NEXT_PUBLIC_SITE_URL` is now hardcoded in `deploy.yml` per job (not a GitHub secret):
-- Dev: `https://dev.emudev.cc`
-- Staging: `https://qa.emudev.cc`
-- Production: `https://emudev.cc`
+**Note:** `NEXT_PUBLIC_SITE_URL` is hardcoded in `deploy.yml` jobs (not a secret):
+- Development (branch: `development`): Not set; Vercel uses auto-generated preview URL
+- Production (branch: `main`): `https://emudev.cc` (hardcoded in workflow)
 
-This prevents accidental mismatches between domain and deployment.
+This prevents mismatches between domain and deployment environment.
 
 ### CI Build-Time Env Vars
 
-In `ci.yml`, overrides for placeholder data:
+In `ci.yml`, fallback to real Sanity data:
 
 ```yaml
-NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID_DEV || 'placeholder' }}
-NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL_DEV || 'https://placeholder.supabase.co' }}
+NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID || 'zziqxayh' }}
+NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET || 'production' }}
 ```
 
-Allows PR CI to succeed even without real project IDs.
+CI builds use real Sanity data if vars available, enabling meaningful PR preview builds.
 
 ---
 
@@ -484,9 +448,9 @@ Allows PR CI to succeed even without real project IDs.
 
 ### Cache Purge
 
-Automatic purge on all three environments after successful deploy:
+Automatic purge after successful deploy:
 
-**Development:** Purge by prefix (limited to dev domain)
+**Development (branch: development):** Purge by prefix (limited scope)
 ```bash
 curl -X POST \
   "https://api.cloudflare.com/client/v4/zones/{CF_ZONE_ID}/purge_cache" \
@@ -495,7 +459,7 @@ curl -X POST \
   -d '{"prefixes":["dev.emudev.cc"]}'
 ```
 
-**Staging & Production:** Purge entire zone
+**Production (branch: main):** Purge entire zone
 ```bash
 curl -X POST \
   "https://api.cloudflare.com/client/v4/zones/{CF_ZONE_ID}/purge_cache" \
@@ -504,7 +468,7 @@ curl -X POST \
   -d '{"purge_everything":true}'
 ```
 
-Dev uses prefix purge to minimize CDN impact; staging/prod use full zone purge for safety.
+Development uses prefix purge to minimize CDN impact; production uses full zone purge for safety.
 
 ---
 

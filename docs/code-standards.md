@@ -211,6 +211,42 @@ export const getProjectBySlug = (slug: string) =>
 
 ---
 
+## API Route Security Patterns
+
+### Webhook Secret Validation (Sanity Revalidate)
+
+```typescript
+// app/api/revalidate-tag/route.ts
+const secret = req.headers.get('x-sanity-webhook-secret')
+if (secret !== process.env.SANITY_REVALIDATE_SECRET) {
+  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+}
+```
+
+**Rules:**
+- Secret in **header**, never query params (would leak in logs)
+- Compare as strings; use timing-safe comparison if available
+- Return 401 immediately; don't process payload
+
+### Draft Mode Token Validation
+
+```typescript
+// app/api/draft-mode/enable/route.ts
+import { validatePreviewUrl } from '@sanity/preview-url-secret'
+
+const isValidSecret = await validatePreviewUrl(
+  req.url,
+  process.env.SANITY_STUDIO_REVALIDATE_SECRET
+)
+if (!isValidSecret) {
+  return NextResponse.json({ error: 'Invalid preview URL' }, { status: 401 })
+}
+```
+
+**Pattern:** Use `@sanity/preview-url-secret` for robust token validation.
+
+---
+
 ## Supabase Client Usage
 
 ### Server-Side
@@ -442,13 +478,15 @@ chore: upgrade next.js to 15.6
 
 ### Pre-Commit Hooks (Husky + lint-staged)
 
-Only Prettier runs (not ESLint, due to v10 peer dep conflicts):
+Only Prettier runs (ESLint via separate `npm run lint` in CI):
 ```json
 {
   "*.{ts,tsx,mjs}": ["prettier --write"],
   "*.{json,css}": ["prettier --write"]
 }
 ```
+
+**Note:** ESLint v9 (not v10) required for compatibility with eslint-plugin-react@7.x.
 
 ---
 

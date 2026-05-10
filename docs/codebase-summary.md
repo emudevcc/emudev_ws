@@ -298,13 +298,16 @@ Each has isolated copies of the above secrets.
 | Package | Version | Purpose |
 |---------|---------|---------|
 | `next` | 15.5.18 | App Router, SSG/ISR, server actions |
+| `react` | 19.2.6 | UI library |
 | `next-sanity` | 5.5.11 | Sanity client + next/cache integration |
+| `@sanity/visual-editing` | ^4.0.3 | Draft mode / Presentation Tool (v5 requires Next.js 16) |
 | `@portabletext/react` | 6.2.0 | Rich text rendering |
 | `@supabase/ssr` | 0.10.3 | Cookie-based Supabase client |
 | `resend` | 6.12.3 | Transactional email API |
 | `sanity` | 3.99.0 | Sanity Studio + schema definitions |
 | `tailwindcss` | 4.0 | Utility-first CSS |
 | `typescript` | 5.9.3 | Type safety |
+| `eslint` | ^9 | Linting (v10 incompatible with eslint-plugin-react@7.x) |
 | `@playwright/test` | 1.59.1 | E2E smoke tests |
 
 ---
@@ -316,4 +319,39 @@ Each has isolated copies of the above secrets.
 - **Package Manager:** npm (lock file tracked)
 - **Turbopack:** Enabled in dev (`next dev --turbopack`)
 - **CSS:** Tailwind v4 (no PostCSS config needed, bundled in `@tailwindcss/postcss`)
-- **Linting:** ESLint v10 flat config; Prettier via lint-staged on commit
+- **Linting:** ESLint v9 flat config (v9 + eslint-config-next@16 working combo); Prettier via lint-staged on commit
+
+## Sanity Draft Mode & Presentation Tool
+
+### How It Works
+
+```
+Sanity Studio (embedded at /studio or external)
+    ↓
+Admin clicks "Presentation"
+    ↓
+Opens Sanity Presentation Tool (preview UI)
+    ↓
+GET /api/draft-mode/enable?secret=... (validated via @sanity/preview-url-secret)
+    ↓
+Sets Next.js draft mode cookie
+    ↓
+GET /api/draft-mode/disable (clears draft mode)
+    ↓
+Page renders unpublished content in draft mode
+```
+
+### Key Files
+
+- `app/api/draft-mode/enable/route.ts` — Validates preview secret via `validatePreviewUrl()` from `@sanity/preview-url-secret`
+- `app/api/draft-mode/disable/route.ts` — Clears draft mode cookie
+- `components/sanity-visual-editing.tsx` — `SanityVisualEditing` wrapper in root layout
+- `next.config.ts` — CSP header changed from `X-Frame-Options: DENY` to `frame-ancestors 'self'` (allows studio iframe)
+
+### Environment Variables (Build-Time Baked into Studio Bundle)
+
+- `SANITY_STUDIO_PREVIEW_URL` — Canonical site URL for preview links (e.g., `https://emudev.cc`)
+- `SANITY_STUDIO_REVALIDATE_SECRET` — Secret for validating preview requests (must match webhook secret)
+- `SANITY_API_READ_TOKEN` — Viewer token for draft content access (optional, for explicit draft fetches)
+
+**Note:** These `SANITY_STUDIO_*` vars are injected at build time into the Sanity Studio bundle, not accessed by Next.js routes.

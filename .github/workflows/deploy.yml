@@ -47,3 +47,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git tag -a "$TAG" -m "Production deploy $TAG"
           git push origin "$TAG"
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      # Wait for Cloudflare edge propagation after purge_everything (~15s)
+      # Note: Vercel deployment completion is not verified here — Vercel's git
+      # integration deploys asynchronously; the migration + purge steps (~20-30s)
+      # provide a buffer, but a slow Vercel deploy may mean tests hit the previous version.
+      - name: Wait for Cloudflare propagation
+        run: sleep 15
+
+      - name: Run smoke tests
+        run: npm run test:smoke
+        env:
+          BASE_URL: https://emudev.cc

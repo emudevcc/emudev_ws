@@ -16,7 +16,7 @@ export default defineConfig({
       previewUrl: {
         origin: process.env.SANITY_STUDIO_PREVIEW_URL ?? 'http://localhost:3000',
         previewMode: {
-          enable: `/api/draft-mode/enable?secret=${process.env.SANITY_STUDIO_REVALIDATE_SECRET ?? ''}`,
+          enable: '/api/draft-mode/enable',
         },
       },
     }),

@@ -2,13 +2,16 @@ import type { Metadata } from 'next'
 import { getPosts } from '@/lib/sanity-queries'
 import { PostCard } from '@/components/post-card'
 
+type Props = { params: Promise<{ locale: string }> }
+
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Thoughts and articles by Esteban Montero',
 }
 
-export default async function BlogPage() {
-  const posts = (await getPosts()) ?? []
+export default async function BlogPage({ params }: Props) {
+  const { locale } = await params
+  const posts = (await getPosts(locale)) ?? []
 
   return (
     <section className="mx-auto max-w-3xl px-6 py-20">

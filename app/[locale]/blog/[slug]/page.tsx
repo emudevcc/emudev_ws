@@ -2,17 +2,29 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPosts, getPostBySlug } from '@/lib/sanity-queries'
 import { PortableTextRenderer } from '@/components/portable-text-renderer'
+import { routing } from '@/i18n/routing'
 
-type Props = { params: Promise<{ slug: string }> }
+type Props = { params: Promise<{ locale: string; slug: string }> }
 
 export async function generateStaticParams() {
-  const posts = (await getPosts()) ?? []
-  return posts.map((p) => ({ slug: p.slug?.current ?? '' })).filter((p) => p.slug)
+  const postsByLocale = await Promise.all(
+    routing.locales.map(async (locale) => ({
+      locale,
+      posts: (await getPosts(locale)) ?? [],
+    }))
+  )
+
+  return postsByLocale.flatMap(({ locale, posts }) =>
+    posts.flatMap((post) => {
+      const slug = post.slug?.current
+      return slug ? [{ locale, slug }] : []
+    })
+  )
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const { locale, slug } = await params
+  const post = await getPostBySlug(slug, locale)
   if (!post) return {}
   return {
     title: post.title,
@@ -21,8 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const { locale, slug } = await params
+  const post = await getPostBySlug(slug, locale)
   if (!post) notFound()
 
   return (

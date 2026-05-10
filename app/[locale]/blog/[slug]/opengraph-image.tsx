@@ -1,14 +1,18 @@
 import { ImageResponse } from 'next/og'
-import { getProjectBySlug } from '@/lib/sanity-queries'
+import { getPostBySlug } from '@/lib/sanity-queries'
 
 export const runtime = 'edge'
-export const alt = 'Project OG image'
+export const alt = 'Blog post OG image'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
-  const project = await getProjectBySlug(slug)
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>
+}) {
+  const { locale, slug } = await params
+  const post = await getPostBySlug(slug, locale)
 
   return new ImageResponse(
     <div
@@ -25,7 +29,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
       }}
     >
       <div style={{ display: 'flex', fontSize: '14px', color: '#888', marginBottom: '16px' }}>
-        emudev.cc / projects
+        emudev.cc / blog
       </div>
       <div
         style={{
@@ -36,9 +40,9 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           marginBottom: '20px',
         }}
       >
-        {project?.title ?? slug}
+        {post?.title ?? slug}
       </div>
-      {project?.description && (
+      {post?.excerpt && (
         <div
           style={{
             fontSize: '22px',
@@ -47,8 +51,13 @@ export default async function Image({ params }: { params: Promise<{ slug: string
             lineHeight: 1.4,
           }}
         >
-          {project.description.slice(0, 120)}
-          {project.description.length > 120 ? '…' : ''}
+          {post.excerpt.slice(0, 120)}
+          {post.excerpt.length > 120 ? '…' : ''}
+        </div>
+      )}
+      {post?.author?.name && (
+        <div style={{ display: 'flex', marginTop: '24px', fontSize: '16px', color: '#666' }}>
+          {post.author.name}
         </div>
       )}
     </div>,

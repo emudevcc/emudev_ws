@@ -1,34 +1,6 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { draftMode } from 'next/headers'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { SanityVisualEditing } from '@/components/sanity-visual-editing'
-import './globals.css'
-import { SiteNav } from '@/components/site-nav'
+import type { ReactNode } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
-  title: { default: 'emudev', template: '%s | emudev' },
-  description: 'Software engineer portfolio — Esteban Montero',
-  openGraph: {
-    siteName: 'emudev',
-    locale: 'en_US',
-    type: 'website',
-  },
-}
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled: isDraft } = await draftMode()
-  return (
-    <html lang="en">
-      <body className={`${inter.className} antialiased bg-background text-foreground`}>
-        <SiteNav />
-        <main>{children}</main>
-        {isDraft && <SanityVisualEditing />}
-        <SpeedInsights />
-      </body>
-    </html>
-  )
+// html/body shell lives in app/[locale]/layout.tsx so lang can be dynamic
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return children
 }

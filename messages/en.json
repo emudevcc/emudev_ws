@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "featuredProjects": "Featured Projects",
+    "noProjects": "No projects yet — check back soon."
+  },
+  "about": {
+    "title": "About",
+    "metaDescription": "About Esteban Montero — software engineer",
+    "fallbackBio": "Software engineer passionate about building great products."
+  },
+  "blog": {
+    "title": "Blog",
+    "metaDescription": "Thoughts and articles by Esteban Montero",
+    "empty": "No posts yet."
+  },
+  "contact": {
+    "title": "Contact",
+    "metaDescription": "Get in touch with Esteban Montero",
+    "heading": "Contact",
+    "description": "Have a project in mind? Send me a message and I'll get back to you.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell me about your project…",
+    "submit": "Send Message",
+    "submitting": "Sending…",
+    "success": "Message sent! I'll get back to you soon."
+  },
+  "projects": {
+    "title": "Projects",
+    "metaDescription": "A collection of projects by Esteban Montero",
+    "empty": "No projects yet.",
+    "liveSite": "Live site ↗",
+    "repository": "Repository ↗"
+  },
+  "common": {
+    "all": "All",
+    "noResults": "No projects match this filter.",
+    "projectImageAlt": "Project image"
+  },
+  "hero": {
+    "viewProjects": "View Projects",
+    "getInTouch": "Get in Touch"
+  }
+}

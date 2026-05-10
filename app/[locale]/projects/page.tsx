@@ -2,13 +2,16 @@ import type { Metadata } from 'next'
 import { getProjects } from '@/lib/sanity-queries'
 import { TagFilter } from '@/components/tag-filter'
 
+type Props = { params: Promise<{ locale: string }> }
+
 export const metadata: Metadata = {
   title: 'Projects',
   description: 'A collection of projects by Esteban Montero',
 }
 
-export default async function ProjectsPage() {
-  const projects = (await getProjects()) ?? []
+export default async function ProjectsPage({ params }: Props) {
+  const { locale } = await params
+  const projects = (await getProjects(locale)) ?? []
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">

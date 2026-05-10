@@ -1,14 +1,18 @@
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
+import { LocaleSwitcher } from './locale-switcher'
 
-const links = [
-  { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
-]
+export async function SiteNav() {
+  const t = await getTranslations('nav')
 
-export function SiteNav() {
+  const links = [
+    { href: '/' as const, label: t('home') },
+    { href: '/projects' as const, label: t('projects') },
+    { href: '/blog' as const, label: t('blog') },
+    { href: '/about' as const, label: t('about') },
+    { href: '/contact' as const, label: t('contact') },
+  ]
+
   return (
     <nav className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -24,6 +28,7 @@ export function SiteNav() {
             </li>
           ))}
         </ul>
+        <LocaleSwitcher />
       </div>
     </nav>
   )

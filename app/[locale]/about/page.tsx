@@ -1,13 +1,16 @@
 import type { Metadata } from 'next'
 import { getSiteSettings } from '@/lib/sanity-queries'
 
+type Props = { params: Promise<{ locale: string }> }
+
 export const metadata: Metadata = {
   title: 'About',
   description: 'About Esteban Montero — software engineer',
 }
 
-export default async function AboutPage() {
-  const settings = await getSiteSettings()
+export default async function AboutPage({ params }: Props) {
+  const { locale } = await params
+  const settings = await getSiteSettings(locale)
 
   return (
     <section className="mx-auto max-w-3xl px-6 py-20">

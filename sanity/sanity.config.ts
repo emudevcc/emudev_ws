@@ -4,17 +4,22 @@ import { visionTool } from '@sanity/vision'
 import { presentationTool } from 'sanity/presentation'
 import { schema } from './schema'
 
+const envValue = (value: string | undefined) => {
+  const trimmed = value?.trim()
+  return trimmed ? trimmed : undefined
+}
+
 export default defineConfig({
   name: 'emudev-portfolio',
   title: 'Portfolio CMS',
   projectId: 'zziqxayh',
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production',
+  dataset: envValue(process.env.NEXT_PUBLIC_SANITY_DATASET) ?? 'production',
   plugins: [
     structureTool(),
     visionTool(),
     presentationTool({
       previewUrl: {
-        origin: process.env.SANITY_STUDIO_PREVIEW_URL ?? 'http://localhost:3000',
+        origin: envValue(process.env.SANITY_STUDIO_PREVIEW_URL) ?? 'http://localhost:3000',
         previewMode: {
           enable: '/api/draft-mode/enable',
         },

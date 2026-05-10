@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "projects": "Proyectos",
+    "blog": "Blog",
+    "about": "Sobre mí",
+    "contact": "Contacto"
+  },
+  "home": {
+    "featuredProjects": "Proyectos destacados",
+    "noProjects": "Sin proyectos aún — vuelve pronto."
+  },
+  "about": {
+    "title": "Sobre mí",
+    "metaDescription": "Sobre Esteban Montero — ingeniero de software",
+    "fallbackBio": "Ingeniero de software apasionado por crear grandes productos."
+  },
+  "blog": {
+    "title": "Blog",
+    "metaDescription": "Pensamientos y artículos de Esteban Montero",
+    "empty": "Sin publicaciones aún."
+  },
+  "contact": {
+    "title": "Contacto",
+    "metaDescription": "Contáctame — Esteban Montero",
+    "heading": "Contacto",
+    "description": "¿Tienes un proyecto en mente? Envíame un mensaje y te responderé.",
+    "nameLabel": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "emailLabel": "Correo",
+    "emailPlaceholder": "tu@email.com",
+    "messageLabel": "Mensaje",
+    "messagePlaceholder": "Cuéntame sobre tu proyecto…",
+    "submit": "Enviar mensaje",
+    "submitting": "Enviando…",
+    "success": "¡Mensaje enviado! Te responderé pronto."
+  },
+  "projects": {
+    "title": "Proyectos",
+    "metaDescription": "Una colección de proyectos de Esteban Montero",
+    "empty": "Sin proyectos aún.",
+    "liveSite": "Sitio en vivo ↗",
+    "repository": "Repositorio ↗"
+  },
+  "common": {
+    "all": "Todos",
+    "noResults": "Ningún proyecto coincide con este filtro.",
+    "projectImageAlt": "Imagen del proyecto"
+  },
+  "hero": {
+    "viewProjects": "Ver proyectos",
+    "getInTouch": "Contáctame"
+  }
+}

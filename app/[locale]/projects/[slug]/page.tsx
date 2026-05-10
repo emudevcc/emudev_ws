@@ -2,17 +2,29 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getProjects, getProjectBySlug } from '@/lib/sanity-queries'
 import { PortableTextRenderer } from '@/components/portable-text-renderer'
+import { routing } from '@/i18n/routing'
 
-type Props = { params: Promise<{ slug: string }> }
+type Props = { params: Promise<{ locale: string; slug: string }> }
 
 export async function generateStaticParams() {
-  const projects = (await getProjects()) ?? []
-  return projects.map((p) => ({ slug: p.slug?.current ?? '' })).filter((p) => p.slug)
+  const projectsByLocale = await Promise.all(
+    routing.locales.map(async (locale) => ({
+      locale,
+      projects: (await getProjects(locale)) ?? [],
+    }))
+  )
+
+  return projectsByLocale.flatMap(({ locale, projects }) =>
+    projects.flatMap((project) => {
+      const slug = project.slug?.current
+      return slug ? [{ locale, slug }] : []
+    })
+  )
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const project = await getProjectBySlug(slug)
+  const { locale, slug } = await params
+  const project = await getProjectBySlug(slug, locale)
   if (!project) return {}
   return {
     title: project.title,
@@ -26,8 +38,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProjectDetailPage({ params }: Props) {
-  const { slug } = await params
-  const project = await getProjectBySlug(slug)
+  const { locale, slug } = await params
+  const project = await getProjectBySlug(slug, locale)
   if (!project) notFound()
 
   return (

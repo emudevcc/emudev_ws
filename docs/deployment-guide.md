@@ -33,15 +33,16 @@ git checkout -b hotfix/fix-name main
 
 ## Workflow Decision Matrix
 
-| Branch | CI Runs | Deploy | Env | Deploy Gate | Use For |
-|--------|---------|--------|-----|-------------|---------|
-| `development` | Yes | Preview URL | Staging | None (auto) | Feature development |
-| `feature/*` | Yes | Preview URL | Staging | None (auto) | Feature branches |
-| `hotfix/*` | Yes (minimal) | Production | Prod | None (auto) | Emergency fixes |
-| `main` | Yes | Production | Prod | None (auto) | Production release |
+| Branch | CI Runs | Deploy | Domain | Deploy Gate | Use For |
+|--------|---------|--------|--------|-------------|---------|
+| `development` | Yes | Preview URL | Vercel auto (emudev-ws-dev.vercel.app) | None (auto) | Feature development |
+| `feature/*` | Yes | Preview URL | Vercel auto | None (auto) | Feature branches |
+| `hotfix/*` | Yes (minimal) | Production | emudev.cc | None (auto on merge) | Emergency fixes |
+| `main` | Yes | Production | emudev.cc | Manual approval (UI) | Production release |
 | PR (any) | Yes | — | — | Required to pass | Pre-merge checks |
 
-**Important:** Vercel git integration handles all deployments. No manual `vercel deploy` CLI calls needed.
+**Important:** Vercel git integration handles all deployments. No manual `vercel deploy` CLI calls needed.  
+**Branches:** Two active branches: `development` (preview) and `main` (production). No staging branch.
 
 ---
 
@@ -115,12 +116,12 @@ git push origin development
 
 ### Configure for Multiple Branches
 
-By default, Vercel creates preview URLs for all branches except `main`:
+Vercel auto-generates preview URLs for all branches except `main`:
 - `development` branch → auto preview (e.g., `emudev-ws-dev.vercel.app`)
-- `feature/*` branches → auto preview
-- `main` branch → production (`emudev.cc` after Cloudflare mapping)
+- `feature/*` branches → auto preview per PR
+- `main` branch → production via Cloudflare CNAME to `emudev.cc`
 
-No manual configuration needed.
+Vercel git integration automatically deploys on push; no manual configuration needed.
 
 ### Production Environment Secrets (GitHub)
 
@@ -130,15 +131,20 @@ No manual configuration needed.
 
 | Secret | Source |
 |--------|--------|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project settings |
-| `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset name (usually `production`) |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID (zziqxayh) |
+| `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset name (`production`) |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project settings |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
 | `SUPABASE_DB_URL` | Supabase connection string (Session mode) |
 | `SUPABASE_PAT` | Supabase personal access token |
+| `SANITY_API_READ_TOKEN` | Sanity Viewer token (for draft content) |
 | `SANITY_REVALIDATE_SECRET` | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| `SANITY_STUDIO_PREVIEW_URL` | `https://emudev.cc` (for Presentation Tool) |
+| `SANITY_STUDIO_REVALIDATE_SECRET` | Same as `SANITY_REVALIDATE_SECRET` |
+| `RESEND_API_KEY` | Resend email API key |
+| `ADMIN_EMAIL` | `esteban.montero@gmail.com` |
 
-**Note:** All preview (non-production) deployments use default env vars from `.env.example` or Vercel project settings. Secrets only needed for production (`main` branch).
+**Note:** Preview deployments (development branch) use real Sanity data if CI vars set; no secrets needed. Production deployment uses the `production` environment secrets above.
 
 ---
 
@@ -375,17 +381,18 @@ git push origin feature/your-feature
 
 ### 2. Vercel Auto-Preview
 
-After push, Vercel automatically creates a preview URL:
-- Check **PR** or **Actions** tab for preview link
+After push, Vercel automatically creates a preview URL for the PR:
+- Check **PR checks** or **Actions** tab for preview link
 - Example: `emudev-ws-abc123.vercel.app`
-- Preview URL uses default env vars (no production secrets)
+- Preview URL uses default env vars (no production secrets); uses real Sanity data if CI vars set
 
 ### 3. Manual Testing
 
 - [ ] Preview URL loads
 - [ ] Pages render correctly
-- [ ] Forms submit (may not send emails without secrets)
+- [ ] Forms submit to Supabase (RLS allows anon INSERT)
 - [ ] Mobile layout responsive
+- [ ] Draft mode accessible if needed
 
 ### 4. Merge to Development
 
@@ -399,7 +406,11 @@ gh pr create --base development --title "Feature: [description]"
 gh pr merge --squash
 ```
 
-No auto-deploy on `development` merge. Preview URL from PR remains available.
+On merge to `development`, GitHub Actions deploy workflow runs:
+- Applies Supabase migrations
+- Builds and deploys to Vercel (preview environment)
+- Runs smoke tests
+- Purges Cloudflare cache (by prefix: dev.emudev.cc)
 
 ---
 

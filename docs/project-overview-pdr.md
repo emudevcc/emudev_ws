@@ -80,12 +80,16 @@ Ship a zero-maintenance portfolio that:
 
 ## Technical Constraints
 
-- **Next.js 15**: App Router only; `unstable_cache` (not `'use cache'`) for ISR
+- **Next.js 15**: App Router only; `unstable_cache` (not `'use cache'` — requires canary) for ISR
+- **React 19.2.6**: Current stable; check compatibility for future upgrades
+- **@sanity/visual-editing ^4.0.3**: v5 requires Next.js 16; v4 uses use-effect-event polyfill
 - **Sanity v3**: GROQ queries only; no GraphQL (not implemented in this version)
 - **Supabase**: RLS required for production; migrations applied via `supabase db push`
+- **ESLint ^9**: v10 removes getFilename() API required by eslint-plugin-react@7.x
 - **No Magic UI Pro Yet**: Placeholder Tailwind v4; design system to be integrated later
-- **GitHub Actions**: 3-env pipeline with manual approval for staging/production
+- **GitHub Actions**: 2-branch model (development → preview, main → production)
 - **Cloudflare**: WAF + cache purge on deploys; no Workers functions yet
+- **Vercel Git Integration**: Single project, multiple branches (dev, main); no subdomain-per-branch model
 
 ---
 
@@ -112,8 +116,8 @@ Ship a zero-maintenance portfolio that:
 - **Phase 3** ✅ (Complete): Link Supabase projects to all environments
 - **Phase 4** ✅ (Complete): UI components, OG images, tag filter, post cards, draft mode
 - **Phase 5** ✅ (Complete): GitHub Actions workflows (ci.yml, deploy.yml, hotfix.yml)
-- **Phase 6** 🔄 (In Progress): Cloudflare WAF rules + cache configuration (branch: feature/phase-6-cloudflare)
-- **Phase 7** (Pending): Smoke tests → green, production readiness
+- **Phase 6** 🔄 (Mostly Complete): Production deployment to emudev.cc, Sanity Presentation Tool, cache automation, CSP headers (branch: feature/phase-6-cloudflare)
+- **Phase 7** 🔄 (Unblocked): Smoke tests against production, final security config (HSTS, SSL Full Strict)
 
 ---
 

@@ -330,55 +330,36 @@ Steps:
 
 ### Deploy Workflow (`deploy.yml`)
 
-Runs on: push to development or main
+Runs on: **push to `main` only**. Vercel git integration handles builds and deployments for all branches automatically — `deploy.yml` only runs post-deploy tasks after `main` is updated.
 
 #### Development Branch → Preview URL
 
-```yaml
-Trigger: push to development
-Environment: preview (no approval)
+No `deploy.yml` steps run on `development` push. Vercel git integration detects the push and automatically builds + deploys to a preview URL (e.g., `emudev-ws-abc123.vercel.app`). No migrations, no CF purge, no smoke tests.
 
-Steps:
-  1. Checkout code
-  2. npm ci --legacy-peer-deps
-  3. supabase db push (apply migrations)
-     └─ Uses SUPABASE_DB_URL + SUPABASE_PAT
-  4. npm run build
-     └─ Env: NEXT_PUBLIC_SANITY_PROJECT_ID, real dataset, etc.
-  5. vercel deploy --prebuilt --prod
-     └─ Vercel generates preview URL automatically (e.g., emudev-ws-dev.vercel.app)
-  6. npm run test:smoke
-  7. Purge Cloudflare cache by prefix
-     └─ curl purge_cache with {"prefixes":["dev.emudev.cc"]} (limits scope to dev)
-```
-
-**Gate:** None; auto-deploys on push.  
-**Domain:** Vercel auto-generated preview URL (not subdomain of emudev.cc).
+**Gate:** None; Vercel auto-deploys on push.  
+**Domain:** Vercel auto-generated preview URL.
 
 #### Main Branch → Production at emudev.cc
 
+Vercel git integration builds and deploys `main` → `emudev.cc` automatically. Once the deployment is live, `deploy.yml` runs post-deploy tasks:
+
 ```yaml
 Trigger: push to main
-Environment: production (requires manual approval in UI)
+Environment: production
 
 Steps:
   1. Checkout code (fetch-depth: 0 for git history)
   2. npm ci --legacy-peer-deps
   3. supabase db push (apply migrations)
-  4. npm run build
-     └─ Env: NEXT_PUBLIC_SANITY_PROJECT_ID, real dataset, NEXT_PUBLIC_SITE_URL=https://emudev.cc
-  5. vercel deploy --prebuilt --prod
-     └─ Vercel git integration deploys main → emudev.cc (via Cloudflare CNAME)
-  6. npm run test:smoke
-     └─ Tests against https://emudev.cc
-  7. Purge Cloudflare cache (entire zone)
+     └─ Uses SUPABASE_DB_URL + SUPABASE_PAT
+  4. Purge Cloudflare cache (entire zone)
      └─ curl purge_cache with {"purge_everything":true}
-  8. Create git tag: prod-YYYYMMDD-HHMMSS
+  5. Create git tag: prod-YYYYMMDD-HHMMSS
      └─ Pushed to origin (release reference)
 ```
 
-**Gate:** Manual approval via GitHub Environments UI.  
-**CF Purge:** Entire zone purge for safety.  
+**Gate:** `production` GitHub Environment (secrets scoped to this env).  
+**CF Purge:** Entire zone purge after every production deploy.  
 **Domain:** `emudev.cc` (production)
 
 ---

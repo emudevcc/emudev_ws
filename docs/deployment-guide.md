@@ -129,20 +129,20 @@ Vercel git integration automatically deploys on push; no manual configuration ne
 2. Select `production` environment
 3. Add secrets:
 
-| Secret | Source |
-|--------|--------|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID (zziqxayh) |
-| `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset name (`production`) |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project settings |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
-| `SUPABASE_DB_URL` | Supabase connection string (Session mode) |
-| `SUPABASE_PAT` | Supabase personal access token |
-| `SANITY_API_READ_TOKEN` | Sanity Viewer token (for draft content) |
-| `SANITY_REVALIDATE_SECRET` | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
-| `SANITY_STUDIO_PREVIEW_URL` | `https://emudev.cc` (for Presentation Tool) |
-| `SANITY_STUDIO_REVALIDATE_SECRET` | Same as `SANITY_REVALIDATE_SECRET` |
-| `RESEND_API_KEY` | Resend email API key |
-| `ADMIN_EMAIL` | `esteban.montero@gmail.com` |
+| Secret | Source | Required |
+|--------|--------|----------|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID (zziqxayh) | Yes |
+| `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset name (`production`) | Yes |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project settings | Yes |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key | Yes |
+| `SUPABASE_DB_URL` | Supabase connection string (Session mode) | Yes |
+| `SUPABASE_PAT` | Supabase personal access token | Yes |
+| `SANITY_API_READ_TOKEN` | Sanity Viewer token (for draft content) | No |
+| `SANITY_REVALIDATE_SECRET` | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` | Yes |
+| `SANITY_STUDIO_PREVIEW_URL` | `https://emudev.cc` (for Presentation Tool) | Yes |
+| `SANITY_STUDIO_REVALIDATE_SECRET` | Same as `SANITY_REVALIDATE_SECRET` | Yes |
+| `RESEND_API_KEY` | Resend email API key (for contact form emails) | Yes |
+| `ADMIN_EMAIL` | `esteban.montero@gmail.com` | Yes |
 
 **Note:** Preview deployments (development branch) use real Sanity data if CI vars set; no secrets needed. Production deployment uses the `production` environment secrets above.
 
@@ -524,10 +524,13 @@ git push origin main
 
 ### Email Not Sending
 
-1. Verify `RESEND_API_KEY` is set in GitHub `production` environment
+1. **CRITICAL:** Verify `RESEND_API_KEY` is set in GitHub `production` environment
+   - Missing `RESEND_API_KEY` will cause 500 errors on contact form (before fix)
+   - After fix: submission succeeds, email silently fails (check logs)
+   - Resend client is instantiated inside try/catch at runtime, not module level
 2. Check Resend dashboard > Emails for failed deliveries
 3. Verify `ADMIN_EMAIL` is valid
-4. Check GitHub Actions logs for API errors
+4. Check GitHub Actions logs for API errors (search for "Resend notification failed")
 
 ### Stale Cache at emudev.cc
 

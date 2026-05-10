@@ -217,6 +217,33 @@ if (!projectId) return null as T // in sanityFetch
 - All query callers use `?? []` or `?? null` to handle build-time data absence
 - Build succeeds with placeholder data; real data loaded at deploy time
 
+### 2b. Defensive Error Handling: Resend Email Integration
+
+**Pattern:** Instantiate external service clients inside try/catch to prevent build-time failures.
+
+**Example (contact form):**
+```typescript
+const supabase = await createSupabaseServerClient()
+const { error: dbError } = await supabase
+  .from('contact_submissions')
+  .insert({ name, email, message })
+
+// Best-effort email after authoritative DB insert
+try {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  await resend.emails.send({ ... })
+} catch (err) {
+  console.error('Resend notification failed:', err)
+  // Submission already saved — don't fail user response
+}
+```
+
+**Benefits:**
+- `RESEND_API_KEY` absence doesn't throw at module load (instantiated at runtime)
+- DB insert is authoritative; email is best-effort notification
+- Outer try/catch wraps entire function; errors return graceful response to user
+- Prevents 500 errors from missing env vars at deployment time
+
 ### 3. Server Actions with Validation
 
 **Pattern:**
@@ -273,7 +300,7 @@ if (secret !== process.env.SANITY_REVALIDATE_SECRET) return 401
 - `SANITY_REVALIDATE_SECRET` — Webhook secret (must match in Sanity settings)
 - `SUPABASE_DB_URL` — Postgres connection (for migrations only)
 - `SUPABASE_PAT` — Supabase personal access token (for `supabase db push`)
-- `RESEND_API_KEY` — Resend transactional email API
+- `RESEND_API_KEY` — Resend transactional email API (required at runtime for contact emails; instantiated inside try/catch to prevent 500 on missing key)
 - `ADMIN_EMAIL` — Allow-list for sendMagicLink (comma-separated)
 
 ### Environment-Level (GitHub Secrets)

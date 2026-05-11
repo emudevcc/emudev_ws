@@ -11,15 +11,21 @@
 ┌──────────────────────────────▼──────────────────────────────────┐
 │                        Vercel (Hosting)                          │
 │  ┌─────────────────────────────────────────────────────────┐   │
-│  │           Next.js 15 (App Router)                       │   │
+│  │           Next.js 15 (App Router + next-intl)          │   │
+│  │  ┌────────────────────────────────────────────────┐    │   │
+│  │  │  Middleware (Locale Detection)                 │    │   │
+│  │  │  • Route / → /en via locale detection          │    │   │
+│  │  │  • Extract locale from URL or headers          │    │   │
+│  │  │  • Pass locale to NextIntlClientProvider       │    │   │
+│  │  └────────────────────────────────────────────────┘    │   │
 │  │  ┌────────────────────────────────────────────────┐    │   │
 │  │  │  Page Generation (SSG / ISR / SSR)             │    │   │
-│  │  │  • Homepage: SSG with featured projects        │    │   │
-│  │  │  • Project list: ISR (1-hour revalidate)       │    │   │
-│  │  │  • Project detail: SSG per [slug]              │    │   │
-│  │  │  • Blog list: ISR (1-hour revalidate)          │    │   │
-│  │  │  • Blog post: SSG per [slug]                   │    │   │
-│  │  │  • Contact: SSR (no caching)                   │    │   │
+│  │  │  • Homepage: SSG × 2 locales (en, es)          │    │   │
+│  │  │  • Project list: ISR × 2 locales               │    │   │
+│  │  │  • Project detail: SSG per [locale]/[slug]    │    │   │
+│  │  │  • Blog list: ISR × 2 locales                  │    │   │
+│  │  │  • Blog post: SSG per [locale]/[slug]         │    │   │
+│  │  │  • Contact: SSR (locale-aware form text)      │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
 │  │  ┌────────────────────────────────────────────────┐    │   │
 │  │  │  API Routes & Webhooks                         │    │   │
@@ -57,30 +63,36 @@
 #### Page Routes
 | Route | Generation | Cache | Purpose |
 |-------|-----------|-------|---------|
-| `/` | SSG | 1 hour | Homepage with hero + featured projects |
-| `/projects` | ISR | 1 hour | Projects list (gallery with tag filter) |
-| `/projects/[slug]` | SSG (per-route) | 1 hour | Project detail page with OG image |
-| `/blog` | ISR | 1 hour | Blog post list |
-| `/blog/[slug]` | SSG (per-route) | 1 hour | Blog post detail with OG image |
-| `/about` | SSR | None | Static about page |
-| `/contact` | SSR | None | Contact form (no cache) |
-| `/studio` | SSR | None | Embedded Sanity Studio |
-| `/api/draft-mode/enable` | Route | None | Enable Sanity draft mode |
-| `/api/draft-mode/disable` | Route | None | Disable draft mode |
+| `/en`, `/es` | Redirect | None | Root redirects to locale via middleware |
+| `/[locale]` | SSG | 1 hour | Homepage with hero + featured projects (en, es) |
+| `/[locale]/projects` | ISR | 1 hour | Projects list (gallery with tag filter) |
+| `/[locale]/projects/[slug]` | SSG (per-route) | 1 hour | Project detail page with OG image |
+| `/[locale]/blog` | ISR | 1 hour | Blog post list |
+| `/[locale]/blog/[slug]` | SSG (per-route) | 1 hour | Blog post detail with OG image |
+| `/[locale]/about` | SSR | None | Static about page |
+| `/[locale]/contact` | SSR | None | Contact form (no cache) |
+| `/studio` | SSR | None | Embedded Sanity Studio (root, no locale) |
+| `/api/draft-mode/enable` | Route | None | Enable Sanity draft mode (root, no locale) |
+| `/api/draft-mode/disable` | Route | None | Disable draft mode (root, no locale) |
 | `/robots.txt` | Generated | Static | Robots.txt (allow all except /studio, /api, /admin) |
-| `/sitemap.xml` | Generated | Static | XML sitemap with dynamic routes + priorities |
+| `/sitemap.xml` | Generated | Static | XML sitemap with locale variants + priorities |
 
-#### Dynamic Params (SSG)
+#### Dynamic Params (SSG with Locale)
 ```typescript
-// For /projects/[slug] and /blog/[slug]
+// For /[locale]/projects/[slug] and /[locale]/blog/[slug]
 export async function generateStaticParams() {
   const projects = (await getProjects()) ?? []
-  return projects.map(p => ({ slug: p.slug.current }))
+  const locales = ['en', 'es']
+  
+  return locales.flatMap(locale =>
+    projects.map(p => ({ locale, slug: p.slug.current }))
+  )
 }
 ```
 
-- During `next build`: generates all static route params
-- Build time grows with content count (e.g., 50 projects = 50 additional routes)
+- During `next build`: generates all static route params × locale count
+- Build time grows with content count × number of locales (e.g., 50 projects × 2 locales = 100 routes)
+- Middleware routes all requests to `/[locale]/...` before reaching pages
 - ISR allows on-demand SSG for new content (post-build publication)
 
 ---
@@ -483,12 +495,18 @@ Development uses prefix purge to minimize CDN impact; production uses full zone 
 ## Request Flow Example: User Views Project
 
 ```
-1. User navigates to /projects/my-cool-app
+1. User navigates to https://emudev.cc/projects/my-cool-app
 2. Browser requests https://emudev.cc/projects/my-cool-app
-3. Cloudflare checks cache
+3. Middleware (next-intl):
+   ├─ Check Accept-Language header
+   ├─ Default to 'en' if not Spanish
+   └─ Redirect to /en/projects/my-cool-app
+4. Cloudflare checks cache
    ├─ Hit: serve cached HTML, done
    └─ Miss: forward to Vercel
-4. Vercel Next.js:
+5. Vercel Next.js:
+   ├─ Resolve locale from URL param: 'en'
+   ├─ Load messages/en.json
    ├─ getProjectBySlug('my-cool-app')
    │  ├─ Check unstable_cache
    │  │  ├─ Hit: return cached data
@@ -497,13 +515,14 @@ Development uses prefix purge to minimize CDN impact; production uses full zone 
    ├─ renderToString(<ProjectDetail project={...} />)
    └─ Response:
       ├─ Headers: Cache-Control: s-maxage=3600
-      └─ Body: <html>...</html>
-5. Cloudflare caches HTML (s-maxage=3600)
-6. Browser renders
-7. User sees project
+      ├─ Body: <html lang="en">...</html>
+      └─ NextIntlClientProvider with locale + messages
+6. Cloudflare caches HTML (s-maxage=3600)
+7. Browser renders with English UI strings
+8. User sees project in English
 ```
 
-**Total latency (miss):** ~500ms (Sanity query + render)  
+**Total latency (miss):** ~500ms (locale resolution + Sanity query + render)  
 **Total latency (hit):** ~100ms (Cloudflare + Vercel cache)
 
 ---

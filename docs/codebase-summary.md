@@ -11,32 +11,47 @@ emudev_ws/
 │   │       ├── enable/route.ts        # Enable Next.js draft mode
 │   │       └── disable/route.ts       # Disable draft mode
 │   ├── actions/                  # Server actions (contact, auth)
-│   ├── layout.tsx                # Root layout + metadata
-│   ├── page.tsx                  # Homepage (hero + featured projects)
-│   ├── about/page.tsx            # About page
-│   ├── projects/
-│   │   ├── page.tsx              # Projects list (ISR)
-│   │   └── [slug]/
-│   │       ├── page.tsx          # Project detail (SSG per-route)
-│   │       └── opengraph-image.tsx # Dynamic OG image (1200×630)
-│   ├── blog/
-│   │   ├── page.tsx              # Blog list (ISR)
-│   │   └── [slug]/
-│   │       ├── page.tsx          # Blog post (SSG per-route)
-│   │       └── opengraph-image.tsx # Dynamic OG image (1200×630)
-│   ├── contact/page.tsx          # Contact page with form
+│   ├── layout.tsx                # Root layout (stripped shell)
+│   ├── page.tsx                  # Root page (redirect to /en)
+│   ├── [locale]/                 # Locale-prefixed routes (en, es)
+│   │   ├── layout.tsx            # Layout with NextIntlClientProvider
+│   │   ├── page.tsx              # Homepage (hero + featured projects)
+│   │   ├── about/page.tsx        # About page
+│   │   ├── projects/
+│   │   │   ├── page.tsx          # Projects list (ISR × 2 locales)
+│   │   │   └── [slug]/
+│   │   │       ├── page.tsx      # Project detail (SSG per-route × 2 locales)
+│   │   │       └── opengraph-image.tsx # Dynamic OG image (1200×630)
+│   │   ├── blog/
+│   │   │   ├── page.tsx          # Blog list (ISR × 2 locales)
+│   │   │   └── [slug]/
+│   │   │       ├── page.tsx      # Blog post (SSG per-route × 2 locales)
+│   │   │       └── opengraph-image.tsx # Dynamic OG image (1200×630)
+│   │   └── contact/page.tsx      # Contact page with form
 │   ├── robots.ts                 # Robots.txt generator
-│   ├── sitemap.ts                # Dynamic XML sitemap
-│   └── studio/[[...tool]]/page.tsx # Sanity Studio (embedded)
+│   ├── sitemap.ts                # Dynamic XML sitemap (with locale variants)
+│   └── studio/[[...tool]]/page.tsx # Sanity Studio (root, no locale)
 │
 ├── components/                   # React components
+│   ├── locale-switcher.tsx       # Client component; EN↔ES toggle
 │   ├── contact-form.tsx          # Contact form (useActionState)
 │   ├── portable-text-renderer.tsx # @portabletext/react for rich text
 │   ├── project-card.tsx          # Project card in grids
 │   ├── post-card.tsx             # Blog post preview card
 │   ├── tag-filter.tsx            # Client component for tag filtering
-│   ├── site-nav.tsx              # Navigation + auth state
+│   ├── site-nav.tsx              # Navigation + LocaleSwitcher (async server)
 │   └── ui/hero-section.tsx       # Animated hero on homepage
+│
+├── i18n/                         # Internationalization config (NEW)
+│   ├── routing.ts                # defineRouting({ locales: ['en', 'es'], ... })
+│   ├── request.ts                # getRequestConfig; resolves locale + imports messages
+│   └── navigation.ts             # locale-aware Link, redirect, useRouter, etc.
+│
+├── messages/                     # Translation files (NEW)
+│   ├── en.json                   # English: nav, home, about, blog, contact, common, hero
+│   └── es.json                   # Spanish translations
+│
+├── middleware.ts                 # next-intl middleware; routes /... → /[locale]/... (NEW)
 │
 ├── lib/                          # Utilities & clients
 │   ├── sanity-client.ts          # createClient + sanityFetch helper
@@ -124,6 +139,24 @@ emudev_ws/
 
 ## Data Flow
 
+### Locale Resolution (Middleware → Page)
+
+```
+User requests /projects/my-cool-app
+    ↓
+Middleware (next-intl)
+    ├─ Check Accept-Language header
+    ├─ Default to 'en' if not Spanish
+    └─ Rewrite to /en/projects/my-cool-app
+        ↓
+[locale]/projects/[slug]/page.tsx
+    ├─ Extract locale from URL: 'en'
+    ├─ Load getTranslations({ locale, namespace: 'nav' })
+    └─ Render with English UI strings
+```
+
+**Key files:** `middleware.ts`, `i18n/routing.ts`, `i18n/request.ts`, `i18n/navigation.ts`
+
 ### Content Publishing (CMS → Cache → Page)
 
 ```
@@ -133,14 +166,14 @@ Sanity Webhook POST /api/revalidate-tag
     ↓ (validate secret in x-sanity-webhook-secret header)
 Next.js revalidateTag(tags)
     ↓
-unstable_cache cleanup
+unstable_cache cleanup (per-locale tags)
     ↓
 ISR revalidates on next page visit or scheduled
     ↓
-User sees fresh content
+User sees fresh content in their locale
 ```
 
-**Key files:** `app/api/revalidate-tag/route.ts`, `lib/sanity-queries.ts`, `app/actions/contact.ts`
+**Key files:** `app/api/revalidate-tag/route.ts`, `lib/sanity-queries.ts`, `app/actions/contact.ts`, `messages/{en,es}.json`
 
 ### Contact Form Submission (Client → DB → Email)
 
@@ -184,23 +217,51 @@ notFound() renders 404 page
 
 ## Key Architectural Patterns
 
-### 1. ISR with `unstable_cache` + Tags
+### 0. Locale Resolution via Middleware + next-intl
+
+**Setup:**
+```typescript
+// middleware.ts (top level, excluded for /api/* and /studio/*)
+import { createIntlMiddleware } from 'next-intl/server'
+
+export default createIntlMiddleware({
+  locales: ['en', 'es'],
+  defaultLocale: 'en',
+  localePrefix: 'always', // All URLs must have /en or /es
+})
+
+export const config = {
+  matcher: ['/((?!api|studio|_next|.*\\..*).*)']
+}
+```
+
+**How it works:**
+- All requests to `/about` → rewritten as `/en/about` (detects locale from Accept-Language, defaults to 'en')
+- All requests to `/es/about` → routed directly
+- Root `/` → 308 redirect to `/en`
+- Locale passed to `[locale]/layout.tsx` and pages via `params`
+
+### 1. ISR with `unstable_cache` + Tags (with Locale)
 
 **Why not `'use cache'`?** Not available in Next.js 15.5 (requires canary).
 
-**Pattern:**
+**Pattern (per-locale caching):**
 ```typescript
-export const getProjects = unstable_cache(
-  async () => sanityFetch({ query: GROQ_QUERY }),
-  ['projects'], // cache key
-  { tags: ['projects'], revalidate: 3600 } // 1 hour TTL + tag
-)
+export const getProjects = (locale: string) =>
+  unstable_cache(
+    async () => sanityFetch<Project[]>({ query: GROQ_QUERY }),
+    [`projects-${locale}`], // Per-locale cache key
+    { tags: [`projects-${locale}`], revalidate: 3600 } // Per-locale tag
+  )()
+
+// In page: const projects = (await getProjects(locale)) ?? []
 ```
 
-- Queries cached for 1 hour
-- Webhook calls `revalidateTag('projects')` → immediate invalidation on publish
+- Queries cached per-locale for 1 hour (separate cache for 'en' vs 'es')
+- Webhook calls `revalidateTag('projects-en')` and `revalidateTag('projects-es')`
 - Fallback to time-based revalidate if webhook fails
-- All callers use null-coalescing: `(await getProjects()) ?? []`
+- All callers use null-coalescing: `(await getProjects(locale)) ?? []`
+- Sitemap and robots.txt include both locales
 
 ### 2. Build-Time Safety: Null Guards
 

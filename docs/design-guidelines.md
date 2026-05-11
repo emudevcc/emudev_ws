@@ -406,6 +406,135 @@ export function ThemeToggle() {
 
 ---
 
+## Internationalization (i18n) Components
+
+### Component Patterns for Bilingual Support
+
+**No Hardcoded UI Strings:**
+
+```tsx
+// Bad: hardcoded English string
+export function ProjectCard({ project }) {
+  return (
+    <article>
+      <h3>{project.title}</h3>
+      <p>Learn more →</p>
+    </article>
+  )
+}
+
+// Good: use translations
+import { useTranslations } from 'next-intl'
+
+export function ProjectCard({ project }) {
+  const t = useTranslations('projects')
+  
+  return (
+    <article>
+      <h3>{project.title}</h3>
+      <p>{t('learnMore')} →</p>
+    </article>
+  )
+}
+```
+
+### LocaleSwitcher Component
+
+Built-in component at `components/locale-switcher.tsx`:
+
+```tsx
+'use client'
+
+import { useRouter } from '@/i18n/navigation'
+import { useLocale } from 'next-intl'
+
+export function LocaleSwitcher() {
+  const router = useRouter()
+  const locale = useLocale()
+  
+  return (
+    <button
+      onClick={() => router.replace('/', { locale: locale === 'en' ? 'es' : 'en' })}
+      className="px-3 py-2 rounded-lg border text-sm font-medium transition-colors hover:bg-border"
+    >
+      {locale === 'en' ? 'ES' : 'EN'}
+    </button>
+  )
+}
+```
+
+**Usage:** Add to site navigation (SiteNav includes LocaleSwitcher in header)
+
+### Navigation with Locale-Aware Links
+
+```tsx
+import { Link } from '@/i18n/navigation'
+
+export function Nav() {
+  return (
+    <nav>
+      {/* Links automatically include current locale */}
+      <Link href="/projects">Projects</Link>
+      <Link href="/blog">Blog</Link>
+      <Link href={`/${locale}/contact`}>Contact</Link>
+    </nav>
+  )
+}
+```
+
+### Translation Messages Structure
+
+File: `messages/en.json`, `messages/es.json`
+
+```json
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Welcome to my portfolio",
+    "subtitle": "Full-stack engineer & designer"
+  },
+  "projects": {
+    "title": "My Projects",
+    "learnMore": "Learn more",
+    "viewRepo": "View Repository",
+    "viewLive": "View Live"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "your@email.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Your message...",
+    "submit": "Send Message",
+    "success": "Message sent! I'll get back to you soon.",
+    "error": "Something went wrong. Please try again."
+  }
+}
+```
+
+### Component Localization Checklist
+
+Before shipping a new component:
+
+- [ ] All UI text externalized to messages/{locale}.json
+- [ ] Using `getTranslations()` in server components
+- [ ] Using `useTranslations()` in client components
+- [ ] No hardcoded strings in JSX
+- [ ] Dynamic content (from Sanity) uses locale-aware queries
+- [ ] Links use `<Link>` from '@/i18n/navigation'
+- [ ] Forms submit with current locale context
+- [ ] Dates/numbers formatted with Intl API if needed (future enhancement)
+
+---
+
 ## Accessibility
 
 ### Semantic HTML

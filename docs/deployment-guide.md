@@ -350,8 +350,9 @@ Check **Actions** tab for logs. Vercel deployment happens in parallel.
 
 **Smoke Test Details:**
 - Tests run only on `main` branch (production) after Vercel deploy succeeds
-- Validates: health check (/api/health), public pages (/, /about, /projects, /blog, /contact), navigation performance, sitemap XML validity, robots.txt
-- All 11 tests must pass; job fails if any test fails
+- Validates: health check (/api/health), locale-aware pages (/en/*, /es/*), navigation performance, sitemap XML validity, robots.txt
+- Tests both English (/en/about, /en/projects, /en/blog) and Spanish (/es/about, /es/projects, /es/blog) routes
+- All tests must pass; job fails if any test fails
 - Logs available in GitHub Actions UI
 
 ### 3. Verify Deployment
@@ -367,15 +368,18 @@ nslookup emudev.cc
 
 ### 4. Post-Deploy Checklist
 
-- [x] Visit https://emudev.cc — homepage loads
-- [x] `/projects`, `/blog`, `/contact` pages work
+- [x] Visit https://emudev.cc — redirects to /en (default locale)
+- [x] `/en/projects`, `/en/blog`, `/en/contact` pages work
+- [x] `/es/projects`, `/es/blog`, `/es/contact` pages work
+- [x] LocaleSwitcher component toggles EN↔ES
+- [x] UI strings render in correct locale (nav, forms, hero)
 - [x] GitHub release tag created (`prod-*`)
 - [x] Vercel deployment status: green
 - [x] Cloudflare cache purge completed (Deploy workflow ✅)
 - [x] HSTS active (`strict-transport-security: max-age=31536000; includeSubDomains`)
-- [x] Smoke tests pass (11/11, Phase 7)
+- [x] Smoke tests pass (updated for /[locale]/* routes)
 - [x] Health check responds (/api/health → 200)
-- [x] Sitemap valid XML
+- [x] Sitemap valid XML (includes /en/* and /es/* URLs)
 - [x] robots.txt returns 200
 - [ ] Contact form submits successfully (Supabase email integration — Phase 8)
 - [ ] Admin email receives contact notification (Phase 8)

@@ -9,6 +9,11 @@ const envValue = (value: string | undefined) => {
   return trimmed ? trimmed : undefined
 }
 
+const previewOrigin =
+  envValue(process.env.NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL) ??
+  envValue(process.env.SANITY_STUDIO_PREVIEW_URL) ??
+  (process.env.NODE_ENV === 'production' ? 'https://www.emudev.cc' : 'http://localhost:3000')
+
 export default defineConfig({
   name: 'emudev-portfolio',
   title: 'Portfolio CMS',
@@ -19,10 +24,7 @@ export default defineConfig({
     visionTool(),
     presentationTool({
       previewUrl: {
-        origin:
-          envValue(process.env.NEXT_PUBLIC_SANITY_STUDIO_PREVIEW_URL) ??
-          envValue(process.env.SANITY_STUDIO_PREVIEW_URL) ??
-          'http://localhost:3000',
+        origin: previewOrigin,
         previewMode: {
           enable: '/api/draft-mode/enable',
         },

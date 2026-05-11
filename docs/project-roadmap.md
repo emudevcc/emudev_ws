@@ -382,7 +382,76 @@ docs/
 
 ---
 
-## Phase 8: Launch & Post-Launch (FUTURE)
+## Phase 8: Bilingual i18n Support (IN PROGRESS)
+
+**Status:** 🔄 Phase 1 Complete, Phases 2-3 In Progress, Phase 4 Planned  
+**Branch:** `feature/phase-6-cloudflare` + `plans/260510-i18n-bilingual`  
+**Target:** May 15, 2026 (est.)  
+**Duration:** ~1 week
+
+### Objectives
+
+- Implement next-intl v4 for bilingual support (EN/ES)
+- Extract UI strings to message files
+- Update Sanity schemas for locale-aware content
+- Implement SEO/sitemap with locale variants
+
+### Phase 1: Middleware & Route Migration (COMPLETE)
+
+**Deliverables:**
+- [x] `middleware.ts` — next-intl middleware (routes all non-API/studio paths through locale detection)
+- [x] `i18n/routing.ts` — defineRouting config (locales: ['en', 'es'], defaultLocale: 'en', localePrefix: 'always')
+- [x] `i18n/request.ts` — getRequestConfig; resolves locale, imports messages
+- [x] `i18n/navigation.ts` — locale-aware Link, redirect, useRouter, getPathname
+- [x] `messages/en.json` & `messages/es.json` — Complete UI string translations
+- [x] `components/locale-switcher.tsx` — Client component; EN↔ES toggle
+- [x] Route migration: `/about` → `/en/about`, `/es/about` (all pages)
+- [x] `next.config.ts` — Wrapped with createNextIntlPlugin
+- [x] `components/site-nav.tsx` — Async server component with LocaleSwitcher
+- [x] `app/layout.tsx` — Stripped to bare shell
+- [x] `app/[locale]/layout.tsx` — Full layout with NextIntlClientProvider
+
+### Phase 2: UI String Extraction (IN PROGRESS)
+
+**Objectives:** Extract hardcoded strings from components/pages to use getTranslations() / useTranslations()
+
+**Deliverables (Being Applied):**
+- [ ] Page components: getTranslations({ locale, namespace }) usage
+- [ ] Client components: useTranslations() hook usage
+- [ ] No hardcoded UI strings in JSX (all via messages/{locale}.json)
+
+### Phase 3: Sanity Bilingual Content (IN PROGRESS)
+
+**Objectives:** Update Sanity schemas for locale-aware fields
+
+**Deliverables (Being Applied):**
+- [ ] Sanity schema fields: { en: string, es: string } structure
+- [ ] sanity-queries.ts: Query functions accept locale param
+- [ ] GROQ queries: Use coalesce(field[$locale], field.en) pattern
+- [ ] Content editing: Admin edits separate EN/ES versions per document
+
+### Phase 4: SEO & Sitemap (PLANNED)
+
+**Objectives:** Implement locale variants in sitemap & robots.txt
+
+**Deliverables:**
+- [ ] Sitemap: Include /en/* and /es/* URLs with hreflang links
+- [ ] Robots.txt: Updated for locale routes
+- [ ] Open Graph: Locale-specific metadata (og:locale)
+
+### Success Metrics
+
+- [x] Both /en and /es routes load and render correctly
+- [ ] All UI strings display in correct locale
+- [ ] Sanity content is bilingual (phase 3 in progress)
+- [ ] No missing translation keys
+- [ ] Sitemap includes both locale variants
+- [ ] LocaleSwitcher toggles between EN and ES
+- [ ] Performance maintained (no regression in FCP, LCP)
+
+---
+
+## Phase 9: Launch & Post-Launch (FUTURE)
 
 **Status:** Not Started  
 **Target:** June 18, 2026 (est.)  
@@ -390,7 +459,7 @@ docs/
 
 ### Objectives
 
-- Deploy to production
+- Deploy bilingual production
 - Monitor analytics & uptime
 - Gather feedback
 - Fix launch bugs
@@ -398,8 +467,8 @@ docs/
 
 ### Deliverables
 
-- [ ] Production deployment successful
-- [ ] Domain live at https://emudev.cc
+- [ ] Production deployment successful (bilingual)
+- [ ] Domain live at https://emudev.cc with /en and /es routes
 - [ ] Analytics tracking enabled (Vercel Analytics)
 - [ ] Monitoring & alerts configured
 - [ ] Feedback collection (contact form, GitHub issues)
@@ -408,9 +477,9 @@ docs/
 ### Success Metrics
 
 - [ ] Uptime: 99.9%
-- [ ] FCP: <1.5s
+- [ ] FCP: <1.5s (en and es)
 - [ ] Error rate: <0.1%
-- [ ] Contact form submissions: >0
+- [ ] Contact form submissions: >0 (localized)
 - [ ] Performance: Lighthouse >90
 - [ ] Accessibility: WCAG 2.1 AA
 
@@ -523,4 +592,8 @@ Phase 1 (DONE)
 | 0.1.0 | May 8 | 1–5 | Scaffold, Sanity schema, Supabase migrations, UI components, CI/CD workflows |
 | 0.2.0 | May 10 | 6 | Cloudflare WAF rules, cache optimization, cache purge automation |
 | 0.3.0 | May 10 | 7 | Smoke tests & production readiness (11 passing tests, deployed to production) |
-| 1.0.0 | TBD | 8 | Post-launch monitoring & optimization |
+| 1.0.0-i18n-phase1 | May 10 | 8.1 | Bilingual i18n: next-intl middleware, EN/ES routing, message files, LocaleSwitcher |
+| 1.0.0-i18n-phase2 | TBD | 8.2 | UI string extraction: getTranslations(), useTranslations() throughout codebase |
+| 1.0.0-i18n-phase3 | TBD | 8.3 | Sanity bilingual schemas: locale-aware content fields |
+| 1.0.0-i18n-phase4 | TBD | 8.4 | SEO & sitemap: hreflang, locale variants, Open Graph |
+| 1.1.0 | TBD | 9 | Post-i18n launch, monitoring, optimization, Phase 2 features |

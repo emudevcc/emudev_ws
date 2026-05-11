@@ -50,9 +50,10 @@ Ship a zero-maintenance portfolio that:
 
 1. **Content Agility** — Publish projects and posts without rebuilding via ISR + Sanity webhooks
 2. **Professional Presence** — Present clean, performant portfolio across all devices
-3. **Lead Capture** — Collect contact form submissions with email fallback
-4. **Zero Downtime Deploys** — Automated staging approval + smoke tests before production
-5. **Security First** — RLS on database, webhook secret validation, no credentials in repo
+3. **Bilingual Support** — English & Spanish (en/es) with locale-aware routing and CMS content
+4. **Lead Capture** — Collect contact form submissions with email fallback
+5. **Zero Downtime Deploys** — Automated staging approval + smoke tests before production
+6. **Security First** — RLS on database, webhook secret validation, no credentials in repo
 
 ---
 
@@ -60,7 +61,6 @@ Ship a zero-maintenance portfolio that:
 
 - User authentication (portfolio is public; admin access via Supabase Magic Link only)
 - Analytics dashboard (use external tools like Vercel Analytics)
-- Multi-language support
 - Blog comments (contact form is the feedback channel)
 - Client-side image optimization (handled by Sanity CDN)
 

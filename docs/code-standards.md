@@ -312,6 +312,196 @@ CREATE POLICY "admin_read_contact" ON contact_submissions
 
 ---
 
+## Internationalization (i18n) Patterns
+
+### Setup
+- **Framework:** `next-intl` v4 for bilingual support (English & Spanish)
+- **Routing:** All content routes use `[locale]` segment: `/[locale]/about`, `/[locale]/projects/[slug]`
+- **Middleware:** Routes all requests to locale-prefixed paths; defaults to 'en' if not Spanish
+- **Messages:** `messages/en.json` and `messages/es.json` contain all UI strings by namespace
+
+### Server Components (Pages, Layouts)
+
+Use `getTranslations()` from `next-intl` to fetch translations for a namespace:
+
+```typescript
+// app/[locale]/layout.tsx
+import { getTranslations } from 'next-intl'
+
+export default async function Layout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'nav' })
+  
+  return (
+    <html lang={locale}>
+      <body>
+        <nav>
+          <a href={`/${locale}`}>{t('home')}</a>
+          <a href={`/${locale}/projects`}>{t('projects')}</a>
+        </nav>
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+### Client Components
+
+Use `useTranslations()` hook for client-side rendering:
+
+```typescript
+'use client'
+
+import { useTranslations } from 'next-intl'
+
+export function ContactForm() {
+  const t = useTranslations('contact')
+  
+  return (
+    <form>
+      <label>{t('nameLabel')}</label>
+      <input placeholder={t('namePlaceholder')} />
+      <button type="submit">{t('submit')}</button>
+    </form>
+  )
+}
+```
+
+### Dynamic Routes with Locale
+
+Always include `locale` in `generateStaticParams()`:
+
+```typescript
+export async function generateStaticParams() {
+  const projects = (await getProjects()) ?? []
+  const locales = ['en', 'es']
+  
+  return locales.flatMap(locale =>
+    projects.map(p => ({ locale, slug: p.slug.current }))
+  )
+}
+
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>
+}) {
+  const { locale, slug } = await params
+  const t = await getTranslations({ locale, namespace: 'project' })
+  const project = await getProjectBySlug(slug)
+  
+  if (!project) notFound()
+  return <ProjectDetail project={project} t={t} />
+}
+```
+
+### Locale-Aware Navigation
+
+Import from `@/i18n/navigation` for automatic locale-aware links:
+
+```typescript
+import { Link } from '@/i18n/navigation'
+import { useLocale } from 'next-intl'
+
+// Server component
+export function Nav() {
+  return (
+    <nav>
+      <Link href="/projects">Projects</Link>
+      {/* Automatically includes current locale in URL */}
+    </nav>
+  )
+}
+
+// Client component
+'use client'
+import { useRouter } from '@/i18n/navigation'
+
+export function LocaleSwitcher() {
+  const router = useRouter()
+  const locale = useLocale()
+  
+  const toggleLocale = (newLocale: string) => {
+    router.push('/', { locale: newLocale })
+  }
+  
+  return (
+    <button onClick={() => toggleLocale(locale === 'en' ? 'es' : 'en')}>
+      {locale === 'en' ? 'ES' : 'EN'}
+    </button>
+  )
+}
+```
+
+### Message Structure
+
+Messages are organized by namespace in `messages/{locale}.json`:
+
+```json
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Welcome",
+    "description": "My portfolio"
+  },
+  "contact": {
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "submit": "Send"
+  }
+}
+```
+
+### Sanity Content (Phase 3: In Progress)
+
+Sanity schema fields are being updated to support bilingual content:
+
+```typescript
+// Example schema structure (being implemented)
+{
+  name: 'project',
+  fields: [
+    {
+      name: 'content',
+      type: 'object',
+      fields: [
+        { name: 'en', type: 'text' },
+        { name: 'es', type: 'text' }
+      ]
+    }
+  ]
+}
+
+// Query with locale support (being implemented)
+export const getProjects = (locale: string) =>
+  unstable_cache(
+    async () =>
+      sanityFetch<Project[]>({
+        query: groq`*[_type == "project"] {
+          ...,
+          content: content[$locale] // GROQ coalesce pattern
+        }`,
+        params: { locale },
+      }),
+    [`projects-${locale}`],
+    { tags: [`projects-${locale}`], revalidate: 3600 }
+  )()
+```
+
+---
+
 ## Component Structure
 
 ### Functional Components (Preferred)

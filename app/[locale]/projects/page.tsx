@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { localeAlternates } from '@/lib/metadata'
 import { getProjects } from '@/lib/sanity-queries'
 import { TagFilter } from '@/components/tag-filter'
 
@@ -7,6 +8,7 @@ type Props = { params: Promise<{ locale: string }> }
 export const metadata: Metadata = {
   title: 'Projects',
   description: 'A collection of projects by Esteban Montero',
+  alternates: localeAlternates('/projects'),
 }
 
 export default async function ProjectsPage({ params }: Props) {

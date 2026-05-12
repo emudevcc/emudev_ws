@@ -7,10 +7,10 @@ const isDev = process.env.NODE_ENV === 'development'
 
 const securityHeaders = [
   // Dev: allow Sanity Studio (localhost:3333) to iframe the frontend for Presentation mode
-  // Prod: deny all framing
+  // Prod: allow same-origin framing for Sanity Presentation Tool at emudev.cc/studio
   isDev
-    ? { key: 'Content-Security-Policy', value: "frame-ancestors 'self' http://localhost:3333" }
-    : { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
+    ? { key: 'Content-Security-Policy', value: 'frame-ancestors *' }
+    : { key: 'Content-Security-Policy', value: "frame-ancestors 'self' https://emudev.cc" },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },

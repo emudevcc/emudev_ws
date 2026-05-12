@@ -9,6 +9,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { SanityVisualEditing } from '@/components/sanity-visual-editing'
 import { SiteNav } from '@/components/site-nav'
 import { routing } from '@/i18n/routing'
+import { localeAlternates } from '@/lib/metadata'
 import { getSiteSettings } from '@/lib/sanity-queries'
 import '@/app/globals.css'
 
@@ -31,6 +32,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
     title: { default: siteName, template: `%s | ${siteName}` },
     description,
+    alternates: localeAlternates(),
     openGraph: { siteName, type: 'website' },
   }
 }

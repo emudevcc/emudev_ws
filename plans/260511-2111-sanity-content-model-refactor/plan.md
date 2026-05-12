@@ -14,7 +14,7 @@ tags:
   - content-model
   - i18n
 blockedBy: []
-blocks: []
+blocks: [260511-2210-classic-layout-ui]
 created: '2026-05-11'
 createdBy: 'ck:plan'
 source: skill

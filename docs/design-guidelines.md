@@ -361,11 +361,15 @@ Use `space-y-5` for consistent vertical spacing between form groups.
 
 ---
 
-## Dark Mode (Placeholder)
+## Dark Mode & User Theme Toggle
 
-### Implementation
+### Status
 
-Tailwind v4 supports dark mode via `dark:` prefix. Add to base CSS:
+Dark mode is **planned for Phase 9.2 (Classic Layout UI)**. Currently, site respects system preference via CSS media query.
+
+### System Preference (Current)
+
+Tailwind v4 supports dark mode via `dark:` prefix:
 
 ```css
 @media (prefers-color-scheme: dark) {
@@ -377,21 +381,35 @@ Tailwind v4 supports dark mode via `dark:` prefix. Add to base CSS:
 }
 ```
 
-### Usage
-
 ```tsx
 <div className="bg-white dark:bg-black text-black dark:text-white">
   {/* Automatically switches based on system preference */}
 </div>
 ```
 
-### Toggle (Future Enhancement)
+### User Toggle (Phase 9.2 Enhancement)
 
-When implementing user preference:
+When implementing, use `next-themes`:
+
+```bash
+npm install next-themes
+```
 
 ```tsx
+import { ThemeProvider } from 'next-themes'
+
+// In app/[locale]/layout.tsx
+export default function LocaleLayout({ children, params }) {
+  return (
+    <ThemeProvider attribute="class" defaultTheme="system">
+      {/* content */}
+    </ThemeProvider>
+  )
+}
+
+// Component
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const { theme, setTheme } = useTheme()
   
   return (
     <button
@@ -652,22 +670,36 @@ Before shipping a new component:
 
 ---
 
-## Future Design System Integration
+## Magic UI Integration (Phase 9.1-9.2)
 
-### When Magic UI Pro is Added
+### Phase 9.1: Magic UI Installation (Planned)
 
-1. Import component library
-2. Extend Tailwind config with component presets
-3. Replace placeholder components with library versions
-4. Document component usage in this file
-5. Create Storybook if needed for design system documentation
+1. **Free-tier components** via `npx shadcn@latest add "https://magicui.design/r/[name].json"`
+   - Installed to `components/ui/`
+   - 10 core components planned (Dock, DotPattern, MagicCard, NumberTicker, BlurFade, ShimmerButton, BorderBeam, etc.)
+2. **Pro components** (MagicCard, Lens variants)
+   - Manually sourced from magicui.design/pro
+   - Copied to `components/ui/`
+3. **CSS token integration**
+   - Extend Tailwind config with Magic UI token set
+   - @theme inline for animation/gradient presets
+   - Maintain backward compatibility with existing semantic tokens
 
-### Color Palette Evolution
+### Phase 9.2: Classic Layout UI (Planned)
 
-Current semantic tokens will remain; Magic UI Pro will extend with:
-- Additional color variants
+1. Build 12-section portfolio using Magic UI components
+2. Integrate with all 14 Sanity document types (bilingual)
+3. Floating Dock navigation, DotPattern background
+4. Dark mode toggle (via next-themes)
+5. Responsive across all breakpoints
+6. Full i18n coverage for new UI strings
+
+### Token Evolution
+
+Current semantic color tokens will remain; Magic UI will extend with:
+- Additional color variants (vibrant, muted, etc.)
 - Gradient presets
-- Shadow depth scales
-- Animation library
+- Shadow depth scales (lg, xl, 2xl)
+- Animation library (fade, slide, scale, etc.)
 
-All changes will be backward compatible with existing components.
+All changes backward compatible with existing components.

@@ -6,7 +6,7 @@
 emudev_ws/
 ├── app/                          # Next.js App Router pages & actions
 │   ├── api/
-│   │   ├── revalidate-tag/route.ts    # Sanity webhook endpoint (revalidates per-locale tags)
+│   │   ├── revalidate-tag/route.ts    # Sanity webhook endpoint (collection cache tags)
 │   │   └── draft-mode/
 │   │       ├── enable/route.ts        # Enable Next.js draft mode (validatePreviewUrl)
 │   │       └── disable/route.ts       # Disable draft mode, redirect to home
@@ -18,7 +18,7 @@ emudev_ws/
 │   │   ├── page.tsx              # Homepage (hero + featured projects)
 │   │   ├── about/page.tsx        # About page
 │   │   ├── projects/
-│   │   │   ├── page.tsx          # Projects list (ISR × 2 locales, per-locale cache tags)
+│   │   │   ├── page.tsx          # Projects list (ISR × 2 locales, collection cache tag)
 │   │   │   └── [slug]/
 │   │   │       ├── page.tsx      # Project detail (SSG per-route × 2 locales)
 │   │   │       └── opengraph-image.tsx # Dynamic OG image (1200×630)
@@ -56,22 +56,22 @@ emudev_ws/
 │
 ├── lib/                          # Utilities & clients
 │   ├── sanity-client.ts          # createClient + sanityFetch helper
-│   ├── sanity-queries.ts         # GROQ queries with unstable_cache + per-locale tags
+│   ├── sanity-queries.ts         # GROQ queries with unstable_cache + locale cache keys
 │   ├── supabase-server.ts        # createSupabaseServerClient
 │   └── supabase-browser.ts       # createSupabaseBrowserClient
 │
 ├── types/
-│   ├── sanity.types.ts           # Hand-written Sanity type stubs
+│   ├── sanity.types.ts           # Generated Sanity schema types
 │   └── supabase.types.ts         # Generated via `supabase gen types`
 │
 ├── sanity/
-│   ├── schemas/                  # Sanity document types (with {en, es} bilingual fields) [UPDATED]
-│   │   ├── project-type.ts       # Project document schema with bilingual {title, description, etc.}
-│   │   ├── post-type.ts          # Post document schema with bilingual fields
-│   │   ├── author-type.ts        # Author reference
-│   │   ├── tag-type.ts           # Tag reference
-│   │   └── site-settings-type.ts # Global settings
-│   └── structure.ts              # Sanity Studio desk structure
+│   ├── lib/i18n-helpers.ts       # Shared localized schema field factories
+│   ├── schemas/                  # 14 Sanity document types with bilingual fields
+│   │   ├── project-type.ts       # Project schema with cover, tech refs, metrics
+│   │   ├── post-type.ts          # Post schema with cover, status, authorOverride
+│   │   ├── site-settings-type.ts # Global identity/contact/settings singleton
+│   │   └── *-type.ts             # About, skills, experience, credentials, extras
+│   └── structure.ts              # Grouped Studio desk structure + singletons
 │
 ├── supabase/
 │   └── migrations/               # SQL migrations
@@ -81,8 +81,9 @@ emudev_ws/
 │
 ├── tests/
 │   └── smoke/
-│       ├── pages.spec.ts              # ~11 original smoke tests (pages, navigation, etc.)
-│       └── i18n-bilingual.spec.ts    # ~36 i18n-specific tests [NEW]
+│       ├── pages.spec.ts              # Browser smoke tests for routes
+│       ├── i18n-bilingual.spec.ts     # i18n static + integration smoke tests
+│       └── content-model.spec.ts      # Sanity schema/query static contracts
 │
 ├── .github/workflows/            # CI/CD pipelines
 │   ├── ci.yml                    # PR: lint, typecheck, build
@@ -104,47 +105,49 @@ emudev_ws/
 
 ## File Purposes & LOC
 
-| File | LOC | Purpose |
-|------|-----|---------|
-| `types/sanity.types.ts` | 334 | Generated Sanity document types (Project, Post, Author, Tag, SiteSettings) |
-| `types/supabase.types.ts` | 188 | Generated Supabase table types (contact_submissions, auth.users, etc.) |
-| `lib/sanity-queries.ts` | 133 | ISR-cached GROQ queries with per-locale cache tags (getProjects(locale), getPosts(locale), etc., revalidate: 3600) |
-| `components/contact-form.tsx` | 83 | React 19 useActionState form with validation feedback |
-| `app/[locale]/projects/[slug]/page.tsx` | 82 | Dynamic project detail page (SSG per route per locale) |
-| `components/project-card.tsx` | 56 | Reusable project card for grids |
-| `app/actions/contact.ts` | 54 | Server action: validate → Supabase insert → Resend email |
-| `app/[locale]/blog/[slug]/page.tsx` | 52 | Dynamic blog post page (SSG per route per locale) |
-| `components/portable-text-renderer.tsx` | 46 | Rich text rendering for Sanity content |
-| `app/[locale]/blog/page.tsx` | 43 | Blog list page (ISR with per-locale cache tags) |
-| `app/api/revalidate-tag/route.ts` | 41 | Sanity webhook handler → revalidateTag (validates x-sanity-webhook-secret header) |
-| `components/ui/hero-section.tsx` | 39 | Animated hero with name + bio |
-| `tests/smoke/pages.spec.ts` | 35 | Playwright smoke tests for original routes |
-| `tests/smoke/i18n-bilingual.spec.ts` | 36 | Playwright smoke tests for i18n routing, message key parity, locale rendering [NEW] |
-| `sanity/schemas/project-type.ts` | 33 | Sanity project schema with bilingual fields {title, description} |
-| `components/site-nav.tsx` | 30 | Navigation + LocaleSwitcher (async server) |
-| `app/[locale]/page.tsx` | 30 | Homepage with hero + featured projects (per-locale) |
-| `app/layout.tsx` | 28 | Root layout (stripped shell) |
-| `lib/sanity-client.ts` | 29 | Sanity client initialization + sanityFetch |
-| `sanity/schemas/post-type.ts` | 27 | Sanity post schema with bilingual fields |
-| `app/[locale]/projects/page.tsx` | 27 | Projects list page (ISR with per-locale tags) |
-| `app/actions/auth.ts` | 27 | sendMagicLink + signOut server actions |
-| `components/post-card.tsx` | 25 | Blog post preview card (date, title, excerpt, author) |
-| `components/locale-switcher.tsx` | ~22 | Client component for EN↔ES toggle [NEW] |
-| `app/[locale]/blog/[slug]/opengraph-image.tsx` | 20 | Dynamic OG image for blog posts (1200×630, dark gradient) |
-| `app/[locale]/projects/[slug]/opengraph-image.tsx` | 20 | Dynamic OG image for projects |
-| `components/tag-filter.tsx` | 18 | Client component for project filtering by tags |
-| `app/api/draft-mode/enable/route.ts` | 15 | Enable Next.js draft mode with validatePreviewUrl |
-| `app/api/draft-mode/disable/route.ts` | 10 | Disable draft mode and redirect to home |
-| `i18n/routing.ts` | ~8 | defineRouting config (locales, defaultLocale, localePrefix) [NEW] |
-| `i18n/request.ts` | ~10 | getRequestConfig, message importing [NEW] |
-| `i18n/navigation.ts` | ~12 | locale-aware Link, redirect, useRouter [NEW] |
-| `middleware.ts` | 9 | next-intl/middleware setup [NEW] |
-| `app/robots.ts` | 8 | Robots.txt generator |
-| `app/sitemap.ts` | 30 | Dynamic XML sitemap with locale variants |
-| `lib/supabase-server.ts` | 21 | createSupabaseServerClient (cookie-based) |
-| `lib/supabase-browser.ts` | 7 | createSupabaseBrowserClient (browser context) |
-| `messages/en.json` | ~80 | English UI strings (namespaced: nav, home, projects, blog, contact, common) [NEW] |
-| `messages/es.json` | ~80 | Spanish translations (exact key structure parity) [NEW] |
+| File                                               | LOC  | Purpose                                                                           |
+| -------------------------------------------------- | ---- | --------------------------------------------------------------------------------- |
+| `types/sanity.types.ts`                            | ~900 | Generated Sanity document types for the 14-type content model                     |
+| `types/supabase.types.ts`                          | 188  | Generated Supabase table types (contact_submissions, auth.users, etc.)            |
+| `lib/sanity-queries.ts`                            | ~550 | 14+ ISR-cached GROQ queries, locale-v3 cache keys, coalesce fallback, collection tags |
+| `sanity/lib/i18n-helpers.ts`                        | ~80  | 6 shared localized field factories (localizedString, localizedText, localizedSlug, etc.) |
+| `components/contact-form.tsx`                      | 83   | React 19 useActionState form with validation feedback                             |
+| `app/[locale]/projects/[slug]/page.tsx`            | 82   | Dynamic project detail page (SSG per route per locale)                            |
+| `components/project-card.tsx`                      | 56   | Reusable project card for grids                                                   |
+| `app/actions/contact.ts`                           | 54   | Server action: validate → Supabase insert → Resend email                          |
+| `app/[locale]/blog/[slug]/page.tsx`                | 52   | Dynamic blog post page (SSG per route per locale)                                 |
+| `components/portable-text-renderer.tsx`            | 46   | Rich text rendering for Sanity content                                            |
+| `app/[locale]/blog/page.tsx`                       | 43   | Blog list page (ISR with locale cache keys)                                       |
+| `app/api/revalidate-tag/route.ts`                  | 41   | Sanity webhook handler → revalidateTag (validates x-sanity-webhook-secret header) |
+| `components/ui/hero-section.tsx`                   | 39   | Animated hero with name + bio                                                     |
+| `tests/smoke/pages.spec.ts`                        | 35   | Playwright smoke tests for original routes                                        |
+| `tests/smoke/i18n-bilingual.spec.ts`               | ~190 | Playwright smoke tests for i18n routing, message key parity, locale rendering     |
+| `tests/smoke/content-model.spec.ts`                | ~95  | Static contracts: 14 schema types, 6 i18n helpers, query exports, cache version   |
+| `sanity/schemas/project-type.ts`                   | ~90  | Sanity project schema with bilingual fields, cover, tech, gallery, metrics        |
+| `components/site-nav.tsx`                          | 30   | Navigation + LocaleSwitcher (async server)                                        |
+| `app/[locale]/page.tsx`                            | 30   | Homepage with hero + featured projects (per-locale)                               |
+| `app/layout.tsx`                                   | 28   | Root layout (stripped shell)                                                      |
+| `lib/sanity-client.ts`                             | 29   | Sanity client initialization + sanityFetch                                        |
+| `sanity/schemas/post-type.ts`                      | 27   | Sanity post schema with bilingual fields                                          |
+| `app/[locale]/projects/page.tsx`                   | 27   | Projects list page (ISR with per-locale tags)                                     |
+| `app/actions/auth.ts`                              | 27   | sendMagicLink + signOut server actions                                            |
+| `components/post-card.tsx`                         | 25   | Blog post preview card (date, title, excerpt, author)                             |
+| `components/locale-switcher.tsx`                   | ~22  | Client component for EN↔ES toggle [NEW]                                           |
+| `app/[locale]/blog/[slug]/opengraph-image.tsx`     | 20   | Dynamic OG image for blog posts (1200×630, dark gradient)                         |
+| `app/[locale]/projects/[slug]/opengraph-image.tsx` | 20   | Dynamic OG image for projects                                                     |
+| `components/tag-filter.tsx`                        | 18   | Client component for project filtering by skills/tech                             |
+| `app/api/draft-mode/enable/route.ts`               | 15   | Enable Next.js draft mode with validatePreviewUrl                                 |
+| `app/api/draft-mode/disable/route.ts`              | 10   | Disable draft mode and redirect to home                                           |
+| `i18n/routing.ts`                                  | ~8   | defineRouting config (locales, defaultLocale, localePrefix) [NEW]                 |
+| `i18n/request.ts`                                  | ~10  | getRequestConfig, message importing [NEW]                                         |
+| `i18n/navigation.ts`                               | ~12  | locale-aware Link, redirect, useRouter [NEW]                                      |
+| `middleware.ts`                                    | 9    | next-intl/middleware setup [NEW]                                                  |
+| `app/robots.ts`                                    | 8    | Robots.txt generator                                                              |
+| `app/sitemap.ts`                                   | 30   | Dynamic XML sitemap with locale variants                                          |
+| `lib/supabase-server.ts`                           | 21   | createSupabaseServerClient (cookie-based)                                         |
+| `lib/supabase-browser.ts`                          | 7    | createSupabaseBrowserClient (browser context)                                     |
+| `messages/en.json`                                 | ~80  | English UI strings (namespaced: nav, home, projects, blog, contact, common) [NEW] |
+| `messages/es.json`                                 | ~80  | Spanish translations (exact key structure parity) [NEW]                           |
 
 ---
 
@@ -179,10 +182,9 @@ Sanity Webhook POST /api/revalidate-tag
     ├─ body._type = 'project'
     └─ Validate x-sanity-webhook-secret header
         ↓
-Next.js revalidateTag(['projects-en', 'projects-es'])
-    ├─ revalidateTag('projects-en')
-    ├─ revalidateTag('projects-es')
-    └─ unstable_cache cleanup (per-locale tags)
+Next.js revalidateTag(['projects'])
+    ├─ revalidateTag('projects')
+    └─ unstable_cache cleanup (collection tag)
         ↓
 ISR revalidates on next /en/projects or /es/projects request
     ↓
@@ -241,6 +243,7 @@ notFound() renders 404 page
 ### 0. Locale Resolution via Middleware + next-intl
 
 **Setup:**
+
 ```typescript
 // middleware.ts (top level, excluded for /api/* and /studio/*)
 import { createIntlMiddleware } from 'next-intl/server'
@@ -249,38 +252,46 @@ import { routing } from './i18n/routing'
 export default createIntlMiddleware(routing)
 
 export const config = {
-  matcher: ['/((?!api|studio|_next|_vercel|.*\\..*).*)']
+  matcher: ['/((?!api|studio|_next|_vercel|.*\\..*).*)'],
 }
 ```
 
 **How it works:**
+
 - All requests to `/about` → rewritten as `/en/about` (detects locale from Accept-Language, defaults to 'en')
 - All requests to `/es/about` → routed directly
 - Root `/` → 308 redirect to `/en`
 - Locale passed to `[locale]/layout.tsx` and pages via `params`
 
-### 1. ISR with `unstable_cache` + Per-Locale Tags
+### 1. ISR with `unstable_cache` + Locale Cache Keys
 
 **Why not `'use cache'`?** Not available in Next.js 15.5 (requires canary).
 
-**Pattern (per-locale caching):**
+**Pattern (per-locale caching, cache version 'localized-v3'):**
+
 ```typescript
 export const getProjects = (locale: string) =>
   unstable_cache(
-    async () => sanityFetch<Project[]>({ 
-      query: GROQ_QUERY_WITH_COALESCE_FALLBACK,
-      params: { locale }
-    }),
-    [`projects-${locale}`], // Per-locale cache key
-    { tags: [`projects-${locale}`], revalidate: 3600 } // Per-locale tag
+    async () =>
+      sanityFetch<Project[]>({
+        query: groq`*[_type == "project"] | order(publishedAt desc) {
+          ...,
+          title: coalesce(title[$locale], title.en),
+          description: coalesce(description[$locale], description.en),
+        }`,
+        params: { locale },
+      }),
+    [`localized-v3-projects-${locale}`], // Per-locale cache key, versioned
+    { tags: ['projects', `projects:${locale}`], revalidate: 3600 } // Collection tag + locale tag
   )()
 
 // In page: const projects = (await getProjects(locale)) ?? []
 ```
 
 - Queries cached per-locale for 1 hour (separate cache for 'en' vs 'es')
-- Webhook calls `revalidateTag('projects-en')` AND `revalidateTag('projects-es')`
-- Fallback to time-based revalidate if webhook fails
+- Coalesce fallback: `coalesce(field[$locale], field.en)` for graceful English fallback
+- Webhook calls collection tags: `revalidateTag('projects')` instantly invalidates all locale caches
+- Fallback to 1-hour TTL if webhook fails
 - All callers use null-coalescing: `(await getProjects(locale)) ?? []`
 - Sitemap and robots.txt include both locales
 
@@ -289,6 +300,7 @@ export const getProjects = (locale: string) =>
 **Problem:** Build runs without Sanity env vars; queries would fail.
 
 **Solution:**
+
 ```typescript
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 if (!projectId) return null as T // in sanityFetch
@@ -304,6 +316,7 @@ if (!projectId) return null as T // in sanityFetch
 **Pattern:** Instantiate external service clients inside try/catch to prevent build-time failures.
 
 **Example (contact form):**
+
 ```typescript
 const supabase = await createSupabaseServerClient()
 const { error: dbError } = await supabase
@@ -321,6 +334,7 @@ try {
 ```
 
 **Benefits:**
+
 - `RESEND_API_KEY` absence doesn't throw at module load (instantiated at runtime)
 - DB insert is authoritative; email is best-effort notification
 - Outer try/catch wraps entire function; errors return graceful response to user
@@ -328,6 +342,7 @@ try {
 ### 3. Server Actions with Validation
 
 **Pattern:**
+
 ```typescript
 export async function submitContact(_prevState, formData) {
   // 1. Validate input
@@ -345,16 +360,19 @@ export async function submitContact(_prevState, formData) {
 ### 4. Supabase RLS for Public/Admin Access
 
 **Policies:**
+
 - **Public (anon role):** `INSERT INTO contact_submissions` allowed, no SELECT
 - **Admin (authenticated):** `SELECT` + `DELETE` gated on `auth.jwt()->'email' = app.admin_email`
 
 **Usage:**
+
 - Contact form uses anon client (no auth required)
 - Admin dashboard uses service role or authenticated client with admin email
 
 ### 5. Sanity Webhook Secret Validation
 
 **Pattern:**
+
 ```typescript
 const secret = req.headers.get('x-sanity-webhook-secret')
 if (secret !== process.env.SANITY_REVALIDATE_SECRET) return 401
@@ -367,13 +385,11 @@ if (secret !== process.env.SANITY_REVALIDATE_SECRET) return 401
 ### 6. Sanity Draft Mode with Token Validation
 
 **Pattern:**
+
 ```typescript
 import { validatePreviewUrl } from '@sanity/preview-url-secret'
 
-const isValidSecret = await validatePreviewUrl(
-  req.url,
-  process.env.SANITY_STUDIO_REVALIDATE_SECRET
-)
+const isValidSecret = await validatePreviewUrl(req.url, process.env.SANITY_STUDIO_REVALIDATE_SECRET)
 if (!isValidSecret) return 401
 
 draftMode().enable()
@@ -390,6 +406,7 @@ redirect(`/studio`)
 ## Environment Variable Model
 
 ### Public (Build-Time)
+
 - `NEXT_PUBLIC_SANITY_PROJECT_ID` — Sanity project ID (required for SSG)
 - `NEXT_PUBLIC_SANITY_DATASET` — Sanity dataset (defaults to 'production')
 - `NEXT_PUBLIC_SUPABASE_URL` — Supabase project URL
@@ -398,6 +415,7 @@ redirect(`/studio`)
 - `NEXT_PUBLIC_SITE_DOMAIN` — Domain for email From: (e.g., emudev.cc)
 
 ### Private (Runtime & Build)
+
 - `SANITY_API_READ_TOKEN` — Preview draft content (optional)
 - `SANITY_REVALIDATE_SECRET` — Webhook secret (must match in Sanity settings)
 - `SANITY_STUDIO_PREVIEW_URL` — Canonical site URL for Presentation Tool (e.g., https://emudev.cc)
@@ -408,6 +426,7 @@ redirect(`/studio`)
 - `ADMIN_EMAIL` — Allow-list for sendMagicLink (comma-separated)
 
 ### Environment-Level (GitHub Secrets)
+
 Repo has 3 environments: `development`, `staging`, `production`
 Each has isolated copies of the above secrets.
 
@@ -415,34 +434,35 @@ Each has isolated copies of the above secrets.
 
 ## Code Quality Standards
 
-- **TypeScript:** Strict mode; hand-written types for Sanity (not codegen in this phase)
+- **TypeScript:** Strict mode; Sanity types regenerated after every schema change: `npm run sanity:types`
 - **Naming:** camelCase for variables/functions, PascalCase for components/types, kebab-case for files
 - **Comments:** Explain "why" for non-obvious logic (ISR revalidate strategy, RLS policies, locale-aware caching)
 - **Null Handling:** Explicit null guards; prefer `?? []` over `||` for falsy checks
 - **Error Handling:** Server actions return structured state; client displays user-friendly messages
 - **Security:** No credentials in code/comments; secrets in GitHub Environments; HTML escaping in email; webhook secret validation in headers
 - **i18n:** `getTranslations()` in server components, `useTranslations()` in client components; all UI strings in message files
+- **Schema Validation:** `tests/smoke/content-model.spec.ts` validates schema registry, 6 i18n helpers, 14+ query functions, and cache version 'localized-v3' on every deploy
 
 ---
 
 ## Key Dependencies
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `next` | 15.5.18 | App Router, SSG/ISR, server actions |
-| `react` | 19.2.6 | UI library |
-| `next-intl` | ^4.11.1 | Bilingual routing & message management (EN/ES) |
-| `next-sanity` | 5.5.11 | Sanity client + next/cache integration |
-| `@sanity/visual-editing` | ^4.0.3 | Draft mode / Presentation Tool (v5 requires Next.js 16) |
-| `@sanity/preview-url-secret` | Latest | Safe preview URL token validation |
-| `@portabletext/react` | 6.2.0 | Rich text rendering |
-| `@supabase/ssr` | 0.10.3 | Cookie-based Supabase client |
-| `resend` | 6.12.3 | Transactional email API |
-| `sanity` | 3.99.0 | Sanity Studio + schema definitions |
-| `tailwindcss` | 4.0 | Utility-first CSS |
-| `typescript` | 5.9.3 | Type safety |
-| `eslint` | ^9 | Linting (v10 incompatible with eslint-plugin-react@7.x) |
-| `@playwright/test` | 1.59.1 | E2E smoke tests (~47 tests: 11 original + 36 i18n) |
+| Package                      | Version | Purpose                                                 |
+| ---------------------------- | ------- | ------------------------------------------------------- |
+| `next`                       | 15.5.18 | App Router, SSG/ISR, server actions                     |
+| `react`                      | 19.2.6  | UI library                                              |
+| `next-intl`                  | ^4.11.1 | Bilingual routing & message management (EN/ES)          |
+| `next-sanity`                | 5.5.11  | Sanity client + next/cache integration                  |
+| `@sanity/visual-editing`     | ^4.0.3  | Draft mode / Presentation Tool (v5 requires Next.js 16) |
+| `@sanity/preview-url-secret` | Latest  | Safe preview URL token validation                       |
+| `@portabletext/react`        | 6.2.0   | Rich text rendering                                     |
+| `@supabase/ssr`              | 0.10.3  | Cookie-based Supabase client                            |
+| `resend`                     | 6.12.3  | Transactional email API                                 |
+| `sanity`                     | 3.99.0  | Sanity Studio + schema definitions                      |
+| `tailwindcss`                | 4.0     | Utility-first CSS                                       |
+| `typescript`                 | 5.9.3   | Type safety                                             |
+| `eslint`                     | ^9      | Linting (v10 incompatible with eslint-plugin-react@7.x) |
+| `@playwright/test`           | 1.59.1  | Static and browser smoke tests                          |
 
 ---
 
@@ -461,11 +481,13 @@ Each has isolated copies of the above secrets.
 ## Testing Coverage
 
 ### Smoke Tests
-- **Original (11 tests):** health check, pages load (/, /about, /projects, /blog, /contact), navigation, sitemap, robots.txt
-- **i18n Bilingual (36 tests):** routing contracts (/en /es), message key parity, static rendering per-locale, locale switching, content parity
-- **Total:** ~47 tests, all passing, run post-deploy to production
+
+- **Route/browser smoke:** health check, pages load, navigation, sitemap, robots.txt, contact form
+- **i18n bilingual:** routing contracts (/en /es), message key parity, static rendering per-locale, locale switching, content parity
+- **Content model:** static contracts for Sanity helpers, schema registry, query exports, cache version, and localized GROQ fallback
 
 ### Message Key Validation
+
 - `tests/smoke/i18n-bilingual.spec.ts` verifies:
   - Routing config has `locales: ['en', 'es']` and `localePrefix: 'always'`
   - Message files have exact key parity

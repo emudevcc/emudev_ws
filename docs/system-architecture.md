@@ -65,6 +65,7 @@
 ### 0. Middleware & Locale Routing (NEW)
 
 #### Middleware Flow
+
 ```
 User Request (to /, /about, /projects, etc.)
     ↓
@@ -83,12 +84,14 @@ middleware.ts (next-intl/middleware)
 ```
 
 #### Key Files
+
 - `middleware.ts` — Route all non-API/studio paths through next-intl middleware
 - `i18n/routing.ts` — Configuration: `locales: ['en', 'es']`, `defaultLocale: 'en'`, `localePrefix: 'always'`
 - `i18n/request.ts` — Locale resolver, message file importer
 - `i18n/navigation.ts` — Locale-aware Link, redirect, useRouter helpers
 
 #### Important Constraints
+
 - Explicit locale prefix is **always required**: `/en/about`, `/es/about` (not bare `/about`)
 - Root `/` redirects to `/en` (English default)
 - API routes and `/studio` are excluded from middleware rewriting
@@ -99,31 +102,31 @@ middleware.ts (next-intl/middleware)
 ### 1. Frontend Layer (Next.js App Router)
 
 #### Page Routes (with Locale Variants)
-| Route | Generation | Cache | Purpose |
-|-------|-----------|-------|---------|
-| `/en`, `/es` | SSG × 2 | 1 hour | Homepage (hero + featured projects, locale-specific) |
-| `/[locale]/projects` | ISR × 2 | Per-tag: `projects-en`, `projects-es` | Projects list (gallery, tag filter, per-locale content) |
-| `/[locale]/projects/[slug]` | SSG (per-route × 2) | Per-route + locale | Project detail page with OG image |
-| `/[locale]/blog` | ISR × 2 | Per-tag: `posts-en`, `posts-es` | Blog post list (locale-specific) |
-| `/[locale]/blog/[slug]` | SSG (per-route × 2) | Per-route + locale | Blog post detail with OG image |
-| `/[locale]/about` | SSR | None | Static about page (locale-aware text) |
-| `/[locale]/contact` | SSR | None | Contact form (locale-aware labels, validation) |
-| `/studio` | SSR | None | Embedded Sanity Studio (root, no locale) |
-| `/api/draft-mode/enable` | Route | None | Enable Sanity draft mode (root, validatePreviewUrl) |
-| `/api/draft-mode/disable` | Route | None | Disable draft mode (root) |
-| `/robots.txt` | Generated | Static | Robots.txt (allow all except /studio, /api, /admin) |
-| `/sitemap.xml` | Generated | Static | XML sitemap with locale variants + priorities |
+
+| Route                       | Generation          | Cache              | Purpose                                                   |
+| --------------------------- | ------------------- | ------------------ | --------------------------------------------------------- |
+| `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (hero + featured projects, locale-specific)      |
+| `/[locale]/projects`        | ISR × 2             | Tag: `projects`    | Projects list (gallery, skill filter, per-locale content) |
+| `/[locale]/projects/[slug]` | SSG (per-route × 2) | Per-route + locale | Project detail page with OG image                         |
+| `/[locale]/blog`            | ISR × 2             | Tag: `posts`       | Blog post list (locale-specific)                          |
+| `/[locale]/blog/[slug]`     | SSG (per-route × 2) | Per-route + locale | Blog post detail with OG image                            |
+| `/[locale]/about`           | SSR                 | None               | Static about page (locale-aware text)                     |
+| `/[locale]/contact`         | SSR                 | None               | Contact form (locale-aware labels, validation)            |
+| `/studio`                   | SSR                 | None               | Embedded Sanity Studio (root, no locale)                  |
+| `/api/draft-mode/enable`    | Route               | None               | Enable Sanity draft mode (root, validatePreviewUrl)       |
+| `/api/draft-mode/disable`   | Route               | None               | Disable draft mode (root)                                 |
+| `/robots.txt`               | Generated           | Static             | Robots.txt (allow all except /studio, /api, /admin)       |
+| `/sitemap.xml`              | Generated           | Static             | XML sitemap with locale variants + priorities             |
 
 #### Dynamic Params (SSG with Per-Locale Variants)
+
 ```typescript
 // For /[locale]/projects/[slug] and /[locale]/blog/[slug]
 export async function generateStaticParams() {
   const projects = (await getProjects()) ?? []
   const locales = ['en', 'es']
-  
-  return locales.flatMap(locale =>
-    projects.map(p => ({ locale, slug: p.slug.current }))
-  )
+
+  return locales.flatMap((locale) => projects.map((p) => ({ locale, slug: p.slug.current })))
 }
 ```
 
@@ -137,45 +140,47 @@ export async function generateStaticParams() {
 
 ### 2. Content Management (Sanity CMS + Bilingual Schemas)
 
-#### Data Model (with Bilingual Fields)
+#### Data Model (14 Document Types with Bilingual Fields)
+
+Bilingual fields use shared factory helpers from `sanity/lib/i18n-helpers.ts`:
+- `localizedString()` — single-line bilingual text
+- `localizedText()` — multi-line bilingual text
+- `localizedSlug()` — locale-specific slugs
+- `localizedContent()` — rich text (PortableText)
+- `localizedRichText()` — alias for content
+- `localizedArray()` — localized array fields
+
+**14 Document Types:**
+
 ```
-Project (document)
-├── title { en: string, es: string }            [BILINGUAL]
-├── slug (slug, shared)
-├── description { en: string, es: string }     [BILINGUAL]
-├── content { en: PortableText, es: PortableText } [BILINGUAL]
-├── featuredImage (image reference, shared)
-├── tags (array of tag references, shared)
-├── liveUrl (URL, shared)
-├── repoUrl (URL, shared)
-└── publishedAt (date, shared)
+Singletons:
+├── SiteSettings { siteName.en/es, description.en/es, role.en/es, logo, avatar, socials, contact }
+└── About { title.en/es, bio.en/es, cta.en/es, image }
 
-Post (document)
-├── title { en: string, es: string }            [BILINGUAL]
-├── slug (slug, shared)
-├── excerpt { en: string, es: string }         [BILINGUAL]
-├── content { en: PortableText, es: PortableText } [BILINGUAL]
-├── author (reference to Author, shared)
-├── tags (array of tag references, shared)
-└── publishedAt (date, shared)
+Portfolio (content):
+├── Project { title.en/es, slug, description.en/es, content.en/es, cover, tech[], metrics, liveUrl, repoUrl, publishedAt }
+├── Skill { name, category, level, iconSlug, description.en/es }
+├── Experience { role.en/es, company, duration, description.en/es, tech[] }
+├── Certification { title.en/es, issuer, date, credential, logo }
+└── Project Gallery (future variant)
 
-Author (document)
-├── name (string, shared)
-├── bio (text, shared)
-└── image (image reference, shared)
+Blog:
+├── Post { title.en/es, slug, excerpt.en/es, content.en/es, cover, author, tags[], publishedAt }
+├── Author { name, bio, image }
+└── Tag { title, slug }
 
-Tag (document)
-├── title (string, shared)
-└── slug (slug, shared)
+Skills & Credentials:
+├── Education { degree.en/es, school, year, field }
+├── Language { name, proficiency }
+└── Strength { title.en/es, description.en/es }
 
-SiteSettings (document)
-├── siteName { en: string, es: string }        [BILINGUAL]
-├── description { en: string, es: string }     [BILINGUAL]
-├── logo (image reference, shared)
-└── socialLinks (array: {platform, url})
+About Extras:
+└── SocialPost { platform, content.en/es, url, date }
+└── Testimonial { author, role, content.en/es, image }
 ```
 
-#### GROQ Queries with Locale Fallback
+#### GROQ Queries with Locale Fallback Pattern
+
 ```typescript
 // Pattern: coalesce(field[$locale], field.en) for graceful fallback
 groq`*[_type == "project" && slug.current == $slug][0] {
@@ -183,29 +188,34 @@ groq`*[_type == "project" && slug.current == $slug][0] {
   title: coalesce(title[$locale], title.en),
   description: coalesce(description[$locale], description.en),
   content: coalesce(content[$locale], content.en),
+  "tech": tech[]->{ _id, name, category, level, iconSlug },
+  "skillRefs": tech[]->{name}
 }`
 ```
 
-- If Spanish content missing: falls back to English automatically
-- No broken content in either locale
-- Admin only needs to translate what's necessary; English is the safety net
+- If Spanish content missing: automatically serves English
+- No null/broken content in either locale
+- Admin only translates what's necessary; English is the safety net
+- Reference expansion via `->` (e.g., `tech[]->{name, category}`)
 
-#### Per-Locale ISR Cache Tags
+#### ISR Cache Layer with Locale Differentiation
+
 ```typescript
-// Cache keys differentiate by locale, preventing cross-locale pollution
+// Cache version 'localized-v3' with per-locale keys
 export const getProjects = (locale: string) =>
   unstable_cache(
     async () => sanityFetch({ query: GROQ_QUERY, params: { locale } }),
-    [`projects-${locale}`],
-    { tags: [`projects-${locale}`], revalidate: 3600 }
+    [`localized-v3-projects-${locale}`],  // Versioned per-locale key
+    { tags: ['projects', `projects:${locale}`], revalidate: 3600 }  // Collection + locale tags
   )()
 
-// Webhook revalidates BOTH locales
-revalidateTag('projects-en')
-revalidateTag('projects-es')
+// Webhook revalidates collection tag; instantly clears all locale caches
+// lib/sanity-queries.ts: 14+ query functions, all tagged with 'localized-v3' cache version
+revalidateTag('projects')  // Revalidates both en and es in <100ms
 ```
 
 #### Sanity Presentation Tool & Draft Mode
+
 - **URL:** `/studio` (embedded studio component)
 - **Preview:** Admin clicks "Presentation" in Sanity UI
 - **Enable draft:** GET `/api/draft-mode/enable?secret=...` (validated via `@sanity/preview-url-secret`)
@@ -219,6 +229,7 @@ revalidateTag('projects-es')
 ### 3. Database Layer (Supabase Postgres)
 
 #### Schema
+
 ```sql
 -- Contact submissions (public + admin RLS)
 CREATE TABLE contact_submissions (
@@ -237,10 +248,12 @@ CREATE TABLE contact_submissions (
 ```
 
 #### TypeScript Types
+
 - **Real types generated:** `types/supabase.types.ts` (188 LOC) covers all tables + auth tables
 - **RLS policies fixed:** Admin policies correctly reference `app.admin_email` setting
 
 #### RLS Policies
+
 ```sql
 -- Anon role: can only INSERT (submit form)
 CREATE POLICY "public_insert_contact" ON contact_submissions
@@ -257,6 +270,7 @@ CREATE POLICY "admin_delete_contact" ON contact_submissions
 ```
 
 #### Admin Email Config
+
 ```sql
 -- Set at deployment time
 ALTER DATABASE postgres SET app.admin_email TO 'esteban.montero@gmail.com';
@@ -269,6 +283,7 @@ Used in RLS to gate admin operations without additional tables.
 ### 4. Authentication (Supabase Auth + Magic Link)
 
 #### Magic Link Flow
+
 ```
 User requests Magic Link (locale-aware form)
     │
@@ -291,24 +306,27 @@ User requests Magic Link (locale-aware form)
 ```
 
 #### Session Management
+
 - Cookies stored securely (HttpOnly, SameSite)
 - Refresh tokens handled by Supabase SSR lib
 - signOut clears cookies via server action
 
 #### Middleware (Optional)
+
 Can add `middleware.ts` segment to gate `/dashboard` or admin routes:
+
 ```typescript
 export function middleware(request: NextRequest) {
   const supabase = createSupabaseServerClient()
   const { data } = await supabase.auth.getUser()
-  
+
   if (!data.user) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*']
+  matcher: ['/dashboard/:path*'],
 }
 ```
 
@@ -317,12 +335,13 @@ export const config = {
 ### 5. Email Delivery (Resend)
 
 #### Contact Form Email Flow
+
 ```
 User submits form (submitContact action, locale-aware labels)
     │
     ├─ Supabase INSERT contact_submissions (authoritative)
     │
-    └─ try { 
+    └─ try {
          const resend = new Resend(process.env.RESEND_API_KEY)
          await resend.emails.send(...)
        } catch (err) {
@@ -331,6 +350,7 @@ User submits form (submitContact action, locale-aware labels)
 ```
 
 **Key Details:**
+
 - Database insert is the contract; email is a bonus notification
 - `new Resend()` instantiated **inside try/catch** at runtime (not module level)
   - Prevents 500 error if `RESEND_API_KEY` missing from env
@@ -382,13 +402,12 @@ Sanity webhook POST /api/revalidate-tag
     ├─ Body: { _type: 'project', slug: { current: 'my-cool-app' } }
     └─ Validate secret (reject 401 if mismatch)
         ↓
-Extract _type='project' → TAG_MAP['project'] = ['projects-en', 'projects-es']
+Extract _type='project' → TAG_MAP['project'] = ['projects']
     │
-    ├─ revalidateTag('projects-en')
-    ├─ revalidateTag('projects-es')
+    ├─ revalidateTag('projects')
     └─ Response: { success: true, revalidatedTags: [...] }
         ↓
-Next.js cache invalidates both EN and ES
+Next.js cache invalidates every projects cache entry
     ├─ Clears: `project-my-cool-app-en` cache entry
     ├─ Clears: `project-my-cool-app-es` cache entry
     └─ Next request rebuilds from fresh Sanity data
@@ -414,14 +433,14 @@ User visits /en/projects/my-cool-app
 
 ### Secret Management
 
-| Secret | Storage | Usage | Risk |
-|--------|---------|-------|------|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | GitHub (public) | Build-time Sanity queries | Low (non-sensitive) |
-| `SANITY_REVALIDATE_SECRET` | GitHub (environment) | Webhook validation | High (interceptable in logs) → header-based only |
-| `SANITY_API_READ_TOKEN` | GitHub (environment) | Draft content queries | Medium (read-only) → optional |
-| `SUPABASE_DB_URL` | GitHub (environment) | Migrations only | High (DB access) → restricted to runner |
-| `RESEND_API_KEY` | GitHub (environment) | Email sending | High (billing) → instantiated inside try/catch |
-| `ADMIN_EMAIL` | GitHub (environment) | Allow-list gating | Low (email, public) |
+| Secret                          | Storage              | Usage                     | Risk                                             |
+| ------------------------------- | -------------------- | ------------------------- | ------------------------------------------------ |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | GitHub (public)      | Build-time Sanity queries | Low (non-sensitive)                              |
+| `SANITY_REVALIDATE_SECRET`      | GitHub (environment) | Webhook validation        | High (interceptable in logs) → header-based only |
+| `SANITY_API_READ_TOKEN`         | GitHub (environment) | Draft content queries     | Medium (read-only) → optional                    |
+| `SUPABASE_DB_URL`               | GitHub (environment) | Migrations only           | High (DB access) → restricted to runner          |
+| `RESEND_API_KEY`                | GitHub (environment) | Email sending             | High (billing) → instantiated inside try/catch   |
+| `ADMIN_EMAIL`                   | GitHub (environment) | Allow-list gating         | Low (email, public)                              |
 
 ### Best Practices
 
@@ -438,49 +457,49 @@ User visits /en/projects/my-cool-app
 
 ### Build Time
 
-| Phase | Duration |
-|-------|----------|
-| Lint (ESLint) | ~20s |
-| Typecheck (TypeScript) | ~15s |
-| Generate static params (both locales) | ~10s |
-| Next.js build | ~80s |
-| **Total** | **~2-3 min** |
+| Phase                                 | Duration     |
+| ------------------------------------- | ------------ |
+| Lint (ESLint)                         | ~20s         |
+| Typecheck (TypeScript)                | ~15s         |
+| Generate static params (both locales) | ~10s         |
+| Next.js build                         | ~80s         |
+| **Total**                             | **~2-3 min** |
 
 ### Static Rendering (Per-Locale)
 
-| Content Type | Routes | Locale Variants | Total Pages |
-|--------------|--------|-----------------|-------------|
-| Homepage | 1 | 2 (en, es) | 2 |
-| Projects | 1 list + N detail | 2 | 2 + (2 × projects) |
-| Blog | 1 list + M detail | 2 | 2 + (2 × posts) |
-| About | 1 | 2 | 2 |
-| Contact | 1 | 2 | 2 |
-| **Typical** | **~10 routes** | **2 locales** | **~50-100 pages** |
+| Content Type | Routes            | Locale Variants | Total Pages        |
+| ------------ | ----------------- | --------------- | ------------------ |
+| Homepage     | 1                 | 2 (en, es)      | 2                  |
+| Projects     | 1 list + N detail | 2               | 2 + (2 × projects) |
+| Blog         | 1 list + M detail | 2               | 2 + (2 × posts)    |
+| About        | 1                 | 2               | 2                  |
+| Contact      | 1                 | 2               | 2                  |
+| **Typical**  | **~10 routes**    | **2 locales**   | **~50-100 pages**  |
 
 ### Cache Strategy
 
-| Content Type | Strategy | TTL | Revalidation |
-|--------------|----------|-----|--------------|
-| Static assets (CSS, JS) | Cloudflare cache | 1 year | Manual purge |
-| Homepage | ISR | 1 hour | Webhook on publish |
-| Projects list | ISR (per-locale) | 1 hour | Webhook on project publish |
-| Project detail | SSG (per-route × locale) | 1 hour | Webhook on project publish |
-| Blog list | ISR (per-locale) | 1 hour | Webhook on post publish |
-| Blog detail | SSG (per-route × locale) | 1 hour | Webhook on post publish |
-| API routes | Bypass | — | N/A |
-| Studio | Bypass | — | N/A |
+| Content Type            | Strategy                 | TTL    | Revalidation                        |
+| ----------------------- | ------------------------ | ------ | ----------------------------------- |
+| Static assets (CSS, JS) | Cloudflare cache         | 1 year | Manual purge                        |
+| Homepage                | ISR                      | 1 hour | Webhook on publish                  |
+| Projects list           | ISR (locale cache key)   | 1 hour | Webhook on project or skill publish |
+| Project detail          | SSG (per-route × locale) | 1 hour | Webhook on project publish          |
+| Blog list               | ISR (per-locale)         | 1 hour | Webhook on post publish             |
+| Blog detail             | SSG (per-route × locale) | 1 hour | Webhook on post publish             |
+| API routes              | Bypass                   | —      | N/A                                 |
+| Studio                  | Bypass                   | —      | N/A                                 |
 
 ### Lighthouse Metrics (Targets)
 
-| Metric | Target |
-|--------|--------|
-| **FCP** (First Contentful Paint) | <1.5s |
-| **LCP** (Largest Contentful Paint) | <2.5s |
-| **CLS** (Cumulative Layout Shift) | <0.1 |
-| **Performance Score** | >90 |
-| **Accessibility Score** | >95 |
-| **Best Practices Score** | >95 |
-| **SEO Score** | >95 |
+| Metric                             | Target |
+| ---------------------------------- | ------ |
+| **FCP** (First Contentful Paint)   | <1.5s  |
+| **LCP** (Largest Contentful Paint) | <2.5s  |
+| **CLS** (Cumulative Layout Shift)  | <0.1   |
+| **Performance Score**              | >90    |
+| **Accessibility Score**            | >95    |
+| **Best Practices Score**           | >95    |
+| **SEO Score**                      | >95    |
 
 ---
 
@@ -502,7 +521,7 @@ Merge PR to develop
         ├─ Build Next.js
         ├─ Deploy to Vercel (preview)
         ├─ Wait 15s for Cloudflare propagation
-        ├─ Run smoke tests (11 original + 36 i18n)
+        ├─ Run smoke tests (static + integration suites)
         └─ Purge Cloudflare cache
             ↓
 Preview URL generated (emudev-ws-dev.vercel.app)
@@ -514,7 +533,7 @@ Merge PR to main
         ├─ Build Next.js
         ├─ Deploy to Vercel (production)
         ├─ Wait 15s for Cloudflare propagation
-        ├─ Run smoke tests against emudev.cc (~47 tests)
+        ├─ Run smoke tests against emudev.cc
         ├─ Purge Cloudflare cache (full zone)
         └─ Create release tag (prod-YYYYMMDD-HHMMSS)
             ↓
@@ -523,11 +542,11 @@ Production live at https://emudev.cc (both /en and /es)
 
 ### Environments
 
-| Environment | Branch | Domain | Deploy Gate | Approval |
-|-------------|--------|--------|-------------|----------|
-| Development | develop | Vercel auto | None | Auto-deploy |
-| Staging | staging | staging.emudev.cc | None (optional) | Manual |
-| Production | main | emudev.cc | None (auto) | Manual via UI |
+| Environment | Branch  | Domain            | Deploy Gate     | Approval      |
+| ----------- | ------- | ----------------- | --------------- | ------------- |
+| Development | develop | Vercel auto       | None            | Auto-deploy   |
+| Staging     | staging | staging.emudev.cc | None (optional) | Manual        |
+| Production  | main    | emudev.cc         | None (auto)     | Manual via UI |
 
 ---
 
@@ -539,7 +558,7 @@ Production live at https://emudev.cc (both /en and /es)
 - **Error Rate** — Vercel logs + Sentry (if integrated)
 - **Cache Hit Ratio** — Cloudflare analytics (>80% target)
 - **Build Time** — GitHub Actions logs (<3 min target)
-- **Test Coverage** — 47 smoke tests run post-deploy (100% pass target)
+- **Test Coverage** — Static and browser smoke suites run in CI/deploy gates
 
 ### Tools
 
@@ -554,13 +573,13 @@ Production live at https://emudev.cc (both /en and /es)
 
 ## Disaster Recovery
 
-| Scenario | RTO | RPO | Recovery |
-|----------|-----|-----|----------|
-| **Database corruption** | 1 hour | 24 hours | Supabase automated backups (retained 7 days) |
-| **Cache poisoning** | 5 min | 0 | Manual Cloudflare purge + webhook revalidation |
-| **Secret exposure** | 15 min | 0 | Rotate GitHub secret + redeploy |
-| **Vercel outage** | 30 min | 0 | Fallback to static HTML (cached in Cloudflare) |
-| **Sanity CMS down** | 1 hour | 1 hour | Serve cached content; display notice to admin |
+| Scenario                | RTO    | RPO      | Recovery                                       |
+| ----------------------- | ------ | -------- | ---------------------------------------------- |
+| **Database corruption** | 1 hour | 24 hours | Supabase automated backups (retained 7 days)   |
+| **Cache poisoning**     | 5 min  | 0        | Manual Cloudflare purge + webhook revalidation |
+| **Secret exposure**     | 15 min | 0        | Rotate GitHub secret + redeploy                |
+| **Vercel outage**       | 30 min | 0        | Fallback to static HTML (cached in Cloudflare) |
+| **Sanity CMS down**     | 1 hour | 1 hour   | Serve cached content; display notice to admin  |
 
 ### Backup Strategy
 

@@ -4,11 +4,12 @@
 
 ### Type Definitions
 
-1. **Sanity types** (`types/sanity.types.ts`) — Hand-written stubs, not codegen
-   - Update manually after schema changes: `sanity typegen generate`
-   - Export document interfaces (Project, Post, Author, Tag, SiteSettings)
-   - Includes utility types: Slug, SanityImageAsset, SanityDocument
+1. **Sanity types** (`types/sanity.types.ts`) — Generated from Sanity schemas (~900 LOC)
+   - **CRITICAL:** Regenerate after every schema change: `npm run sanity:types && npm run typecheck`
+   - Export all 14 document types (Project, Post, Skill, Experience, Certification, Education, Language, Strength, SocialPost, Testimonial, About, SiteSettings, Author, Tag)
+   - Includes utility types: Slug, SanityImageAsset, SanityDocument, SanityReference
    - Bilingual schemas use `{ en: string, es: string }` structure
+   - `content-model.spec.ts` validates schema registry, 6 i18n helpers, query exports, and 'localized-v3' cache version on every deploy
 
 2. **Supabase types** (`types/supabase.types.ts`) — Auto-generated
    - Generated via: `supabase gen types typescript --linked > types/supabase.types.ts`
@@ -20,7 +21,7 @@
    interface ProjectCardProps {
      project: Project
    }
-   export function ProjectCard({ project }: ProjectCardProps) { }
+   export function ProjectCard({ project }: ProjectCardProps) {}
    ```
 
 ### Null Handling
@@ -29,7 +30,7 @@
 
 ```typescript
 // Bad
-const projects = await getProjects() || []
+const projects = (await getProjects()) || []
 
 // Good (handles empty array vs null)
 const projects = (await getProjects()) ?? []
@@ -40,6 +41,7 @@ if (!projectId) return null as T // at fetch time
 ```
 
 **Pattern for dynamic routes:**
+
 ```typescript
 export async function generateStaticParams() {
   const posts = (await getPosts()) ?? []
@@ -57,18 +59,18 @@ export default async function Page({ params }) {
 
 ## Naming Conventions
 
-| Category | Case | Example |
-|----------|------|---------|
-| **Files** | kebab-case | `contact-form.tsx`, `sanity-queries.ts`, `locale-switcher.tsx` |
-| **Directories** | kebab-case | `app/projects/[slug]/`, `lib/`, `types/`, `i18n/` |
-| **Variables** | camelCase | `projectId`, `siteSettings`, `isLoading`, `locale` |
-| **Constants** | UPPER_SNAKE_CASE (if truly constant) | `ADMIN_EMAIL`, `DEFAULT_LOCALE` |
-| **Functions** | camelCase | `getProjects()`, `submitContact()`, `useTranslations()` |
-| **Components** | PascalCase | `ProjectCard`, `ContactForm`, `LocaleSwitcher` |
-| **Types/Interfaces** | PascalCase | `Project`, `ContactSubmission`, `LocaleString` |
-| **GROQ Queries** | Inline or kebab-case alias | `getProjects`, `getProjectBySlug` |
-| **Env Vars** | UPPER_SNAKE_CASE with NEXT_PUBLIC_ prefix | `NEXT_PUBLIC_SANITY_PROJECT_ID`, `SANITY_REVALIDATE_SECRET` |
-| **Locales** | lowercase 2-letter code | `'en'`, `'es'` (not 'EN', 'ES') |
+| Category             | Case                                      | Example                                                        |
+| -------------------- | ----------------------------------------- | -------------------------------------------------------------- |
+| **Files**            | kebab-case                                | `contact-form.tsx`, `sanity-queries.ts`, `locale-switcher.tsx` |
+| **Directories**      | kebab-case                                | `app/projects/[slug]/`, `lib/`, `types/`, `i18n/`              |
+| **Variables**        | camelCase                                 | `projectId`, `siteSettings`, `isLoading`, `locale`             |
+| **Constants**        | UPPER_SNAKE_CASE (if truly constant)      | `ADMIN_EMAIL`, `DEFAULT_LOCALE`                                |
+| **Functions**        | camelCase                                 | `getProjects()`, `submitContact()`, `useTranslations()`        |
+| **Components**       | PascalCase                                | `ProjectCard`, `ContactForm`, `LocaleSwitcher`                 |
+| **Types/Interfaces** | PascalCase                                | `Project`, `ContactSubmission`, `LocaleString`                 |
+| **GROQ Queries**     | Inline or kebab-case alias                | `getProjects`, `getProjectBySlug`                              |
+| **Env Vars**         | UPPER*SNAKE_CASE with NEXT_PUBLIC* prefix | `NEXT_PUBLIC_SANITY_PROJECT_ID`, `SANITY_REVALIDATE_SECRET`    |
+| **Locales**          | lowercase 2-letter code                   | `'en'`, `'es'` (not 'EN', 'ES')                                |
 
 ---
 
@@ -76,7 +78,7 @@ export default async function Page({ params }) {
 
 **Goal:** Content updates reflect within seconds via Sanity webhook, fallback to 1-hour revalidate.
 
-### Query with `unstable_cache` + Per-Locale Tags
+### Query with `unstable_cache` + Locale Cache Keys
 
 ```typescript
 // lib/sanity-queries.ts
@@ -87,22 +89,23 @@ export const getProjects = (locale: string) =>
         query: groq`*[_type == "project"] | order(publishedAt desc) { ... }`,
         params: { locale },
       }),
-    [`projects-${locale}`],                           // Per-locale cache key
-    { tags: [`projects-${locale}`], revalidate: 3600 } // Per-locale tag + 1h TTL
+    [`localized-v3-projects-${locale}`], // Per-locale cache key
+    { tags: ['projects'], revalidate: 3600 } // Collection tag + 1h TTL
   )()
 
 // Usage in page
 const projects = (await getProjects(locale)) ?? []
 ```
 
-### Webhook Revalidation (Per-Locale)
+### Webhook Revalidation
 
 ```typescript
 // app/api/revalidate-tag/route.ts
 const TAG_MAP: Record<string, string[]> = {
-  project: ['projects-en', 'projects-es'],  // Revalidate both locales
-  post: ['posts-en', 'posts-es'],
+  project: ['projects'],
+  post: ['posts'],
   siteSettings: ['site-settings'],
+  skill: ['skills', 'projects', 'experiences', 'certifications'],
 }
 
 const tags = TAG_MAP[body._type] ?? []
@@ -114,8 +117,8 @@ for (const tag of tags) {
 ### Key Rules
 
 1. **Always use `?? []` for null-coalescing** — Build may not have Sanity env vars
-2. **Per-locale cache tags** — `getProjectBySlug(slug, locale)` uses `['projects-en', 'projects-es']` or per-route variants
-3. **Per-locale revalidation** — Webhook calls both `revalidateTag('projects-en')` and `revalidateTag('projects-es')`
+2. **Per-locale cache keys** — include locale in the `unstable_cache` key
+3. **Collection revalidation tags** — webhook calls collection tags such as `projects`, `posts`, `skills`
 4. **Headers matter** — Webhook secret in header (x-sanity-webhook-secret), never query params
 5. **Fallback is time-based** — If webhook fails/is missed, 1-hour TTL still revalidates
 
@@ -140,9 +143,7 @@ export async function submitContact(
 
   // 2. Perform mutation (DB, email, etc.)
   const supabase = await createSupabaseServerClient()
-  const { error } = await supabase
-    .from('contact_submissions')
-    .insert({ name, email, message })
+  const { error } = await supabase.from('contact_submissions').insert({ name, email, message })
 
   if (error) return { error: 'Save failed.' }
 
@@ -198,8 +199,8 @@ export const getProjectBySlug = (slug: string, locale: string) =>
           ...,
           title: coalesce(title[$locale], title.en),
           description: coalesce(description[$locale], description.en),
-          "featuredImage": featuredImage.asset->url,
-          tags[]->{ _id, title }
+          "cover": coalesce(cover.asset->url, featuredImage.asset->url),
+          "tech": tech[]->{ _id, name, iconSlug, category, level }
         }`,
         params: { slug, locale }, // Parameterized queries
       }),
@@ -212,11 +213,11 @@ export const getProjectBySlug = (slug: string, locale: string) =>
 
 1. **Parameterized queries** — Always use `params: { slug, locale }` in GROQ (prevents injection)
 2. **Locale fallback** — Use `coalesce(field[$locale], field.en)` for graceful English fallback
-3. **Reference expansion** — Use `->` to expand references (author->, tags[]->, image.asset->url)
+3. **Reference expansion** — Use `->` to expand references (author->, tech[]->, image.asset->url)
 4. **Asset URLs** — Extract via `asset->url` (Sanity CDN-enabled)
 5. **Null handling** — Return `T | null` for single-document queries; wrap caller in `?? null`
 6. **Caching key** — Use `[`project-${slug}-${locale}`]` to vary cache per route param and locale
-7. **Tags strategy** — Include both generic (`'projects'`) and specific (`'projects:en'`, `'project:slug'`) tags for flexible revalidation
+7. **Tags strategy** — Include collection tags (`'projects'`) and route-specific tags (`'project:slug'`) where useful
 
 ---
 
@@ -233,6 +234,7 @@ if (secret !== process.env.SANITY_REVALIDATE_SECRET) {
 ```
 
 **Rules:**
+
 - Secret in **header**, never query params (would leak in logs)
 - Compare as strings; use timing-safe comparison if available
 - Return 401 immediately; don't process payload
@@ -243,10 +245,7 @@ if (secret !== process.env.SANITY_REVALIDATE_SECRET) {
 // app/api/draft-mode/enable/route.ts
 import { validatePreviewUrl } from '@sanity/preview-url-secret'
 
-const isValidSecret = await validatePreviewUrl(
-  req.url,
-  process.env.SANITY_STUDIO_REVALIDATE_SECRET
-)
+const isValidSecret = await validatePreviewUrl(req.url, process.env.SANITY_STUDIO_REVALIDATE_SECRET)
 if (!isValidSecret) {
   return NextResponse.json({ error: 'Invalid preview URL' }, { status: 401 })
 }
@@ -283,6 +282,7 @@ export async function createSupabaseServerClient() {
 ```
 
 **Use for:**
+
 - Server actions (contact form submission)
 - Middleware (auth state management)
 - Page-level data fetching (requires admin auth)
@@ -300,6 +300,7 @@ export function createSupabaseBrowserClient() {
 ```
 
 **Limitations:**
+
 - Can only INSERT/SELECT via RLS policies
 - Suitable for anonymous contact form, not admin panels
 
@@ -317,6 +318,7 @@ CREATE POLICY "admin_read_contact" ON contact_submissions
 ```
 
 **Rules:**
+
 - Never trust client for authorization — RLS is the enforcement layer
 - `anon` role for public operations (INSERT only)
 - Authenticated role with email check for admin operations
@@ -350,7 +352,7 @@ export default async function Layout({
 }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'nav' })
-  
+
   return (
     <html lang={locale}>
       <body>
@@ -376,7 +378,7 @@ import { useTranslations } from 'next-intl'
 
 export function ContactForm() {
   const t = useTranslations('contact')
-  
+
   return (
     <form>
       <label>{t('nameLabel')}</label>
@@ -395,7 +397,7 @@ Always include `locale` in `generateStaticParams()`:
 export async function generateStaticParams() {
   const projects = (await getProjects()) ?? []
   const locales = ['en', 'es']
-  
+
   return locales.flatMap(locale =>
     projects.map(p => ({ locale, slug: p.slug.current }))
   )
@@ -409,9 +411,9 @@ export default async function ProjectPage({
   const { locale, slug } = await params
   const t = await getTranslations({ locale, namespace: 'project' })
   const project = await getProjectBySlug(slug, locale)
-  
+
   if (!project) notFound()
-  
+
   return (
     <div>
       <h1>{t('title')}</h1>
@@ -462,6 +464,7 @@ export default async function ProjectPage({
 ```
 
 **Rules:**
+
 - Keys must match exactly between EN and ES (smoke tests verify)
 - Use nested objects for namespaces (nav, project, contact, etc.)
 - No hardcoded strings in components/pages
@@ -474,29 +477,31 @@ export default async function ProjectPage({
 ### Playwright Smoke Tests
 
 **Setup:**
+
 ```bash
 npm run test:smoke:local   # Run against localhost:3000
 npm run test:smoke         # Run against BASE_URL env var (production)
 ```
 
 **Test structure:**
+
 ```typescript
 import { expect, test } from '@playwright/test'
 
 test.describe('Smoke Tests', () => {
   test('homepage loads successfully', async ({ page }) => {
     await page.goto('/')
-    
+
     const status = page.url()
     expect(status).toContain('/en') // Verify locale routing
-    
+
     const heading = await page.getByRole('heading', { level: 1 })
     await expect(heading).toBeVisible()
   })
-  
+
   test('contact form renders with required fields', async ({ page }) => {
     await page.goto('/contact')
-    
+
     await expect(page.getByLabel(/name/i)).toBeVisible()
     await expect(page.getByLabel(/email/i)).toBeVisible()
     await expect(page.getByRole('button', { name: /send/i })).toBeVisible()
@@ -507,6 +512,7 @@ test.describe('Smoke Tests', () => {
 ### Bilingual Test Contracts
 
 **Message Key Parity:**
+
 ```typescript
 test('message namespaces and keys match for English and Spanish', () => {
   const en = readJson('messages/en.json')
@@ -520,6 +526,7 @@ test('message namespaces and keys match for English and Spanish', () => {
 ```
 
 **Routing Contracts:**
+
 ```typescript
 test('routing is explicit bilingual en/es with English default', () => {
   const routing = readText('i18n/routing.ts')
@@ -531,6 +538,7 @@ test('routing is explicit bilingual en/es with English default', () => {
 ```
 
 **Static Rendering (Per-Locale):**
+
 ```typescript
 test('static pages render without errors in both locales', async ({ page }) => {
   const pages = ['', '/about', '/projects', '/blog', '/contact']
@@ -541,10 +549,10 @@ test('static pages render without errors in both locales', async ({ page }) => {
       const url = `/${locale}${path}`
       await page.goto(url)
       expect(page.url()).toContain(`/${locale}`)
-      
+
       // Verify no console errors
       const errors = []
-      page.on('console', msg => {
+      page.on('console', (msg) => {
         if (msg.type() === 'error') errors.push(msg.text())
       })
       expect(errors).toHaveLength(0)
@@ -555,7 +563,7 @@ test('static pages render without errors in both locales', async ({ page }) => {
 
 ### Key Guidelines
 
-- **Target:** Run ~47 tests total (11 original + 36 i18n-specific)
+- **Target:** Required static and browser smoke suites pass
 - **Timing:** ~7-10 seconds against production
 - **Frequency:** On every deploy (staging + production)
 - **Scope:** Happy path only (not comprehensive feature tests)
@@ -587,12 +595,14 @@ test('static pages render without errors in both locales', async ({ page }) => {
 ### When to Comment
 
 **DO write comments for:**
+
 - Non-obvious business logic (e.g., ISR revalidation strategy)
 - Security decisions (e.g., why secret is in header, not query param)
 - Performance optimizations (e.g., per-locale caching strategy)
 - RLS policies (e.g., admin email gating)
 
 **DON'T comment:**
+
 - Self-documenting code (good variable names)
 - Types (they're self-explanatory)
 - Obvious logic
@@ -623,28 +633,40 @@ When making breaking changes:
 
 ---
 
-## Magic UI MCP
+## Magic UI & Component Installation
 
-`@magicuidesign/mcp` is configured globally (`~/.claude.json`, user scope) and available in every Claude Code session.
+**Status:** MCP server installed (`claude mcp add -s user magicuidesign-mcp`). Installation plan in progress (`plans/260511-2210-magic-ui-install`).
 
-| Tool | Use |
-|------|-----|
-| `listRegistryItems` | Browse all available components |
-| `searchRegistryItems` | Find components by keyword |
-| `getRegistryItem` | Fetch component source + examples |
+### Component Installation
+
+**Free-tier components:** Installed via `npx shadcn@latest add "https://magicui.design/r/[name].json"` and placed in `components/ui/`.
+
+**Pro components (MagicCard, Lens, etc.):** Manually sourced from magicui.design/pro and copied to `components/ui/`.
+
+**CSS token integration:** Full shadcn/ui HSL token set + @theme inline for Magic UI compatibility.
+
+### Magic UI MCP Tools
+
+`@magicuidesign/mcp` available in Claude Code sessions for component discovery:
+
+| Tool                  | Use                               |
+| --------------------- | --------------------------------- |
+| `listRegistryItems`   | Browse all available components   |
+| `searchRegistryItems` | Find components by keyword        |
+| `getRegistryItem`     | Fetch component source + examples |
 
 **Usage prompts:**
+
 - "List all Magic UI components" — browse catalog
-- "Get the Magic UI marquee component source" — pull code directly
-- "Search Magic UI for animated card" — find by keyword
+- "Search Magic UI for floating dock" — find by keyword
+- "Get the MagicCard source" — pull code directly
 
-**Integration pattern** (Next.js 15 + shadcn/ui):
-1. Get component source via MCP
-2. Place in `components/ui/<component-name>.tsx`
-3. Add any new dependencies to `package.json`
-4. Import normally — no registry CLI needed
+**Integration pattern (Phase 9.1):**
 
-**Pro templates:** The MCP server wraps the public registry only (no auth). Access Pro templates via magicui.design/pro in the browser, then copy source into `components/ui/`.
+1. Install via `npx shadcn@latest add "https://magicui.design/r/[name].json"`
+2. Component auto-placed in `components/ui/`
+3. Extend Tailwind config with Magic UI token presets
+4. No additional build steps needed
 
 ---
 

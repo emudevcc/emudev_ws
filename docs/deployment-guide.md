@@ -5,6 +5,7 @@
 All new work must go through feature branches — never push directly to `develop` or `main`.
 
 **Standard flow (new feature or fix):**
+
 ```bash
 # 1. Start from develop
 git checkout develop && git pull origin develop
@@ -23,6 +24,7 @@ git push origin feature/your-feature-name
 ```
 
 **Emergency hotfix:**
+
 ```bash
 git checkout -b hotfix/fix-name main
 # fix, commit, push
@@ -33,13 +35,13 @@ git checkout -b hotfix/fix-name main
 
 ## Workflow Decision Matrix
 
-| Branch | CI Runs | Deploy | Domain | Deploy Gate | Use For |
-|--------|---------|--------|--------|-------------|---------|
-| `develop` | Yes | Vercel preview | emudev-ws-dev.vercel.app | None (auto) | Feature development |
-| `feature/*` | Yes | Vercel preview | Vercel auto | None (auto) | Feature branches |
-| `hotfix/*` | Yes (minimal) | Production | emudev.cc | None (auto on merge) | Emergency fixes |
-| `main` | Yes | Production | emudev.cc | Manual approval (UI) | Production release |
-| PR (any) | Yes | — | — | Required to pass | Pre-merge checks |
+| Branch      | CI Runs       | Deploy         | Domain                   | Deploy Gate          | Use For             |
+| ----------- | ------------- | -------------- | ------------------------ | -------------------- | ------------------- |
+| `develop`   | Yes           | Vercel preview | emudev-ws-dev.vercel.app | None (auto)          | Feature development |
+| `feature/*` | Yes           | Vercel preview | Vercel auto              | None (auto)          | Feature branches    |
+| `hotfix/*`  | Yes (minimal) | Production     | emudev.cc                | None (auto on merge) | Emergency fixes     |
+| `main`      | Yes           | Production     | emudev.cc                | Manual approval (UI) | Production release  |
+| PR (any)    | Yes           | —              | —                        | Required to pass     | Pre-merge checks    |
 
 **Important:** Vercel git integration handles all deployments. No manual `vercel deploy` CLI calls needed.  
 **Branches:** Three active branches: `develop` (dev), staging, `main` (production).
@@ -49,6 +51,7 @@ git checkout -b hotfix/fix-name main
 ## Pre-Deployment Checklist
 
 **One-time setup (per project):**
+
 - [ ] GitHub repo created with `develop` and `main` branches
 - [ ] Vercel project created (`emudev-ws`) with git integration to `main`
 - [ ] GitHub Environments: `production` (manual approval required)
@@ -62,9 +65,10 @@ git checkout -b hotfix/fix-name main
 - [ ] Draft mode API routes working (`/api/draft-mode/enable`, `/api/draft-mode/disable`)
 
 **Per-deployment (develop → main):**
+
 - [ ] All code merged to `develop` or `main`
 - [ ] CI passes (lint, typecheck, build)
-- [ ] Smoke tests pass (47 total: 11 original + 36 i18n)
+- [ ] Smoke tests pass
 - [ ] Feature branch preview URL works (optional manual test)
 - [ ] Bilingual content renders in both EN and ES
 - [ ] LocaleSwitcher works in navigation
@@ -99,10 +103,10 @@ git push origin staging
 1. **Settings > Secrets and variables > Actions**
 2. Click **New repository secret** for each:
 
-| Secret | Source | Notes |
-|--------|--------|-------|
+| Secret         | Source                                  | Notes                    |
+| -------------- | --------------------------------------- | ------------------------ |
 | `CF_API_TOKEN` | Cloudflare dashboard > Account settings | Scoped to emudev.cc zone |
-| `CF_ZONE_ID` | Cloudflare emudev.cc zone settings | UUID from zone overview |
+| `CF_ZONE_ID`   | Cloudflare emudev.cc zone settings      | UUID from zone overview  |
 
 **No Vercel secrets needed** — git integration uses OAuth.
 
@@ -126,6 +130,7 @@ git push origin staging
 ### Configure for Multiple Branches
 
 Vercel auto-generates preview URLs for all branches except `main`:
+
 - `develop` branch → auto preview (e.g., `emudev-ws-dev.vercel.app`)
 - `feature/*` branches → auto preview per PR
 - `main` branch → production via Cloudflare CNAME to `emudev.cc`
@@ -138,20 +143,20 @@ Vercel git integration automatically deploys on push; no manual configuration ne
 2. Select `production` environment
 3. Add secrets:
 
-| Secret | Source | Required |
-|--------|--------|----------|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID (zziqxayh) | Yes |
-| `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset name (`production`) | Yes |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project settings | Yes |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key | Yes |
-| `SUPABASE_DB_URL` | Supabase connection string (Session mode) | Yes |
-| `SUPABASE_PAT` | Supabase personal access token | Yes |
-| `SANITY_API_READ_TOKEN` | Sanity Viewer token (for draft content) | No |
-| `SANITY_REVALIDATE_SECRET` | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` | Yes |
-| `SANITY_STUDIO_PREVIEW_URL` | `https://emudev.cc` (for Presentation Tool) | Yes |
-| `SANITY_STUDIO_REVALIDATE_SECRET` | Same as `SANITY_REVALIDATE_SECRET` | Yes |
-| `RESEND_API_KEY` | Resend email API key (for contact form emails) | Yes |
-| `ADMIN_EMAIL` | `esteban.montero@gmail.com` | Yes |
+| Secret                            | Source                                                                     | Required |
+| --------------------------------- | -------------------------------------------------------------------------- | -------- |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID`   | Sanity project ID (zziqxayh)                                               | Yes      |
+| `NEXT_PUBLIC_SANITY_DATASET`      | Sanity dataset name (`production`)                                         | Yes      |
+| `NEXT_PUBLIC_SUPABASE_URL`        | Supabase project settings                                                  | Yes      |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`   | Supabase anon key                                                          | Yes      |
+| `SUPABASE_DB_URL`                 | Supabase connection string (Session mode)                                  | Yes      |
+| `SUPABASE_PAT`                    | Supabase personal access token                                             | Yes      |
+| `SANITY_API_READ_TOKEN`           | Sanity Viewer token (for draft content)                                    | No       |
+| `SANITY_REVALIDATE_SECRET`        | `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` | Yes      |
+| `SANITY_STUDIO_PREVIEW_URL`       | `https://emudev.cc` (for Presentation Tool)                                | Yes      |
+| `SANITY_STUDIO_REVALIDATE_SECRET` | Same as `SANITY_REVALIDATE_SECRET`                                         | Yes      |
+| `RESEND_API_KEY`                  | Resend email API key (for contact form emails)                             | Yes      |
+| `ADMIN_EMAIL`                     | `esteban.montero@gmail.com`                                                | Yes      |
 
 **Note:** Preview deployments (develop branch) use real Sanity data if CI vars set; no secrets needed. Production deployment uses the `production` environment secrets above.
 
@@ -175,12 +180,12 @@ npm run sanity:dev
 
 Add to `production` environment secrets:
 
-| Secret | Source |
-|--------|--------|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | From step 1 |
-| `NEXT_PUBLIC_SANITY_DATASET` | `production` |
-| `SANITY_REVALIDATE_SECRET` | Generated random string |
-| `SANITY_STUDIO_PREVIEW_URL` | `https://emudev.cc` |
+| Secret                            | Source                           |
+| --------------------------------- | -------------------------------- |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID`   | From step 1                      |
+| `NEXT_PUBLIC_SANITY_DATASET`      | `production`                     |
+| `SANITY_REVALIDATE_SECRET`        | Generated random string          |
+| `SANITY_STUDIO_PREVIEW_URL`       | `https://emudev.cc`              |
 | `SANITY_STUDIO_REVALIDATE_SECRET` | Same as SANITY_REVALIDATE_SECRET |
 
 ### 3. Configure Sanity Webhook
@@ -197,36 +202,32 @@ In Sanity project settings:
 
 **Note:** Single webhook for production only. Preview URLs don't require webhooks.
 
-### 4. Update Sanity Schemas for Bilingual Content
+### 4. Sanity Schemas and Generated Types
 
-All content types (Project, Post, Author, etc.) should have bilingual fields:
+The CMS model has **14 document types** with bilingual content. Localized fields use shared helpers from `sanity/lib/i18n-helpers.ts`:
 
 ```typescript
-// Example: Project schema
-{
-  name: 'project',
-  type: 'document',
-  fields: [
-    {
-      name: 'title',
-      type: 'object',
-      fields: [
-        { name: 'en', type: 'string' },
-        { name: 'es', type: 'string' },
-      ],
-    },
-    {
-      name: 'description',
-      type: 'object',
-      fields: [
-        { name: 'en', type: 'text' },
-        { name: 'es', type: 'text' },
-      ],
-    },
-    // ... other fields
-  ],
-}
+// 6 i18n helper factories
+localizedString('title', 'Title', true)
+localizedText('description', 'Description', 3)
+localizedSlug('slug', 'Slug')
+localizedContent('content', 'Content')
+localizedRichText('content', 'Content')
+localizedArray(fieldName, displayName)
 ```
+
+**CRITICAL:** After every schema change:
+
+```bash
+npm run sanity:types   # Regenerate types/sanity.types.ts (~900 LOC)
+npm run typecheck      # Verify TypeScript validity
+```
+
+Types must be committed so GROQ queries in `lib/sanity-queries.ts` remain valid.
+
+**Studio structure** (`sanity/structure.ts`): Groups 14 types into Singletons, Portfolio, Blog, Skills & Credentials, and About Extras.
+
+**Smoke test validation** (`tests/smoke/content-model.spec.ts`): On every deploy, verifies schema registry, 6 i18n helpers, 14+ query functions, and cache version 'localized-v3'.
 
 ---
 
@@ -235,6 +236,7 @@ All content types (Project, Post, Author, etc.) should have bilingual fields:
 ### 1. Create Supabase Projects (Dev, Staging, Production)
 
 For each environment:
+
 1. Go to supabase.io
 2. Create project: `emudev-{environment}`
 3. Database password: [strong-password]
@@ -244,12 +246,12 @@ For each environment:
 
 Add to respective environment secrets (`development`, `staging`, `production`):
 
-| Secret | Source |
-|--------|--------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase settings > API > URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase settings > API > anon key |
-| `SUPABASE_DB_URL` | Supabase settings > Database > Connection string (Session mode) |
-| `SUPABASE_PAT` | Supabase account settings > Personal access tokens |
+| Secret                          | Source                                                          |
+| ------------------------------- | --------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase settings > API > URL                                   |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase settings > API > anon key                              |
+| `SUPABASE_DB_URL`               | Supabase settings > Database > Connection string (Session mode) |
+| `SUPABASE_PAT`                  | Supabase account settings > Personal access tokens              |
 
 ### 3. Apply Migrations
 
@@ -260,6 +262,7 @@ npx supabase db push --db-url $SUPABASE_DB_URL
 ```
 
 This creates:
+
 - `contact_submissions` table
 - RLS policies (anon INSERT, admin SELECT/DELETE)
 - `app.admin_email` database variable
@@ -276,6 +279,7 @@ SHOW app.admin_email;
 ```
 
 Expected:
+
 - `anon` role has INSERT
 - Table exists with RLS enabled
 
@@ -295,10 +299,10 @@ Expected:
 
 Add to `production` environment secrets:
 
-| Secret | Value |
-|--------|-------|
-| `RESEND_API_KEY` | From Resend dashboard |
-| `ADMIN_EMAIL` | `esteban.montero@gmail.com` |
+| Secret           | Value                       |
+| ---------------- | --------------------------- |
+| `RESEND_API_KEY` | From Resend dashboard       |
+| `ADMIN_EMAIL`    | `esteban.montero@gmail.com` |
 
 ### 3. Test Email
 
@@ -318,10 +322,10 @@ Submit contact form on production or preview URL. Should receive email within 30
 
 ### 2. Create DNS Records
 
-| Type | Name | Value | Proxy | Purpose |
-|------|------|-------|-------|---------|
-| CNAME | @ | cname.vercel-dns.com | Orange (proxied) | Main domain → Vercel |
-| CNAME | www | cname.vercel-dns.com | Orange (proxied) | www subdomain → Vercel |
+| Type  | Name | Value                | Proxy            | Purpose                |
+| ----- | ---- | -------------------- | ---------------- | ---------------------- |
+| CNAME | @    | cname.vercel-dns.com | Orange (proxied) | Main domain → Vercel   |
+| CNAME | www  | cname.vercel-dns.com | Orange (proxied) | www subdomain → Vercel |
 
 **Note:** No `dev.*` or `qa.*` subdomains — preview URLs use Vercel's auto-generated domains.
 
@@ -368,6 +372,7 @@ npm install next-intl
 ### 2. Create i18n Configuration
 
 Create `i18n/routing.ts`:
+
 ```typescript
 import { defineRouting } from 'next-intl/routing'
 
@@ -379,6 +384,7 @@ export const routing = defineRouting({
 ```
 
 Create `i18n/request.ts`:
+
 ```typescript
 import { getRequestConfig } from 'next-intl/server'
 import { routing } from './routing'
@@ -389,17 +395,18 @@ export default getRequestConfig(async ({ locale }) => ({
 ```
 
 Create `i18n/navigation.ts`:
+
 ```typescript
 import { createNavigation } from 'next-intl/navigation'
 import { routing } from './routing'
 
-export const { Link, redirect, usePathname, useRouter, getPathname } =
-  createNavigation(routing)
+export const { Link, redirect, usePathname, useRouter, getPathname } = createNavigation(routing)
 ```
 
 ### 3. Create Middleware
 
 Create `middleware.ts` in project root:
+
 ```typescript
 import createMiddleware from 'next-intl/middleware'
 import { routing } from './i18n/routing'
@@ -414,6 +421,7 @@ export const config = {
 ### 4. Wrap Next.js Config
 
 Update `next.config.ts`:
+
 ```typescript
 import createNextIntlPlugin from 'next-intl/plugin'
 
@@ -427,6 +435,7 @@ export default withNextIntl({
 ### 5. Create Message Files
 
 Create `messages/en.json`:
+
 ```json
 {
   "nav": {
@@ -448,6 +457,7 @@ Create `messages/en.json`:
 ```
 
 Create `messages/es.json` (exact key structure, Spanish values):
+
 ```json
 {
   "nav": {
@@ -471,6 +481,7 @@ Create `messages/es.json` (exact key structure, Spanish values):
 ### 6. Update Root Layout
 
 Update `app/layout.tsx` (root level):
+
 ```typescript
 export default function RootLayout({
   children,
@@ -488,6 +499,7 @@ export default function RootLayout({
 ```
 
 Create `app/[locale]/layout.tsx` (locale-prefixed):
+
 ```typescript
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
@@ -517,6 +529,7 @@ export default async function LocaleLayout({
 ### 7. Update Pages & Components
 
 Server components:
+
 ```typescript
 import { getTranslations } from 'next-intl'
 
@@ -527,6 +540,7 @@ export default async function Page() {
 ```
 
 Client components:
+
 ```typescript
 'use client'
 import { useTranslations } from 'next-intl'
@@ -544,6 +558,7 @@ export function Form() {
 ### 1. Create Draft Mode Routes
 
 Create `app/api/draft-mode/enable/route.ts`:
+
 ```typescript
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -567,6 +582,7 @@ export async function GET(request: Request) {
 ```
 
 Create `app/api/draft-mode/disable/route.ts`:
+
 ```typescript
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -581,6 +597,7 @@ export async function GET() {
 ### 2. Update CSP Header
 
 In `next.config.ts`, update CSP to allow Sanity Studio iframe:
+
 ```typescript
 const cspHeader = `
   default-src 'self';
@@ -593,6 +610,7 @@ const cspHeader = `
 ### 3. Add SanityVisualEditing Wrapper
 
 Create `components/sanity-visual-editing.tsx`:
+
 ```typescript
 import { draftMode } from 'next/headers'
 import { SanityVisualEditing } from '@sanity/visual-editing'
@@ -604,6 +622,7 @@ export default async function SanityVisualEditingWrapper() {
 ```
 
 Add to `app/[locale]/layout.tsx`:
+
 ```typescript
 import SanityVisualEditingWrapper from '@/components/sanity-visual-editing'
 
@@ -631,6 +650,7 @@ export default async function LocaleLayout({
 ### 4. Update Sanity Studio Config
 
 In `sanity/sanity.config.ts`, set preview URL:
+
 ```typescript
 export default defineConfig({
   // ... existing config ...
@@ -669,6 +689,7 @@ BASE_URL=https://staging.emudev.cc npm run test:smoke
 ### CI Integration
 
 Tests run automatically in `deploy.yml`:
+
 ```yaml
 - name: Run Smoke Tests
   run: npm run test:smoke
@@ -746,12 +767,13 @@ After merging to main:
 2. **Locale routing works** — https://emudev.cc redirects to /en (or /es based on Accept-Language)
 3. **Pages load** — All routes (/en/projects, /es/blog, etc.) return 200
 4. **Content renders** — Both English and Spanish content displays correctly
-5. **Webhook fires** — Publish in Sanity, verify cache revalidated <5 seconds
-6. **Contact form works** — Submit form, check Supabase + receive email
-7. **Draft mode works** — Click Presentation in Sanity, preview renders unpublished content
-8. **Analytics loaded** — Vercel Analytics shows traffic (Core Web Vitals)
-9. **Smoke tests pass** — All 47 tests passing in post-deploy logs
-10. **Cache working** — Cloudflare shows >80% cache hit ratio
+5. **Sitemap valid** — https://emudev.cc/sitemap.xml includes /en and /es URLs with hreflang alternates
+6. **Webhook fires** — Publish in Sanity, verify cache revalidated <5 seconds
+7. **Contact form works** — Submit form, check Supabase + receive email
+8. **Draft mode works** — Click Presentation in Sanity, preview renders unpublished content
+9. **Analytics loaded** — Vercel Analytics shows traffic (Core Web Vitals)
+10. **Smoke tests pass** — Required static, i18n, and content-model smoke suites pass in post-deploy logs
+11. **Cache working** — Cloudflare shows >80% cache hit ratio
 
 ---
 
@@ -762,7 +784,7 @@ Before tagging a release:
 - [ ] All commits squashed or cleaned up
 - [ ] Version bumped in `package.json`
 - [ ] `CHANGELOG.md` updated with release notes
-- [ ] Smoke tests passing (47/47)
+- [ ] Smoke tests passing
 - [ ] No console errors or warnings
 - [ ] Lighthouse score >90
 - [ ] Performance metrics met (FCP <1.5s, LCP <2.5s)

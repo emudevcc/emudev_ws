@@ -8,6 +8,7 @@
    - Update manually after schema changes: `sanity typegen generate`
    - Export document interfaces (Project, Post, Author, Tag, SiteSettings)
    - Includes utility types: Slug, SanityImageAsset, SanityDocument
+   - Bilingual schemas use `{ en: string, es: string }` structure
 
 2. **Supabase types** (`types/supabase.types.ts`) — Auto-generated
    - Generated via: `supabase gen types typescript --linked > types/supabase.types.ts`
@@ -58,15 +59,16 @@ export default async function Page({ params }) {
 
 | Category | Case | Example |
 |----------|------|---------|
-| **Files** | kebab-case | `contact-form.tsx`, `sanity-queries.ts` |
-| **Directories** | kebab-case | `app/projects/[slug]/`, `lib/`, `types/` |
-| **Variables** | camelCase | `projectId`, `siteSettings`, `isLoading` |
-| **Constants** | UPPER_SNAKE_CASE (if truly constant) | `ADMIN_EMAIL` |
-| **Functions** | camelCase | `getProjects()`, `submitContact()` |
-| **Components** | PascalCase | `ProjectCard`, `ContactForm`, `HeroSection` |
-| **Types/Interfaces** | PascalCase | `Project`, `ContactSubmission` |
+| **Files** | kebab-case | `contact-form.tsx`, `sanity-queries.ts`, `locale-switcher.tsx` |
+| **Directories** | kebab-case | `app/projects/[slug]/`, `lib/`, `types/`, `i18n/` |
+| **Variables** | camelCase | `projectId`, `siteSettings`, `isLoading`, `locale` |
+| **Constants** | UPPER_SNAKE_CASE (if truly constant) | `ADMIN_EMAIL`, `DEFAULT_LOCALE` |
+| **Functions** | camelCase | `getProjects()`, `submitContact()`, `useTranslations()` |
+| **Components** | PascalCase | `ProjectCard`, `ContactForm`, `LocaleSwitcher` |
+| **Types/Interfaces** | PascalCase | `Project`, `ContactSubmission`, `LocaleString` |
 | **GROQ Queries** | Inline or kebab-case alias | `getProjects`, `getProjectBySlug` |
 | **Env Vars** | UPPER_SNAKE_CASE with NEXT_PUBLIC_ prefix | `NEXT_PUBLIC_SANITY_PROJECT_ID`, `SANITY_REVALIDATE_SECRET` |
+| **Locales** | lowercase 2-letter code | `'en'`, `'es'` (not 'EN', 'ES') |
 
 ---
 
@@ -74,45 +76,48 @@ export default async function Page({ params }) {
 
 **Goal:** Content updates reflect within seconds via Sanity webhook, fallback to 1-hour revalidate.
 
-### Query with `unstable_cache` + Tags
+### Query with `unstable_cache` + Per-Locale Tags
 
 ```typescript
 // lib/sanity-queries.ts
-export const getProjects = unstable_cache(
-  async () =>
-    sanityFetch<Array<Project>>({
-      query: groq`*[_type == "project"] | order(publishedAt desc) { ... }`,
-    }),
-  ['projects'],                    // cache key (for debugging)
-  { tags: ['projects'], revalidate: 3600 } // tags + 1 hour TTL
-)
+export const getProjects = (locale: string) =>
+  unstable_cache(
+    async () =>
+      sanityFetch<Array<Project>>({
+        query: groq`*[_type == "project"] | order(publishedAt desc) { ... }`,
+        params: { locale },
+      }),
+    [`projects-${locale}`],                           // Per-locale cache key
+    { tags: [`projects-${locale}`], revalidate: 3600 } // Per-locale tag + 1h TTL
+  )()
 
 // Usage in page
-const projects = (await getProjects()) ?? []
+const projects = (await getProjects(locale)) ?? []
 ```
 
-### Webhook Revalidation
+### Webhook Revalidation (Per-Locale)
 
 ```typescript
 // app/api/revalidate-tag/route.ts
 const TAG_MAP: Record<string, string[]> = {
-  project: ['projects'],
-  post: ['posts'],
+  project: ['projects-en', 'projects-es'],  // Revalidate both locales
+  post: ['posts-en', 'posts-es'],
   siteSettings: ['site-settings'],
 }
 
 const tags = TAG_MAP[body._type] ?? []
 for (const tag of tags) {
-  revalidateTag(tag) // instantly invalidates cache
+  revalidateTag(tag) // Instantly invalidates cache
 }
 ```
 
 ### Key Rules
 
 1. **Always use `?? []` for null-coalescing** — Build may not have Sanity env vars
-2. **Per-route slugs get individual tags** — `getProjectBySlug(slug)` uses `['projects', 'project:slug']`
-3. **Headers matter** — Webhook secret in header (x-sanity-webhook-secret), never query params
-4. **Fallback is time-based** — If webhook fails/is missed, 1-hour TTL still revalidates
+2. **Per-locale cache tags** — `getProjectBySlug(slug, locale)` uses `['projects-en', 'projects-es']` or per-route variants
+3. **Per-locale revalidation** — Webhook calls both `revalidateTag('projects-en')` and `revalidateTag('projects-es')`
+4. **Headers matter** — Webhook secret in header (x-sanity-webhook-secret), never query params
+5. **Fallback is time-based** — If webhook fails/is missed, 1-hour TTL still revalidates
 
 ---
 
@@ -176,38 +181,42 @@ export function ContactForm() {
 
 ## Sanity Query Pattern
 
-All GROQ queries use `unstable_cache` with revalidation tags.
+All GROQ queries use `unstable_cache` with per-locale revalidation tags.
 
-### Basic Structure
+### Basic Structure with Locale Fallback
 
 ```typescript
 import { unstable_cache } from 'next/cache'
 import { groq } from 'next-sanity'
 import { sanityFetch } from './sanity-client'
 
-export const getProjectBySlug = (slug: string) =>
+export const getProjectBySlug = (slug: string, locale: string) =>
   unstable_cache(
     async () =>
       sanityFetch<Project | null>({
         query: groq`*[_type == "project" && slug.current == $slug][0] {
           ...,
+          title: coalesce(title[$locale], title.en),
+          description: coalesce(description[$locale], description.en),
           "featuredImage": featuredImage.asset->url,
           tags[]->{ _id, title }
         }`,
-        params: { slug }, // parameterized queries (prevents injection)
+        params: { slug, locale }, // Parameterized queries
       }),
-    [`project-${slug}`],
-    { tags: ['projects', `project:${slug}`], revalidate: 3600 }
+    [`project-${slug}-${locale}`],
+    { tags: ['projects', `projects:${locale}`, `project:${slug}`], revalidate: 3600 }
   )()
 ```
 
 ### Key Points
 
-1. **Parameterized queries** — Always use `params: { slug }` in GROQ
-2. **Reference expansion** — Use `->` to expand references (author->, tags[]->, image.asset->url)
-3. **Asset URLs** — Extract via `asset->url` (Sanity CDN-enabled)
-4. **Null handling** — Return `T | null` for single-document queries; wrap caller in `?? null`
-5. **Caching key** — Use `[`project-${slug}`]` to vary cache per route param
+1. **Parameterized queries** — Always use `params: { slug, locale }` in GROQ (prevents injection)
+2. **Locale fallback** — Use `coalesce(field[$locale], field.en)` for graceful English fallback
+3. **Reference expansion** — Use `->` to expand references (author->, tags[]->, image.asset->url)
+4. **Asset URLs** — Extract via `asset->url` (Sanity CDN-enabled)
+5. **Null handling** — Return `T | null` for single-document queries; wrap caller in `?? null`
+6. **Caching key** — Use `[`project-${slug}-${locale}`]` to vary cache per route param and locale
+7. **Tags strategy** — Include both generic (`'projects'`) and specific (`'projects:en'`, `'project:slug'`) tags for flexible revalidation
 
 ---
 
@@ -241,9 +250,12 @@ const isValidSecret = await validatePreviewUrl(
 if (!isValidSecret) {
   return NextResponse.json({ error: 'Invalid preview URL' }, { status: 401 })
 }
+
+draftMode().enable()
+redirect(`/studio`)
 ```
 
-**Pattern:** Use `@sanity/preview-url-secret` for robust token validation.
+**Pattern:** Use `@sanity/preview-url-secret` for robust token validation (prevents open redirect attacks).
 
 ---
 
@@ -315,9 +327,10 @@ CREATE POLICY "admin_read_contact" ON contact_submissions
 ## Internationalization (i18n) Patterns
 
 ### Setup
+
 - **Framework:** `next-intl` v4 for bilingual support (English & Spanish)
 - **Routing:** All content routes use `[locale]` segment: `/[locale]/about`, `/[locale]/projects/[slug]`
-- **Middleware:** Routes all requests to locale-prefixed paths; defaults to 'en' if not Spanish
+- **Middleware:** Routes all requests to locale-prefixed paths; detects locale from Accept-Language, defaults to 'en'
 - **Messages:** `messages/en.json` and `messages/es.json` contain all UI strings by namespace
 
 ### Server Components (Pages, Layouts)
@@ -395,56 +408,23 @@ export default async function ProjectPage({
 }) {
   const { locale, slug } = await params
   const t = await getTranslations({ locale, namespace: 'project' })
-  const project = await getProjectBySlug(slug)
+  const project = await getProjectBySlug(slug, locale)
   
   if (!project) notFound()
-  return <ProjectDetail project={project} t={t} />
-}
-```
-
-### Locale-Aware Navigation
-
-Import from `@/i18n/navigation` for automatic locale-aware links:
-
-```typescript
-import { Link } from '@/i18n/navigation'
-import { useLocale } from 'next-intl'
-
-// Server component
-export function Nav() {
-  return (
-    <nav>
-      <Link href="/projects">Projects</Link>
-      {/* Automatically includes current locale in URL */}
-    </nav>
-  )
-}
-
-// Client component
-'use client'
-import { useRouter } from '@/i18n/navigation'
-
-export function LocaleSwitcher() {
-  const router = useRouter()
-  const locale = useLocale()
-  
-  const toggleLocale = (newLocale: string) => {
-    router.push('/', { locale: newLocale })
-  }
   
   return (
-    <button onClick={() => toggleLocale(locale === 'en' ? 'es' : 'en')}>
-      {locale === 'en' ? 'ES' : 'EN'}
-    </button>
+    <div>
+      <h1>{t('title')}</h1>
+      <ProjectContent project={project} />
+    </div>
   )
 }
 ```
 
-### Message Structure
-
-Messages are organized by namespace in `messages/{locale}.json`:
+### Message File Structure
 
 ```json
+// messages/en.json
 {
   "nav": {
     "home": "Home",
@@ -452,241 +432,201 @@ Messages are organized by namespace in `messages/{locale}.json`:
     "blog": "Blog",
     "contact": "Contact"
   },
-  "home": {
-    "title": "Welcome",
-    "description": "My portfolio"
+  "project": {
+    "title": "Projects",
+    "description": "My work"
   },
   "contact": {
     "nameLabel": "Name",
-    "namePlaceholder": "Your name",
     "submit": "Send"
   }
 }
-```
 
-### Sanity Content (Phase 3: In Progress)
-
-Sanity schema fields are being updated to support bilingual content:
-
-```typescript
-// Example schema structure (being implemented)
+// messages/es.json (exact key structure, different values)
 {
-  name: 'project',
-  fields: [
-    {
-      name: 'content',
-      type: 'object',
-      fields: [
-        { name: 'en', type: 'text' },
-        { name: 'es', type: 'text' }
-      ]
-    }
-  ]
-}
-
-// Query with locale support (being implemented)
-export const getProjects = (locale: string) =>
-  unstable_cache(
-    async () =>
-      sanityFetch<Project[]>({
-        query: groq`*[_type == "project"] {
-          ...,
-          content: content[$locale] // GROQ coalesce pattern
-        }`,
-        params: { locale },
-      }),
-    [`projects-${locale}`],
-    { tags: [`projects-${locale}`], revalidate: 3600 }
-  )()
-```
-
----
-
-## Component Structure
-
-### Functional Components (Preferred)
-
-```typescript
-// components/project-card.tsx
-interface ProjectCardProps {
-  project: Project
-}
-
-export function ProjectCard({ project }: ProjectCardProps) {
-  return (
-    <article className="rounded-lg border p-6">
-      <h3 className="text-lg font-semibold">{project.title}</h3>
-      {/* content */}
-    </article>
-  )
-}
-```
-
-### Client vs Server Components
-
-| Type | When | Example |
-|------|------|---------|
-| **Server** (default) | Data fetching, secrets, static | Page components, data fetching |
-| **Client** (`'use client'`) | Interactivity, hooks, state | Forms, modals, Sonner toasts |
-| **Hybrid** | Fetch on server, render interactive on client | Page with server-side data + client buttons |
-
----
-
-## Error Handling
-
-### Try-Catch for External Services
-
-```typescript
-// Email is best-effort; don't fail the user
-try {
-  await resend.emails.send({ /* ... */ })
-} catch (err) {
-  console.error('[contact] Resend notification failed:', err)
-  // Continue — DB insert is authoritative
-}
-```
-
-### NotFound for Missing Content
-
-```typescript
-export default async function PostPage({ params }) {
-  const post = await getPostBySlug(params.slug)
-  if (!post) {
-    notFound() // Renders 404, not null/error
+  "nav": {
+    "home": "Inicio",
+    "projects": "Proyectos",
+    "blog": "Blog",
+    "contact": "Contacto"
+  },
+  "project": {
+    "title": "Proyectos",
+    "description": "Mi trabajo"
+  },
+  "contact": {
+    "nameLabel": "Nombre",
+    "submit": "Enviar"
   }
-  return <PostDetail post={post} />
 }
 ```
 
-### Validation Errors in Server Actions
+**Rules:**
+- Keys must match exactly between EN and ES (smoke tests verify)
+- Use nested objects for namespaces (nav, project, contact, etc.)
+- No hardcoded strings in components/pages
+- Use locale from URL params, not cookies/localStorage
+
+---
+
+## Testing Patterns
+
+### Playwright Smoke Tests
+
+**Setup:**
+```bash
+npm run test:smoke:local   # Run against localhost:3000
+npm run test:smoke         # Run against BASE_URL env var (production)
+```
+
+**Test structure:**
+```typescript
+import { expect, test } from '@playwright/test'
+
+test.describe('Smoke Tests', () => {
+  test('homepage loads successfully', async ({ page }) => {
+    await page.goto('/')
+    
+    const status = page.url()
+    expect(status).toContain('/en') // Verify locale routing
+    
+    const heading = await page.getByRole('heading', { level: 1 })
+    await expect(heading).toBeVisible()
+  })
+  
+  test('contact form renders with required fields', async ({ page }) => {
+    await page.goto('/contact')
+    
+    await expect(page.getByLabel(/name/i)).toBeVisible()
+    await expect(page.getByLabel(/email/i)).toBeVisible()
+    await expect(page.getByRole('button', { name: /send/i })).toBeVisible()
+  })
+})
+```
+
+### Bilingual Test Contracts
+
+**Message Key Parity:**
+```typescript
+test('message namespaces and keys match for English and Spanish', () => {
+  const en = readJson('messages/en.json')
+  const es = readJson('messages/es.json')
+
+  const enKeys = leafKeys(en).sort()
+  const esKeys = leafKeys(es).sort()
+
+  expect(esKeys).toEqual(enKeys)
+})
+```
+
+**Routing Contracts:**
+```typescript
+test('routing is explicit bilingual en/es with English default', () => {
+  const routing = readText('i18n/routing.ts')
+
+  expect(routing).toContain("locales: ['en', 'es']")
+  expect(routing).toContain("defaultLocale: 'en'")
+  expect(routing).toContain("localePrefix: 'always'")
+})
+```
+
+**Static Rendering (Per-Locale):**
+```typescript
+test('static pages render without errors in both locales', async ({ page }) => {
+  const pages = ['', '/about', '/projects', '/blog', '/contact']
+  const locales = ['en', 'es']
+
+  for (const locale of locales) {
+    for (const path of pages) {
+      const url = `/${locale}${path}`
+      await page.goto(url)
+      expect(page.url()).toContain(`/${locale}`)
+      
+      // Verify no console errors
+      const errors = []
+      page.on('console', msg => {
+        if (msg.type() === 'error') errors.push(msg.text())
+      })
+      expect(errors).toHaveLength(0)
+    }
+  }
+})
+```
+
+### Key Guidelines
+
+- **Target:** Run ~47 tests total (11 original + 36 i18n-specific)
+- **Timing:** ~7-10 seconds against production
+- **Frequency:** On every deploy (staging + production)
+- **Scope:** Happy path only (not comprehensive feature tests)
+- **CI Integration:** GitHub Actions runs smoke tests post-deploy
+
+---
+
+## ESLint & Code Quality
+
+### Configuration
+
+- **Version:** ESLint v9 (v10 incompatible with eslint-plugin-react@7.x)
+- **Format:** Flat config (`eslint.config.mjs`)
+- **Plugins:** @eslint/js, typescript-eslint, react
+- **Run:** `npm run lint` (CI enforces on all PRs)
+
+### Best Practices
+
+- No console.log in production code (linter catches)
+- Prefer const over let; never use var
+- Async/await over .then() chains
+- Destructuring for imports and props
+- No unused variables or imports
+
+---
+
+## Comments & Documentation
+
+### When to Comment
+
+**DO write comments for:**
+- Non-obvious business logic (e.g., ISR revalidation strategy)
+- Security decisions (e.g., why secret is in header, not query param)
+- Performance optimizations (e.g., per-locale caching strategy)
+- RLS policies (e.g., admin email gating)
+
+**DON'T comment:**
+- Self-documenting code (good variable names)
+- Types (they're self-explanatory)
+- Obvious logic
+
+### Example
 
 ```typescript
-if (name.length > 100) {
-  return { error: 'Name is too long.' }
-}
-// Return structured state; client displays via useActionState
+// Good: explains WHY, not WHAT
+// Webhook revalidates both locales to prevent cross-locale cache pollution
+revalidateTag(`projects-${locale}`)
+
+// Bad: restates the code
+// Increment counter
+counter++
 ```
 
 ---
 
-## Styling with Tailwind CSS v4
+## Breaking Changes & Migrations
 
-### Utility-First
+When making breaking changes:
 
-```tsx
-<button className="rounded-lg bg-foreground px-4 py-3 text-sm font-medium text-background transition-opacity disabled:opacity-60">
-  Send
-</button>
-```
-
-### CSS Variables (Semantic)
-
-```css
-/* Defined in globals.css or tailwind.config.ts */
---background: #ffffff
---foreground: #000000
---muted-foreground: #666666
---destructive: #ff0000
-```
-
-**Usage:**
-```tsx
-<div className="bg-background text-foreground">
-  <p className="text-muted-foreground">Secondary text</p>
-  <p className="text-destructive">Error message</p>
-</div>
-```
-
-### Responsive Breakpoints
-
-```tsx
-<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-  {/* Mobile: 1 col, Tablet (md): 2 cols, Desktop (lg): 3 cols */}
-</div>
-```
-
-### Animation & Transitions
-
-```tsx
-<button className="transition-opacity disabled:opacity-60">
-  {/* opacity changes smoothly */}
-</button>
-
-<div className="animate-pulse">
-  {/* Tailwind built-in animations */}
-</div>
-```
+1. **Update docs/CHANGELOG.md** with migration guide
+2. **Create deprecation period** if possible (2+ releases)
+3. **Notify users** in release notes
+4. **Test migrations** locally before releasing
+5. **Update related docs** (codebase-summary, deployment guide, etc.)
 
 ---
 
 ## Performance Considerations
 
-1. **Image optimization** — Sanity CDN serves images; no next/image needed for CMS images
-2. **Bundle splitting** — App Router auto-code-splits per route
-3. **ISR revalidate** — Set to 1 hour for non-critical content; 5-10 min for frequently updated
-4. **Avoid client-side fetching** — Use server actions or page-level queries instead
-5. **Monitor build time** — Aim for <3 min; profile if exceeding
-
----
-
-## Git & Commit Standards
-
-### Branch Workflow
-
-**Merge path:** `feature/*` → `develop` → `staging` → `main`
-
-```
-feature/phase-6-cloudflare  ──PR──►  develop  ──PR──►  staging  ──PR──►  main
-hotfix/fix-broken-form       ──PR──►  main (auto-deploy, backports to develop)
-```
-
-**Rules:**
-- Never commit directly to `main`, `staging`, or `develop`
-- Branch from `develop` for all new phases, features, and fixes
-- Branch from `main` only for hotfixes
-- Delete feature branches after merge
-- PR title must follow conventional commit format (used as merge commit message)
-
-**Naming:**
-```bash
-feature/phase-6-cloudflare       # new phase
-feature/add-dark-mode-toggle     # new feature
-fix/contact-form-validation      # bug fix
-hotfix/broken-rls-policy         # emergency production fix
-```
-
-### Conventional Commits
-
-```
-feat: add project archive feature
-fix: correct null guard in sanity query
-docs: update deployment guide
-refactor: extract sanity query helper
-test: add smoke tests for blog routes
-chore: upgrade next.js to 15.6
-```
-
-### Pre-Commit Hooks (Husky + lint-staged)
-
-Only Prettier runs (ESLint via separate `npm run lint` in CI):
-```json
-{
-  "*.{ts,tsx,mjs}": ["prettier --write"],
-  "*.{json,css}": ["prettier --write"]
-}
-```
-
-**Note:** ESLint v9 (not v10) required for compatibility with eslint-plugin-react@7.x.
-
----
-
-## Security Checklist
-
-- [ ] No API keys or credentials in `.env.local` (use GitHub Secrets)
-- [ ] Webhook secrets in headers, not query params
-- [ ] HTML escaping before email (use utility function)
-- [ ] RLS policies test in staging before production
-- [ ] TypeScript strict mode enabled
-- [ ] Input validation on server (not client)
-- [ ] CORS/CSP headers in `next.config.ts` if needed
-- [ ] Sanitize user input before storage (SQL injection, XSS)
+- **Bundle Size:** Monitor with `npm run build`; lazy-load heavy components
+- **Cache Strategy:** Per-locale tags prevent cross-locale pollution; 1-hour TTL + webhook revalidation
+- **Database:** Use RLS to prevent N+1 queries; index frequently-queried fields
+- **Images:** Use Sanity CDN for all images; rely on Next.js image optimization
+- **API Calls:** Minimize external service calls; wrap in try/catch for reliability

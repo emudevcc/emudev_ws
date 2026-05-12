@@ -13,29 +13,32 @@
 │  ┌─────────────────────────────────────────────────────────┐   │
 │  │           Next.js 15 (App Router + next-intl)          │   │
 │  │  ┌────────────────────────────────────────────────┐    │   │
-│  │  │  Middleware (Locale Detection)                 │    │   │
-│  │  │  • Route / → /en via locale detection          │    │   │
-│  │  │  • Extract locale from URL or headers          │    │   │
-│  │  │  • Pass locale to NextIntlClientProvider       │    │   │
+│  │  │  Middleware (Locale Detection & Routing) [NEW] │    │   │
+│  │  │  • Route / → /en or /es via locale detection   │    │   │
+│  │  │  • Extract locale from Accept-Language header  │    │   │
+│  │  │  • Pass locale to [locale] segment params      │    │   │
+│  │  │  • Explicit prefix routing: /en, /es always   │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
 │  │  ┌────────────────────────────────────────────────┐    │   │
 │  │  │  Page Generation (SSG / ISR / SSR)             │    │   │
 │  │  │  • Homepage: SSG × 2 locales (en, es)          │    │   │
-│  │  │  • Project list: ISR × 2 locales               │    │   │
+│  │  │  • Project list: ISR × 2 locales (per-tag)    │    │   │
 │  │  │  • Project detail: SSG per [locale]/[slug]    │    │   │
-│  │  │  • Blog list: ISR × 2 locales                  │    │   │
+│  │  │  • Blog list: ISR × 2 locales (per-tag)       │    │   │
 │  │  │  • Blog post: SSG per [locale]/[slug]         │    │   │
-│  │  │  • Contact: SSR (locale-aware form text)      │    │   │
+│  │  │  • Contact: SSR (locale-aware form)           │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
 │  │  ┌────────────────────────────────────────────────┐    │   │
 │  │  │  API Routes & Webhooks                         │    │   │
 │  │  │  • POST /api/revalidate-tag (Sanity webhook)   │    │   │
 │  │  │    - Validates x-sanity-webhook-secret header  │    │   │
-│  │  │    - Calls revalidateTag(tags)                 │    │   │
+│  │  │    - Revalidates both en & es cache tags       │    │   │
+│  │  │  • GET /api/draft-mode/enable (preview token)  │    │   │
+│  │  │  • GET /api/draft-mode/disable                 │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
 │  │  ┌────────────────────────────────────────────────┐    │   │
 │  │  │  Server Actions                                │    │   │
-│  │  │  • submitContact: form → Supabase → Resend      │    │   │
+│  │  │  • submitContact: form → Supabase → Resend     │    │   │
 │  │  │  • sendMagicLink: email → Supabase auth        │    │   │
 │  │  │  • signOut: clear session cookies              │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
@@ -51,6 +54,7 @@
         │ • Authors  │   │ • Magic    │   │              │
         │ • Tags     │   │   Link     │   └──────────────┘
         │ • Settings │   │ • Sessions │
+        │ (bilingual)│   │ (encrypted)│
         └────────────┘   └────────────┘
 ```
 
@@ -58,26 +62,59 @@
 
 ## Component Layer Detail
 
+### 0. Middleware & Locale Routing (NEW)
+
+#### Middleware Flow
+```
+User Request (to /, /about, /projects, etc.)
+    ↓
+middleware.ts (next-intl/middleware)
+    ├─ Check if already locale-prefixed (/en/*, /es/*)
+    │   └─ If yes: pass through
+    ├─ If not (bare path):
+    │   ├─ Check Accept-Language header
+    │   ├─ Detect locale (en or es)
+    │   └─ Rewrite to /[locale]/...
+    └─ Pass locale to [locale] segment params
+        ↓
+[locale]/layout.tsx receives params.locale
+    ├─ Wraps with NextIntlClientProvider
+    └─ Renders UI with LocaleSwitcher for manual override
+```
+
+#### Key Files
+- `middleware.ts` — Route all non-API/studio paths through next-intl middleware
+- `i18n/routing.ts` — Configuration: `locales: ['en', 'es']`, `defaultLocale: 'en'`, `localePrefix: 'always'`
+- `i18n/request.ts` — Locale resolver, message file importer
+- `i18n/navigation.ts` — Locale-aware Link, redirect, useRouter helpers
+
+#### Important Constraints
+- Explicit locale prefix is **always required**: `/en/about`, `/es/about` (not bare `/about`)
+- Root `/` redirects to `/en` (English default)
+- API routes and `/studio` are excluded from middleware rewriting
+- LocaleSwitcher in nav allows manual EN↔ES toggle
+
+---
+
 ### 1. Frontend Layer (Next.js App Router)
 
-#### Page Routes
+#### Page Routes (with Locale Variants)
 | Route | Generation | Cache | Purpose |
 |-------|-----------|-------|---------|
-| `/en`, `/es` | Redirect | None | Root redirects to locale via middleware |
-| `/[locale]` | SSG | 1 hour | Homepage with hero + featured projects (en, es) |
-| `/[locale]/projects` | ISR | 1 hour | Projects list (gallery with tag filter) |
-| `/[locale]/projects/[slug]` | SSG (per-route) | 1 hour | Project detail page with OG image |
-| `/[locale]/blog` | ISR | 1 hour | Blog post list |
-| `/[locale]/blog/[slug]` | SSG (per-route) | 1 hour | Blog post detail with OG image |
-| `/[locale]/about` | SSR | None | Static about page |
-| `/[locale]/contact` | SSR | None | Contact form (no cache) |
+| `/en`, `/es` | SSG × 2 | 1 hour | Homepage (hero + featured projects, locale-specific) |
+| `/[locale]/projects` | ISR × 2 | Per-tag: `projects-en`, `projects-es` | Projects list (gallery, tag filter, per-locale content) |
+| `/[locale]/projects/[slug]` | SSG (per-route × 2) | Per-route + locale | Project detail page with OG image |
+| `/[locale]/blog` | ISR × 2 | Per-tag: `posts-en`, `posts-es` | Blog post list (locale-specific) |
+| `/[locale]/blog/[slug]` | SSG (per-route × 2) | Per-route + locale | Blog post detail with OG image |
+| `/[locale]/about` | SSR | None | Static about page (locale-aware text) |
+| `/[locale]/contact` | SSR | None | Contact form (locale-aware labels, validation) |
 | `/studio` | SSR | None | Embedded Sanity Studio (root, no locale) |
-| `/api/draft-mode/enable` | Route | None | Enable Sanity draft mode (root, no locale) |
-| `/api/draft-mode/disable` | Route | None | Disable draft mode (root, no locale) |
+| `/api/draft-mode/enable` | Route | None | Enable Sanity draft mode (root, validatePreviewUrl) |
+| `/api/draft-mode/disable` | Route | None | Disable draft mode (root) |
 | `/robots.txt` | Generated | Static | Robots.txt (allow all except /studio, /api, /admin) |
 | `/sitemap.xml` | Generated | Static | XML sitemap with locale variants + priorities |
 
-#### Dynamic Params (SSG with Locale)
+#### Dynamic Params (SSG with Per-Locale Variants)
 ```typescript
 // For /[locale]/projects/[slug] and /[locale]/blog/[slug]
 export async function generateStaticParams() {
@@ -92,91 +129,90 @@ export async function generateStaticParams() {
 
 - During `next build`: generates all static route params × locale count
 - Build time grows with content count × number of locales (e.g., 50 projects × 2 locales = 100 routes)
+- Each locale gets its own SSG page with bilingual content
 - Middleware routes all requests to `/[locale]/...` before reaching pages
-- ISR allows on-demand SSG for new content (post-build publication)
+- ISR allows on-demand SSG for new content (post-build publication in both locales)
 
 ---
 
-### 2. Content Management (Sanity CMS)
+### 2. Content Management (Sanity CMS + Bilingual Schemas)
 
-#### Data Model
+#### Data Model (with Bilingual Fields)
 ```
 Project (document)
-├── title (string)
-├── slug (slug)
-├── description (text)
-├── content (portable text)
-├── featuredImage (image reference)
-├── tags (array of tag references)
-├── liveUrl (URL)
-├── repoUrl (URL)
-└── publishedAt (date)
+├── title { en: string, es: string }            [BILINGUAL]
+├── slug (slug, shared)
+├── description { en: string, es: string }     [BILINGUAL]
+├── content { en: PortableText, es: PortableText } [BILINGUAL]
+├── featuredImage (image reference, shared)
+├── tags (array of tag references, shared)
+├── liveUrl (URL, shared)
+├── repoUrl (URL, shared)
+└── publishedAt (date, shared)
 
 Post (document)
-├── title (string)
-├── slug (slug)
-├── excerpt (text)
-├── content (portable text)
-├── author (reference to Author)
-├── tags (array of tag references)
-└── publishedAt (date)
+├── title { en: string, es: string }            [BILINGUAL]
+├── slug (slug, shared)
+├── excerpt { en: string, es: string }         [BILINGUAL]
+├── content { en: PortableText, es: PortableText } [BILINGUAL]
+├── author (reference to Author, shared)
+├── tags (array of tag references, shared)
+└── publishedAt (date, shared)
 
 Author (document)
-├── name (string)
-├── bio (text)
-└── image (image reference)
+├── name (string, shared)
+├── bio (text, shared)
+└── image (image reference, shared)
 
 Tag (document)
-├── title (string)
-└── slug (slug)
+├── title (string, shared)
+└── slug (slug, shared)
 
 SiteSettings (document)
-├── siteName (string)
-├── description (text)
-├── logo (image reference)
+├── siteName { en: string, es: string }        [BILINGUAL]
+├── description { en: string, es: string }     [BILINGUAL]
+├── logo (image reference, shared)
 └── socialLinks (array: {platform, url})
 ```
 
-#### TypeScript Types
-- **Real types generated:** `types/sanity.types.ts` (334 LOC) covers all documents
-- **Draft mode:** API routes `/api/draft-mode/enable` and `/api/draft-mode/disable` for Sanity Presentation tool
-  - Uses `validatePreviewUrl()` from `@sanity/preview-url-secret` for token validation
-  - Static fallback: `?secret=` path kept for manual testing
-- **OG images:** Dynamic image generation for social sharing (1200×630, dark gradient)
-- **Sanity Studio:** Embedded at `/studio` using `next-sanity` (Studio component runs inside Next.js app)
-
-#### Query Execution Flow
-```
-Page component (SSG/ISR)
-    │
-    ├─ await getProjects() [unstable_cache + tags]
-    │   └─ sanityFetch(GROQ query)
-    │       └─ createClient.fetch() with vision preview
-    │
-    ├─ await getSiteSettings() [unstable_cache + tags]
-    │   └─ sanityFetch(GROQ query)
-    │
-    └─ Render (if data, else show fallback)
+#### GROQ Queries with Locale Fallback
+```typescript
+// Pattern: coalesce(field[$locale], field.en) for graceful fallback
+groq`*[_type == "project" && slug.current == $slug][0] {
+  ...,
+  title: coalesce(title[$locale], title.en),
+  description: coalesce(description[$locale], description.en),
+  content: coalesce(content[$locale], content.en),
+}`
 ```
 
-#### Revalidation Trigger
-```
-Sanity Studio (Admin publishes project)
-    │
-    └─ Sanity webhook POST /api/revalidate-tag
-        │
-        └─ Validate x-sanity-webhook-secret header
-            │
-            └─ Extract _type (project | post | siteSettings)
-                │
-                └─ TAG_MAP[_type] → ['projects', 'posts', etc.]
-                    │
-                    └─ revalidateTag(tag) ← clears cache
-                        │
-                        └─ Next ISR revalidates on next request
+- If Spanish content missing: falls back to English automatically
+- No broken content in either locale
+- Admin only needs to translate what's necessary; English is the safety net
+
+#### Per-Locale ISR Cache Tags
+```typescript
+// Cache keys differentiate by locale, preventing cross-locale pollution
+export const getProjects = (locale: string) =>
+  unstable_cache(
+    async () => sanityFetch({ query: GROQ_QUERY, params: { locale } }),
+    [`projects-${locale}`],
+    { tags: [`projects-${locale}`], revalidate: 3600 }
+  )()
+
+// Webhook revalidates BOTH locales
+revalidateTag('projects-en')
+revalidateTag('projects-es')
 ```
 
-**Latency:** Typically <5 seconds from publish to cache clear.
+#### Sanity Presentation Tool & Draft Mode
+- **URL:** `/studio` (embedded studio component)
+- **Preview:** Admin clicks "Presentation" in Sanity UI
+- **Enable draft:** GET `/api/draft-mode/enable?secret=...` (validated via `@sanity/preview-url-secret`)
+- **Disable draft:** GET `/api/draft-mode/disable`
+- **CSP header:** Changed from `X-Frame-Options: DENY` to `frame-ancestors 'self'` (allows iframe)
+- **Unpublished content:** Rendered when draft mode cookie is set
+- **Both locales:** Draft mode works for both `/en/...` and `/es/...` routes
 
 ---
 
@@ -202,7 +238,7 @@ CREATE TABLE contact_submissions (
 
 #### TypeScript Types
 - **Real types generated:** `types/supabase.types.ts` (188 LOC) covers all tables + auth tables
-- **RLS policies fixed:** Admin policies now correctly reference `app.admin_email` setting
+- **RLS policies fixed:** Admin policies correctly reference `app.admin_email` setting
 
 #### RLS Policies
 ```sql
@@ -234,7 +270,7 @@ Used in RLS to gate admin operations without additional tables.
 
 #### Magic Link Flow
 ```
-User requests Magic Link
+User requests Magic Link (locale-aware form)
     │
     └─ sendMagicLink server action
         │
@@ -251,7 +287,7 @@ User requests Magic Link
                         │
                         └─ Sets session cookie
                             │
-                            └─ User is authenticated
+                            └─ User is authenticated (admin)
 ```
 
 #### Session Management
@@ -260,7 +296,7 @@ User requests Magic Link
 - signOut clears cookies via server action
 
 #### Middleware (Optional)
-Can add `middleware.ts` to gate `/dashboard` or admin routes:
+Can add `middleware.ts` segment to gate `/dashboard` or admin routes:
 ```typescript
 export function middleware(request: NextRequest) {
   const supabase = createSupabaseServerClient()
@@ -282,7 +318,7 @@ export const config = {
 
 #### Contact Form Email Flow
 ```
-User submits form (submitContact action)
+User submits form (submitContact action, locale-aware labels)
     │
     ├─ Supabase INSERT contact_submissions (authoritative)
     │
@@ -298,272 +334,237 @@ User submits form (submitContact action)
 - Database insert is the contract; email is a bonus notification
 - `new Resend()` instantiated **inside try/catch** at runtime (not module level)
   - Prevents 500 error if `RESEND_API_KEY` missing from env
-  - `RESEND_API_KEY` must be set in Vercel production env vars
-- If email send fails, submission succeeds (already in DB)
-
-#### Email Template
-```html
-<p><strong>John Doe</strong> &lt;john@example.com&gt;</p>
-<p>Hi, I'd love to collaborate...</p>
-```
-
-- From: `contact@emudev.cc` (using NEXT_PUBLIC_SITE_DOMAIN)
-- To: `ADMIN_EMAIL`
-- ReplyTo: user's email (so admin can reply directly)
-- HTML-escaped to prevent injection
+- Email addresses, subjects, and bodies can be localized based on user's submitted form locale
 
 ---
 
-## Deployment Pipeline (GitHub Actions)
+## Data Flows
 
-### Workflow Decision Matrix
+### Request Flow (Bilingual)
 
-| Workflow | Trigger | Node | Branch | Env | Steps | Gate |
-|----------|---------|------|--------|-----|-------|------|
-| **ci.yml** | PR to any branch | 20 | any | placeholder | Lint, typecheck, build | PR required |
-| **deploy.yml (dev preview)** | Push to development | 20 | development | preview | Migrations, build, vercel deploy, smoke tests, CF purge (prefix) | None (auto) |
-| **deploy.yml (production)** | Push to main | 20 | main | production | Migrations, build, vercel deploy, smoke tests, CF purge (zone), git tag | Manual (UI) |
-| **hotfix.yml** | PR hotfix/* → main | 20 | hotfix/* → main | production | Minimal CI, auto-deploy on merge, backport to development | None (auto) |
+```
+User requests /projects/my-cool-app
+    ↓
+Cloudflare CDN (check cache)
+    ├─ If cache hit: return cached HTML
+    └─ If cache miss: forward to Vercel
+        ↓
+Vercel Edge (route request)
+    │
+    └─ Next.js middleware (locale detection)
+        ├─ Extract locale: 'en' (from Accept-Language: en-US, or default)
+        └─ Rewrite to /en/projects/my-cool-app
+            ↓
+[locale]/projects/[slug]/page.tsx (locale='en')
+    ├─ Extract params: locale='en', slug='my-cool-app'
+    ├─ getProjectBySlug(slug='my-cool-app', locale='en')
+    │   ├─ Check cache: key=`project-my-cool-app-en`
+    │   └─ If miss: sanityFetch(GROQ with coalesce fallback)
+    │       └─ Sanity returns: { title: 'My Cool App', description: '...', ... }
+    ├─ getTranslations({ locale: 'en', namespace: 'projects' })
+    │   └─ Load messages/en.json 'projects' namespace
+    └─ Render HTML with English content + English UI strings
+        ↓
+Vercel response (HTML + Cache-Control header)
+    │
+    └─ Cloudflare CDN (store with 1-hour TTL)
+        ↓
+Browser renders page
+```
+
+### Cache Invalidation Flow
+
+```
+Admin publishes new version of 'my-cool-app' project in Sanity
+    ↓
+Sanity webhook POST /api/revalidate-tag
+    ├─ Header: x-sanity-webhook-secret = SANITY_REVALIDATE_SECRET ✓
+    ├─ Body: { _type: 'project', slug: { current: 'my-cool-app' } }
+    └─ Validate secret (reject 401 if mismatch)
+        ↓
+Extract _type='project' → TAG_MAP['project'] = ['projects-en', 'projects-es']
+    │
+    ├─ revalidateTag('projects-en')
+    ├─ revalidateTag('projects-es')
+    └─ Response: { success: true, revalidatedTags: [...] }
+        ↓
+Next.js cache invalidates both EN and ES
+    ├─ Clears: `project-my-cool-app-en` cache entry
+    ├─ Clears: `project-my-cool-app-es` cache entry
+    └─ Next request rebuilds from fresh Sanity data
+        ↓
+User visits /en/projects/my-cool-app
+    ├─ Cache miss (just invalidated)
+    ├─ sanityFetch queries fresh data from Sanity
+    ├─ HTML rebuilt (ISR)
+    └─ Response sent to browser (<5 seconds from publish)
+```
 
 ---
 
-### CI Workflow (`ci.yml`)
+## Security Model
 
-Runs on: PR to any branch
+### Authentication & Authorization
 
-```yaml
-Steps:
-  1. Checkout code
-  2. Setup Node 20
-  3. npm ci --legacy-peer-deps (clean install from lock file)
-  4. npm run lint (ESLint v9)
-  5. npm run typecheck
-  6. npm run build
-     └─ Env: NEXT_PUBLIC_SANITY_PROJECT_ID=zziqxayh (fallback to real project ID)
-                NEXT_PUBLIC_SANITY_DATASET=${{ vars.NEXT_PUBLIC_SANITY_DATASET || 'production' }}
-        └─ Build succeeds with real Sanity data if env vars available, else null-guarded fallback
-```
+1. **Public Access** — Portfolio pages publicly accessible (no auth required)
+2. **Admin Access** — Magic Link email + allow-list gating
+3. **RLS Enforcement** — Database policies prevent unauthorized data access
+4. **Webhook Validation** — Header-based secret prevents unauthorized revalidation
+5. **Draft Mode Validation** — Token-based preview URL secret prevents unauthorized preview access
 
-**Gate:** All PRs require CI to pass before merge.
+### Secret Management
 
----
+| Secret | Storage | Usage | Risk |
+|--------|---------|-------|------|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | GitHub (public) | Build-time Sanity queries | Low (non-sensitive) |
+| `SANITY_REVALIDATE_SECRET` | GitHub (environment) | Webhook validation | High (interceptable in logs) → header-based only |
+| `SANITY_API_READ_TOKEN` | GitHub (environment) | Draft content queries | Medium (read-only) → optional |
+| `SUPABASE_DB_URL` | GitHub (environment) | Migrations only | High (DB access) → restricted to runner |
+| `RESEND_API_KEY` | GitHub (environment) | Email sending | High (billing) → instantiated inside try/catch |
+| `ADMIN_EMAIL` | GitHub (environment) | Allow-list gating | Low (email, public) |
 
-### Deploy Workflow (`deploy.yml`)
+### Best Practices
 
-Runs on: **push to `main` only**. Vercel git integration handles builds and deployments for all branches automatically — `deploy.yml` only runs post-deploy tasks after `main` is updated.
-
-#### Development Branch → Preview URL
-
-No `deploy.yml` steps run on `development` push. Vercel git integration detects the push and automatically builds + deploys to a preview URL (e.g., `emudev-ws-abc123.vercel.app`). No migrations, no CF purge, no smoke tests.
-
-**Gate:** None; Vercel auto-deploys on push.  
-**Domain:** Vercel auto-generated preview URL.
-
-#### Main Branch → Production at emudev.cc
-
-Vercel git integration builds and deploys `main` → `emudev.cc` automatically. Once the deployment is live, `deploy.yml` runs post-deploy tasks:
-
-```yaml
-Trigger: push to main
-Environment: production
-
-Steps:
-  1. Checkout code (fetch-depth: 0 for git history)
-  2. npm ci --legacy-peer-deps
-  3. supabase db push (apply migrations)
-     └─ Uses SUPABASE_DB_URL + SUPABASE_PAT
-  4. Purge Cloudflare cache (entire zone)
-     └─ curl purge_cache with {"purge_everything":true}
-  5. Create git tag: prod-YYYYMMDD-HHMMSS
-     └─ Pushed to origin (release reference)
-```
-
-**Gate:** `production` GitHub Environment (secrets scoped to this env).  
-**CF Purge:** Entire zone purge after every production deploy.  
-**Domain:** `emudev.cc` (production)
+- Secrets in **GitHub Environments**, never in code or `.env` committed
+- Webhook secrets in **headers**, never query params (prevents log leakage)
+- Draft mode tokens validated via `@sanity/preview-url-secret` library (prevents open redirect)
+- RLS policies enforce at database layer (defense in depth)
+- HTML escaping in email content (prevents injection)
+- CSP headers restrict iframe embedding (`frame-ancestors 'self'`)
 
 ---
 
-### Hotfix Workflow (`hotfix.yml`)
+## Performance Characteristics
 
-Runs on: PR hotfix/* → main
+### Build Time
 
-```yaml
-Trigger: PR created from hotfix/* to main
-Steps:
-  1. Minimal CI (lint, typecheck, build only — no smoke tests)
-  2. On merge: Use production environment for auto-deploy
-  3. Deploy to production (no approval gate)
-  4. Run smoke tests against production
-  5. Backport merged commits to develop branch
-```
+| Phase | Duration |
+|-------|----------|
+| Lint (ESLint) | ~20s |
+| Typecheck (TypeScript) | ~15s |
+| Generate static params (both locales) | ~10s |
+| Next.js build | ~80s |
+| **Total** | **~2-3 min** |
 
-**Purpose:** Emergency fixes that bypass staging and normal approval gates.  
-**Note:** Does NOT skip the production environment or its configuration — uses production environment directly.
+### Static Rendering (Per-Locale)
 
----
+| Content Type | Routes | Locale Variants | Total Pages |
+|--------------|--------|-----------------|-------------|
+| Homepage | 1 | 2 (en, es) | 2 |
+| Projects | 1 list + N detail | 2 | 2 + (2 × projects) |
+| Blog | 1 list + M detail | 2 | 2 + (2 × posts) |
+| About | 1 | 2 | 2 |
+| Contact | 1 | 2 | 2 |
+| **Typical** | **~10 routes** | **2 locales** | **~50-100 pages** |
 
-## Environment Strategy
+### Cache Strategy
 
-### Repository Secrets (Shared)
-```
-VERCEL_TOKEN          # Vercel API token (all environments)
-VERCEL_ORG_ID         # Vercel organization ID
-CF_API_TOKEN          # Cloudflare API token
-CF_ZONE_ID            # emudev.cc zone ID
-```
+| Content Type | Strategy | TTL | Revalidation |
+|--------------|----------|-----|--------------|
+| Static assets (CSS, JS) | Cloudflare cache | 1 year | Manual purge |
+| Homepage | ISR | 1 hour | Webhook on publish |
+| Projects list | ISR (per-locale) | 1 hour | Webhook on project publish |
+| Project detail | SSG (per-route × locale) | 1 hour | Webhook on project publish |
+| Blog list | ISR (per-locale) | 1 hour | Webhook on post publish |
+| Blog detail | SSG (per-route × locale) | 1 hour | Webhook on post publish |
+| API routes | Bypass | — | N/A |
+| Studio | Bypass | — | N/A |
 
-### Environment-Level Secrets (Isolated)
+### Lighthouse Metrics (Targets)
 
-Each of `development`, `staging`, `production` has its own copy:
-
-```
-VERCEL_PROJECT_ID                      # Project ID in that environment
-NEXT_PUBLIC_SANITY_PROJECT_ID          # Sanity project (may be same for all)
-NEXT_PUBLIC_SANITY_DATASET             # Sanity dataset (dev/staging/prod)
-NEXT_PUBLIC_SUPABASE_URL               # Supabase project URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY          # Anon key (safe to expose)
-SUPABASE_SERVICE_ROLE_KEY              # Private key (if admin client needed)
-SUPABASE_DB_URL                        # Postgres connection (migrations)
-SUPABASE_PAT                           # Personal access token (db push)
-NEXT_PUBLIC_SITE_DOMAIN                # emudev.cc
-SANITY_API_READ_TOKEN                  # Viewer token for draft content (optional)
-SANITY_REVALIDATE_SECRET               # Webhook secret (must match webhook in Sanity)
-SANITY_STUDIO_PREVIEW_URL              # https://emudev.cc (for Presentation Tool)
-SANITY_STUDIO_REVALIDATE_SECRET        # Must match SANITY_REVALIDATE_SECRET
-RESEND_API_KEY                         # Resend email API key (CRITICAL for contact form emails; must be set at runtime)
-ADMIN_EMAIL                            # esteban.montero@gmail.com
-```
-
-**Note:** `NEXT_PUBLIC_SITE_URL` is hardcoded in `deploy.yml` jobs (not a secret):
-- Development (branch: `development`): Not set; Vercel uses auto-generated preview URL
-- Production (branch: `main`): `https://emudev.cc` (hardcoded in workflow)
-
-This prevents mismatches between domain and deployment environment.
-
-### CI Build-Time Env Vars
-
-In `ci.yml`, fallback to real Sanity data:
-
-```yaml
-NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID || 'zziqxayh' }}
-NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET || 'production' }}
-```
-
-CI builds use real Sanity data if vars available, enabling meaningful PR preview builds.
+| Metric | Target |
+|--------|--------|
+| **FCP** (First Contentful Paint) | <1.5s |
+| **LCP** (Largest Contentful Paint) | <2.5s |
+| **CLS** (Cumulative Layout Shift) | <0.1 |
+| **Performance Score** | >90 |
+| **Accessibility Score** | >95 |
+| **Best Practices Score** | >95 |
+| **SEO Score** | >95 |
 
 ---
 
-## Cloudflare Configuration
+## Deployment Pipeline
 
-### Caching Rules
-- **Cache Everything** for static assets (JS, CSS, images)
-- **Cache on Use** for HTML (respects Cache-Control headers from Vercel)
-- **Bypass Cache** for `/api/*` and `/studio/*` (dynamic)
+### GitHub Actions Workflow
 
-### Security
-- **WAF Rules:** Block common attacks (SQL injection, XSS, bots)
-- **Rate Limiting:** Limit contact form submissions if needed
-- **HTTPS Only:** Redirect HTTP to HTTPS
-
-### Cache Purge
-
-Automatic purge after successful deploy:
-
-**Development (branch: development):** Purge by prefix (limited scope)
-```bash
-curl -X POST \
-  "https://api.cloudflare.com/client/v4/zones/{CF_ZONE_ID}/purge_cache" \
-  -H "Authorization: Bearer $CF_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"prefixes":["dev.emudev.cc"]}'
+```
+Feature branch push
+    ↓
+CI workflow (lint, typecheck, build)
+    ├─ All checks pass: PR ready
+    └─ Any fail: PR blocked
+        ↓
+Merge PR to develop
+    │
+    └─ Deploy workflow triggers
+        ├─ Supabase migrations (if any)
+        ├─ Build Next.js
+        ├─ Deploy to Vercel (preview)
+        ├─ Wait 15s for Cloudflare propagation
+        ├─ Run smoke tests (11 original + 36 i18n)
+        └─ Purge Cloudflare cache
+            ↓
+Preview URL generated (emudev-ws-dev.vercel.app)
+    ↓
+Merge PR to main
+    │
+    └─ Deploy workflow triggers
+        ├─ Supabase migrations (production)
+        ├─ Build Next.js
+        ├─ Deploy to Vercel (production)
+        ├─ Wait 15s for Cloudflare propagation
+        ├─ Run smoke tests against emudev.cc (~47 tests)
+        ├─ Purge Cloudflare cache (full zone)
+        └─ Create release tag (prod-YYYYMMDD-HHMMSS)
+            ↓
+Production live at https://emudev.cc (both /en and /es)
 ```
 
-**Production (branch: main):** Purge entire zone
-```bash
-curl -X POST \
-  "https://api.cloudflare.com/client/v4/zones/{CF_ZONE_ID}/purge_cache" \
-  -H "Authorization: Bearer $CF_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"purge_everything":true}'
-```
+### Environments
 
-Development uses prefix purge to minimize CDN impact; production uses full zone purge for safety.
+| Environment | Branch | Domain | Deploy Gate | Approval |
+|-------------|--------|--------|-------------|----------|
+| Development | develop | Vercel auto | None | Auto-deploy |
+| Staging | staging | staging.emudev.cc | None (optional) | Manual |
+| Production | main | emudev.cc | None (auto) | Manual via UI |
 
 ---
 
-## Request Flow Example: User Views Project
-
-```
-1. User navigates to https://emudev.cc/projects/my-cool-app
-2. Browser requests https://emudev.cc/projects/my-cool-app
-3. Middleware (next-intl):
-   ├─ Check Accept-Language header
-   ├─ Default to 'en' if not Spanish
-   └─ Redirect to /en/projects/my-cool-app
-4. Cloudflare checks cache
-   ├─ Hit: serve cached HTML, done
-   └─ Miss: forward to Vercel
-5. Vercel Next.js:
-   ├─ Resolve locale from URL param: 'en'
-   ├─ Load messages/en.json
-   ├─ getProjectBySlug('my-cool-app')
-   │  ├─ Check unstable_cache
-   │  │  ├─ Hit: return cached data
-   │  │  └─ Miss: fetch from Sanity
-   │  └─ Returns Project | null
-   ├─ renderToString(<ProjectDetail project={...} />)
-   └─ Response:
-      ├─ Headers: Cache-Control: s-maxage=3600
-      ├─ Body: <html lang="en">...</html>
-      └─ NextIntlClientProvider with locale + messages
-6. Cloudflare caches HTML (s-maxage=3600)
-7. Browser renders with English UI strings
-8. User sees project in English
-```
-
-**Total latency (miss):** ~500ms (locale resolution + Sanity query + render)  
-**Total latency (hit):** ~100ms (Cloudflare + Vercel cache)
-
----
-
-## Data Consistency
-
-### Sanity → Vercel Cache → User
-
-- **Source of truth:** Sanity (admin edits here)
-- **Cache layer:** Next.js unstable_cache (1 hour)
-- **Invalidation:** Sanity webhook → /api/revalidate-tag → revalidateTag
-- **Fallback:** Time-based revalidate (if webhook misses)
-
-### Contact Form → Supabase → Email
-
-- **Source of truth:** Supabase DB (INSERT is committed)
-- **Notification:** Resend email (best-effort, wrapped in try/catch)
-- **Admin access:** Supabase dashboard (RLS gates to admin email)
-- **Fallback:** DB insert succeeds even if email fails
-
----
-
-## Performance & Monitoring
+## Monitoring & Alerting
 
 ### Key Metrics
-- **FCP (First Contentful Paint):** <1.5s (target)
-- **LCP (Largest Contentful Paint):** <2.5s (target)
-- **Build time:** ~2-3 min (monitor for regression)
-- **ISR revalidate time:** <5s after webhook
-- **Uptime:** 99.9% (Vercel + Cloudflare SLA)
 
-### Monitoring Tools
-- **Vercel Analytics:** Built-in (Core Web Vitals)
-- **Lighthouse CI:** Optional (CI/CD integration)
-- **Sanity Activity Log:** Track content changes
-- **Supabase Logs:** Database query logs, auth events
-- **GitHub Actions:** Workflow run history
+- **Uptime** — Vercel + Cloudflare monitoring (99.9% target)
+- **Error Rate** — Vercel logs + Sentry (if integrated)
+- **Cache Hit Ratio** — Cloudflare analytics (>80% target)
+- **Build Time** — GitHub Actions logs (<3 min target)
+- **Test Coverage** — 47 smoke tests run post-deploy (100% pass target)
 
-### Debugging
-- **Build failures:** Check GitHub Actions logs (`npm run build` output)
-- **Stale cache:** Check ISR revalidate tag logs in Vercel
-- **Webhook not firing:** Verify webhook URL and secret in Sanity settings
-- **Contact form not saving:** Check Supabase RLS policies + ADMIN_EMAIL config
-- **Email not sending:** Check Resend API key + email address validity
+### Tools
+
+- **Vercel Analytics** — Core Web Vitals, real user monitoring
+- **Lighthouse CI** — Build-time performance checking
+- **Cloudflare Analytics** — Traffic, cache, WAF insights
+- **Sanity Activity Log** — Content change history
+- **Supabase Logs** — Database query analysis, auth events
+- **GitHub Actions** — CI/CD status, workflow insights
+
+---
+
+## Disaster Recovery
+
+| Scenario | RTO | RPO | Recovery |
+|----------|-----|-----|----------|
+| **Database corruption** | 1 hour | 24 hours | Supabase automated backups (retained 7 days) |
+| **Cache poisoning** | 5 min | 0 | Manual Cloudflare purge + webhook revalidation |
+| **Secret exposure** | 15 min | 0 | Rotate GitHub secret + redeploy |
+| **Vercel outage** | 30 min | 0 | Fallback to static HTML (cached in Cloudflare) |
+| **Sanity CMS down** | 1 hour | 1 hour | Serve cached content; display notice to admin |
+
+### Backup Strategy
+
+- **Sanity:** Built-in versioning; export periodic snapshots (manual)
+- **Supabase:** Automated daily backups; 7-day retention
+- **Code:** GitHub repo (git history); releases tagged
+- **DNS:** Cloudflare nameservers (resilient to registrar issues)

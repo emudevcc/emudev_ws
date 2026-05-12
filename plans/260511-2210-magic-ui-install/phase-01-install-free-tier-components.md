@@ -1,9 +1,9 @@
 ---
 phase: 1
-title: "Install Free Tier Components"
-status: pending
+title: 'Install Free Tier Components'
+status: completed
 priority: P1
-effort: "1h"
+effort: '1h'
 dependencies: []
 ---
 
@@ -29,6 +29,7 @@ Install all 10 MagicUI free-tier components needed by the Classic Layout via `np
 ```bash
 ls components/ui/button.tsx 2>/dev/null || npx shadcn@latest init
 ```
+
 If prompting: style = `default`, base color = `slate`, confirm paths (`components/ui`, `lib/utils`).
 
 ### Step 2: Install all components
@@ -59,9 +60,11 @@ npm install framer-motion clsx tailwind-merge
 ### Step 4: Tailwind v4 check
 
 Scan installed files for v3-only patterns:
+
 ```bash
 grep -r "@apply\|ring-offset" components/ui/*.tsx 2>/dev/null
 ```
+
 `@apply` is fine in v4. `ring-offset-*` classes changed — replace with `outline-offset-*` if found.
 
 ### Step 5: TypeScript + build verification
@@ -72,22 +75,22 @@ npm run typecheck && npm run build
 
 ## Todo List
 
-- [ ] shadcn initialized (or already present)
-- [ ] All 10 `npx shadcn@latest add` commands run
-- [ ] framer-motion + clsx + tailwind-merge in package.json
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run build` — zero errors
+- [x] shadcn initialized (or already present)
+- [x] All 10 `npx shadcn@latest add` commands run
+- [x] framer-motion + clsx + tailwind-merge in package.json
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run build` — zero errors
 
 ## Success Criteria
 
-- [ ] 10 files in `components/ui/` from MagicUI
-- [ ] `npm run typecheck` passes
-- [ ] `npm run build` passes
+- [x] 10 files in `components/ui/` from MagicUI
+- [x] `npm run typecheck` passes
+- [x] `npm run build` passes
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|-----------|--------|------------|
-| Tailwind v4 class incompatibility | Low | Medium | Run build check; fix `ring-offset` → `outline-offset` if needed |
-| framer-motion version conflict | Low | Medium | Pin `framer-motion@^11` if needed |
-| shadcn init overwrites existing components | Low | Low | Use `--overwrite` selectively; check git diff |
+| Risk                                       | Likelihood | Impact | Mitigation                                                      |
+| ------------------------------------------ | ---------- | ------ | --------------------------------------------------------------- |
+| Tailwind v4 class incompatibility          | Low        | Medium | Run build check; fix `ring-offset` → `outline-offset` if needed |
+| framer-motion version conflict             | Low        | Medium | Pin `framer-motion@^11` if needed                               |
+| shadcn init overwrites existing components | Low        | Low    | Use `--overwrite` selectively; check git diff                   |

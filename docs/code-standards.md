@@ -635,13 +635,13 @@ When making breaking changes:
 
 ## Magic UI & Component Installation
 
-**Status:** MCP server installed and verified (`claude mcp add -s user magicuidesign-mcp`). Setup plan: `plans/260511-2147-magic-ui-mcp-setup`.
+**Status:** MCP server installed and verified; Magic UI install plan complete (`plans/260511-2210-magic-ui-install`).
 
 ### Component Installation
 
 **Free-tier components:** Installed via `npx shadcn@latest add "https://magicui.design/r/[name].json"` and placed in `components/ui/`.
 
-**Pro components (MagicCard, Lens, etc.):** The MCP server exposes the public registry only. Source Pro templates from magicui.design/pro in the browser, then copy them to `components/ui/`.
+**Pro components:** The MCP server exposes the public registry only. `MagicCard` and `Lens` are local API-compatible components in `components/ui/` with no runtime registry dependency.
 
 **CSS token integration:** Full shadcn/ui HSL token set + @theme inline for Magic UI compatibility.
 

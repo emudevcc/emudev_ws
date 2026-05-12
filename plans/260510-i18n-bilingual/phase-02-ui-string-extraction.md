@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "UI String Extraction"
-status: pending
+status: completed
 priority: P1
 effort: "2h"
 dependencies: [1]
@@ -274,33 +274,40 @@ Files with hardcoded `en-US` date locale: `components/post-card.tsx`, `app/[loca
 
 ## Todo List
 
-- [ ] Write full `messages/en.json`
-- [ ] Write full `messages/es.json`
-- [ ] Update `app/[locale]/page.tsx` — `getTranslations('home')`
-- [ ] Update `app/[locale]/about/page.tsx` — `getTranslations('about')` + metadata
-- [ ] Update `app/[locale]/blog/page.tsx` — `getTranslations('blog')` + metadata
-- [ ] Update `app/[locale]/blog/[slug]/page.tsx` — date format + metadata
-- [ ] Update `app/[locale]/contact/page.tsx` — `getTranslations('contact')` + metadata
-- [ ] Update `app/[locale]/projects/page.tsx` — `getTranslations('projects')` + metadata
-- [ ] Update `app/[locale]/projects/[slug]/page.tsx` — link labels + metadata
-- [ ] Update `components/site-nav.tsx` — `getTranslations('nav')`
-- [ ] Update `components/contact-form.tsx` — `useTranslations('contact')`
-- [ ] Update `components/tag-filter.tsx` — `useTranslations('common')`
-- [ ] Update `components/post-card.tsx` — `useFormatter()` for dates
-- [ ] Update `components/project-card.tsx` — `useTranslations('common')` for alt text
-- [ ] Update hero section component — `useTranslations('hero')`
-- [ ] Verify switching locale changes all visible text
-- [ ] Verify `npx tsc --noEmit` passes
+- [x] Write full `messages/en.json`
+- [x] Write full `messages/es.json`
+- [x] Update `app/[locale]/page.tsx` — `getTranslations('home')`
+- [x] Update `app/[locale]/about/page.tsx` — `getTranslations('about')` + metadata
+- [x] Update `app/[locale]/blog/page.tsx` — `getTranslations('blog')` + metadata
+- [x] Update `app/[locale]/blog/[slug]/page.tsx` — date format + metadata
+- [x] Update `app/[locale]/contact/page.tsx` — `getTranslations('contact')` + metadata
+- [x] Update `app/[locale]/projects/page.tsx` — `getTranslations('projects')` + metadata
+- [x] Update `app/[locale]/projects/[slug]/page.tsx` — link labels + metadata
+- [x] Update `components/site-nav.tsx` — `getTranslations('nav')`
+- [x] Update `components/contact-form.tsx` — `useTranslations('contact')`
+- [x] Update `components/tag-filter.tsx` — `useTranslations('common')`
+- [x] Update `components/post-card.tsx` — `useFormatter()` for dates
+- [x] Update `components/project-card.tsx` — `useTranslations('common')` for alt text
+- [x] Update hero section component — `useTranslations('hero')`
+- [x] Verify switching locale changes all visible text
+- [x] Verify `npx tsc --noEmit` passes
 
 ## Success Criteria
 
-- [ ] `/en/` renders "Featured Projects", `/es/` renders "Proyectos destacados"
-- [ ] `/en/contact` form shows English labels; `/es/contact` shows Spanish labels
-- [ ] Nav links say "Home / Projects / Blog / About / Contact" in EN and "Inicio / Proyectos / Blog / Sobre mí / Contacto" in ES
-- [ ] Date on blog post pages formats per locale (e.g. "May 10, 2026" vs "10 may 2026")
-- [ ] Locale switcher button visible in nav, toggles locale on click
-- [ ] No hardcoded English strings remain in components or pages
-- [ ] TypeScript: no `any` casts for translation keys
+- [x] `/en/` renders "Featured Projects", `/es/` renders "Proyectos destacados"
+- [x] `/en/contact` form shows English labels; `/es/contact` shows Spanish labels
+- [x] Nav links say "Home / Projects / Blog / About / Contact" in EN and "Inicio / Proyectos / Blog / Sobre mí / Contacto" in ES
+- [x] Date on blog post pages formats per locale (e.g. "May 10, 2026" vs "10 may 2026")
+- [x] Locale switcher button visible in nav, toggles locale on click
+- [x] No hardcoded English strings remain in components or pages
+- [x] TypeScript: no `any` casts for translation keys
+
+## Progress Notes — 2026-05-10
+
+- English and Spanish message catalogs were added with namespaces for nav, home, about, blog, contact, projects, common, and hero text.
+- `SiteNav` now uses `getTranslations('nav')` and locale-aware links.
+- Locale switcher is visible in the nav and uses the localized routing helpers.
+- Page/component string extraction, locale-aware date formatting, and verification checklists are closed.
 
 ## Risk Assessment
 

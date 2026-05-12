@@ -61,21 +61,21 @@ npm run supabase:types
 
 ## Stack
 
-| Layer | Tech | Version |
-|-------|------|---------|
-| **Frontend Framework** | Next.js | 15.5 (App Router, Turbopack) |
-| **Internationalization** | next-intl | ^4.11.1 (EN/ES bilingual) |
-| **Language** | TypeScript | 5.9 |
-| **Styling** | Tailwind CSS | 4.0 |
-| **CMS** | Sanity | 3 + Visual Editing v4 |
-| **Database** | Supabase Postgres | Latest (RLS) |
-| **Auth** | Supabase Auth | Magic Link |
-| **Email** | Resend | 6.12 |
-| **Hosting** | Vercel | Latest |
-| **CDN/WAF** | Cloudflare | Latest |
-| **Testing** | Playwright | 1.59 |
-| **Linting** | ESLint | ^9 (v10 incompatible) |
-| **Formatting** | Prettier | 3.8 |
+| Layer                    | Tech              | Version                      |
+| ------------------------ | ----------------- | ---------------------------- |
+| **Frontend Framework**   | Next.js           | 15.5 (App Router, Turbopack) |
+| **Internationalization** | next-intl         | ^4.11.1 (EN/ES bilingual)    |
+| **Language**             | TypeScript        | 5.9                          |
+| **Styling**              | Tailwind CSS      | 4.0                          |
+| **CMS**                  | Sanity            | 3 + Visual Editing v4        |
+| **Database**             | Supabase Postgres | Latest (RLS)                 |
+| **Auth**                 | Supabase Auth     | Magic Link                   |
+| **Email**                | Resend            | 6.12                         |
+| **Hosting**              | Vercel            | Latest                       |
+| **CDN/WAF**              | Cloudflare        | Latest                       |
+| **Testing**              | Playwright        | 1.59                         |
+| **Linting**              | ESLint            | ^9 (v10 incompatible)        |
+| **Formatting**           | Prettier          | 3.8                          |
 
 ---
 
@@ -160,13 +160,15 @@ emudev-portfolio/
 │   └── supabase.types.ts  # Generated from schema
 │
 ├── sanity/                # Sanity CMS config
-│   ├── schemas/           # Document type schemas (with {en, es} fields)
-│   └── structure.ts       # Studio desk structure
+│   ├── lib/               # Shared schema helpers
+│   ├── schemas/           # 14 document schemas (with {en, es} fields)
+│   └── structure.ts       # Studio desk structure and singletons
 │
 ├── tests/                 # Test suites
 │   └── smoke/
 │       ├── pages.spec.ts          # ~11 original tests
-│       └── i18n-bilingual.spec.ts # ~36 new i18n tests (routing, messages, rendering)
+│       ├── i18n-bilingual.spec.ts # i18n static + integration smoke tests
+│       └── content-model.spec.ts  # Sanity schema/query static contracts
 │
 ├── docs/                  # Documentation
 │   ├── project-overview-pdr.md
@@ -198,34 +200,34 @@ See [`docs/codebase-summary.md`](./docs/codebase-summary.md) for detailed file p
 
 ### Development
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start dev server (http://localhost:3000, auto-locale redirect) |
-| `npm run sanity:dev` | Start Sanity Studio (http://localhost:3333) |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
+| Command              | Purpose                                                        |
+| -------------------- | -------------------------------------------------------------- |
+| `npm run dev`        | Start dev server (http://localhost:3000, auto-locale redirect) |
+| `npm run sanity:dev` | Start Sanity Studio (http://localhost:3333)                    |
+| `npm run build`      | Build for production                                           |
+| `npm run start`      | Start production server                                        |
 
 ### Code Quality
 
-| Command | Purpose |
-|---------|---------|
-| `npm run lint` | Run ESLint |
+| Command             | Purpose                     |
+| ------------------- | --------------------------- |
+| `npm run lint`      | Run ESLint                  |
 | `npm run typecheck` | Run TypeScript type checker |
 
 ### Database & CMS
 
-| Command | Purpose |
-|---------|---------|
-| `npm run sanity:types` | Generate Sanity TypeScript types |
+| Command                  | Purpose                            |
+| ------------------------ | ---------------------------------- |
+| `npm run sanity:types`   | Generate Sanity TypeScript types   |
 | `npm run supabase:types` | Generate Supabase TypeScript types |
-| `npm run supabase:push` | Apply SQL migrations to Supabase |
+| `npm run supabase:push`  | Apply SQL migrations to Supabase   |
 
 ### Testing
 
-| Command | Purpose |
-|---------|---------|
-| `npm run test:smoke` | Run Playwright smoke tests (requires BASE_URL env var) |
-| `npm run test:smoke:local` | Run smoke tests against localhost:3000 |
+| Command                    | Purpose                                                |
+| -------------------------- | ------------------------------------------------------ |
+| `npm run test:smoke`       | Run Playwright smoke tests (requires BASE_URL env var) |
+| `npm run test:smoke:local` | Run smoke tests against localhost:3000                 |
 
 ---
 
@@ -235,7 +237,7 @@ See [`docs/codebase-summary.md`](./docs/codebase-summary.md) for detailed file p
 
 - **next-intl v4** — English & Spanish with `/en` & `/es` explicit locale prefixes
 - **Middleware routing** — Automatic locale detection, defaults to English
-- **Per-locale ISR** — Separate cache keys: `projects-en`, `projects-es`, etc.
+- **Per-locale ISR** — Locale-specific cache keys with collection-level revalidation tags
 - **Message files** — `messages/en.json` & `messages/es.json` for all UI strings
 - **LocaleSwitcher component** — Easy EN↔ES toggle in navigation
 - **Sanity bilingual content** — Fields stored as `{en: "...", es: "..."}`
@@ -243,8 +245,9 @@ See [`docs/codebase-summary.md`](./docs/codebase-summary.md) for detailed file p
 
 ### Content Management
 
-- **Sanity CMS** — Headless CMS for projects, blog posts, authors, tags (now bilingual)
-- **GROQ Queries** — Type-safe content queries with locale support: `coalesce(field[$locale], field.en)`
+- **Sanity CMS** — Headless CMS with 14 document types for portfolio, blog, skills, credentials, testimonials, and site settings
+- **Studio Structure** — Grouped desk nav with singleton entries for Site Settings and About
+- **GROQ Queries** — Locale-aware content queries with fallback: `coalesce(field[$locale], field.en)`
 - **ISR Caching** — `unstable_cache` with per-locale tags + 1-hour TTL
 - **Webhook Revalidation** — Instant cache clear on publish via Sanity webhook
 - **Sanity Presentation Tool** — Live preview with draft mode via `/api/draft-mode/enable`
@@ -267,7 +270,7 @@ See [`docs/codebase-summary.md`](./docs/codebase-summary.md) for detailed file p
 
 - **3-Environment Pipeline** — Develop → Staging → Production
 - **Approval Gates** — Manual approval required for staging/production
-- **Smoke Tests** — Playwright tests run on staging/production deploys (~47 tests: 11 original + 36 i18n)
+- **Smoke Tests** — Playwright suites run on staging/production deploys for routes, i18n, and content-model contracts
 - **Automatic Caching** — Cloudflare purge on every deploy
 - **Release Tags** — Automatic git tags on production deploy
 
@@ -292,7 +295,7 @@ Vercel Edge (request routing)
     ↓
 Next.js App Router + Middleware (locale detection)
     ├─ Static Pages (SSG × 2 locales) → HTML cached 1 hour
-    ├─ ISR Pages (per-locale cache tags) → Revalidate on webhook
+    ├─ ISR Pages (locale cache keys) → Revalidate collection tags on webhook
     ├─ Dynamic Routes (per-slug × per-locale) → Per-route caching
     └─ API Routes → Webhooks, draft mode, etc.
     ↓
@@ -312,7 +315,7 @@ See [`docs/system-architecture.md`](./docs/system-architecture.md) for detailed 
 ### TypeScript
 
 - **Strict mode enabled** — All types checked
-- **Hand-written types** — Sanity types are non-codegen (controlled updates)
+- **Generated CMS types** — Sanity types are regenerated with `npm run sanity:types`
 - **Null guards** — Explicit `?? []` for falsy checks
 
 ### Naming Conventions
@@ -357,7 +360,7 @@ git push origin staging
 ```bash
 git push origin main
 # GitHub Actions waits for approval → deploys to https://emudev.cc
-# Smoke tests run on production (~47 tests)
+# Smoke tests run on production
 # Auto-creates release tag: prod-YYYYMMDD-HHMMSS
 ```
 
@@ -376,30 +379,31 @@ git push origin hotfix/emergency-fix
 
 ## Documentation
 
-| Document | Purpose |
-|----------|---------|
-| [`docs/project-overview-pdr.md`](./docs/project-overview-pdr.md) | Project vision, goals, success metrics, risks |
-| [`docs/codebase-summary.md`](./docs/codebase-summary.md) | Directory structure, file purposes, key patterns |
-| [`docs/code-standards.md`](./docs/code-standards.md) | TypeScript, naming, ISR caching, server actions, i18n patterns |
-| [`docs/system-architecture.md`](./docs/system-architecture.md) | Full architecture, data flows, deployment pipeline, middleware |
-| [`docs/deployment-guide.md`](./docs/deployment-guide.md) | Step-by-step setup & deployment checklist |
-| [`docs/project-roadmap.md`](./docs/project-roadmap.md) | Phase breakdown, timeline, backlog (Phases 1-8.3 complete) |
-| [`docs/design-guidelines.md`](./docs/design-guidelines.md) | Colors, typography, spacing, components, accessibility |
+| Document                                                         | Purpose                                                        |
+| ---------------------------------------------------------------- | -------------------------------------------------------------- |
+| [`docs/project-overview-pdr.md`](./docs/project-overview-pdr.md) | Project vision, goals, success metrics, risks                  |
+| [`docs/codebase-summary.md`](./docs/codebase-summary.md)         | Directory structure, file purposes, key patterns               |
+| [`docs/code-standards.md`](./docs/code-standards.md)             | TypeScript, naming, ISR caching, server actions, i18n patterns |
+| [`docs/system-architecture.md`](./docs/system-architecture.md)   | Full architecture, data flows, deployment pipeline, middleware |
+| [`docs/deployment-guide.md`](./docs/deployment-guide.md)         | Step-by-step setup & deployment checklist                      |
+| [`docs/project-roadmap.md`](./docs/project-roadmap.md)           | Phase breakdown, timeline, backlog (Phases 1-8.3 complete)     |
+| [`docs/design-guidelines.md`](./docs/design-guidelines.md)       | Colors, typography, spacing, components, accessibility         |
 
 ---
 
 ## Performance Targets
 
-| Metric | Target |
-|--------|--------|
-| **First Contentful Paint (FCP)** | <1.5s |
-| **Largest Contentful Paint (LCP)** | <2.5s |
-| **Cumulative Layout Shift (CLS)** | <0.1 |
-| **Cache Hit Ratio** | >80% |
-| **Build Time** | <3 min |
-| **Uptime** | 99.9% |
+| Metric                             | Target |
+| ---------------------------------- | ------ |
+| **First Contentful Paint (FCP)**   | <1.5s  |
+| **Largest Contentful Paint (LCP)** | <2.5s  |
+| **Cumulative Layout Shift (CLS)**  | <0.1   |
+| **Cache Hit Ratio**                | >80%   |
+| **Build Time**                     | <3 min |
+| **Uptime**                         | 99.9%  |
 
 Monitored via:
+
 - Vercel Analytics (Core Web Vitals)
 - Lighthouse CI (in deploy workflow)
 - Cloudflare Analytics (traffic, cache, WAF)
@@ -424,21 +428,23 @@ See [`docs/system-architecture.md`](./docs/system-architecture.md#environment-st
 
 ### Branch Strategy
 
-| Branch | Purpose | Deploys To | Gate |
-|--------|---------|------------|------|
-| `main` | Production-only | emudev.cc | Manual approval |
-| `staging` | Pre-release QA | staging.emudev.cc | Manual approval |
-| `develop` | Integration / dev testing | dev.emudev.cc | Auto |
-| `feature/*` | New phases & features | — | PR into `develop` |
-| `hotfix/*` | Emergency fixes | prod (direct) | PR into `main` |
+| Branch      | Purpose                   | Deploys To        | Gate              |
+| ----------- | ------------------------- | ----------------- | ----------------- |
+| `main`      | Production-only           | emudev.cc         | Manual approval   |
+| `staging`   | Pre-release QA            | staging.emudev.cc | Manual approval   |
+| `develop`   | Integration / dev testing | dev.emudev.cc     | Auto              |
+| `feature/*` | New phases & features     | —                 | PR into `develop` |
+| `hotfix/*`  | Emergency fixes           | prod (direct)     | PR into `main`    |
 
 **Rules:**
+
 - **Never push directly to `main`, `staging`, or `develop`**
 - All new work starts on a `feature/` branch
 - Merge path: `feature/*` → `develop` → `staging` → `main`
 - Hotfix path: `hotfix/*` → `main` (auto-deploys, backports to `develop`)
 
 **Starting new work:**
+
 ```bash
 git checkout develop
 git pull origin develop
@@ -520,15 +526,16 @@ Questions? Open an issue or reach out via the contact form at https://emudev.cc/
 
 ---
 
-## Project Status (May 11, 2026)
+## Project Status (May 12, 2026)
 
 - **Phase 1-5:** ✅ Complete (scaffold, Sanity, Supabase, UI, CI/CD)
 - **Phase 6:** ✅ Complete (Cloudflare WAF, cache optimization, draft mode)
-- **Phase 7:** ✅ Complete (Smoke tests, production readiness, 47 total tests)
+- **Phase 7:** ✅ Complete (Smoke tests, production readiness)
 - **Phase 8.1:** ✅ Complete (i18n middleware, EN/ES routing, locale switcher, messages)
 - **Phase 8.2:** ✅ Complete (UI string extraction via getTranslations/useTranslations)
 - **Phase 8.3:** ✅ Complete (Sanity bilingual schemas with {en, es} fields)
-- **Phase 8.4:** ⏳ Planned (Sitemap hreflang, locale variants)
+- **Phase 8.4:** ✅ Complete (Sitemap locale variants and hreflang alternates)
+- **Content Model Refactor:** ✅ Complete (14 Sanity document types, grouped Studio, content-model smoke tests)
 - **Phase 9:** ⏳ Future (Post-launch monitoring, Phase 2 features)
 
 See [`docs/project-roadmap.md`](./docs/project-roadmap.md) for detailed timeline.

@@ -1,9 +1,9 @@
 ---
 phase: 1
-title: "Extract i18n Helpers Module"
-status: pending
+title: 'Extract i18n Helpers Module'
+status: completed
 priority: P1
-effort: "2h"
+effort: '2h'
 dependencies: []
 ---
 
@@ -16,12 +16,14 @@ Eliminate the duplicate `localizedString` / `localizedText` / `localizedSlug` / 
 ## Requirements
 
 **Functional**
+
 - All existing schemas import localized field factories from a single source
 - Public helper signatures match current usage (no caller changes besides the import line)
 - New helpers (`localizedRichText`, `localizedArray`) available for Phase 2+
 - TypeScript compiles; `npm run sanity:types` regenerates identical output (no schema diff)
 
 **Non-functional**
+
 - Module is the canonical home for bilingual field shapes; future schemas import from here
 - Each helper returns a `defineField` result so the call site stays identical
 
@@ -43,9 +45,11 @@ Internal shape mirrors existing definitions exactly so type-gen output is stable
 ## Related Code Files
 
 **Create**
+
 - `sanity/lib/i18n-helpers.ts`
 
 **Modify** (replace local helper defs with imports)
+
 - `sanity/schemas/site-settings-type.ts`
 - `sanity/schemas/project-type.ts`
 - `sanity/schemas/post-type.ts`
@@ -53,6 +57,7 @@ Internal shape mirrors existing definitions exactly so type-gen output is stable
 - `sanity/schemas/tag-type.ts`
 
 **Delete**
+
 - None
 
 ## Implementation Steps
@@ -73,31 +78,31 @@ Internal shape mirrors existing definitions exactly so type-gen output is stable
 
 ## Todo List
 
-- [ ] Create `sanity/lib/i18n-helpers.ts` with 6 factories
-- [ ] Refactor `site-settings-type.ts` to use imports
-- [ ] Refactor `project-type.ts` to use imports
-- [ ] Refactor `post-type.ts` to use imports
-- [ ] Refactor `author-type.ts` to use imports
-- [ ] Refactor `tag-type.ts` to use imports
-- [ ] `npm run typecheck` passes
-- [ ] `npm run sanity:types` produces no diff
-- [ ] `npm run lint` passes
+- [x] Create `sanity/lib/i18n-helpers.ts` with 6 factories
+- [x] Refactor `site-settings-type.ts` to use imports
+- [x] Refactor `project-type.ts` to use imports
+- [x] Refactor `post-type.ts` to use imports
+- [x] Refactor `author-type.ts` to use imports
+- [x] Refactor `tag-type.ts` to use imports
+- [x] `npm run typecheck` passes
+- [x] `npm run sanity:types` produces no diff
+- [x] `npm run lint` passes
 
 ## Success Criteria
 
-- [ ] `sanity/lib/i18n-helpers.ts` exists and exports all 6 helpers
-- [ ] Zero local copies of `localizedString` / `localizedText` / `localizedSlug` / `localizedContent` remain in `sanity/schemas/*`
-- [ ] `git diff types/sanity.types.ts` is empty after regeneration
-- [ ] `npm run build` succeeds
-- [ ] Sanity Studio loads (`/studio`) without schema-validation errors
+- [x] `sanity/lib/i18n-helpers.ts` exists and exports all 6 helpers
+- [x] Zero local copies of `localizedString` / `localizedText` / `localizedSlug` / `localizedContent` remain in `sanity/schemas/*`
+- [x] `git diff types/sanity.types.ts` is empty after regeneration
+- [x] `npm run build` succeeds
+- [x] Sanity Studio loads (`/studio`) without schema-validation errors
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Slight shape drift causes type-gen diff | Low | Low | Copy existing helper code verbatim into module; diff before/after |
-| Circular import (`lib` ↔ `schemas`) | Very Low | Low | `lib/` is a leaf module; no imports from `schemas/` |
-| Missed call site after refactor | Low | Low | Lint catches unused imports; grep `localizedString = (` should return zero hits in `schemas/` |
+| Risk                                    | Likelihood | Impact | Mitigation                                                                                    |
+| --------------------------------------- | ---------- | ------ | --------------------------------------------------------------------------------------------- |
+| Slight shape drift causes type-gen diff | Low        | Low    | Copy existing helper code verbatim into module; diff before/after                             |
+| Circular import (`lib` ↔ `schemas`)     | Very Low   | Low    | `lib/` is a leaf module; no imports from `schemas/`                                           |
+| Missed call site after refactor         | Low        | Low    | Lint catches unused imports; grep `localizedString = (` should return zero hits in `schemas/` |
 
 ## Rollback
 

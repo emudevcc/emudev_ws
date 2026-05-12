@@ -13,6 +13,391 @@
  */
 
 // Source: schema.json
+export type Testimonial = {
+  _id: string
+  _type: 'testimonial'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  quote?: {
+    en?: string
+    es?: string
+  }
+  author?: string
+  authorRole?: {
+    en?: string
+    es?: string
+  }
+  authorCompany?: string
+  authorAvatar?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  relatedExperience?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'experience'
+  }
+}
+
+export type SocialPost = {
+  _id: string
+  _type: 'socialPost'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  platform?: 'x' | 'reddit'
+  handle?: string
+  subreddit?: string
+  body?: {
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+    es?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+  }
+  postedAt?: string
+  permalink?: string
+  stats?: {
+    likes?: number
+    replies?: number
+    reposts?: number
+  }
+  featured?: boolean
+}
+
+export type Strength = {
+  _id: string
+  _type: 'strength'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  rank?: number
+  domain?: 'executing' | 'influencing' | 'relationship-building' | 'strategic-thinking'
+  description?: {
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+    es?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+  }
+}
+
+export type Language = {
+  _id: string
+  _type: 'language'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  code?: string
+  proficiency?: 'native' | 'fluent' | 'professional' | 'conversational' | 'basic'
+  cefr?: string
+}
+
+export type Education = {
+  _id: string
+  _type: 'education'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  institution?: string
+  degree?: {
+    en?: string
+    es?: string
+  }
+  field?: {
+    en?: string
+    es?: string
+  }
+  startYear?: number
+  endYear?: number
+  location?: string
+  notes?: {
+    en?: string
+    es?: string
+  }
+}
+
+export type Certification = {
+  _id: string
+  _type: 'certification'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  issuer?: string
+  issuerLogo?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  issueDate?: string
+  expiryDate?: string
+  credentialId?: string
+  credentialUrl?: string
+  badgeImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  skills?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'skill'
+  }>
+}
+
+export type Experience = {
+  _id: string
+  _type: 'experience'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  role?: {
+    en?: string
+    es?: string
+  }
+  company?: string
+  companyUrl?: string
+  companyLogo?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  location?: string
+  employmentType?: 'full-time' | 'contract' | 'freelance' | 'internship'
+  startDate?: string
+  endDate?: string
+  summary?: {
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+    es?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+  }
+  highlights?: {
+    en?: Array<string>
+    es?: Array<string>
+  }
+  tech?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'skill'
+  }>
+  clients?: Array<string>
+  order?: number
+}
+
+export type Skill = {
+  _id: string
+  _type: 'skill'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  slug?: Slug
+  category?: 'language' | 'framework' | 'tool' | 'platform' | 'cloud' | 'design'
+  iconImage?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  iconSlug?: string
+  level?: 'core' | 'proficient' | 'familiar'
+  yearsExperience?: number
+  order?: number
+}
+
+export type About = {
+  _id: string
+  _type: 'about'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  paragraphs?: {
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+    es?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+  }
+  funFacts?: {
+    en?: Array<string>
+    es?: Array<string>
+  }
+  photoCaption?: {
+    en?: string
+    es?: string
+  }
+}
+
 export type SiteSettings = {
   _id: string
   _type: 'siteSettings'
@@ -27,6 +412,66 @@ export type SiteSettings = {
     en?: string
     es?: string
   }
+  fullName?: string
+  shortName?: string
+  role?: {
+    en?: string
+    es?: string
+  }
+  tagline?: {
+    en?: string
+    es?: string
+  }
+  heroIntro?: {
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+    es?: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
+      _key: string
+    }>
+  }
+  avatar?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
   logo?: {
     asset?: {
       _ref: string
@@ -39,9 +484,50 @@ export type SiteSettings = {
     crop?: SanityImageCrop
     _type: 'image'
   }
+  resumePdfEn?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+    }
+    media?: unknown
+    _type: 'file'
+  }
+  resumePdfEs?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+    }
+    media?: unknown
+    _type: 'file'
+  }
+  location?: string
+  timezone?: string
+  availableForWork?: boolean
+  availabilityNote?: {
+    en?: string
+    es?: string
+  }
+  calComUrl?: string
+  email?: string
+  defaultLocale?: 'en' | 'es'
   socialLinks?: Array<{
-    platform?: string
+    platform?:
+      | 'github'
+      | 'linkedin'
+      | 'twitter'
+      | 'x'
+      | 'youtube'
+      | 'instagram'
+      | 'reddit'
+      | 'spotify'
+      | 'email'
+    handle?: string
     url?: string
+    visible?: boolean
     _key: string
   }>
 }
@@ -148,6 +634,18 @@ export type Post = {
         }
     >
   }
+  cover?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
   author?: {
     _ref: string
     _type: 'reference'
@@ -162,6 +660,15 @@ export type Post = {
     [internalGroqTypeReferenceTo]?: 'tag'
   }>
   publishedAt?: string
+  readingMinutes?: number
+  canonicalUrl?: string
+  status?: 'draft' | 'published'
+  authorOverride?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'author'
+  }
 }
 
 export type Author = {
@@ -278,7 +785,48 @@ export type Project = {
         }
     >
   }
-  featuredImage?: {
+  tagline?: {
+    en?: string
+    es?: string
+  }
+  role?: {
+    en?: string
+    es?: string
+  }
+  year?: number
+  status?: 'live' | 'archived' | 'wip'
+  featured?: boolean
+  caseStudyUrl?: string
+  order?: number
+  tech?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'skill'
+  }>
+  gallery?: Array<{
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+    _key: string
+  }>
+  metrics?: Array<{
+    label?: {
+      en?: string
+      es?: string
+    }
+    value?: string
+    _key: string
+  }>
+  cover?: {
     asset?: {
       _ref: string
       _type: 'reference'
@@ -290,13 +838,6 @@ export type Project = {
     crop?: SanityImageCrop
     _type: 'image'
   }
-  tags?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'tag'
-  }>
   liveUrl?: string
   repoUrl?: string
   publishedAt?: string
@@ -421,6 +962,15 @@ export type SanityAssetSourceData = {
 }
 
 export type AllSanitySchemaTypes =
+  | Testimonial
+  | SocialPost
+  | Strength
+  | Language
+  | Education
+  | Certification
+  | Experience
+  | Skill
+  | About
   | SiteSettings
   | Tag
   | Post

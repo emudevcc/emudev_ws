@@ -1,9 +1,9 @@
 ---
 phase: 6
-title: "Expand Project and Post"
-status: pending
+title: 'Expand Project and Post'
+status: completed
 priority: P1
-effort: "3h"
+effort: '3h'
 dependencies: [1, 3]
 ---
 
@@ -16,13 +16,16 @@ Highest-risk phase — modifies two existing schemas with data already in the da
 ## Requirements
 
 **Project additions** (all optional unless noted)
+
 - `tagline🌐`, `cover` (rename), `gallery` (array<image>), `tech` (array<ref skill>), `role🌐`, `year` (number), `status` (enum `live|archived|wip`), `featured` (boolean), `caseStudyUrl` (url), `metrics` (array<object: label🌐, value (string)>), `order` (number)
 
 **Project removals/renames**
+
 - Rename `featuredImage` → `cover` (preserve image data: same field shape)
 - Remove `tags[]` array (use `tech` refs instead). Existing tag refs orphaned in dataset; safe but unused.
 
 **Post additions** (all optional)
+
 - `cover` (image — currently no image field on Post; add it)
 - `readingMinutes` (number)
 - `canonicalUrl` (url)
@@ -30,19 +33,23 @@ Highest-risk phase — modifies two existing schemas with data already in the da
 - `authorOverride` (ref→author, optional) — Phase A author deprecation prep
 
 **Post unchanged**
+
 - `title`, `slug`, `excerpt`, `content`, `author`, `tags`, `publishedAt` — keep as-is
 
 **Non-functional**
+
 - Existing project/post documents must continue loading without manual data migration
 - GROQ queries (Phase 7) must still resolve `featuredImage` for legacy data via fallback: `coalesce(cover.asset->url, featuredImage.asset->url)` until UI is migrated
 
 ## Architecture
 
 **Rename strategy** — Sanity does not rename fields server-side. New field `cover` lives alongside legacy `featuredImage` in the dataset. Two options:
+
 1. **Soft rename** (chosen): add `cover` field, keep `featuredImage` removed from schema (Studio won't show it but data persists). Query coalesces both during transition.
 2. **Hard rename** (rejected): write a migration script. YAGNI for current dataset size.
 
 **Project status enum**:
+
 ```ts
 const STATUSES = [
   { title: 'Live', value: 'live' },
@@ -52,6 +59,7 @@ const STATUSES = [
 ```
 
 **Project metrics shape**:
+
 ```ts
 { name: 'metrics', type: 'array', of: [{
   type: 'object',
@@ -66,14 +74,17 @@ const STATUSES = [
 ## Related Code Files
 
 **Create**
+
 - None
 
 **Modify**
+
 - `sanity/schemas/project-type.ts`
 - `sanity/schemas/post-type.ts`
 - `lib/sanity-queries.ts` (only the `featuredImage` → `cover` fallback in existing queries — full new queries are in Phase 7)
 
 **Delete**
+
 - None (`featuredImage` field deleted from schema only, data preserved)
 
 ## Implementation Steps
@@ -152,43 +163,45 @@ const STATUSES = [
 
 ## Todo List
 
-- [ ] Project: rename `featuredImage` → `cover`
-- [ ] Project: remove `tags[]` field block
-- [ ] Project: add 10 new fields (tagline, role, year, status, featured, caseStudyUrl, order, tech, gallery, metrics)
-- [ ] Project: update preview `media` to `cover`
-- [ ] Post: add 5 new fields (cover, readingMinutes, canonicalUrl, status, authorOverride)
-- [ ] Post: update preview to include cover
-- [ ] Update GROQ `ProjectSummary` type + project queries to use `cover` with fallback to `featuredImage`
-- [ ] `npm run typecheck` passes
-- [ ] `npm run sanity:types` regenerates and reflects all new fields
-- [ ] Studio loads existing projects without errors
+- [x] Project: rename `featuredImage` → `cover`
+- [x] Project: remove `tags[]` field block
+- [x] Project: add 10 new fields (tagline, role, year, status, featured, caseStudyUrl, order, tech, gallery, metrics)
+- [x] Project: update preview `media` to `cover`
+- [x] Post: add 5 new fields (cover, readingMinutes, canonicalUrl, status, authorOverride)
+- [x] Post: update preview to include cover
+- [x] Update GROQ `ProjectSummary` type + project queries to use `cover` with fallback to `featuredImage`
+- [x] `npm run typecheck` passes
+- [x] `npm run sanity:types` regenerates and reflects all new fields
+- [x] Studio loads existing projects without errors
 
 ## Success Criteria
 
-- [ ] Existing project documents load in Studio after schema change
-- [ ] Project preview shows `cover` when set, otherwise falls back via GROQ to legacy `featuredImage`
-- [ ] Project.tech reference picker works (refs Skill)
-- [ ] Post.status defaults to `published` for new docs
-- [ ] Post.authorOverride is optional and saves correctly
-- [ ] `types/sanity.types.ts` regenerated successfully
+- [x] Existing project documents load in Studio after schema change
+- [x] Project preview shows `cover` when set, otherwise falls back via GROQ to legacy `featuredImage`
+- [x] Project.tech reference picker works (refs Skill)
+- [x] Post.status defaults to `published` for new docs
+- [x] Post.authorOverride is optional and saves correctly
+- [x] `types/sanity.types.ts` regenerated successfully
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Existing projects lose `featuredImage` visibility | High | Medium | Coalesce fallback in GROQ; field data preserved server-side; editors re-upload as `cover` over time |
-| `tags[]` removal orphans data | Medium | Low | Field removed from schema only; dataset retains orphan refs harmlessly |
-| Author Phase A unclear — devs delete `author` field prematurely | Medium | High | Comment in schema + this plan: do NOT remove `author` until Phase B (separate plan) |
-| Type regen reveals breaking type changes downstream | Medium | High | Run `npm run typecheck` after regen; expect compile errors only in places that reference removed `tags` on Project (manually fix call sites) |
-| GROQ field name change breaks consumers | Medium | High | Audit all `.featuredImage` usages in `app/**/*.tsx` and `components/**/*.tsx` before commit — list expected ≤ 10 sites; update each |
+| Risk                                                            | Likelihood | Impact | Mitigation                                                                                                                                   |
+| --------------------------------------------------------------- | ---------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Existing projects lose `featuredImage` visibility               | High       | Medium | Coalesce fallback in GROQ; field data preserved server-side; editors re-upload as `cover` over time                                          |
+| `tags[]` removal orphans data                                   | Medium     | Low    | Field removed from schema only; dataset retains orphan refs harmlessly                                                                       |
+| Author Phase A unclear — devs delete `author` field prematurely | Medium     | High   | Comment in schema + this plan: do NOT remove `author` until Phase B (separate plan)                                                          |
+| Type regen reveals breaking type changes downstream             | Medium     | High   | Run `npm run typecheck` after regen; expect compile errors only in places that reference removed `tags` on Project (manually fix call sites) |
+| GROQ field name change breaks consumers                         | Medium     | High   | Audit all `.featuredImage` usages in `app/**/*.tsx` and `components/**/*.tsx` before commit — list expected ≤ 10 sites; update each          |
 
 ## Caller Audit
 
 Before committing, grep and list every consumer:
+
 ```
 rg "featuredImage" --type ts --type tsx
 rg "\.tags\b" app/ components/ --type ts --type tsx
 ```
+
 Update each call site to use `cover` / `tech`. Document the audit in the PR description.
 
 ## Rollback

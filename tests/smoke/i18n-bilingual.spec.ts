@@ -73,7 +73,16 @@ test.describe('i18n static contracts', () => {
   test('Sanity queries use locale params and English fallback for localized fields', () => {
     const queries = readText('lib/sanity-queries.ts')
 
-    for (const field of ['title', 'description', 'excerpt', 'content', 'siteName']) {
+    for (const field of [
+      'title',
+      'description',
+      'excerpt',
+      'content',
+      'siteName',
+      'tagline',
+      'role',
+      'summary',
+    ]) {
       expect(queries, `${field} should use locale lookup with English fallback`).toContain(
         `coalesce(${field}[$locale], ${field}.en)`
       )

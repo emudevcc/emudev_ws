@@ -1,9 +1,9 @@
 ---
 phase: 8
-title: "Content Model Smoke Tests"
-status: pending
+title: 'Content Model Smoke Tests'
+status: completed
 priority: P1
-effort: "2h"
+effort: '2h'
 dependencies: [7]
 ---
 
@@ -23,11 +23,13 @@ Create `tests/smoke/content-model.spec.ts` with static contract tests that verif
 ## Requirements
 
 **Functional:**
+
 - Static tests verify i18n helpers module, schema registry, new schema files, GROQ query functions, cache version, and coalesce patterns
 - Updated i18n test covers new localized fields (`tagline`, `role`, `summary`) from new type queries
 - All new tests are static (read file contents) — no browser, no `page.goto()`, no live server
 
 **Non-functional:**
+
 - New test file ≤ 120 LOC (KISS)
 - Tests pass in CI without a running dev server
 - Follow existing static test pattern from `i18n-bilingual.spec.ts` lines 1-98
@@ -45,6 +47,7 @@ tests/smoke/
 ```
 
 **Test groups in `content-model.spec.ts`:**
+
 1. `sanity/lib/i18n-helpers.ts` exports all 6 factories
 2. `sanity/schema.ts` registers all 14 document types
 3. All 9 new schema files exist on disk
@@ -74,8 +77,12 @@ test.describe('content model static contracts', () => {
   test('sanity/lib/i18n-helpers.ts exports all 6 helper factories', () => {
     const helpers = readText('sanity/lib/i18n-helpers.ts')
     for (const name of [
-      'localizedString', 'localizedText', 'localizedSlug',
-      'localizedContent', 'localizedRichText', 'localizedArray',
+      'localizedString',
+      'localizedText',
+      'localizedSlug',
+      'localizedContent',
+      'localizedRichText',
+      'localizedArray',
     ]) {
       expect(helpers, `${name} should be exported`).toContain(`export const ${name}`)
     }
@@ -84,9 +91,20 @@ test.describe('content model static contracts', () => {
   test('sanity/schema.ts registers all 14 document types', () => {
     const schema = readText('sanity/schema.ts')
     for (const typeName of [
-      'projectType', 'postType', 'authorType', 'tagType', 'siteSettingsType',
-      'aboutType', 'experienceType', 'skillType', 'certificationType',
-      'educationType', 'languageType', 'strengthType', 'socialPostType', 'testimonialType',
+      'projectType',
+      'postType',
+      'authorType',
+      'tagType',
+      'siteSettingsType',
+      'aboutType',
+      'experienceType',
+      'skillType',
+      'certificationType',
+      'educationType',
+      'languageType',
+      'strengthType',
+      'socialPostType',
+      'testimonialType',
     ]) {
       expect(schema, `${typeName} should be in schema.ts`).toContain(typeName)
     }
@@ -111,8 +129,15 @@ test.describe('content model static contracts', () => {
   test('sanity-queries.ts defines query functions for all new types', () => {
     const queries = readText('lib/sanity-queries.ts')
     for (const fn of [
-      'getExperiences', 'getSkills', 'getAbout', 'getCertifications',
-      'getEducation', 'getLanguages', 'getStrengths', 'getSocialPosts', 'getTestimonials',
+      'getExperiences',
+      'getSkills',
+      'getAbout',
+      'getCertifications',
+      'getEducation',
+      'getLanguages',
+      'getStrengths',
+      'getSocialPosts',
+      'getTestimonials',
     ]) {
       expect(queries, `${fn} should be exported`).toContain(`export const ${fn}`)
     }
@@ -139,11 +164,13 @@ test.describe('content model static contracts', () => {
 Locate the test "Sanity queries use locale params and English fallback for localized fields" (~line 73). Extend the `for` loop field list.
 
 **Current (line 76):**
+
 ```typescript
 for (const field of ['title', 'description', 'excerpt', 'content', 'siteName']) {
 ```
 
 **Change to:**
+
 ```typescript
 for (const field of ['title', 'description', 'excerpt', 'content', 'siteName', 'tagline', 'role', 'summary']) {
 ```
@@ -168,29 +195,29 @@ All 6 new tests + updated i18n field test should pass after Phase 7 completes.
 
 ## Todo List
 
-- [ ] Create `tests/smoke/content-model.spec.ts` with 6 static `test()` calls
-- [ ] Update `tests/smoke/i18n-bilingual.spec.ts` ~line 76: add `tagline`, `role`, `summary` to field list
-- [ ] Confirm no `page.goto()` calls in new file (pure static)
-- [ ] Review `.github/workflows/ci.yml` — confirm static job picks up new file
-- [ ] Run `npx playwright test tests/smoke/content-model.spec.ts` — all 6 pass
-- [ ] Run full smoke suite — zero regressions in existing tests
+- [x] Create `tests/smoke/content-model.spec.ts` with 6 static `test()` calls
+- [x] Update `tests/smoke/i18n-bilingual.spec.ts` ~line 76: add `tagline`, `role`, `summary` to field list
+- [x] Confirm no `page.goto()` calls in new file (pure static)
+- [x] Review `.github/workflows/ci.yml` — confirm static job picks up new file
+- [x] Run `npx playwright test tests/smoke/content-model.spec.ts` — all 6 pass
+- [x] Run full smoke suite — zero regressions in existing tests
 
 ## Success Criteria
 
-- [ ] `tests/smoke/content-model.spec.ts` exists, ≤ 120 LOC, 6 tests all green
-- [ ] `tests/smoke/i18n-bilingual.spec.ts` extended field list passes without breaking existing assertions
-- [ ] All Phase 8 tests are pure static — no server, no browser
-- [ ] `npx playwright test tests/smoke/` exits 0
-- [ ] CI `smoke-static` job passes including new test file
+- [x] `tests/smoke/content-model.spec.ts` exists, ≤ 120 LOC, 6 tests all green
+- [x] `tests/smoke/i18n-bilingual.spec.ts` extended field list passes without breaking existing assertions
+- [x] All Phase 8 tests are pure static — no server, no browser
+- [x] `npx playwright test tests/smoke/` exits 0
+- [x] CI `smoke-static` job passes including new test file
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|-----------|--------|------------|
-| Phase 7 uses different query function names (e.g., `getSkillList` vs `getSkills`) | Low | Medium | Sync names between Phase 7 and Phase 8 before implementing |
-| Cache version string differs from `localized-v3` | Low | Low | Phase 7 specifies this; confirm at implementation |
-| New localized fields use different GROQ pattern | Low | Low | Phase 7 GROQ snippets specify coalesce; align at write time |
-| CI static job doesn't glob new file | Very Low | Medium | Verify `ci.yml` glob in step 3 |
+| Risk                                                                              | Likelihood | Impact | Mitigation                                                  |
+| --------------------------------------------------------------------------------- | ---------- | ------ | ----------------------------------------------------------- |
+| Phase 7 uses different query function names (e.g., `getSkillList` vs `getSkills`) | Low        | Medium | Sync names between Phase 7 and Phase 8 before implementing  |
+| Cache version string differs from `localized-v3`                                  | Low        | Low    | Phase 7 specifies this; confirm at implementation           |
+| New localized fields use different GROQ pattern                                   | Low        | Low    | Phase 7 GROQ snippets specify coalesce; align at write time |
+| CI static job doesn't glob new file                                               | Very Low   | Medium | Verify `ci.yml` glob in step 3                              |
 
 ## Next Steps
 

@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: project.title,
       description: project.description,
-      images: project.featuredImage ? [{ url: project.featuredImage }] : [],
+      images: project.cover ? [{ url: project.cover }] : [],
     },
   }
 }
@@ -72,11 +72,11 @@ export default async function ProjectDetailPage({ params }: Props) {
         )}
       </div>
 
-      {project.tags && project.tags.length > 0 && (
+      {project.tech && project.tech.length > 0 && (
         <div className="mb-8 flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <span key={tag._id} className="rounded-full bg-muted px-3 py-1 text-xs">
-              {tag.title}
+          {project.tech.map((skill) => (
+            <span key={skill._id} className="rounded-full bg-muted px-3 py-1 text-xs">
+              {skill.name}
             </span>
           ))}
         </div>

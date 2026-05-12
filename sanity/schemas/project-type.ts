@@ -1,61 +1,16 @@
 import { defineType, defineField } from 'sanity'
+import {
+  localizedContent,
+  localizedSlug,
+  localizedString,
+  localizedText,
+} from '../lib/i18n-helpers'
 
-const localizedString = (name: string, title: string, required = false) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    fields: [
-      {
-        name: 'en',
-        title: 'English',
-        type: 'string',
-        validation: required ? (rule) => rule.required() : undefined,
-      },
-      { name: 'es', title: 'Spanish', type: 'string' },
-    ],
-  })
-
-const localizedText = (name: string, title: string, rows: number) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    fields: [
-      { name: 'en', title: 'English', type: 'text', rows },
-      { name: 'es', title: 'Spanish', type: 'text', rows },
-    ],
-  })
-
-const localizedSlug = defineField({
-  name: 'slug',
-  title: 'Slug',
-  type: 'object',
-  fields: [
-    { name: 'en', title: 'English', type: 'slug', options: { source: 'title.en' } },
-    { name: 'es', title: 'Spanish', type: 'slug', options: { source: 'title.es' } },
-  ],
-})
-
-const localizedContent = defineField({
-  name: 'content',
-  title: 'Content',
-  type: 'object',
-  fields: [
-    {
-      name: 'en',
-      title: 'English',
-      type: 'array',
-      of: [{ type: 'block' }, { type: 'image', options: { hotspot: true } }],
-    },
-    {
-      name: 'es',
-      title: 'Spanish',
-      type: 'array',
-      of: [{ type: 'block' }, { type: 'image', options: { hotspot: true } }],
-    },
-  ],
-})
+const STATUSES = [
+  { title: 'Live', value: 'live' },
+  { title: 'Archived', value: 'archived' },
+  { title: 'Work in Progress', value: 'wip' },
+]
 
 export const projectType = defineType({
   name: 'project',
@@ -63,15 +18,47 @@ export const projectType = defineType({
   type: 'document',
   fields: [
     localizedString('title', 'Title', true),
-    localizedSlug,
+    localizedSlug(),
     localizedText('description', 'Description', 3),
-    localizedContent,
-    defineField({ name: 'featuredImage', type: 'image', options: { hotspot: true } }),
+    localizedContent(),
+    localizedString('tagline', 'Tagline'),
+    localizedString('role', 'Role'),
     defineField({
-      name: 'tags',
-      type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'tag' }] }],
+      name: 'year',
+      type: 'number',
+      validation: (rule) => rule.integer().min(1900).max(2100),
     }),
+    defineField({
+      name: 'status',
+      type: 'string',
+      options: { list: STATUSES },
+      initialValue: 'live',
+    }),
+    defineField({ name: 'featured', type: 'boolean', initialValue: false }),
+    defineField({ name: 'caseStudyUrl', type: 'url' }),
+    defineField({ name: 'order', type: 'number' }),
+    defineField({
+      name: 'tech',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'skill' }] }],
+    }),
+    defineField({
+      name: 'gallery',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+    }),
+    defineField({
+      name: 'metrics',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [localizedString('label', 'Label'), { name: 'value', type: 'string' }],
+          preview: { select: { title: 'label.en', subtitle: 'value' } },
+        },
+      ],
+    }),
+    defineField({ name: 'cover', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'liveUrl', type: 'url' }),
     defineField({ name: 'repoUrl', type: 'url' }),
     defineField({
@@ -81,6 +68,6 @@ export const projectType = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title.en', media: 'featuredImage' },
+    select: { title: 'title.en', media: 'cover' },
   },
 })

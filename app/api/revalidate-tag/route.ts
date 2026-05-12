@@ -7,6 +7,15 @@ const TAG_MAP: Record<string, string[]> = {
   siteSettings: ['site-settings'],
   author: ['site-settings'],
   tag: ['projects', 'posts'],
+  about: ['about'],
+  skill: ['skills', 'projects', 'experiences', 'certifications'],
+  experience: ['experiences', 'testimonials'],
+  certification: ['certifications'],
+  education: ['educations'],
+  language: ['languages'],
+  strength: ['strengths'],
+  socialPost: ['socialPosts'],
+  testimonial: ['testimonials'],
 }
 
 export async function POST(req: NextRequest) {

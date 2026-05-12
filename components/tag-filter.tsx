@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { ProjectCard } from './project-card'
 
-interface Tag {
+interface Skill {
   _id: string
-  title?: string
+  name?: string
 }
 
 interface Project {
@@ -13,8 +13,8 @@ interface Project {
   title?: string
   slug?: { current?: string }
   description?: string
-  featuredImage?: string
-  tags?: Tag[]
+  cover?: string
+  tech?: Skill[]
 }
 
 interface TagFilterProps {
@@ -24,15 +24,19 @@ interface TagFilterProps {
 export function TagFilter({ projects }: TagFilterProps) {
   const [active, setActive] = useState<string | null>(null)
 
-  const allTags = Array.from(
-    new Map(projects.flatMap((p) => p.tags ?? []).map((t) => [t._id, t])).values()
+  const allSkills = Array.from(
+    new Map(
+      projects.flatMap((project) => project.tech ?? []).map((skill) => [skill._id, skill])
+    ).values()
   )
 
-  const filtered = active ? projects.filter((p) => p.tags?.some((t) => t._id === active)) : projects
+  const filtered = active
+    ? projects.filter((project) => project.tech?.some((skill) => skill._id === active))
+    : projects
 
   return (
     <div>
-      {allTags.length > 0 && (
+      {allSkills.length > 0 && (
         <div className="mb-8 flex flex-wrap gap-2">
           <button
             onClick={() => setActive(null)}
@@ -44,17 +48,17 @@ export function TagFilter({ projects }: TagFilterProps) {
           >
             All
           </button>
-          {allTags.map((tag) => (
+          {allSkills.map((skill) => (
             <button
-              key={tag._id}
-              onClick={() => setActive(active === tag._id ? null : tag._id)}
+              key={skill._id}
+              onClick={() => setActive(active === skill._id ? null : skill._id)}
               className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                active === tag._id
+                active === skill._id
                   ? 'bg-foreground text-background'
                   : 'bg-muted text-muted-foreground hover:bg-muted/80'
               }`}
             >
-              {tag.title}
+              {skill.name}
             </button>
           ))}
         </div>

@@ -1,9 +1,9 @@
 ---
 phase: 2
-title: "SiteSettings and About Singleton"
-status: pending
+title: 'SiteSettings and About Singleton'
+status: completed
 priority: P1
-effort: "3h"
+effort: '3h'
 dependencies: [1]
 ---
 
@@ -16,12 +16,14 @@ Expand `siteSettings` from 4 fields (siteName, description, logo, socialLinks) t
 ## Requirements
 
 **Functional**
+
 - `siteSettings` gains: fullName, shortName, role🌐, tagline🌐, heroIntro (rich text🌐), avatar, resumePdfEn (PDF), resumePdfEs (PDF), location, timezone, availableForWork (bool), availabilityNote🌐, calComUrl, email, defaultLocale (en|es)
 - `siteSettings.socialLinks[]` expands to include `handle` (string) + `visible` (bool, default true); `platform` enum expands to `github | linkedin | twitter | x | youtube | instagram | reddit | spotify | email`
 - `about` singleton: paragraphs (rich text🌐), funFacts (array<string>🌐), photoCaption🌐
 - All new fields optional — no `required()` on additions
 
 **Non-functional**
+
 - File fields restrict to `application/pdf`
 - `email` uses `type: 'email'` (built-in validation)
 - `calComUrl` uses `type: 'url'`
@@ -30,6 +32,7 @@ Expand `siteSettings` from 4 fields (siteName, description, logo, socialLinks) t
 ## Architecture
 
 **SiteSettings field groups** (visual hint via `fieldsets`):
+
 - `identity`: fullName, shortName, role, tagline, avatar
 - `intro`: heroIntro
 - `availability`: availableForWork, availabilityNote, location, timezone
@@ -38,6 +41,7 @@ Expand `siteSettings` from 4 fields (siteName, description, logo, socialLinks) t
 - `config`: defaultLocale
 
 **Platform enum** (`as const` for type safety):
+
 ```ts
 const SOCIAL_PLATFORMS = [
   { title: 'GitHub', value: 'github' },
@@ -55,12 +59,15 @@ const SOCIAL_PLATFORMS = [
 ## Related Code Files
 
 **Create**
+
 - `sanity/schemas/about-type.ts`
 
 **Modify**
+
 - `sanity/schemas/site-settings-type.ts`
 
 **Delete**
+
 - None
 
 ## Implementation Steps
@@ -88,20 +95,23 @@ const SOCIAL_PLATFORMS = [
    defineField({
      name: 'socialLinks',
      type: 'array',
-     of: [{
-       type: 'object',
-       fields: [
-         { name: 'platform', type: 'string', options: { list: SOCIAL_PLATFORMS } },
-         { name: 'handle', type: 'string' },
-         { name: 'url', type: 'url' },
-         { name: 'visible', type: 'boolean', initialValue: true },
-       ],
-       preview: { select: { title: 'platform', subtitle: 'handle' } },
-     }],
+     of: [
+       {
+         type: 'object',
+         fields: [
+           { name: 'platform', type: 'string', options: { list: SOCIAL_PLATFORMS } },
+           { name: 'handle', type: 'string' },
+           { name: 'url', type: 'url' },
+           { name: 'visible', type: 'boolean', initialValue: true },
+         ],
+         preview: { select: { title: 'platform', subtitle: 'handle' } },
+       },
+     ],
    })
    ```
 5. Add `preview` block: `select: { title: 'fullName', subtitle: 'role.en', media: 'avatar' }`.
 6. **About type** — create `sanity/schemas/about-type.ts`:
+
    ```ts
    import { defineType } from 'sanity'
    import { localizedRichText, localizedArray, localizedString } from '../lib/i18n-helpers'
@@ -118,32 +128,33 @@ const SOCIAL_PLATFORMS = [
      preview: { prepare: () => ({ title: 'About Page' }) },
    })
    ```
+
 7. Phase 2 does NOT register the types in `sanity/schema.ts` yet (Phase 7 owns that). However, to test Studio loads, you may register `aboutType` early; final wiring is in Phase 7.
 8. Run `npm run typecheck`.
 
 ## Todo List
 
-- [ ] siteSettings: add 14 new top-level fields
-- [ ] siteSettings: expand socialLinks shape (platform enum + handle + visible)
-- [ ] siteSettings: add fieldsets and preview
-- [ ] Create `about-type.ts` with 3 localized fields
-- [ ] `npm run typecheck` passes
+- [x] siteSettings: add 14 new top-level fields
+- [x] siteSettings: expand socialLinks shape (platform enum + handle + visible)
+- [x] siteSettings: add fieldsets and preview
+- [x] Create `about-type.ts` with 3 localized fields
+- [x] `npm run typecheck` passes
 
 ## Success Criteria
 
-- [ ] Existing siteSettings document loads in Studio with no validation errors
-- [ ] All new fields visible and editable in Studio (after Phase 7 registration)
-- [ ] PDF upload fields reject non-PDF mime types
-- [ ] `email` field rejects non-email input
-- [ ] `about` document creatable via Studio (after Phase 7 registration)
+- [x] Existing siteSettings document loads in Studio with no validation errors
+- [x] All new fields visible and editable in Studio (after Phase 7 registration)
+- [x] PDF upload fields reject non-PDF mime types
+- [x] `email` field rejects non-email input
+- [x] `about` document creatable via Studio (after Phase 7 registration)
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| Existing siteSettings document breaks | Very Low | High | All adds are optional; Sanity adds null fields gracefully |
-| socialLinks data loss from shape change | Low | Medium | Existing `{platform, url}` items remain valid — new fields just become null; manual handle backfill in Studio |
-| Multiple `about` documents created | Medium | Low | Phase 7 structure config makes singleton — until then, document the convention in commit message |
+| Risk                                    | Likelihood | Impact | Mitigation                                                                                                    |
+| --------------------------------------- | ---------- | ------ | ------------------------------------------------------------------------------------------------------------- |
+| Existing siteSettings document breaks   | Very Low   | High   | All adds are optional; Sanity adds null fields gracefully                                                     |
+| socialLinks data loss from shape change | Low        | Medium | Existing `{platform, url}` items remain valid — new fields just become null; manual handle backfill in Studio |
+| Multiple `about` documents created      | Medium     | Low    | Phase 7 structure config makes singleton — until then, document the convention in commit message              |
 
 ## Rollback
 

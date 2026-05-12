@@ -53,8 +53,8 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
-      - name: Static i18n smoke tests
-        run: npx playwright test tests/smoke/i18n-bilingual.spec.ts --grep "static contracts" --reporter=list
+      - name: Static smoke tests
+        run: npx playwright test tests/smoke/i18n-bilingual.spec.ts tests/smoke/content-model.spec.ts --grep "static contracts|content model static contracts" --reporter=list
 
   # Integration smoke tests — starts the Next.js server and runs full browser checks.
   # continue-on-error while Phase 2 (UI string extraction) and Phase 4 (hreflang) are in progress.

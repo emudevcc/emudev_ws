@@ -635,13 +635,13 @@ When making breaking changes:
 
 ## Magic UI & Component Installation
 
-**Status:** MCP server installed (`claude mcp add -s user magicuidesign-mcp`). Installation plan in progress (`plans/260511-2210-magic-ui-install`).
+**Status:** MCP server installed and verified (`claude mcp add -s user magicuidesign-mcp`). Setup plan: `plans/260511-2147-magic-ui-mcp-setup`.
 
 ### Component Installation
 
 **Free-tier components:** Installed via `npx shadcn@latest add "https://magicui.design/r/[name].json"` and placed in `components/ui/`.
 
-**Pro components (MagicCard, Lens, etc.):** Manually sourced from magicui.design/pro and copied to `components/ui/`.
+**Pro components (MagicCard, Lens, etc.):** The MCP server exposes the public registry only. Source Pro templates from magicui.design/pro in the browser, then copy them to `components/ui/`.
 
 **CSS token integration:** Full shadcn/ui HSL token set + @theme inline for Magic UI compatibility.
 
@@ -665,8 +665,9 @@ When making breaking changes:
 
 1. Install via `npx shadcn@latest add "https://magicui.design/r/[name].json"`
 2. Component auto-placed in `components/ui/`
-3. Extend Tailwind config with Magic UI token presets
-4. No additional build steps needed
+3. Use `getRegistryItem` to inspect public dependencies and examples
+4. Extend Tailwind config with Magic UI token presets when a component requires it
+5. No additional build steps needed
 
 ---
 

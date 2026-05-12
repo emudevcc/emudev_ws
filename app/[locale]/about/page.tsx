@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { localeAlternates } from '@/lib/metadata'
 import { getSiteSettings } from '@/lib/sanity-queries'
 
 type Props = { params: Promise<{ locale: string }> }
@@ -6,6 +7,7 @@ type Props = { params: Promise<{ locale: string }> }
 export const metadata: Metadata = {
   title: 'About',
   description: 'About Esteban Montero — software engineer',
+  alternates: localeAlternates('/about'),
 }
 
 export default async function AboutPage({ params }: Props) {

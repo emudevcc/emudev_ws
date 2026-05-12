@@ -2,14 +2,16 @@
 
 ## Project Description
 
-**emudev** is a modern portfolio website showcasing Esteban Montero's software engineering work. Built with Next.js 15, it combines a headless CMS (Sanity), real-time database (Supabase), and a secure deployment pipeline to deliver a performant, content-managed experience.
+**emudev** is a modern portfolio website showcasing Esteban Montero's software engineering work. Built with Next.js 15, it combines a headless CMS (Sanity), real-time database (Supabase), and a secure deployment pipeline to deliver a bilingual, performant, content-managed experience in English & Spanish.
 
 **Domain:** emudev.cc | **Admin:** esteban.montero@gmail.com
 
 ### Core Vision
 
 Ship a zero-maintenance portfolio that:
-- Authoritatively sources projects, blog posts, and site settings from Sanity CMS
+
+- Authoritatively sources projects, blog posts, and site settings from Sanity CMS (bilingual: {en, es})
+- Automatically routes visitors to /en or /es based on browser language preference
 - Handles contact inquiries with email notifications and persistent storage
 - Revalidates cache on content changes in seconds via webhook integration
 - Deploys safely across dev/staging/production with approval gates
@@ -20,40 +22,45 @@ Ship a zero-maintenance portfolio that:
 ## Key User Journeys
 
 ### 1. Visitor: Discover Portfolio
-**Path:** Home → Projects → Blog → Contact
 
-- Land on animated hero with name & tagline
-- Browse 3 featured projects on homepage
-- View full project gallery with descriptions, tech tags, live links, and repo links
-- Read blog posts with author + publish date
-- Submit contact form → instant success message → admin receives email
+**Path:** Home → Projects → Blog → Contact (locale-aware routing)
 
-### 2. Admin: Publish Content
-**Path:** Sanity Studio → Create/Edit → Publish → Auto-revalidate
+- Land on `/en` or `/es` homepage with locale-appropriate hero
+- Browse projects in English or Spanish; tag filter available
+- View full project gallery with bilingual descriptions, tech tags, live links
+- Read blog posts with author + publish date (bilingual content)
+- Submit contact form → instant success message → admin receives email (locale-aware)
+- Switch between EN/ES via LocaleSwitcher in navigation
 
-- Edit project: title, slug, description, featured image, tags, live URL, repo URL, publish date
-- Edit post: title, slug, excerpt, content (portable text), author, tags, publish date
+### 2. Admin: Publish Bilingual Content
+
+**Path:** Sanity Studio → Create/Edit EN & ES versions → Publish → Auto-revalidate
+
+- Edit project: title {en, es}, slug, description {en, es}, featured image, tags, live URL, repo URL
+- Edit post: title {en, es}, slug, excerpt {en, es}, content {en, es}, author, tags
 - Update site settings: name, description, logo, social links
-- Publish → Sanity webhook calls `/api/revalidate-tag` → Next.js revalidates cached pages in seconds
+- Publish → Sanity webhook calls `/api/revalidate-tag` → revalidates both EN and ES caches in seconds
+- Preview in Presentation Tool before publish (via `/api/draft-mode/enable`)
 
 ### 3. Admin: Manage Contact Form
+
 **Path:** Supabase dashboard → View submissions → Delete spam/archive
 
 - Contact form submissions stored in `contact_submissions` table
 - Admin views via Supabase dashboard (RLS policy gates access to admin email only)
-- Each submission receives email notification via Resend
+- Each submission receives email notification via Resend (localized based on browser locale)
 - Admin can delete/archive submissions directly from database
 
 ---
 
 ## Goals
 
-1. **Content Agility** — Publish projects and posts without rebuilding via ISR + Sanity webhooks
-2. **Professional Presence** — Present clean, performant portfolio across all devices
-3. **Bilingual Support** — English & Spanish (en/es) with locale-aware routing and CMS content
-4. **Lead Capture** — Collect contact form submissions with email fallback
+1. **Content Agility** — Publish bilingual projects and posts without rebuilding via ISR + Sanity webhooks
+2. **Professional Presence** — Present clean, performant portfolio across all devices in EN and ES
+3. **Bilingual Support** — Automatic locale detection (en/es) with user locale-switcher; separate content per language
+4. **Lead Capture** — Collect contact form submissions with email fallback (RLS-protected)
 5. **Zero Downtime Deploys** — Automated staging approval + smoke tests before production
-6. **Security First** — RLS on database, webhook secret validation, no credentials in repo
+6. **Security First** — RLS on database, webhook secret validation, draft mode token validation, no credentials in repo
 
 ---
 
@@ -63,79 +70,122 @@ Ship a zero-maintenance portfolio that:
 - Analytics dashboard (use external tools like Vercel Analytics)
 - Blog comments (contact form is the feedback channel)
 - Client-side image optimization (handled by Sanity CDN)
+- Real-time collaboration on draft content (single admin)
 
 ---
 
 ## Success Metrics
 
-| Metric | Target | Method |
-|--------|--------|--------|
-| **Page Load (FCP)** | <1.5s | Lighthouse CI in deploy pipeline |
-| **ISR Revalidate** | <5s after publish | Manual test: publish in Sanity, check cache |
-| **CI Pass Rate** | 100% (PRs require green) | GitHub Actions enforcement |
-| **Uptime** | 99.9% | Vercel + Cloudflare monitoring |
-| **Contact Form Success** | 100% DB insert | Submission appears in Supabase within 30s |
+| Metric                   | Target                        | Method                                       |
+| ------------------------ | ----------------------------- | -------------------------------------------- |
+| **Page Load (FCP)**      | <1.5s                         | Lighthouse CI in deploy pipeline             |
+| **ISR Revalidate**       | <5s after publish             | Manual test: publish in Sanity, check cache  |
+| **CI Pass Rate**         | 100% (PRs require green)      | GitHub Actions enforcement                   |
+| **Uptime**               | 99.9%                         | Vercel + Cloudflare monitoring               |
+| **Contact Form Success** | 100% DB insert                | Submission appears in Supabase within 30s    |
+| **Bilingual Coverage**   | 100% UI strings + content     | All pages render in both EN and ES correctly |
+| **Smoke Tests**          | 100% pass for required suites | Deploy pipeline integration                  |
 
 ---
 
 ## Technical Constraints
 
-- **Next.js 15**: App Router only; `unstable_cache` (not `'use cache'` — requires canary) for ISR
+- **Next.js 15**: App Router only; `unstable_cache` (not `'use cache'`) for ISR with per-locale tags
 - **React 19.2.6**: Current stable; check compatibility for future upgrades
+- **next-intl ^4.11.1**: Explicit locale prefix routing (/en, /es always); middleware-based detection
 - **@sanity/visual-editing ^4.0.3**: v5 requires Next.js 16; v4 uses use-effect-event polyfill
-- **Sanity v3**: GROQ queries only; no GraphQL (not implemented in this version)
+- **Sanity v3**: GROQ queries only; locale fallback pattern `coalesce(field[$locale], field.en)`
 - **Supabase**: RLS required for production; migrations applied via `supabase db push`
 - **ESLint ^9**: v10 removes getFilename() API required by eslint-plugin-react@7.x
-- **No Magic UI Pro Yet**: Placeholder Tailwind v4; design system to be integrated later
-- **GitHub Actions**: 2-branch model (development → preview, main → production)
+- **GitHub Actions**: 3-branch model (develop → dev, staging → staging, main → production)
 - **Cloudflare**: WAF + cache purge on deploys; no Workers functions yet
-- **Vercel Git Integration**: Single project, multiple branches (dev, main); no subdomain-per-branch model
+- **Vercel Git Integration**: Single project, multiple branches; auto preview URLs for feature branches
 
 ---
 
 ## Stack Summary
 
-| Layer | Technology |
-|-------|-----------|
-| **Frontend** | Next.js 15.5 (App Router, SSG/ISR) |
-| **Styling** | Tailwind CSS v4 |
-| **CMS** | Sanity v3 (GROQ, Presentation preview) |
-| **Database** | Supabase Postgres (RLS, Magic Link auth) |
-| **Email** | Resend (transactional) |
-| **Hosting** | Vercel (dev/staging/prod projects) |
-| **CDN/WAF** | Cloudflare |
-| **CI/CD** | GitHub Actions (3-env pipeline) |
-| **Testing** | Playwright (smoke tests) |
+| Layer                    | Technology                                                                             |
+| ------------------------ | -------------------------------------------------------------------------------------- |
+| **Frontend**             | Next.js 15.5 (App Router, Turbopack)                                                  |
+| **Internationalization** | next-intl v4 (bilingual EN/ES)                                                        |
+| **Styling**              | Tailwind CSS v4 + Magic UI (Phase 9.1 planned)                                        |
+| **UI Components**        | shadcn/ui + Magic UI free-tier + Pro components (MagicCard, Lens) in Phase 9.1        |
+| **CMS**                  | Sanity v3 (14 document types, GROQ, bilingual schemas, Presentation preview)          |
+| **Database**             | Supabase Postgres (RLS, Magic Link auth)                                              |
+| **Email**                | Resend (transactional)                                                                |
+| **Hosting**              | Vercel (dev/staging/prod)                                                             |
+| **CDN/WAF**              | Cloudflare                                                                             |
+| **CI/CD**                | GitHub Actions (3-env pipeline, smoke tests)                                          |
+| **Testing**              | Playwright smoke suites for routes, i18n, and content-model contracts                 |
 
 ---
 
 ## Phase Roadmap
 
-- **Phase 1** ✅ (Complete): Scaffold, tooling, Sanity schema, Supabase migrations, CI/CD
-- **Phase 2** ✅ (Complete): Populate Sanity content, generate types
-- **Phase 3** ✅ (Complete): Link Supabase projects to all environments
-- **Phase 4** ✅ (Complete): UI components, OG images, tag filter, post cards, draft mode
-- **Phase 5** ✅ (Complete): GitHub Actions workflows (ci.yml, deploy.yml, hotfix.yml)
-- **Phase 6** 🔄 (Mostly Complete): Production deployment to emudev.cc, Sanity Presentation Tool, cache automation, CSP headers (branch: feature/phase-6-cloudflare)
-- **Phase 7** 🔄 (Unblocked): Smoke tests against production, final security config (HSTS, SSL Full Strict)
+### Completed Phases (May 8-10, 2026)
+
+- **Phase 1** ✅: Scaffold, tooling, Sanity schema, Supabase migrations, CI/CD
+- **Phase 2** ✅: Populate Sanity content, generate types
+- **Phase 3** ✅: Link Supabase projects to all environments
+- **Phase 4** ✅: UI components, OG images, tag filter, post cards, draft mode
+- **Phase 5** ✅: GitHub Actions workflows (ci.yml, deploy.yml, hotfix.yml)
+- **Phase 6** ✅: Production deployment, Sanity Presentation Tool, cache automation, CSP headers, draft mode secure validation
+- **Phase 7** ✅: Smoke tests, production readiness
+
+### Completed i18n and CMS Platform Work (May 10-12, 2026)
+
+- **Phase 8.1** ✅: Middleware & route migration (next-intl setup, /en & /es explicit routing, locale switcher)
+- **Phase 8.2** ✅: UI string extraction (getTranslations in pages, useTranslations in client components)
+- **Phase 8.3** ✅: Sanity bilingual content ({en, es} field structure, GROQ coalesce pattern)
+- **Phase 8.4** ✅: SEO & sitemap (locale variants and hreflang alternates)
+- **Phase 8.5** ✅: Sanity content model refactor (14 document types, grouped Studio, expanded GROQ)
+
+### Future (Phase 9)
+
+- **Phase 9.0** ✅: Production deployment (bilingual live May 11, 2026)
+- **Phase 9.1** ⏳: Magic UI installation (3 phases, free-tier + Pro components)
+- **Phase 9.2** ⏳: Classic layout UI (8 phases, 12-section portfolio with Magic UI components)
+- **Phase 9.3+** 🔄: Post-launch monitoring, analytics, admin dashboard, search, etc.
 
 ---
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|-----------|--------|-----------|
-| **Sanity webhook fails** | Low | Medium | Implement retry logic in webhook; fallback to manual revalidate-tag call |
-| **Supabase RLS misconfigured** | Medium | High | Test policies in staging before production; audit in PR review |
-| **GitHub Actions secret leak** | Low | Critical | Use environment-level secrets, no query params for secrets, audit logs |
-| **Cloudflare cache stale** | Medium | Low | Manual purge on deploy; set aggressive revalidation headers |
-| **Vercel build timeout** | Low | Medium | Monitor build times in CI; optimize dependencies if needed |
+| Risk                             | Likelihood | Impact   | Mitigation                                                                                                                        |
+| -------------------------------- | ---------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Sanity webhook fails**         | Low        | Medium   | Implement retry logic in webhook; fallback to manual revalidate-tag call; ISR 1-hour TTL                                          |
+| **Per-locale cache desync**      | Low        | Medium   | Test cache invalidation in staging; locale cache keys share collection revalidation tags                                          |
+| **Supabase RLS misconfigured**   | Medium     | High     | Test policies in staging before production; audit in PR review; RLS enforces anon INSERT only, admin SELECT/DELETE gated on email |
+| **i18n missing translation key** | Medium     | Low      | Smoke tests verify message keys match between EN and ES; build fails if mismatch detected                                         |
+| **GitHub Actions secret leak**   | Low        | Critical | Use environment-level secrets, no query params for secrets, audit logs; secrets passed as GitHub environment variables            |
+| **Cloudflare cache stale**       | Medium     | Low      | Manual purge on deploy via CF API; set aggressive revalidation headers; webhook triggers on publish                               |
+| **Locale detection wrong**       | Low        | Medium   | Middleware defaults to EN if not ES; Accept-Language header checked; LocaleSwitcher provides manual override                      |
 
 ---
 
 ## Project Owner
 
 **Esteban Montero** (esteban.montero@gmail.com)
+
 - Decision authority over architectural changes
 - Approves deploys to staging/production
 - Manages Sanity and Supabase project configurations
+- Owns GitHub Environments and secrets management
+
+---
+
+## Key Dates
+
+| Event                                         | Date                |
+| --------------------------------------------- | ------------------- |
+| **Phase 1-5 Complete**                        | May 8, 2026         |
+| **Phase 6 Complete (Cloudflare, Draft Mode)** | May 10, 2026        |
+| **Phase 7 Complete (Smoke Tests)**            | May 10, 2026        |
+| **Phase 8.1 Complete (i18n Routing)**         | May 10, 2026        |
+| **Phase 8.2 Complete (UI Strings)**           | May 10, 2026        |
+| **Phase 8.3 Complete (Sanity Bilingual)**     | May 10, 2026        |
+| **Phase 8.4 Complete (Sitemap hreflang)**     | May 11, 2026        |
+| **Phase 8.5 Complete (Sanity Content Model)** | May 12, 2026        |
+| **Phase 9 (Post-Launch)**                     | TBD (future)        |
+| **Production Launch (Bilingual)**             | May 11, 2026 (live) |

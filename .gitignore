@@ -157,6 +157,7 @@ vite.config.ts.timestamp-*
 
 # testing
 /coverage
+/test-results/
 
 # next.js
 /.next/
@@ -190,3 +191,6 @@ schema.json
 /sanity.types.ts
 .sanity/
 .env*.local
+
+# Local analysis artifacts
+/repomix-output.xml

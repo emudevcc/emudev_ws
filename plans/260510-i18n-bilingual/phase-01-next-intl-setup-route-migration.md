@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: "next-intl Setup + Route Migration"
-status: pending
+status: completed
 priority: P1
 effort: "2h"
 dependencies: []
@@ -350,36 +350,43 @@ import { LocaleSwitcher } from './locale-switcher'
 
 ## Todo List
 
-- [ ] `npm install next-intl`
-- [ ] Create `i18n/routing.ts`
-- [ ] Create `i18n/request.ts`
-- [ ] Create `i18n/navigation.ts`
-- [ ] Create `messages/en.json` (nav stub)
-- [ ] Create `messages/es.json` (nav stub)
-- [ ] Update `next.config.ts` with `createNextIntlPlugin`
-- [ ] Create `middleware.ts`
-- [ ] Update root `app/layout.tsx` → bare shell
-- [ ] Update root `app/page.tsx` → `permanentRedirect('/en')`
-- [ ] Create `app/[locale]/layout.tsx` with `NextIntlClientProvider`
-- [ ] Move all page files to `app/[locale]/`
-- [ ] Update `params` types in all moved pages to include `locale`
-- [ ] Create `components/locale-switcher.tsx`
-- [ ] Update `components/site-nav.tsx` to use next-intl Link + add LocaleSwitcher
-- [ ] Verify `/en` and `/es` serve pages (no 404)
+- [x] `npm install next-intl`
+- [x] Create `i18n/routing.ts`
+- [x] Create `i18n/request.ts`
+- [x] Create `i18n/navigation.ts`
+- [x] Create `messages/en.json` (nav stub)
+- [x] Create `messages/es.json` (nav stub)
+- [x] Update `next.config.ts` with `createNextIntlPlugin`
+- [x] Create `middleware.ts`
+- [x] Update root `app/layout.tsx` → bare shell
+- [x] Update root `app/page.tsx` → `permanentRedirect('/en')`
+- [x] Create `app/[locale]/layout.tsx` with `NextIntlClientProvider`
+- [x] Move all page files to `app/[locale]/`
+- [x] Update `params` types in all moved pages to include `locale`
+- [x] Create `components/locale-switcher.tsx`
+- [x] Update `components/site-nav.tsx` to use next-intl Link + add LocaleSwitcher
+- [x] Verify `/en` and `/es` serve pages (no 404)
 - [ ] Verify `/api/health` still works (no locale prefix)
 - [ ] Verify `/studio` still works
-- [ ] Verify `npx tsc --noEmit` passes
+- [x] Verify `npx tsc --noEmit` passes
 
 ## Success Criteria
 
 - [ ] `GET /` → 308 to `/en`
-- [ ] `GET /en/`, `/en/about`, `/en/projects`, `/en/blog`, `/en/contact` all return 200
-- [ ] `GET /es/`, `/es/about`, `/es/projects`, `/es/blog`, `/es/contact` all return 200
+- [x] `GET /en/`, `/en/about`, `/en/projects`, `/en/blog`, `/en/contact` all return 200
+- [x] `GET /es/`, `/es/about`, `/es/projects`, `/es/blog`, `/es/contact` all return 200
 - [ ] `GET /api/health` → 200 (no locale prefix in API routes)
 - [ ] `GET /studio` → Sanity Studio loads
-- [ ] `lang` attribute on `<html>` is `"en"` on `/en/` and `"es"` on `/es/`
-- [ ] Locale switcher in nav toggles between `/en/*` and `/es/*`
-- [ ] `npx tsc --noEmit` — no type errors
+- [x] `lang` attribute on `<html>` is `"en"` on `/en/` and `"es"` on `/es/`
+- [x] Locale switcher in nav toggles between `/en/*` and `/es/*`
+- [x] `npx tsc --noEmit` — no type errors
+
+## Completion Notes — 2026-05-10
+
+- Public pages were moved into `app/[locale]`; root `/` redirects to the default English locale.
+- `next-intl` routing, middleware, request config, locale-aware navigation helpers, and the locale switcher were added.
+- Runtime checks confirmed localized public pages return 200, and build/typecheck passed.
+- API and Studio routes remain outside the localized route group; explicit `/api/health` and `/studio` smoke checks are still listed for follow-up.
 
 ## Risk Assessment
 

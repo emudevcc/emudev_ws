@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { localeAlternates } from '@/lib/metadata'
 import { getPosts } from '@/lib/sanity-queries'
 import { PostCard } from '@/components/post-card'
 
@@ -7,6 +8,7 @@ type Props = { params: Promise<{ locale: string }> }
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Thoughts and articles by Esteban Montero',
+  alternates: localeAlternates('/blog'),
 }
 
 export default async function BlogPage({ params }: Props) {

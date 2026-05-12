@@ -7,8 +7,8 @@ interface ProjectCardProps {
     title?: string
     slug?: { current?: string }
     description?: string
-    featuredImage?: string
-    tags?: Array<{ _id: string; title?: string }>
+    cover?: string
+    tech?: Array<{ _id: string; name?: string }>
   }
 }
 
@@ -21,10 +21,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
       data-testid="project-card"
       className="group flex flex-col rounded-xl border bg-card transition-shadow hover:shadow-md"
     >
-      {project.featuredImage && (
+      {project.cover && (
         <div className="relative h-48 overflow-hidden rounded-t-xl">
           <Image
-            src={project.featuredImage}
+            src={project.cover}
             alt={project.title ?? 'Project image'}
             fill
             className="object-cover transition-transform group-hover:scale-105"
@@ -41,11 +41,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
             {project.description}
           </p>
         )}
-        {project.tags && project.tags.length > 0 && (
+        {project.tech && project.tech.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
-            {project.tags.map((tag) => (
-              <span key={tag._id} className="rounded-full bg-muted px-2.5 py-0.5 text-xs">
-                {tag.title}
+            {project.tech.map((skill) => (
+              <span key={skill._id} className="rounded-full bg-muted px-2.5 py-0.5 text-xs">
+                {skill.name}
               </span>
             ))}
           </div>

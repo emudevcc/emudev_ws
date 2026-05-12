@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "SEO & Sitemap"
-status: pending
+status: completed
 priority: P2
 effort: "1h"
 dependencies: [1, 2, 3]
@@ -202,30 +202,37 @@ After deploying to preview:
 
 ## Todo List
 
-- [ ] Create `lib/i18n-metadata.ts` with `buildAlternates()` helper
-- [ ] Update `generateMetadata` in `app/[locale]/page.tsx` — alternates + OG locale
-- [ ] Update `generateMetadata` in `app/[locale]/about/page.tsx`
-- [ ] Update `generateMetadata` in `app/[locale]/blog/page.tsx`
-- [ ] Update `generateMetadata` in `app/[locale]/contact/page.tsx`
-- [ ] Update `generateMetadata` in `app/[locale]/projects/page.tsx`
-- [ ] Update `getPostBySlug` query — add `slugEn`, `slugEs` to projection
-- [ ] Update `getProjectBySlug` query — add `slugEn`, `slugEs` to projection
-- [ ] Update `getPosts` query — add `slugEn`, `slugEs` to projection
-- [ ] Update `getProjects` query — add `slugEn`, `slugEs` to projection
-- [ ] Update `generateMetadata` in `app/[locale]/blog/[slug]/page.tsx` — slug-aware alternates
-- [ ] Update `generateMetadata` in `app/[locale]/projects/[slug]/page.tsx` — slug-aware alternates
-- [ ] Update `app/sitemap.ts` — dual-locale entries for all static + dynamic pages
-- [ ] Verify `/sitemap.xml` returns 200 and contains `/en/` and `/es/` URLs
-- [ ] Verify hreflang tags in page source for both static and dynamic pages
-- [ ] Run `npx tsc --noEmit` — no errors
+- [x] Create `lib/i18n-metadata.ts` with `buildAlternates()` helper
+- [x] Update `generateMetadata` in `app/[locale]/page.tsx` — alternates + OG locale
+- [x] Update `generateMetadata` in `app/[locale]/about/page.tsx`
+- [x] Update `generateMetadata` in `app/[locale]/blog/page.tsx`
+- [x] Update `generateMetadata` in `app/[locale]/contact/page.tsx`
+- [x] Update `generateMetadata` in `app/[locale]/projects/page.tsx`
+- [x] Update `getPostBySlug` query — add `slugEn`, `slugEs` to projection
+- [x] Update `getProjectBySlug` query — add `slugEn`, `slugEs` to projection
+- [x] Update `getPosts` query — add `slugEn`, `slugEs` to projection
+- [x] Update `getProjects` query — add `slugEn`, `slugEs` to projection
+- [x] Update `generateMetadata` in `app/[locale]/blog/[slug]/page.tsx` — slug-aware alternates
+- [x] Update `generateMetadata` in `app/[locale]/projects/[slug]/page.tsx` — slug-aware alternates
+- [x] Update `app/sitemap.ts` — dual-locale entries for all static + dynamic pages
+- [x] Verify `/sitemap.xml` returns 200 and contains `/en/` and `/es/` URLs
+- [x] Verify hreflang tags in page source for both static and dynamic pages
+- [x] Run `npx tsc --noEmit` — no errors
 
 ## Success Criteria
 
-- [ ] `/sitemap.xml` contains `${BASE}/en/` and `${BASE}/es/` entries for every public page
-- [ ] Every page's `<head>` has three `<link rel="alternate">` tags: `hreflang="en"`, `hreflang="es"`, `hreflang="x-default"`
-- [ ] OG `locale` is `en_US` on `/en/*` and `es_ES` on `/es/*`
-- [ ] `/es/blog/[spanish-slug]` alternate points to correct `/en/blog/[english-slug]`
-- [ ] `npx tsc --noEmit` passes
+- [x] `/sitemap.xml` contains `${BASE}/en/` and `${BASE}/es/` entries for every public page
+- [x] Every page's `<head>` has three `<link rel="alternate">` tags: `hreflang="en"`, `hreflang="es"`, `hreflang="x-default"`
+- [x] OG `locale` is `en_US` on `/en/*` and `es_ES` on `/es/*`
+- [x] `/es/blog/[spanish-slug]` alternate points to correct `/en/blog/[english-slug]`
+- [x] `npx tsc --noEmit` passes
+
+## Progress Notes — 2026-05-10
+
+- Sitemap now fetches projects/posts for each supported locale and emits canonical `/en/...` and `/es/...` entries.
+- Runtime verification confirmed `/sitemap.xml` includes both locale variants for static pages and current dynamic Sanity content.
+- Internal homepage, project card, and post card links were switched to `@/i18n/navigation` so links preserve the active locale.
+- Metadata alternates, OG locale tags, slug-aware hreflang, sitemap verification, and TypeScript checks are closed.
 
 ## Risk Assessment
 

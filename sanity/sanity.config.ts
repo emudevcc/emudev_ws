@@ -3,6 +3,7 @@ import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { presentationTool } from 'sanity/presentation'
 import { schema } from './schema'
+import { structure } from './structure'
 
 const envValue = (value: string | undefined) => {
   const trimmed = value?.trim()
@@ -20,7 +21,7 @@ export default defineConfig({
   projectId: 'zziqxayh',
   dataset: envValue(process.env.NEXT_PUBLIC_SANITY_DATASET) ?? 'production',
   plugins: [
-    structureTool(),
+    structureTool({ structure }),
     visionTool(),
     presentationTool({
       previewUrl: {

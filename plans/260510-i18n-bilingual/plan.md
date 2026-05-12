@@ -1,7 +1,7 @@
 ---
 title: "Bilingual i18n (en/es)"
 description: "Add English + Spanish support with /en/ and /es/ URL prefixes using next-intl, Sanity localized fields, and hreflang SEO."
-status: pending
+status: completed
 priority: P2
 branch: "development"
 tags: [i18n, next-intl, sanity]
@@ -57,10 +57,28 @@ messages/
 
 | Phase | Name | Status | Effort |
 |-------|------|--------|--------|
-| 1 | [next-intl Setup + Route Migration](./phase-01-next-intl-setup-route-migration.md) | Pending | 2h |
-| 2 | [UI String Extraction](./phase-02-ui-string-extraction.md) | Pending | 2h |
-| 3 | [Sanity Bilingual Content](./phase-03-sanity-bilingual-content.md) | Pending | 3h |
-| 4 | [SEO & Sitemap](./phase-04-seo-sitemap.md) | Pending | 1h |
+| 1 | [next-intl Setup + Route Migration](./phase-01-next-intl-setup-route-migration.md) | Completed | 2h |
+| 2 | [UI String Extraction](./phase-02-ui-string-extraction.md) | Completed | 2h |
+| 3 | [Sanity Bilingual Content](./phase-03-sanity-bilingual-content.md) | Completed | 3h |
+| 4 | [SEO & Sitemap](./phase-04-seo-sitemap.md) | Completed | 1h |
+
+## Progress Update — 2026-05-10
+
+Completed:
+- Installed and configured `next-intl` with explicit `/en` and `/es` locale prefixes.
+- Moved public pages under `app/[locale]` and kept API/Studio routes outside the locale prefix.
+- Added locale-aware navigation helpers, middleware, message files, and the locale switcher.
+- Converted Sanity schemas to localized `{ en, es }` fields for posts, projects, tags, authors, and site settings.
+- Updated Sanity GROQ queries to accept locale, use English fallback via `coalesce`, and resolve both English and Spanish slugs.
+- Regenerated Sanity TypeScript types.
+- Migrated existing published Sanity project/post/author content into the new English fields using `SANITY_API_WRITE_TOKEN`.
+- Fixed frontend Sanity fetching when `.env.local` has blank public Sanity values.
+- Updated internal project/blog/hero links to preserve the active locale.
+- Updated sitemap generation to emit canonical `/en/...` and `/es/...` URLs.
+- Verified `npm run build`, `npx tsc --noEmit`, and local runtime checks for localized sitemap and Spanish homepage links.
+
+Remaining:
+- None — all phases are closed.
 
 ## Key Decisions
 

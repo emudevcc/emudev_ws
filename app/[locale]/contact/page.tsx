@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
+import { localeAlternates } from '@/lib/metadata'
 import { ContactForm } from '@/components/contact-form'
 
 export const metadata: Metadata = {
   title: 'Contact',
   description: 'Get in touch with Esteban Montero',
+  alternates: localeAlternates('/contact'),
 }
 
 export default function ContactPage() {

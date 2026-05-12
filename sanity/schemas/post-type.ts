@@ -1,61 +1,15 @@
 import { defineType, defineField } from 'sanity'
+import {
+  localizedContent,
+  localizedSlug,
+  localizedString,
+  localizedText,
+} from '../lib/i18n-helpers'
 
-const localizedString = (name: string, title: string, required = false) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    fields: [
-      {
-        name: 'en',
-        title: 'English',
-        type: 'string',
-        validation: required ? (rule) => rule.required() : undefined,
-      },
-      { name: 'es', title: 'Spanish', type: 'string' },
-    ],
-  })
-
-const localizedText = (name: string, title: string, rows: number) =>
-  defineField({
-    name,
-    title,
-    type: 'object',
-    fields: [
-      { name: 'en', title: 'English', type: 'text', rows },
-      { name: 'es', title: 'Spanish', type: 'text', rows },
-    ],
-  })
-
-const localizedSlug = defineField({
-  name: 'slug',
-  title: 'Slug',
-  type: 'object',
-  fields: [
-    { name: 'en', title: 'English', type: 'slug', options: { source: 'title.en' } },
-    { name: 'es', title: 'Spanish', type: 'slug', options: { source: 'title.es' } },
-  ],
-})
-
-const localizedContent = defineField({
-  name: 'content',
-  title: 'Content',
-  type: 'object',
-  fields: [
-    {
-      name: 'en',
-      title: 'English',
-      type: 'array',
-      of: [{ type: 'block' }, { type: 'image', options: { hotspot: true } }],
-    },
-    {
-      name: 'es',
-      title: 'Spanish',
-      type: 'array',
-      of: [{ type: 'block' }, { type: 'image', options: { hotspot: true } }],
-    },
-  ],
-})
+const POST_STATUSES = [
+  { title: 'Draft', value: 'draft' },
+  { title: 'Published', value: 'published' },
+]
 
 export const postType = defineType({
   name: 'post',
@@ -63,9 +17,10 @@ export const postType = defineType({
   type: 'document',
   fields: [
     localizedString('title', 'Title', true),
-    localizedSlug,
+    localizedSlug(),
     localizedText('excerpt', 'Excerpt', 2),
-    localizedContent,
+    localizedContent(),
+    defineField({ name: 'cover', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'author', type: 'reference', to: [{ type: 'author' }] }),
     defineField({
       name: 'tags',
@@ -73,8 +28,23 @@ export const postType = defineType({
       of: [{ type: 'reference', to: [{ type: 'tag' }] }],
     }),
     defineField({ name: 'publishedAt', type: 'datetime' }),
+    defineField({ name: 'readingMinutes', type: 'number' }),
+    defineField({ name: 'canonicalUrl', type: 'url' }),
+    defineField({
+      name: 'status',
+      type: 'string',
+      options: { list: POST_STATUSES },
+      initialValue: 'published',
+    }),
+    defineField({
+      name: 'authorOverride',
+      type: 'reference',
+      to: [{ type: 'author' }],
+      description:
+        'Optional override for the author field. Author deprecation: future phase will replace author ref with siteSettings fallback.',
+    }),
   ],
   preview: {
-    select: { title: 'title.en', subtitle: 'publishedAt' },
+    select: { title: 'title.en', subtitle: 'publishedAt', media: 'cover' },
   },
 })

@@ -11,23 +11,25 @@ dependencies: []
 
 ## Overview
 
-Add `@magicuidesign/mcp` to Claude Code's global MCP server registry (`~/.claude/settings.json`) so the Magic UI tools are available in every Claude Code session.
+Add `@magicuidesign/mcp` to Claude Code's global MCP server registry (`~/.claude.json`, managed by `claude mcp`) so the Magic UI tools are available in every Claude Code session.
 
 ## Context Links
 
 - Official MCP package: `@magicuidesign/mcp` (npm, MIT)
 - Official installer CLI: `@magicuidesign/cli`
-- Claude Code MCP docs: `mcpServers` key in `~/.claude/settings.json`
-- Current global settings: `~/.claude/settings.json` — has `enabledPlugins` + `extraKnownMarketplaces`, no `mcpServers` key yet
+- Claude Code MCP docs: user-scope MCP servers managed by `claude mcp`
+- Current global settings: `~/.claude/settings.json` has `enabledPlugins` + `extraKnownMarketplaces`; MCP servers live in `~/.claude.json`
 
 ## Requirements
 
 **Functional:**
-- `mcpServers.magicuidesign-mcp` entry added to `~/.claude/settings.json`
+
+- `mcpServers.magicuidesign-mcp` entry added to `~/.claude.json`
 - Server uses `npx -y @magicuidesign/mcp@latest` (no global install required)
 - Three MCP tools become available: `listRegistryItems`, `searchRegistryItems`, `getRegistryItem`
 
 **Non-functional:**
+
 - Global config only (affects all projects, not just this one) — user has Pro license and wants it everywhere
 - No project-level `.claude/settings.json` change needed
 - Codex plugin (already enabled via `enabledPlugins`) works through Claude Code — MCP tools are automatically available to it via the same session
@@ -74,6 +76,7 @@ claude mcp list
 ### Step 3: Smoke test tools
 
 Run these prompts in Claude Code to confirm tools work:
+
 - "List all Magic UI components" → triggers `listRegistryItems`
 - "Search Magic UI for animated button" → triggers `searchRegistryItems`
 - "Get Magic UI marquee component" → triggers `getRegistryItem`
@@ -82,18 +85,27 @@ Run these prompts in Claude Code to confirm tools work:
 
 - [x] Add MCP server: `claude mcp add -s user magicuidesign-mcp -- npx -y @magicuidesign/mcp@latest`
 - [x] Verify connected: `claude mcp list` → `✓ Connected`
-- [ ] Smoke test: list, search, get a component in a live session
+- [x] Smoke test: list, search, get a component in a live session
 
 ## Success Criteria
 
 - [x] `~/.claude.json` contains `magicuidesign-mcp` entry (user scope)
 - [x] `claude mcp list` shows `magicuidesign-mcp` as `✓ Connected`
-- [ ] `listRegistryItems` returns a non-empty list of components
-- [ ] `getRegistryItem` returns component source for a known component (e.g., `marquee`)
+- [x] `listRegistryItems` returns a non-empty list of components
+- [x] `getRegistryItem` returns component metadata for a known component (`marquee`)
+
+## Verification Result
+
+Verified on 2026-05-12:
+
+- `claude mcp list` reports `magicuidesign-mcp: npx -y @magicuidesign/mcp@latest - ✓ Connected`
+- Direct MCP `tools/list` smoke test returns `listRegistryItems`, `searchRegistryItems`, and `getRegistryItem`
+- Direct MCP `tools/call` smoke test for `searchRegistryItems` with `query: "marquee"` returns public registry matches
+- Direct MCP `tools/call` smoke test for `getRegistryItem` with `name: "marquee"` returns the public Marquee registry item and install command
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|-----------|--------|------------|
-| `npx` not on PATH in future sessions | Low | Medium | `npx` is on PATH in this environment; confirmed at install |
-| MCP server version incompatibility | Very Low | Low | `@latest` keeps it current; pin if breakage occurs |
+| Risk                                 | Likelihood | Impact | Mitigation                                                 |
+| ------------------------------------ | ---------- | ------ | ---------------------------------------------------------- |
+| `npx` not on PATH in future sessions | Low        | Medium | `npx` is on PATH in this environment; confirmed at install |
+| MCP server version incompatibility   | Very Low   | Low    | `@latest` keeps it current; pin if breakage occurs         |

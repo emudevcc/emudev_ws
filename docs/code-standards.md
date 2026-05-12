@@ -623,6 +623,31 @@ When making breaking changes:
 
 ---
 
+## Magic UI MCP
+
+`@magicuidesign/mcp` is configured globally (`~/.claude.json`, user scope) and available in every Claude Code session.
+
+| Tool | Use |
+|------|-----|
+| `listRegistryItems` | Browse all available components |
+| `searchRegistryItems` | Find components by keyword |
+| `getRegistryItem` | Fetch component source + examples |
+
+**Usage prompts:**
+- "List all Magic UI components" — browse catalog
+- "Get the Magic UI marquee component source" — pull code directly
+- "Search Magic UI for animated card" — find by keyword
+
+**Integration pattern** (Next.js 15 + shadcn/ui):
+1. Get component source via MCP
+2. Place in `components/ui/<component-name>.tsx`
+3. Add any new dependencies to `package.json`
+4. Import normally — no registry CLI needed
+
+**Pro templates:** The MCP server wraps the public registry only (no auth). Access Pro templates via magicui.design/pro in the browser, then copy source into `components/ui/`.
+
+---
+
 ## Performance Considerations
 
 - **Bundle Size:** Monitor with `npm run build`; lazy-load heavy components

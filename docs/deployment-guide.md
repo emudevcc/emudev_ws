@@ -671,30 +671,28 @@ export default defineConfig({
 
 ## Smoke Test Configuration
 
-### Run Smoke Tests Locally
-
-```bash
-# Against development server
-npm run test:smoke:local
-
-# Against specific URL
-BASE_URL=https://staging.emudev.cc npm run test:smoke
-```
-
 ### Key Test Suites
 
 - **Original (11 tests):** health check, pages, navigation, forms, sitemap, robots
 - **i18n Bilingual (36 tests):** routing, message keys, per-locale rendering, locale switching
+- **Content Model (4 tests):** static schema contracts — 14 types registered, 6 i18n helpers, query exports, cache version `localized-v3`
 
 ### CI Integration
 
-Tests run automatically in `deploy.yml`:
+Three jobs run automatically in `.github/workflows/ci.yml`:
 
-```yaml
-- name: Run Smoke Tests
-  run: npm run test:smoke
-  env:
-    BASE_URL: https://emudev.cc
+| Job | Trigger | What it does |
+|-----|---------|--------------|
+| `ci` | All branches/PRs | lint → typecheck → build |
+| `smoke-static` | All branches/PRs (parallel) | Static contract tests: `i18n-bilingual.spec.ts` + `content-model.spec.ts` (no browser) |
+| `smoke-integration` | After `ci` | Full browser i18n smoke tests (Playwright + Chromium); `continue-on-error: true` — **TODO: remove once verified stable** |
+
+Run all smoke tests locally:
+```bash
+npm run test:smoke          # full suite
+npm run test:smoke:local    # against localhost:3000
+# Static only (fast, no browser):
+npx playwright test tests/smoke/i18n-bilingual.spec.ts tests/smoke/content-model.spec.ts --grep "static contracts|content model static contracts" --reporter=list
 ```
 
 ---

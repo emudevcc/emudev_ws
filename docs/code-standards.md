@@ -635,19 +635,38 @@ When making breaking changes:
 
 ## Magic UI & Component Installation
 
-**Status:** MCP server installed and verified; Magic UI install plan complete (`plans/260511-2210-magic-ui-install`).
+**Status:** Phase 9.1 complete (May 12, 2026). 12 components installed in `components/ui/`.
+
+### Installed Components
+
+| Component                    | Source     | Used in |
+| ---------------------------- | ---------- | ------- |
+| `animated-shiny-text`        | Free-tier  | Hero name animation |
+| `avatar-circles`             | Free-tier  | Cert badge stacks |
+| `blur-fade`                  | Free-tier  | Scroll-in section entry |
+| `border-beam`                | Free-tier  | Featured project cards |
+| `dock`                       | Free-tier  | Floating bottom nav |
+| `dot-pattern`                | Free-tier  | Page shell background |
+| `interactive-hover-button`   | Free-tier  | Hero CTA primary |
+| `marquee`                    | Free-tier  | Social posts row |
+| `number-ticker`              | Free-tier  | Hero stat count-up |
+| `shimmer-button`             | Free-tier  | Contact form submit |
+| `magic-card`                 | Pro (local)| Experience + project cards |
+| `lens`                       | Pro (local)| Project cover zoom |
 
 ### Component Installation
 
-**Free-tier components:** Installed via `npx shadcn@latest add "https://magicui.design/r/[name].json"` and placed in `components/ui/`.
+**Free-tier:** `npx shadcn@latest add "https://magicui.design/r/[name].json"` → auto-placed in `components/ui/`.
 
-**Pro components:** The MCP server exposes the public registry only. `MagicCard` and `Lens` are local API-compatible components in `components/ui/` with no runtime registry dependency.
+**Pro components:** `MagicCard` and `Lens` are API-compatible local components (no runtime registry dependency).
 
-**CSS token integration:** Full shadcn/ui HSL token set + @theme inline for Magic UI compatibility.
+**CSS token integration:** Full shadcn/ui HSL token set in `app/globals.css` (`:root` + `.dark`) + `@theme inline` block for Tailwind v4 token mapping.
+
+**Utility:** `lib/utils.ts` exports `cn()` (clsx + tailwind-merge) — required by all Magic UI components.
 
 ### Magic UI MCP Tools
 
-`@magicuidesign/mcp` available in Claude Code sessions for component discovery:
+`@magicuidesign/mcp` available in Claude Code sessions:
 
 | Tool                  | Use                               |
 | --------------------- | --------------------------------- |
@@ -655,19 +674,12 @@ When making breaking changes:
 | `searchRegistryItems` | Find components by keyword        |
 | `getRegistryItem`     | Fetch component source + examples |
 
-**Usage prompts:**
+### Adding New Components
 
-- "List all Magic UI components" — browse catalog
-- "Search Magic UI for floating dock" — find by keyword
-- "Get the MagicCard source" — pull code directly
-
-**Integration pattern (Phase 9.1):**
-
-1. Install via `npx shadcn@latest add "https://magicui.design/r/[name].json"`
-2. Component auto-placed in `components/ui/`
-3. Use `getRegistryItem` to inspect public dependencies and examples
-4. Extend Tailwind config with Magic UI token presets when a component requires it
-5. No additional build steps needed
+1. `npx shadcn@latest add "https://magicui.design/r/[name].json"`
+2. Component lands in `components/ui/`
+3. Import with `@/components/ui/[name]`
+4. `cn()` from `@/lib/utils` handles conditional class merging
 
 ---
 

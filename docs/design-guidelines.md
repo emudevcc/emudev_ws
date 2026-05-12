@@ -365,35 +365,30 @@ Use `space-y-5` for consistent vertical spacing between form groups.
 
 ### Status
 
-Dark mode is **planned for Phase 9.2 (Classic Layout UI)**. Currently, site respects system preference via CSS media query.
+Dark mode token set is **complete** (Phase 9.1). Full `:root` and `.dark` HSL token blocks are defined in `app/globals.css`. `next-themes` is installed. User-facing toggle wired in Phase 9.2 via `LangThemeToggle` component.
 
-### System Preference (Current)
+### CSS Token Setup (globals.css)
 
-Tailwind v4 supports dark mode via `dark:` prefix:
+Full shadcn/ui token set with dark variant:
 
 ```css
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ffffff;
-    /* ... other tokens ... */
-  }
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  /* ... full set ... */
+}
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  /* ... full set ... */
 }
 ```
 
-```tsx
-<div className="bg-white dark:bg-black text-black dark:text-white">
-  {/* Automatically switches based on system preference */}
-</div>
-```
+`@theme inline` block maps tokens to Tailwind v4 utilities (`bg-background`, `text-foreground`, etc.).
 
-### User Toggle (Phase 9.2 Enhancement)
+### User Toggle (Phase 9.2 — next-themes)
 
-When implementing, use `next-themes`:
-
-```bash
-npm install next-themes
-```
+`next-themes` is installed. `ThemeProvider` wraps the locale layout:
 
 ```tsx
 import { ThemeProvider } from 'next-themes'

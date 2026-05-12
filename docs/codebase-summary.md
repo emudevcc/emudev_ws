@@ -33,7 +33,7 @@ emudev_ws/
 │   └── studio/[[...tool]]/page.tsx # Sanity Studio (root, no locale)
 │
 ├── components/                   # React components
-│   ├── locale-switcher.tsx       # Client component; EN↔ES toggle [NEW]
+│   ├── locale-switcher.tsx       # Client component; EN↔ES toggle
 │   ├── contact-form.tsx          # Contact form (useActionState)
 │   ├── portable-text-renderer.tsx # @portabletext/react for rich text
 │   ├── project-card.tsx          # Project card in grids
@@ -41,7 +41,20 @@ emudev_ws/
 │   ├── tag-filter.tsx            # Client component for tag filtering
 │   ├── site-nav.tsx              # Navigation + LocaleSwitcher (async server)
 │   ├── sanity-visual-editing.tsx # SanityVisualEditing wrapper for draft mode
-│   └── ui/hero-section.tsx       # Animated hero on homepage
+│   └── ui/                       # UI primitives
+│       ├── hero-section.tsx              # Animated hero on homepage
+│       ├── animated-shiny-text.tsx       # MagicUI: shimmer text gradient
+│       ├── avatar-circles.tsx            # MagicUI: overlapping avatar stack
+│       ├── blur-fade.tsx                 # MagicUI: scroll-in blur + fade animation
+│       ├── border-beam.tsx               # MagicUI: animated border on cards
+│       ├── dock.tsx                      # MagicUI: macOS-style magnifying dock
+│       ├── dot-pattern.tsx               # MagicUI: SVG dot grid background
+│       ├── interactive-hover-button.tsx  # MagicUI: hover-reveal CTA button
+│       ├── lens.tsx                      # MagicUI Pro: zoom-on-hover image lens
+│       ├── magic-card.tsx                # MagicUI Pro: mouse-spotlight card
+│       ├── marquee.tsx                   # MagicUI: infinite scroll marquee
+│       ├── number-ticker.tsx             # MagicUI: animated count-up number
+│       └── shimmer-button.tsx            # MagicUI: shimmer-effect submit button
 │
 ├── i18n/                         # Internationalization config [NEW]
 │   ├── routing.ts                # defineRouting({ locales: ['en', 'es'], defaultLocale: 'en', localePrefix: 'always' })
@@ -58,7 +71,8 @@ emudev_ws/
 │   ├── sanity-client.ts          # createClient + sanityFetch helper
 │   ├── sanity-queries.ts         # GROQ queries with unstable_cache + locale cache keys
 │   ├── supabase-server.ts        # createSupabaseServerClient
-│   └── supabase-browser.ts       # createSupabaseBrowserClient
+│   ├── supabase-browser.ts       # createSupabaseBrowserClient
+│   └── utils.ts                  # cn() utility (clsx + tailwind-merge)
 │
 ├── types/
 │   ├── sanity.types.ts           # Generated Sanity schema types
@@ -94,9 +108,10 @@ emudev_ws/
 ├── docs/                         # This documentation suite
 ├── next.config.ts                # Security headers, image config, i18n plugin wrapper
 ├── tailwind.config.ts            # Tailwind CSS v4 config
+├── components.json               # shadcn/ui component config (aliases, style, baseColor)
 ├── tsconfig.json                 # TypeScript config
 ├── prettier.config.js            # Formatter config
-├── eslint.config.mjs             # ESLint v10 flat config
+├── eslint.config.mjs             # ESLint v9 flat config
 ├── .husky/                       # Git hooks (Prettier lint-staged)
 └── package.json                  # Dependencies & scripts
 ```
@@ -146,8 +161,11 @@ emudev_ws/
 | `app/sitemap.ts`                                   | 30   | Dynamic XML sitemap with locale variants                                          |
 | `lib/supabase-server.ts`                           | 21   | createSupabaseServerClient (cookie-based)                                         |
 | `lib/supabase-browser.ts`                          | 7    | createSupabaseBrowserClient (browser context)                                     |
-| `messages/en.json`                                 | ~80  | English UI strings (namespaced: nav, home, projects, blog, contact, common) [NEW] |
-| `messages/es.json`                                 | ~80  | Spanish translations (exact key structure parity) [NEW]                           |
+| `lib/utils.ts`                                     | ~5   | cn() utility (clsx + tailwind-merge) for conditional class merging                |
+| `messages/en.json`                                 | ~80  | English UI strings (namespaced: nav, home, projects, blog, contact, common)       |
+| `messages/es.json`                                 | ~80  | Spanish translations (exact key structure parity)                                 |
+| `app/globals.css`                                  | ~100 | Full shadcn/ui HSL token set (:root/.dark) + @theme inline + @layer base reset    |
+| `components.json`                                  | ~20  | shadcn/ui project config (aliases, style: new-york, baseColor: zinc)              |
 
 ---
 
@@ -463,6 +481,10 @@ Each has isolated copies of the above secrets.
 | `typescript`                 | 5.9.3   | Type safety                                             |
 | `eslint`                     | ^9      | Linting (v10 incompatible with eslint-plugin-react@7.x) |
 | `@playwright/test`           | 1.59.1  | Static and browser smoke tests                          |
+| `framer-motion`              | latest  | Animation engine (required by MagicUI blur-fade, etc.)  |
+| `clsx`                       | latest  | Conditional class merging                               |
+| `tailwind-merge`             | latest  | Tailwind class deduplication (used in cn() utility)     |
+| `next-themes`                | latest  | Dark/light theme provider for Phase 9.2 toggle          |
 
 ---
 

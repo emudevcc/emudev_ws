@@ -41,7 +41,20 @@ emudev_ws/
 │   ├── tag-filter.tsx            # Client component for tag filtering
 │   ├── site-nav.tsx              # Navigation + LocaleSwitcher (async server)
 │   ├── sanity-visual-editing.tsx # SanityVisualEditing wrapper for draft mode
-│   └── ui/                       # UI primitives
+│   ├── sections/                 # [NEW] 11-section portfolio layout
+│   │   ├── hero-section.tsx           # Hero with name, bio, CTA
+│   │   ├── about-section.tsx          # About biography + fun facts
+│   │   ├── experience-timeline.tsx    # Vertical timeline with MagicCards
+│   │   ├── skills-section.tsx         # 2×2 skill tiles
+│   │   ├── projects-grid.tsx          # Project gallery with filter + Lens
+│   │   ├── credentials-section.tsx    # Certifications + education + languages
+│   │   ├── writing-list.tsx           # Blog posts list
+│   │   ├── social-posts-grid.tsx      # Marquee of social posts
+│   │   ├── strengths-card.tsx         # CliftonStrengths cards
+│   │   ├── contributions-card.tsx     # GitHub contributions heatmap
+│   │   ├── footer-section.tsx         # Footer with socials
+│   │   └── contact-section.tsx        # Contact form + CTA
+│   ├── ui/                       # UI primitives
 │       ├── hero-section.tsx              # Animated hero on homepage
 │       ├── animated-shiny-text.tsx       # MagicUI: shimmer text gradient
 │       ├── avatar-circles.tsx            # MagicUI: overlapping avatar stack
@@ -50,11 +63,15 @@ emudev_ws/
 │       ├── dock.tsx                      # MagicUI: macOS-style magnifying dock
 │       ├── dot-pattern.tsx               # MagicUI: SVG dot grid background
 │       ├── interactive-hover-button.tsx  # MagicUI: hover-reveal CTA button
+│       ├── lang-theme-toggle.tsx         # [UPDATED] Lang + theme toggle (useSyncExternalStore hydration fix)
 │       ├── lens.tsx                      # MagicUI Pro: zoom-on-hover image lens
 │       ├── magic-card.tsx                # MagicUI Pro: mouse-spotlight card
 │       ├── marquee.tsx                   # MagicUI: infinite scroll marquee
 │       ├── number-ticker.tsx             # MagicUI: animated count-up number
 │       └── shimmer-button.tsx            # MagicUI: shimmer-effect submit button
+│
+├── hooks/                        # Custom React hooks
+│   └── use-active-section.ts     # [NEW] Scroll tracking for active section highlighting in nav
 │
 ├── i18n/                         # Internationalization config [NEW]
 │   ├── routing.ts                # defineRouting({ locales: ['en', 'es'], defaultLocale: 'en', localePrefix: 'always' })
@@ -72,6 +89,9 @@ emudev_ws/
 │   ├── sanity-queries.ts         # GROQ queries with unstable_cache + locale cache keys
 │   ├── supabase-server.ts        # createSupabaseServerClient
 │   ├── supabase-browser.ts       # createSupabaseBrowserClient
+│   ├── metadata.ts               # [UPDATED] Metadata helpers (localeAlternates now accepts optional locale param)
+│   ├── content.ts                # [NEW] Content aggregation for portfolio sections
+│   ├── github.ts                 # [NEW] GitHub API client for contributions heatmap
 │   └── utils.ts                  # cn() utility (clsx + tailwind-merge)
 │
 ├── types/
@@ -85,6 +105,17 @@ emudev_ws/
 │   │   ├── post-type.ts          # Post schema with cover, status, authorOverride
 │   │   ├── site-settings-type.ts # Global identity/contact/settings singleton
 │   │   └── *-type.ts             # About, skills, experience, credentials, extras
+│   ├── seed/                     # [NEW] Seed data for initial content population
+│   │   ├── 01-site-settings.ndjson  # Global settings, identity, social links
+│   │   ├── 02-about.ndjson          # About singleton (bilingual bio)
+│   │   ├── 03-experience.ndjson     # 4 experience documents
+│   │   ├── 04-skills.ndjson         # 17 skill documents
+│   │   ├── 05-certifications.ndjson # Certifications
+│   │   ├── 05-education.ndjson      # Education
+│   │   ├── 05-languages.ndjson      # Languages
+│   │   ├── 06-strengths.ndjson      # 5 CliftonStrengths
+│   │   ├── 07-projects.ndjson       # 3 portfolio projects
+│   │   └── seed.sh                  # Merge + import script
 │   └── structure.ts              # Grouped Studio desk structure + singletons
 │
 ├── supabase/
@@ -134,6 +165,7 @@ emudev_ws/
 | `components/portable-text-renderer.tsx`            | 46   | Rich text rendering for Sanity content                                            |
 | `app/[locale]/blog/page.tsx`                       | 43   | Blog list page (ISR with locale cache keys)                                       |
 | `app/api/revalidate-tag/route.ts`                  | 41   | Sanity webhook handler → revalidateTag (validates x-sanity-webhook-secret header) |
+| `components/ui/lang-theme-toggle.tsx`             | ~40  | Language + theme toggle; uses `useSyncExternalStore` for hydration safety          |
 | `components/ui/hero-section.tsx`                   | 39   | Animated hero with name + bio                                                     |
 | `tests/smoke/pages.spec.ts`                        | 35   | Playwright smoke tests for original routes                                        |
 | `tests/smoke/i18n-bilingual.spec.ts`               | ~190 | Playwright smoke tests for i18n routing, message key parity, locale rendering     |
@@ -151,6 +183,18 @@ emudev_ws/
 | `app/[locale]/blog/[slug]/opengraph-image.tsx`     | 20   | Dynamic OG image for blog posts (1200×630, dark gradient)                         |
 | `app/[locale]/projects/[slug]/opengraph-image.tsx` | 20   | Dynamic OG image for projects                                                     |
 | `components/tag-filter.tsx`                        | 18   | Client component for project filtering by skills/tech                             |
+| `components/sections/hero-section.tsx`             | ~80  | Hero with name, title, bio, and animated CTA                                      |
+| `components/sections/about-section.tsx`            | ~70  | About biography with fun facts and call-to-action                                 |
+| `components/sections/experience-timeline.tsx`      | ~100 | Vertical timeline with MagicCard experience rows                                   |
+| `components/sections/skills-section.tsx`           | ~60  | 2×2 skill tiles with categories and level indicators                              |
+| `components/sections/projects-grid.tsx`            | ~90  | Project gallery with tag filter, MagicCard, BorderBeam, and Lens                  |
+| `components/sections/credentials-section.tsx`      | ~80  | Certifications, education, and language credentials display                       |
+| `components/sections/writing-list.tsx`             | ~50  | Blog posts list with date, title, excerpt, and author                             |
+| `components/sections/social-posts-grid.tsx`        | ~40  | Marquee of social media posts                                                     |
+| `components/sections/strengths-card.tsx`           | ~60  | CliftonStrengths cards with descriptions                                          |
+| `components/sections/contributions-card.tsx`       | ~70  | GitHub contributions heatmap (calendar visualization)                             |
+| `components/sections/footer-section.tsx`           | ~50  | Footer with social links and navigation                                           |
+| `components/sections/contact-section.tsx`          | ~80  | Contact form section with MagicCard wrapper                                       |
 | `app/api/draft-mode/enable/route.ts`               | 15   | Enable Next.js draft mode with validatePreviewUrl                                 |
 | `app/api/draft-mode/disable/route.ts`              | 10   | Disable draft mode and redirect to home                                           |
 | `i18n/routing.ts`                                  | ~8   | defineRouting config (locales, defaultLocale, localePrefix) [NEW]                 |
@@ -162,6 +206,10 @@ emudev_ws/
 | `lib/supabase-server.ts`                           | 21   | createSupabaseServerClient (cookie-based)                                         |
 | `lib/supabase-browser.ts`                          | 7    | createSupabaseBrowserClient (browser context)                                     |
 | `lib/utils.ts`                                     | ~5   | cn() utility (clsx + tailwind-merge) for conditional class merging                |
+| `lib/metadata.ts`                                  | ~60  | Metadata helpers: localeAlternates(pathname, locale), dynamic metadata per page    |
+| `lib/content.ts`                                   | ~100 | Content aggregation for portfolio sections (projects, posts, experiences, skills)  |
+| `lib/github.ts`                                    | ~50  | GitHub API client for contributions heatmap (calendar data)                        |
+| `hooks/use-active-section.ts`                      | ~40  | Scroll tracking hook for active section highlighting                              |
 | `messages/en.json`                                 | ~80  | English UI strings (namespaced: nav, home, projects, blog, contact, common)       |
 | `messages/es.json`                                 | ~80  | Spanish translations (exact key structure parity)                                 |
 | `app/globals.css`                                  | ~100 | Full shadcn/ui HSL token set (:root/.dark) + @theme inline + @layer base reset    |

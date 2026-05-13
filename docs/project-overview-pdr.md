@@ -141,12 +141,18 @@ Ship a zero-maintenance portfolio that:
 - **Phase 8.4** ✅: SEO & sitemap (locale variants and hreflang alternates)
 - **Phase 8.5** ✅: Sanity content model refactor (14 document types, grouped Studio, expanded GROQ)
 
-### Future (Phase 9)
+### Completed Phase 9 Work (May 11-12, 2026)
 
 - **Phase 9.0** ✅: Production deployment (bilingual live May 11, 2026)
-- **Phase 9.1** ⏳: Magic UI installation (3 phases, free-tier + Pro components)
-- **Phase 9.2** ⏳: Classic layout UI (8 phases, 12-section portfolio with Magic UI components)
-- **Phase 9.3+** 🔄: Post-launch monitoring, analytics, admin dashboard, search, etc.
+- **Phase 9.1** ✅: Magic UI installation (12 components: 10 free-tier + 2 Pro local)
+- **Phase 9.2** ✅: Classic layout UI (11 sections, Magic UI components, scroll tracking, GitHub contributions)
+- **Phase 9.3** ✅: SEO canonical & hreflang fix (self-referential per-locale, generateMetadata for all pages)
+
+### Future (Phase 9.4+)
+
+- **Phase 9.4** ⏳: Sanity seed data & content population (10 NDJSON files, 14 types)
+- **Phase 9.5** ⏳: Blog redesign (featured hero, tag filter, card grid, polished post layout)
+- **Phase 9.6+** 🔄: Post-launch monitoring, analytics, admin dashboard, search, etc.
 
 ---
 

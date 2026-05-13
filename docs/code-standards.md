@@ -621,6 +621,53 @@ counter++
 
 ---
 
+## SEO Metadata Patterns
+
+### Locale-Aware Canonical Links
+
+For pages with locale variants (EN/ES), use `generateMetadata` to generate self-referential canonicals per locale:
+
+```typescript
+// app/[locale]/about/page.tsx
+import { localeAlternates } from '@/lib/metadata'
+import { getTranslations } from 'next-intl'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'about' })
+
+  return {
+    title: t('title'),
+    description: t('description'),
+    alternates: {
+      canonical: `https://emudev.cc/${locale}/about`, // Self-referential
+      languages: localeAlternates('/about', locale), // Hreflang alternates
+    },
+    openGraph: {
+      url: `https://emudev.cc/${locale}/about`,
+    },
+  }
+}
+
+export default async function AboutPage({ params }) {
+  const { locale } = await params
+  // ...
+}
+```
+
+**Key Rules:**
+
+1. **All locale pages use `generateMetadata`** — not `export const metadata` (can't access locale at static time)
+2. **Pass locale to `localeAlternates(pathname, locale)`** — generates self-referential canonical + hreflang for en, es, x-default
+3. **Self-referential canonical** — `/en/about` has canonical `/en/about`, not always `/en`
+4. **Dynamic routes** — `/[locale]/blog/[slug]` calls `localeAlternates('/blog/${slug}', locale)` to include slug in alternates
+
+---
+
 ## Breaking Changes & Migrations
 
 When making breaking changes:
@@ -635,7 +682,7 @@ When making breaking changes:
 
 ## Magic UI & Component Installation
 
-**Status:** Phase 9.1 complete (May 12, 2026). 12 components installed in `components/ui/`.
+**Status:** Phase 9.1 ✅ complete (May 12, 2026). Phase 9.2 ✅ complete (11 section components integrated). 12 Magic UI components installed in `components/ui/`.
 
 ### Installed Components
 

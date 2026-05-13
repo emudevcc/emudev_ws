@@ -1,0 +1,97 @@
+---
+phase: 2
+title: "About singleton"
+status: pending
+priority: P1
+effort: "30m"
+dependencies: []
+---
+
+# Phase 2: About singleton
+
+## Overview
+
+Create the `about` singleton document with bilingual bio paragraphs (conversational tone), fun facts, and photo caption. Content drawn from CV: background, current role, approach, and personal notes.
+
+## Related Code Files
+
+- Create: `sanity/seed/02-about.ndjson`
+
+## Implementation Steps
+
+### Step 1: Write `sanity/seed/02-about.ndjson`
+
+```json
+{
+  "_id": "seed-about",
+  "_type": "about",
+  "paragraphs": {
+    "en": [
+      {
+        "_type": "block", "_key": "ab-en-1", "style": "normal",
+        "children": [{ "_type": "span", "_key": "s1", "text": "I've been building things on the web since the early 2000s — back when table layouts were a thing and \"responsive\" wasn't even a word yet. These days I spend most of my time at the intersection of digital analytics and software engineering, helping large companies understand what their users are actually doing (and why)." }]
+      },
+      {
+        "_type": "block", "_key": "ab-en-2", "style": "normal",
+        "children": [{ "_type": "span", "_key": "s2", "text": "My current focus is Adobe Analytics and Adobe Target implementations at enterprise scale. I've led analytics strategy for brands you've definitely heard of — Volkswagen, Verizon, Disney, Qurate Retail Group, Biogen — and I hold three Adobe Master/Expert certifications to back it up." }]
+      },
+      {
+        "_type": "block", "_key": "ab-en-3", "style": "normal",
+        "children": [{ "_type": "span", "_key": "s3", "text": "Before going deep on the analytics side, I cut my teeth doing full-stack web development and UI engineering at agencies and startups, working with React, Node.js, and whatever the database of the week happened to be. That engineering background is what makes me dangerous: I can read the code, not just the reports." }]
+      },
+      {
+        "_type": "block", "_key": "ab-en-4", "style": "normal",
+        "children": [{ "_type": "span", "_key": "s4", "text": "I'm based in San José, Costa Rica, where I live with far too many side-project ideas and a genuine love for well-crafted software. If something I built is useful to you, or you just want to talk shop, I'd love to hear from you." }]
+      }
+    ],
+    "es": [
+      {
+        "_type": "block", "_key": "ab-es-1", "style": "normal",
+        "children": [{ "_type": "span", "_key": "s5", "text": "Llevo construyendo cosas en la web desde principios de los 2000, cuando los layouts de tablas eran lo normal y \"responsivo\" ni siquiera era una palabra. Hoy paso la mayor parte de mi tiempo en la intersección entre la analítica digital y la ingeniería de software, ayudando a grandes empresas a entender qué hacen realmente sus usuarios (y por qué)." }]
+      },
+      {
+        "_type": "block", "_key": "ab-es-2", "style": "normal",
+        "children": [{ "_type": "span", "_key": "s6", "text": "Mi enfoque actual son las implementaciones de Adobe Analytics y Adobe Target a escala empresarial. He liderado la estrategia de analítica para marcas que definitivamente conoces — Volkswagen, Verizon, Disney, Qurate Retail Group, Biogen — y tengo tres certificaciones de Adobe Master/Expert que lo respaldan." }]
+      },
+      {
+        "_type": "block", "_key": "ab-es-3", "style": "normal",
+        "children": [{ "_type": "span", "_key": "s7", "text": "Antes de profundizar en analytics, me formé haciendo desarrollo web full-stack e ingeniería de UI en agencias y startups, trabajando con React, Node.js y cualquier base de datos que estuviera de moda. Esa base de ingeniería es lo que me hace diferente: puedo leer el código, no solo los reportes." }]
+      },
+      {
+        "_type": "block", "_key": "ab-es-4", "style": "normal",
+        "children": [{ "_type": "span", "_key": "s8", "text": "Vivo en San José, Costa Rica, con demasiadas ideas de proyectos paralelos y un amor genuino por el software bien hecho. Si algo que construí te es útil, o simplemente quieres hablar de tecnología, me encantaría escucharte." }]
+      }
+    ]
+  },
+  "funFacts": {
+    "en": [
+      { "_type": "string", "_key": "ff-en-1", "value": "I hold three Adobe certifications — Analytics Architect Master, Analytics Business Practitioner Expert, and Target Business Practitioner Expert." },
+      { "_type": "string", "_key": "ff-en-2", "value": "I studied Graphic Design before switching to Computer Science — which explains why I care a lot about how things look AND how they work." },
+      { "_type": "string", "_key": "ff-en-3", "value": "CliftonStrengths top 5: Input, Self-Assurance, Maximizer, Ideation, Adaptability." },
+      { "_type": "string", "_key": "ff-en-4", "value": "I speak Spanish (native), English (advanced), and a bit of Portuguese." }
+    ],
+    "es": [
+      { "_type": "string", "_key": "ff-es-1", "value": "Tengo tres certificaciones de Adobe — Analytics Architect Master, Analytics Business Practitioner Expert y Target Business Practitioner Expert." },
+      { "_type": "string", "_key": "ff-es-2", "value": "Estudié Diseño Gráfico antes de cambiarme a Ciencias de la Computación — lo que explica por qué me importa tanto cómo se ven las cosas Y cómo funcionan." },
+      { "_type": "string", "_key": "ff-es-3", "value": "Mis top 5 de CliftonStrengths: Input, Confianza en sí mismo, Maximizador, Ideación, Adaptabilidad." },
+      { "_type": "string", "_key": "ff-es-4", "value": "Hablo español (nativo), inglés (avanzado) y un poco de portugués." }
+    ]
+  },
+  "photoCaption": {
+    "en": "That's me — probably thinking about data layers.",
+    "es": "Ese soy yo — probablemente pensando en capas de datos."
+  }
+}
+```
+
+## Todo List
+
+- [ ] Write `sanity/seed/02-about.ndjson`
+- [ ] Verify document appears in Studio under "About"
+- [ ] Confirm both `en` and `es` paragraphs render in portable-text preview
+
+## Success Criteria
+
+- [ ] Studio → About shows 4 paragraphs per locale
+- [ ] Fun facts array has 4 items per locale
+- [ ] Photo caption present in both languages

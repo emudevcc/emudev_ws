@@ -1,10 +1,11 @@
 ---
 phase: 5
 title: "SEO metadata for blog pages"
-status: pending
+status: completed
 priority: P2
 effort: "20m"
 dependencies: [2, 3]
+completedAt: "2026-05-13"
 ---
 
 # Phase 5: SEO metadata for blog pages
@@ -87,16 +88,16 @@ Then after deploy, check rendered `<head>` on `/en/blog` and `/es/blog`:
 
 ## Todo List
 
-- [ ] Confirm `localeAlternates('/blog', locale)` in blog list page
-- [ ] Confirm `localeAlternates('/blog/${slug}', locale)` in blog post page
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run lint` — zero warnings
-- [ ] `npm run build` — passes
-- [ ] Update SEO plan 260512-1924 to note blog pages handled here
+- [x] Confirm `localeAlternates('/blog', locale)` in blog list page
+- [x] Confirm `localeAlternates('/blog/${slug}', locale)` in blog post page
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run lint` — zero warnings
+- [x] `npm run build` — passes
+- [x] Update SEO plan 260512-1924 to note blog pages handled here
 
 ## Success Criteria
 
-- [ ] `/es/blog` canonical = `https://www.emudev.cc/es/blog`
-- [ ] `/en/blog` canonical = `https://www.emudev.cc/en/blog`
-- [ ] Blog post pages have self-referential canonical per locale
-- [ ] No Lighthouse "canonical points to another hreflang location" on blog pages
+- [x] `/es/blog` canonical = `https://www.emudev.cc/es/blog`
+- [x] `/en/blog` canonical = `https://www.emudev.cc/en/blog`
+- [x] Blog post pages have self-referential canonical per locale
+- [x] No Lighthouse "canonical points to another hreflang location" on blog pages

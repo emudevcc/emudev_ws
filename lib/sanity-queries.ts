@@ -56,7 +56,8 @@ export type PostSummary = {
   readingMinutes?: number
   status?: string
   _createdAt: string
-  author?: { name?: string }
+  author?: { name?: string; image?: string }
+  tags?: Array<{ _id: string; title?: string }>
 }
 
 export type PostDetail = PostSummary & {
@@ -175,7 +176,7 @@ export type Testimonial = {
 }
 
 const normalizeLocale = (locale?: string): Locale => (locale === 'es' ? 'es' : 'en')
-const cacheVersion = 'localized-v3'
+const cacheVersion = 'localized-v4'
 
 const skillProjection = groq`{
   _id,
@@ -279,7 +280,11 @@ export const getPosts = (locale?: string) => {
           readingMinutes,
           status,
           _createdAt,
-          "author": author->{ "name": coalesce(name[$locale], name.en) }
+          "author": author->{
+            "name": coalesce(name[$locale], name.en),
+            "image": image.asset->url
+          },
+          "tags": tags[]->{ _id, "title": coalesce(title[$locale], title.en) }
         }`,
         params: { locale: safeLocale },
       }),

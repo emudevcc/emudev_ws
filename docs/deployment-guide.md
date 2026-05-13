@@ -685,7 +685,7 @@ Three jobs run automatically in `.github/workflows/ci.yml`:
 |-----|---------|--------------|
 | `ci` | All branches/PRs | lint → typecheck → build |
 | `smoke-static` | All branches/PRs (parallel) | Static contract tests: `i18n-bilingual.spec.ts` + `content-model.spec.ts` (no browser) |
-| `smoke-integration` | After `ci` | Full browser i18n smoke tests (Playwright + Chromium); `continue-on-error: true` — **TODO: remove once verified stable** |
+| `smoke-integration` | After `ci` | Full browser i18n smoke tests (Playwright + Chromium); all phases verified (as of May 13, 2026) |
 
 Run all smoke tests locally:
 ```bash

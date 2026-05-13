@@ -1,10 +1,11 @@
 ---
 phase: 4
 title: "New blog UI components"
-status: pending
+status: completed
 priority: P1
 effort: "2h"
 dependencies: [1]
+completedAt: "2026-05-13"
 ---
 
 # Phase 4: New blog UI components
@@ -198,16 +199,20 @@ Note: `BlogTagFilter` is used in a Client Component wrapper in the blog list pag
 
 ## Todo List
 
-- [ ] Create `components/blog/` directory
-- [ ] Create `components/blog/blog-post-card.tsx`
-- [ ] Create `components/blog/blog-hero-post.tsx`
-- [ ] Create `components/blog/blog-tag-filter.tsx`
-- [ ] Verify `BlurFade`, `MagicCard`, `Chip` imports resolve
-- [ ] `npm run typecheck` — zero errors
+- [x] Create `components/blog/` directory
+- [x] Create `components/blog/blog-post-card.tsx`
+- [x] Create `components/blog/blog-hero-post.tsx`
+- [x] Create `components/blog/blog-tag-filter.tsx`
+- [x] Verify `BlurFade`, `MagicCard`, `Chip` imports resolve
+- [x] `npm run typecheck` — zero errors
 
 ## Success Criteria
 
-- [ ] All 3 components created with correct TypeScript types
-- [ ] `BlogTagFilter` is `'use client'`; other two are server-safe
-- [ ] No new npm dependencies required
-- [ ] No import errors
+- [x] All 3 components created with correct TypeScript types
+- [x] `BlogTagFilter` is `'use client'`; other two are server-safe
+- [x] No new npm dependencies required
+- [x] No import errors
+
+## Execution Notes
+
+- `components/post-card.tsx` was removed after the blog page migrated to `components/blog/blog-post-card.tsx`.

@@ -1,10 +1,11 @@
 ---
 phase: 1
 title: "Enhance getPosts query for tag filtering"
-status: pending
+status: completed
 priority: P1
 effort: "30m"
 dependencies: []
+completedAt: "2026-05-13"
 ---
 
 # Phase 1: Enhance getPosts query for tag filtering
@@ -71,13 +72,18 @@ npm run typecheck
 
 ## Todo List
 
-- [ ] Add `tags` to `PostSummary` type
-- [ ] Add `image` to `author` in `PostSummary` type
-- [ ] Add `tags[]->` projection to `getPosts` GROQ query
-- [ ] `npm run typecheck` — zero errors
+- [x] Add `tags` to `PostSummary` type
+- [x] Add `image` to `author` in `PostSummary` type
+- [x] Add `tags[]->` projection to `getPosts` GROQ query
+- [x] `npm run typecheck` — zero errors
 
 ## Success Criteria
 
-- [ ] `PostSummary.tags` typed as `Array<{ _id: string; title?: string }> | undefined`
-- [ ] `getPosts()` returns tags array in runtime data
-- [ ] TypeScript: zero errors
+- [x] `PostSummary.tags` typed as `Array<{ _id: string; title?: string }> | undefined`
+- [x] `getPosts()` returns tags array in runtime data
+- [x] TypeScript: zero errors
+
+## Execution Notes
+
+- `PostSummary.author` now includes `image`, and `getPosts()` projects both author image and localized tags.
+- The Sanity query cache version was bumped so cached post summaries cannot reuse the previous no-tags projection.

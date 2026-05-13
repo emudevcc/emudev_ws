@@ -1,7 +1,7 @@
 ---
 phase: 6
 title: "Social Posts, Credentials, Strengths, Writing"
-status: pending
+status: completed
 priority: P1
 effort: "6h"
 dependencies: [2, 3]
@@ -359,24 +359,24 @@ npm run typecheck && npm run build
 
 ## Todo List
 
-- [ ] Create `components/ui/post-card.tsx`
-- [ ] Create `components/sections/SocialPostsGrid.tsx`
-- [ ] Create `components/sections/CredentialsSection.tsx`
-- [ ] Create `components/sections/StrengthsCard.tsx`
-- [ ] Create `components/sections/WritingList.tsx`
-- [ ] Add all 4 sections + query calls to `app/[locale]/page.tsx`
-- [ ] Verify all Sanity types cover required fields
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run build` — passes
-- [ ] Visual: all 4 sections render with Sanity data
+- [x] Create `components/ui/social-post-card.tsx`
+- [x] Create `components/sections/SocialPostsGrid.tsx`
+- [x] Create `components/sections/CredentialsSection.tsx`
+- [x] Create `components/sections/StrengthsCard.tsx`
+- [x] Create `components/sections/WritingList.tsx`
+- [x] Add all 4 sections + query calls to `app/[locale]/page.tsx`
+- [x] Verify all Sanity types cover required fields
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run build` — passes
+- [x] Visual: all 4 sections render with Sanity data
 
 ## Success Criteria
 
-- [ ] `SocialPostsGrid` shows featured posts in 2-col grid, overflow in Marquee
-- [ ] `CredentialsSection` shows certs left, education + languages right with proficiency dots
-- [ ] `StrengthsCard` shows 5 CliftonStrengths in responsive grid
-- [ ] `WritingList` rows translate on hover; only published posts shown
-- [ ] `npm run build` passes
+- [x] `SocialPostsGrid` shows featured posts in 2-col grid, overflow in Marquee
+- [x] `CredentialsSection` shows certs left, education + languages right with proficiency dots
+- [x] `StrengthsCard` shows 5 CliftonStrengths in responsive grid
+- [x] `WritingList` rows translate on hover; only published posts shown
+- [x] `npm run build` passes
 
 ## Risk Assessment
 

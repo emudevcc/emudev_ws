@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "Experience and Projects Sections"
-status: pending
+status: completed
 priority: P1
 effort: "6h"
 dependencies: [2, 3]
@@ -263,25 +263,25 @@ npm run typecheck && npm run build
 
 ## Todo List
 
-- [ ] Add `getExperiences` + `getProjects` imports to `app/[locale]/page.tsx`
-- [ ] Create `components/ui/experience-card.tsx`
-- [ ] Create `components/sections/ExperienceTimeline.tsx`
-- [ ] Replace `components/ui/project-card.tsx`
-- [ ] Create `components/sections/ProjectsGrid.tsx`
-- [ ] Verify `Experience` and `Project` types cover all fields
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run build` — passes
-- [ ] Visual: timeline hairline visible, MagicCard mouse-spotlight works, Lens zoom on hover, BorderBeam on featured projects
+- [x] Add `getExperiences` + `getProjects` imports to `app/[locale]/page.tsx`
+- [x] Create `components/ui/experience-card.tsx`
+- [x] Create `components/sections/ExperienceTimeline.tsx`
+- [x] Implement Classic project cards inside `ProjectsGrid` while preserving existing route card
+- [x] Create `components/sections/ProjectsGrid.tsx`
+- [x] Verify `Experience` and `Project` types cover all fields
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run build` — passes
+- [x] Visual: timeline hairline visible, MagicCard mouse-spotlight works, Lens zoom on hover, BorderBeam on featured projects
 
 ## Success Criteria
 
-- [ ] `ExperienceTimeline` renders with live Sanity data; current role dot has glow
-- [ ] Each experience row inside `MagicCard` with mouse spotlight
-- [ ] `BlurFade` stagger works on both sections
-- [ ] `ProjectsGrid` shows 2-column layout with `ProjectCard`
-- [ ] Featured projects have `BorderBeam` animated border
-- [ ] Project cover images have `Lens` zoom on hover
-- [ ] `npm run build` passes
+- [x] `ExperienceTimeline` renders with live Sanity data; current role dot has glow
+- [x] Each experience row inside `MagicCard` with mouse spotlight
+- [x] `BlurFade` stagger works on both sections
+- [x] `ProjectsGrid` shows 2-column layout with `ProjectCard`
+- [x] Featured projects have `BorderBeam` animated border
+- [x] Project cover images have `Lens` zoom on hover
+- [x] `npm run build` passes
 
 ## Risk Assessment
 

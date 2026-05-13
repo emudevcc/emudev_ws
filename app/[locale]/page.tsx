@@ -1,33 +1,100 @@
-import { getProjects, getSiteSettings } from '@/lib/sanity-queries'
-import { ProjectCard } from '@/components/project-card'
-import { HeroSection } from '@/components/ui/hero-section'
+import type { Metadata } from 'next'
+import {
+  getAbout,
+  getCertifications,
+  getEducation,
+  getExperiences,
+  getLanguages,
+  getPosts,
+  getProjects,
+  getSiteSettings,
+  getSkills,
+  getSocialPosts,
+  getStrengths,
+} from '@/lib/sanity-queries'
+import { AboutSection } from '@/components/sections/AboutSection'
+import { ContactSection } from '@/components/sections/ContactSection'
+import { CredentialsSection } from '@/components/sections/CredentialsSection'
+import { ExperienceTimeline } from '@/components/sections/ExperienceTimeline'
+import { FooterSection } from '@/components/sections/FooterSection'
+import { HeroSection } from '@/components/sections/HeroSection'
+import { ProjectsGrid } from '@/components/sections/ProjectsGrid'
+import { SkillsSection } from '@/components/sections/SkillsSection'
+import { SocialPostsGrid } from '@/components/sections/SocialPostsGrid'
+import { StrengthsCard } from '@/components/sections/StrengthsCard'
+import { WritingList } from '@/components/sections/WritingList'
 
 type Props = { params: Promise<{ locale: string }> }
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const settings = await getSiteSettings(locale)
+
+  return {
+    title: settings ? `${settings.shortName ?? settings.siteName} - ${settings.role}` : 'Portfolio',
+    description: settings?.tagline ?? settings?.description ?? '',
+    openGraph: {
+      title: settings?.shortName ?? settings?.siteName ?? 'Portfolio',
+      description: settings?.tagline ?? settings?.description ?? '',
+      locale,
+    },
+    alternates: {
+      canonical: `/${locale}`,
+      languages: { en: '/en', es: '/es' },
+    },
+  }
+}
+
 export default async function HomePage({ params }: Props) {
   const { locale } = await params
-  const [projects, settings] = await Promise.all([getProjects(locale), getSiteSettings(locale)])
-  const featured = (projects ?? []).slice(0, 3)
+  const [
+    settings,
+    about,
+    experiences,
+    projects,
+    skills,
+    socialPosts,
+    certs,
+    education,
+    languages,
+    strengths,
+    posts,
+  ] = await Promise.all([
+    getSiteSettings(locale),
+    getAbout(locale),
+    getExperiences(locale),
+    getProjects(locale),
+    getSkills(),
+    getSocialPosts(locale),
+    getCertifications(),
+    getEducation(locale),
+    getLanguages(),
+    getStrengths(locale),
+    getPosts(locale),
+  ])
 
   return (
     <>
       <HeroSection
-        name={settings?.siteName ?? 'Esteban Montero Urena'}
-        bio={settings?.description ?? 'Software Engineer'}
+        settings={settings}
+        projectCount={projects?.length ?? 0}
+        skillCount={skills?.length ?? 0}
+        certificationCount={certs?.length ?? 0}
       />
-
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <h2 className="mb-10 text-2xl font-bold tracking-tight">Featured Projects</h2>
-        {featured.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {featured.map((project) => (
-              <ProjectCard key={project._id} project={project} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted-foreground">No projects yet — check back soon.</p>
-        )}
-      </section>
+      <AboutSection about={about} settings={settings} />
+      <ExperienceTimeline experiences={experiences ?? []} />
+      <ProjectsGrid projects={projects ?? []} />
+      <SkillsSection skills={skills ?? []} />
+      <SocialPostsGrid posts={socialPosts ?? []} />
+      <CredentialsSection
+        certs={certs ?? []}
+        education={education ?? []}
+        languages={languages ?? []}
+      />
+      <StrengthsCard strengths={strengths ?? []} />
+      <WritingList posts={posts ?? []} />
+      <ContactSection settings={settings} />
+      <FooterSection />
     </>
   )
 }

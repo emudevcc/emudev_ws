@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: "Hero and About Sections"
-status: pending
+status: completed
 priority: P1
 effort: "5h"
 dependencies: [1, 2]
@@ -214,22 +214,22 @@ Navigate to `http://localhost:3000/en` — hero and about sections should render
 
 ## Todo List
 
-- [ ] Update `app/[locale]/page.tsx` to fetch and pass Sanity data
-- [ ] Create `components/sections/HeroSection.tsx`
-- [ ] Create `components/sections/AboutSection.tsx`
-- [ ] Verify `SiteSettings` and `About` types cover all hero/about fields
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run build` — passes
-- [ ] Visual check: hero ≥ 100vh, BlurFade animates on scroll, NumberTicker counts up
+- [x] Update `app/[locale]/page.tsx` to fetch and pass Sanity data
+- [x] Create `components/sections/HeroSection.tsx`
+- [x] Create `components/sections/AboutSection.tsx`
+- [x] Verify `SiteSettings` and `About` types cover all hero/about fields
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run build` — passes
+- [x] Visual check: hero ≥ 100vh, BlurFade animates on scroll, NumberTicker counts up
 
 ## Success Criteria
 
-- [ ] `HeroSection` renders with live Sanity data (avatar, name, tagline, stats)
-- [ ] `AnimatedShinyText` on name, `NumberTicker` on each stat value
-- [ ] `InteractiveHoverButton` links to `#contact`
-- [ ] `AboutSection` renders bio paragraphs from `getAbout`
-- [ ] BlurFade scroll animations work on both sections
-- [ ] Chip row shows location, timezone, email
+- [x] `HeroSection` renders with live Sanity data (avatar, name, tagline, stats)
+- [x] `AnimatedShinyText` on name, `NumberTicker` on each stat value
+- [x] `InteractiveHoverButton` links to `#contact`
+- [x] `AboutSection` renders bio paragraphs from `getAbout`
+- [x] BlurFade scroll animations work on both sections
+- [x] Chip row shows location, timezone, email
 
 ## Risk Assessment
 

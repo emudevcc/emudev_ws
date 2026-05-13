@@ -8,7 +8,7 @@ type LocalizedSlug = {
   current?: string
 }
 
-type SkillSummary = {
+export type SkillSummary = {
   _id: string
   name?: string
   slug?: { current?: string }
@@ -20,7 +20,7 @@ type SkillSummary = {
   order?: number
 }
 
-type ProjectSummary = {
+export type ProjectSummary = {
   _id: string
   title?: string
   slug?: LocalizedSlug
@@ -36,7 +36,7 @@ type ProjectSummary = {
   _createdAt: string
 }
 
-type ProjectDetail = ProjectSummary & {
+export type ProjectDetail = ProjectSummary & {
   content?: unknown[]
   role?: string
   year?: number
@@ -46,7 +46,7 @@ type ProjectDetail = ProjectSummary & {
   metrics?: Array<{ label?: string; value?: string }>
 }
 
-type PostSummary = {
+export type PostSummary = {
   _id: string
   title?: string
   slug?: LocalizedSlug
@@ -59,7 +59,7 @@ type PostSummary = {
   author?: { name?: string }
 }
 
-type PostDetail = PostSummary & {
+export type PostDetail = PostSummary & {
   content?: unknown[]
   author?: { name?: string; image?: string }
   authorOverride?: { name?: string; image?: string }
@@ -67,7 +67,7 @@ type PostDetail = PostSummary & {
   canonicalUrl?: string
 }
 
-type SiteSettings = {
+export type SiteSettings = {
   fullName?: string
   shortName?: string
   role?: string
@@ -89,13 +89,13 @@ type SiteSettings = {
   socialLinks?: Array<{ platform?: string; handle?: string; url?: string; visible?: boolean }>
 }
 
-type About = {
+export type About = {
   paragraphs?: unknown[]
   funFacts?: string[]
   photoCaption?: string
 }
 
-type Experience = {
+export type Experience = {
   _id: string
   role?: string
   company?: string
@@ -112,7 +112,7 @@ type Experience = {
   order?: number
 }
 
-type Certification = {
+export type Certification = {
   _id: string
   name?: string
   issuer?: string
@@ -125,7 +125,7 @@ type Certification = {
   skills?: SkillSummary[]
 }
 
-type Education = {
+export type Education = {
   _id: string
   institution?: string
   degree?: string
@@ -136,7 +136,7 @@ type Education = {
   notes?: string
 }
 
-type Language = {
+export type Language = {
   _id: string
   name?: string
   code?: string
@@ -144,7 +144,7 @@ type Language = {
   cefr?: string
 }
 
-type Strength = {
+export type Strength = {
   _id: string
   name?: string
   rank?: number
@@ -152,7 +152,7 @@ type Strength = {
   description?: unknown[]
 }
 
-type SocialPost = {
+export type SocialPost = {
   _id: string
   platform?: string
   handle?: string
@@ -164,7 +164,7 @@ type SocialPost = {
   featured?: boolean
 }
 
-type Testimonial = {
+export type Testimonial = {
   _id: string
   quote?: string
   author?: string

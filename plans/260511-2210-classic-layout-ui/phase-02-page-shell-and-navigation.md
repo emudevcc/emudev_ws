@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "Page Shell and Navigation"
-status: pending
+status: completed
 priority: P1
 effort: "4h"
 dependencies: [1]
@@ -230,24 +230,24 @@ The page should render with DotPattern, top bar, and Dock. No sections yet.
 
 ## Todo List
 
-- [ ] Install `next-themes` if absent
-- [ ] Modify `app/[locale]/layout.tsx` with DotPattern + top bar + Dock
-- [ ] Create `hooks/use-active-section.ts`
-- [ ] Create `components/ui/dock-nav.tsx`
-- [ ] Create `components/ui/status-pill.tsx`
-- [ ] Create `components/ui/lang-theme-toggle.tsx`
-- [ ] Create `components/ui/chip.tsx`
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run build` — passes
+- [x] Install `next-themes` if absent
+- [x] Modify `app/[locale]/layout.tsx` with DotPattern + top bar + Dock
+- [x] Create `hooks/use-active-section.ts`
+- [x] Create `components/ui/dock-nav.tsx`
+- [x] Create `components/ui/status-pill.tsx`
+- [x] Create `components/ui/lang-theme-toggle.tsx`
+- [x] Create `components/ui/chip.tsx`
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run build` — passes
 
 ## Success Criteria
 
-- [ ] Layout renders with DotPattern, StatusPill, LangThemeToggle, Dock
-- [ ] Dock icons scroll to section on click
-- [ ] Active section icon highlighted (IntersectionObserver)
-- [ ] Lang toggle switches `/en` ↔ `/es` routes
-- [ ] Theme toggle switches dark/light
-- [ ] `npm run build` passes
+- [x] Layout renders with DotPattern, StatusPill, LangThemeToggle, Dock
+- [x] Dock icons scroll to section on click
+- [x] Active section icon highlighted (IntersectionObserver)
+- [x] Lang toggle switches `/en` ↔ `/es` routes
+- [x] Theme toggle switches dark/light
+- [x] `npm run build` passes
 
 ## Risk Assessment
 

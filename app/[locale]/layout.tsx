@@ -6,8 +6,10 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { ClassicShell } from '@/components/classic-shell'
 import { SanityVisualEditing } from '@/components/sanity-visual-editing'
-import { SiteNav } from '@/components/site-nav'
+import { ThemeProvider } from '@/components/theme-provider'
+import { DotPattern } from '@/components/ui/dot-pattern'
 import { routing } from '@/i18n/routing'
 import { localeAlternates } from '@/lib/metadata'
 import { getSiteSettings } from '@/lib/sanity-queries'
@@ -44,15 +46,31 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
 
   const messages = await getMessages()
   const { isEnabled: isDraft } = await draftMode()
+  const settings = await getSiteSettings(locale)
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${inter.className} antialiased bg-background text-foreground`}>
         <NextIntlClientProvider messages={messages}>
-          <SiteNav />
-          <main>{children}</main>
-          {isDraft && <SanityVisualEditing />}
-          <SpeedInsights />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="fixed inset-0 -z-10 overflow-hidden">
+              <DotPattern
+                width={28}
+                height={28}
+                cr={1}
+                className="text-muted-foreground/20 [mask-image:linear-gradient(to_bottom,white,transparent_85%)]"
+              />
+            </div>
+            <ClassicShell locale={locale} settings={settings} />
+            <main>{children}</main>
+            {isDraft && <SanityVisualEditing />}
+            <SpeedInsights />
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

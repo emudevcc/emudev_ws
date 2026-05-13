@@ -3,7 +3,7 @@ title: "Classic Layout UI"
 description: >-
   Refactor app/[locale]/page.tsx into a full Classic portfolio layout wired to the
   new Sanity content model. 12 sections, MagicUI components, bilingual i18n, Dock nav.
-status: pending
+status: completed
 priority: P1
 effort: 40h
 branch: "development"
@@ -38,14 +38,21 @@ Replace `app/[locale]/page.tsx` with a single-page Classic portfolio layout comp
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 1 | [Foundation and Design Tokens](./phase-01-foundation-and-design-tokens.md) | Pending |
-| 2 | [Page Shell and Navigation](./phase-02-page-shell-and-navigation.md) | Pending |
-| 3 | [Hero and About Sections](./phase-03-hero-and-about-sections.md) | Pending |
-| 4 | [Experience and Projects Sections](./phase-04-experience-and-projects-sections.md) | Pending |
-| 5 | [Skills and Contributions](./phase-05-skills-and-contributions.md) | Pending |
-| 6 | [Social Posts, Credentials, Strengths, Writing](./phase-06-social-posts-credentials-strengths-writing.md) | Pending |
-| 7 | [Contact, Footer, and API](./phase-07-contact-footer-and-api.md) | Pending |
-| 8 | [SEO and Polish](./phase-08-seo-and-polish.md) | Pending |
+| 1 | [Foundation and Design Tokens](./phase-01-foundation-and-design-tokens.md) | Completed |
+| 2 | [Page Shell and Navigation](./phase-02-page-shell-and-navigation.md) | Completed |
+| 3 | [Hero and About Sections](./phase-03-hero-and-about-sections.md) | Completed |
+| 4 | [Experience and Projects Sections](./phase-04-experience-and-projects-sections.md) | Completed |
+| 5 | [Skills and Contributions](./phase-05-skills-and-contributions.md) | Completed |
+| 6 | [Social Posts, Credentials, Strengths, Writing](./phase-06-social-posts-credentials-strengths-writing.md) | Completed |
+| 7 | [Contact, Footer, and API](./phase-07-contact-footer-and-api.md) | Completed |
+| 8 | [SEO and Polish](./phase-08-seo-and-polish.md) | Completed |
+
+## Completion Notes
+
+- Implemented the Classic homepage against the local `lib/sanity-queries.ts` module rather than the plan's placeholder `lib/sanity/queries` path.
+- Preserved existing `/about`, `/blog`, `/projects`, and `/contact` routes and kept a semantic top nav for smoke coverage alongside the Dock.
+- GitHub and contact API routes are implemented defensively and return clean 503 responses when deployment secrets are not configured.
+- Verification completed with `npm run typecheck`, `npm run lint`, `npm run build`, full smoke coverage against `http://localhost:3001` with one warmed rerun of `tests/smoke/navigation.spec.ts`, and i18n browser integration.
 
 ## Dependencies
 

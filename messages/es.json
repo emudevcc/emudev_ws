@@ -49,6 +49,114 @@
   },
   "hero": {
     "viewProjects": "Ver proyectos",
-    "getInTouch": "Contáctame"
+    "getInTouch": "Contactame",
+    "greeting": "Hola, soy",
+    "fallbackTagline": "Construyo productos de software pulidos con criterio practico de ingenieria.",
+    "ctaContact": "Contacto",
+    "ctaSchedule": "Agendar",
+    "ctaResume": "CV",
+    "statProjects": "proyectos",
+    "statSkills": "habilidades",
+    "statCredentials": "credenciales",
+    "statLinks": "enlaces"
+  },
+  "aboutHome": {
+    "eyebrow": "SOBRE MI",
+    "title": "Sobre mi",
+    "fallback": "Ingeniero de software enfocado en aplicaciones web con criterio de producto, sistemas backend y entrega pragmatica."
+  },
+  "experience": {
+    "eyebrow": "EXPERIENCIA",
+    "title": "Experiencia seleccionada",
+    "present": "Actual"
+  },
+  "projectsHome": {
+    "eyebrow": "PROYECTOS",
+    "title": "Proyectos seleccionados"
+  },
+  "skills": {
+    "eyebrow": "HABILIDADES",
+    "title": "Herramientas que uso",
+    "category": {
+      "platform": "Plataforma",
+      "language": "Lenguaje",
+      "framework": "Framework",
+      "tool": "Herramienta"
+    }
+  },
+  "contributions": {
+    "eyebrow": "GITHUB",
+    "lastYear": "Ultimo ano",
+    "loading": "Cargando contribuciones...",
+    "unavailable": "Contribuciones no disponibles.",
+    "total": "{count, number} contribuciones"
+  },
+  "social": {
+    "eyebrow": "SOCIAL",
+    "title": "Senales de la web"
+  },
+  "credentials": {
+    "eyebrow": "CREDENCIALES",
+    "title": "Credenciales",
+    "certifications": "Certificaciones",
+    "education": "Educacion",
+    "languages": "Idiomas"
+  },
+  "strengths": {
+    "eyebrow": "FORTALEZAS",
+    "title": "CliftonStrengths"
+  },
+  "writing": {
+    "eyebrow": "ESCRITURA",
+    "title": "Publicaciones recientes",
+    "readMin": "{count} min de lectura"
+  },
+  "contactHome": {
+    "eyebrow": "CONTACTO",
+    "title": "Trabajemos juntos",
+    "subtitle": "Comparte el contexto, restricciones y timeline. Respondere con el siguiente paso util.",
+    "sent": "Mensaje enviado. Te respondere pronto.",
+    "sending": "Enviando...",
+    "submit": "Enviar mensaje",
+    "error": "Algo salio mal. Intentalo de nuevo.",
+    "basedIn": "Basado en {location}",
+    "field": {
+      "name": "Nombre",
+      "email": "Correo",
+      "company": "Empresa",
+      "oppType": "Oportunidad",
+      "budget": "Presupuesto",
+      "timeline": "Timeline",
+      "message": "Mensaje",
+      "foundVia": "Como llegaste"
+    },
+    "opp": {
+      "fulltime": "Tiempo completo",
+      "freelance": "Freelance",
+      "consulting": "Consultoria",
+      "other": "Otro"
+    },
+    "budget": {
+      "sub5k": "Menos de $5k",
+      "5to20k": "$5k-$20k",
+      "20kplus": "$20k+",
+      "na": "No aplica"
+    },
+    "timeline": {
+      "asap": "Lo antes posible",
+      "1to3": "1-3 meses",
+      "3to6": "3-6 meses",
+      "flexible": "Flexible"
+    },
+    "found": {
+      "google": "Google",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "referral": "Referencia",
+      "other": "Otro"
+    }
+  },
+  "footer": {
+    "built": "Construido con cuidado - {year}"
   }
 }

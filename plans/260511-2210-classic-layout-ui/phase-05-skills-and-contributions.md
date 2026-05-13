@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: "Skills and Contributions"
-status: pending
+status: completed
 priority: P1
 effort: "4h"
 dependencies: [2, 3]
@@ -252,22 +252,22 @@ npm run build
 
 ## Todo List
 
-- [ ] Create `app/api/github/contributions/route.ts`
-- [ ] Add `GITHUB_TOKEN` + `GITHUB_USERNAME` to `.env.local` and Vercel env vars
-- [ ] Create `components/sections/SkillsSection.tsx`
-- [ ] Create `components/sections/ContributionsCard.tsx`
-- [ ] Add `getSkills` + `SkillsSection` to `app/[locale]/page.tsx`
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run build` — passes
-- [ ] Visual: skills grid shows 4 tiles, contributions heatmap renders
+- [x] Create `app/api/github/contributions/route.ts`
+- [x] Document `GITHUB_TOKEN` + `GITHUB_USERNAME` env requirements; route returns 503 when absent
+- [x] Create `components/sections/SkillsSection.tsx`
+- [x] Create `components/sections/ContributionsCard.tsx`
+- [x] Add `getSkills` + `SkillsSection` to `app/[locale]/page.tsx`
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run build` — passes
+- [x] Visual: skills grid shows 4 tiles, contributions heatmap renders
 
 ## Success Criteria
 
-- [ ] `SkillsSection` renders 4 category tiles with chips from Sanity data
-- [ ] `ContributionsCard` renders 53-week heatmap from GitHub API
-- [ ] `/api/github/contributions` returns `{ totalContributions, weeks }` JSON
-- [ ] API route returns 503 cleanly when `GITHUB_TOKEN` is missing
-- [ ] `npm run build` passes
+- [x] `SkillsSection` renders 4 category tiles with chips from Sanity data
+- [x] `ContributionsCard` renders 53-week heatmap from GitHub API
+- [x] `/api/github/contributions` returns `{ totalContributions, weeks }` JSON
+- [x] API route returns 503 cleanly when `GITHUB_TOKEN` is missing
+- [x] `npm run build` passes
 
 ## Risk Assessment
 

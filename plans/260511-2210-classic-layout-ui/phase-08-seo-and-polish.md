@@ -1,7 +1,7 @@
 ---
 phase: 8
 title: "SEO and Polish"
-status: pending
+status: completed
 priority: P2
 effort: "3h"
 dependencies: [3, 4, 5, 6, 7]
@@ -174,33 +174,33 @@ Fix any regressions (i18n key parity, route 200s, etc.).
 ### Step 7: Full preview check
 
 Start dev server and manually verify:
-- [ ] `/en` — Hero loads, all 12 sections visible
-- [ ] `/es` — Spanish strings render correctly
-- [ ] Dock nav scrolls to sections, active icon updates
-- [ ] Dark/light toggle works
-- [ ] Lang toggle switches locale
-- [ ] Contact form submits (or shows error gracefully)
-- [ ] OG image renders at `/en/opengraph-image`
+- [x] `/en` — Hero loads, all 12 sections visible
+- [x] `/es` — Spanish strings render correctly
+- [x] Dock nav scrolls to sections, active icon updates
+- [x] Dark/light toggle works
+- [x] Lang toggle switches locale
+- [x] Contact form submits (or shows error gracefully)
+- [x] OG image renders at `/en/opengraph-image`
 
 ## Todo List
 
-- [ ] Add `generateMetadata` to `app/[locale]/page.tsx`
-- [ ] Create `app/[locale]/opengraph-image.tsx`
-- [ ] Update `app/sitemap.ts` with home page entries for both locales
-- [ ] Create/update `app/robots.ts`
-- [ ] BlurFade audit — all sections have entry animation
-- [ ] `npm run build` — zero errors
-- [ ] `npx playwright test tests/smoke/` — all pass
-- [ ] Manual preview check (12-point list above)
+- [x] Add `generateMetadata` to `app/[locale]/page.tsx`
+- [x] Create `app/[locale]/opengraph-image.tsx`
+- [x] Update `app/sitemap.ts` with home page entries for both locales
+- [x] Create/update `app/robots.ts`
+- [x] BlurFade audit — all sections have entry animation
+- [x] `npm run build` — zero errors
+- [x] `npx playwright test tests/smoke/` — all pass
+- [x] Manual preview check (12-point list above)
 
 ## Success Criteria
 
-- [ ] `<title>` is `{shortName} — {role}` per locale
-- [ ] OG image renders at `/{locale}/opengraph-image`
-- [ ] Sitemap includes `/en` and `/es` home URLs
-- [ ] All smoke tests pass (including i18n parity)
-- [ ] No console errors in browser on full page scroll
-- [ ] `npm run build` passes with zero warnings
+- [x] `<title>` is `{shortName} — {role}` per locale
+- [x] OG image renders at `/{locale}/opengraph-image`
+- [x] Sitemap includes `/en` and `/es` home URLs
+- [x] All smoke tests pass (including i18n parity)
+- [x] No console errors in browser on full page scroll
+- [x] `npm run build` passes with zero warnings
 
 ## Risk Assessment
 

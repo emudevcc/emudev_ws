@@ -1,7 +1,7 @@
 ---
 phase: 7
 title: "Contact, Footer, and API"
-status: pending
+status: completed
 priority: P1
 effort: "4h"
 dependencies: [2, 3]
@@ -275,24 +275,24 @@ curl -X POST http://localhost:3000/api/contact \
 
 ## Todo List
 
-- [ ] Install `resend` package
-- [ ] Create `app/api/contact/route.ts`
-- [ ] Add `RESEND_API_KEY` + `CONTACT_TO_EMAIL` to `.env.local` and Vercel env vars
-- [ ] Create `components/sections/ContactSection.tsx`
-- [ ] Create `components/sections/FooterSection.tsx`
-- [ ] Add both sections to `app/[locale]/page.tsx`
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run build` — passes
-- [ ] Visual: form submits, ShimmerButton animates, sent state shows confirmation
+- [x] Install `resend` package
+- [x] Create `app/api/contact/route.ts`
+- [x] Document `RESEND_API_KEY` + `CONTACT_TO_EMAIL` env requirements; route returns 503 when absent
+- [x] Create `components/sections/ContactSection.tsx`
+- [x] Create `components/sections/FooterSection.tsx`
+- [x] Add both sections to `app/[locale]/page.tsx`
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run build` — passes
+- [x] Visual: form submits, ShimmerButton animates, sent state shows confirmation
 
 ## Success Criteria
 
-- [ ] `ContactSection` renders all 8 form fields
-- [ ] `ShimmerButton` submit triggers POST to `/api/contact`
-- [ ] Sent state shows confirmation message from i18n
-- [ ] Footer renders "Built with care · 2026" (or current year)
-- [ ] Social icons below form link to correct URLs from SiteSettings
-- [ ] `npm run build` passes
+- [x] `ContactSection` renders all 8 form fields
+- [x] `ShimmerButton` submit triggers POST to `/api/contact`
+- [x] Sent state shows confirmation message from i18n
+- [x] Footer renders "Built with care · 2026" (or current year)
+- [x] Social icons below form link to correct URLs from SiteSettings
+- [x] `npm run build` passes
 
 ## Risk Assessment
 

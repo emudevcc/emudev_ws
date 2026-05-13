@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: "Foundation and Design Tokens"
-status: pending
+status: completed
 priority: P1
 effort: "3h"
 dependencies: []
@@ -184,17 +184,17 @@ All key parity tests must pass after adding new keys to both locales.
 
 ## Todo List
 
-- [ ] Add all new namespaces to `messages/en.json`
-- [ ] Add matching Spanish translations to `messages/es.json`
-- [ ] Create `lib/github.ts` with `getContributions` + types
-- [ ] i18n smoke test passes
+- [x] Add all new namespaces to `messages/en.json`
+- [x] Add matching Spanish translations to `messages/es.json`
+- [x] Create `lib/github.ts` with `getContributions` + types
+- [x] i18n smoke test passes
 
 ## Success Criteria
 
-- [ ] `messages/en.json` and `messages/es.json` have identical key sets
-- [ ] All new keys: `hero.*`, `about.*`, `experience.*`, `projects.*`, `skills.*`, `contributions.*`, `social.*`, `credentials.*`, `strengths.*`, `writing.*`, `contactHome.*`, `footer.*`
-- [ ] `lib/github.ts` compiles, exports `GitHubContributions` type + `getContributions`
-- [ ] i18n smoke test: zero regressions
+- [x] `messages/en.json` and `messages/es.json` have identical key sets
+- [x] All new keys: `hero.*`, `about.*`, `experience.*`, `projects.*`, `skills.*`, `contributions.*`, `social.*`, `credentials.*`, `strengths.*`, `writing.*`, `contactHome.*`, `footer.*`
+- [x] `lib/github.ts` compiles, exports `GitHubContributions` type + `getContributions`
+- [x] i18n smoke test: zero regressions
 
 ## Risk Assessment
 

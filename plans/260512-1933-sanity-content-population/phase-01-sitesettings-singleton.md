@@ -1,0 +1,112 @@
+---
+phase: 1
+title: "siteSettings singleton"
+status: pending
+priority: P1
+effort: "30m"
+dependencies: []
+---
+
+# Phase 1: siteSettings singleton
+
+## Overview
+
+Create the single `siteSettings` document that drives the site header, hero, footer, and SEO defaults. All identity, availability, and social-link fields populated from CV data.
+
+## Requirements
+
+- Functional: Studio shows "Esteban Montero Ureña" as site name, role, tagline in both languages
+- Non-functional: `_id: "seed-site-settings"` so re-import is idempotent
+
+## Related Code Files
+
+- Create: `sanity/seed/01-site-settings.ndjson`
+
+## Implementation Steps
+
+### Step 1: Create `sanity/seed/01-site-settings.ndjson`
+
+Single JSON object (one line):
+
+```json
+{
+  "_id": "seed-site-settings",
+  "_type": "siteSettings",
+  "fullName": "Esteban Montero Ureña",
+  "shortName": "Esteban",
+  "siteName": { "en": "Esteban Montero", "es": "Esteban Montero" },
+  "description": {
+    "en": "Adobe Analytics Architect & software engineer with 19+ years building digital experiences for global brands.",
+    "es": "Arquitecto de Adobe Analytics e ingeniero de software con más de 19 años construyendo experiencias digitales para marcas globales."
+  },
+  "role": {
+    "en": "Adobe Analytics Architect & Software Engineer",
+    "es": "Arquitecto de Adobe Analytics & Ingeniero de Software"
+  },
+  "tagline": {
+    "en": "I turn data into decisions and ideas into working software.",
+    "es": "Convierto datos en decisiones e ideas en software funcional."
+  },
+  "heroIntro": {
+    "en": [
+      {
+        "_type": "block",
+        "_key": "hero-en-1",
+        "style": "normal",
+        "children": [{ "_type": "span", "_key": "s1", "text": "Hey, I'm Esteban — an Adobe Analytics Architect and software engineer based in Costa Rica. I've spent the last 19+ years helping companies like Verizon, Disney, Volkswagen, and Biogen make sense of their data and ship products people actually enjoy using." }]
+      },
+      {
+        "_type": "block",
+        "_key": "hero-en-2",
+        "style": "normal",
+        "children": [{ "_type": "span", "_key": "s2", "text": "Right now I'm at Accenture, where I lead analytics strategy for Volkswagen's digital channels. When I'm not deep in data layers or tag implementations, I build side projects (like this one) to keep my engineering skills sharp." }]
+      }
+    ],
+    "es": [
+      {
+        "_type": "block",
+        "_key": "hero-es-1",
+        "style": "normal",
+        "children": [{ "_type": "span", "_key": "s3", "text": "Hola, soy Esteban — Arquitecto de Adobe Analytics e ingeniero de software basado en Costa Rica. Llevo más de 19 años ayudando a empresas como Verizon, Disney, Volkswagen y Biogen a entender sus datos y lanzar productos que la gente realmente disfruta usar." }]
+      },
+      {
+        "_type": "block",
+        "_key": "hero-es-2",
+        "style": "normal",
+        "children": [{ "_type": "span", "_key": "s4", "text": "Actualmente estoy en Accenture, donde lidero la estrategia de analítica para los canales digitales de Volkswagen. Cuando no estoy revisando capas de datos o implementaciones de tags, construyo proyectos paralelos (como este) para mantener mis habilidades de ingeniería afiladas." }]
+      }
+    ]
+  },
+  "location": "San José, Costa Rica",
+  "timezone": "America/Costa_Rica",
+  "availableForWork": false,
+  "availabilityNote": { "en": "Open to select projects", "es": "Abierto a proyectos selectos" },
+  "email": "esteban.montero@gmail.com",
+  "defaultLocale": "en",
+  "socialLinks": [
+    { "_key": "sl-github",   "platform": "github",   "handle": "emudevcc",   "url": "https://github.com/emudevcc",   "visible": true },
+    { "_key": "sl-linkedin", "platform": "linkedin", "handle": "estebanmontero", "url": "https://www.linkedin.com/in/estebanmontero", "visible": true },
+    { "_key": "sl-email",    "platform": "email",    "handle": "esteban.montero@gmail.com", "url": "mailto:esteban.montero@gmail.com", "visible": true }
+  ]
+}
+```
+
+### Step 2: Verify import
+
+```bash
+cd <project-root>
+cat sanity/seed/01-site-settings.ndjson | npx sanity documents create --replace
+# or via full seed.sh in phase 7
+```
+
+## Todo List
+
+- [ ] Create `sanity/seed/` directory
+- [ ] Write `sanity/seed/01-site-settings.ndjson`
+- [ ] Verify document appears in Sanity Studio under "Site Settings"
+
+## Success Criteria
+
+- [ ] Studio → Site Settings shows full name, role (both locales), tagline (both locales)
+- [ ] `availableForWork: false`, location "San José, Costa Rica"
+- [ ] 3 social links visible: GitHub, LinkedIn, Email

@@ -386,7 +386,9 @@ Full shadcn/ui token set with dark variant:
 
 `@theme inline` block maps tokens to Tailwind v4 utilities (`bg-background`, `text-foreground`, etc.).
 
-### User Toggle (Phase 9.2 — next-themes)
+### User Toggle (Phase 9.2 — next-themes + useSyncExternalStore)
+
+**Status:** ✅ Complete (Phase 9.2). Hydration safety implemented via `useSyncExternalStore` pattern.
 
 `next-themes` is installed. `ThemeProvider` wraps the locale layout:
 
@@ -401,21 +403,48 @@ export default function LocaleLayout({ children, params }) {
     </ThemeProvider>
   )
 }
+```
 
-// Component
-export function ThemeToggle() {
+### LangThemeToggle Component (Hydration-Safe)
+
+Combined locale + theme toggle in `components/ui/lang-theme-toggle.tsx`. Uses **`useSyncExternalStore`** (not `useState` + `useEffect`) to prevent React 19 hydration mismatch:
+
+```tsx
+'use client'
+
+import { useSyncExternalStore } from 'react'
+import { useRouter } from '@/i18n/navigation'
+import { useLocale } from 'next-intl'
+import { useTheme } from 'next-themes'
+
+export function LangThemeToggle() {
+  const router = useRouter()
+  const locale = useLocale()
   const { theme, setTheme } = useTheme()
-  
+
+  // Use useSyncExternalStore to sync client state (server snapshot = false, client = true)
+  const isMounted = useSyncExternalStore(
+    () => () => {},
+    () => true,  // Client snapshot
+    () => false  // Server snapshot (prevents hydration mismatch)
+  )
+
+  if (!isMounted) return null // Render after hydration
+
   return (
-    <button
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      className="p-2 rounded-lg border"
-    >
-      {theme === 'light' ? '🌙' : '☀️'}
-    </button>
+    <div className="flex gap-2">
+      <button onClick={() => router.replace('/', { locale: locale === 'en' ? 'es' : 'en' })}>
+        {locale === 'en' ? 'ES' : 'EN'}
+      </button>
+      <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+        {theme === 'light' ? '🌙' : '☀️'}
+      </button>
+    </div>
   )
 }
 ```
+
+**Why `useSyncExternalStore`?** React 19's strict hydration checking prevents `useState/useEffect` patterns. `useSyncExternalStore` provides explicit client-only rendering without hydration mismatch warnings.
 
 ---
 

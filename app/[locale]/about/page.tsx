@@ -4,10 +4,14 @@ import { getSiteSettings } from '@/lib/sanity-queries'
 
 type Props = { params: Promise<{ locale: string }> }
 
-export const metadata: Metadata = {
-  title: 'About',
-  description: 'About Esteban Montero — software engineer',
-  alternates: localeAlternates('/about'),
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+
+  return {
+    title: 'About',
+    description: 'About Esteban Montero — software engineer',
+    alternates: localeAlternates('/about', locale),
+  }
 }
 
 export default async function AboutPage({ params }: Props) {

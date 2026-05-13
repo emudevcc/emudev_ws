@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
     title: { default: siteName, template: `%s | ${siteName}` },
     description,
-    alternates: localeAlternates(),
+    alternates: localeAlternates('', locale),
     openGraph: { siteName, type: 'website' },
   }
 }

@@ -5,10 +5,14 @@ import { TagFilter } from '@/components/tag-filter'
 
 type Props = { params: Promise<{ locale: string }> }
 
-export const metadata: Metadata = {
-  title: 'Projects',
-  description: 'A collection of projects by Esteban Montero',
-  alternates: localeAlternates('/projects'),
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+
+  return {
+    title: 'Projects',
+    description: 'A collection of projects by Esteban Montero',
+    alternates: localeAlternates('/projects', locale),
+  }
 }
 
 export default async function ProjectsPage({ params }: Props) {

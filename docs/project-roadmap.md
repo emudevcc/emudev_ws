@@ -246,13 +246,14 @@ Deliverables:
 - [x] Add `components.json` (shadcn config) + `lib/utils.ts` (cn utility)
 - [x] Add framer-motion, clsx, tailwind-merge, next-themes dependencies
 
-### Phase 9.2: Classic Layout UI (IN PROGRESS)
+### Phase 9.2: Classic Layout UI (COMPLETE)
 
-**Status:** 🔄 In Progress — phases 2–8 complete, phase 1 page-shell wiring pending (see `plans/260511-2210-classic-layout-ui`)
+**Status:** ✅ Complete (May 12, 2026)
 **Priority:** P1
 **Phases:** 8
 
-Deliverables:
+**Deliverables:**
+
 - [x] Page shell: DotPattern background, StatusPill, LangThemeToggle, DockNav
 - [x] Hero + About sections (BlurFade, NumberTicker, AnimatedShinyText, Chip row)
 - [x] Experience Timeline (vertical hairline, MagicCard rows, BlurFade stagger)
@@ -261,7 +262,49 @@ Deliverables:
 - [x] Social posts, Credentials, Strengths, Writing List sections
 - [x] Contact form (MagicCard, ShimmerButton) + POST /api/contact (Resend)
 - [x] Footer + SEO polish (generateMetadata, OG image, sitemap, robots.ts)
-- [ ] Wire sections into app/[locale]/page.tsx (phase 1 integration)
+- [x] 11 section components in `components/sections/` (HeroSection, AboutSection, ExperienceTimeline, SkillsSection, ProjectsGrid, CredentialsSection, WritingList, SocialPostsGrid, StrengthsCard, ContributionsCard, FooterSection, ContactSection)
+- [x] New hooks: `hooks/use-active-section.ts` (scroll-triggered section tracking)
+- [x] New lib files: `lib/content.ts` (content aggregation), `lib/github.ts` (GitHub contributions API)
+- [x] Hydration fix: `components/ui/lang-theme-toggle.tsx` uses `useSyncExternalStore` to prevent React 19 hydration mismatch
+
+### Phase 9.3: SEO Canonical & Hreflang Fix (COMPLETE)
+
+**Status:** ✅ Complete (May 12, 2026)
+**Priority:** P1
+
+**Deliverables:**
+
+- [x] `lib/metadata.ts`: `localeAlternates(pathname, locale)` now accepts optional `locale` param for self-referential canonicals
+- [x] Canonical per-locale: `/en/about` → canonical: `/en/about` (not always `/en/...`)
+- [x] All locale pages converted from `export const metadata` to `export async function generateMetadata({ params })` to access locale at runtime
+- [x] Blog `[slug]` and projects `[slug]` pages now pass locale to `localeAlternates()` for correct per-locale canonical
+- [x] Hreflang alternates include self-reference + `en`, `es`, `x-default` per page
+- [x] Verified with smoke tests and manual inspection
+
+### Phase 9.4: Sanity Seed Data & Content Population (PENDING)
+
+**Status:** ⏳ Pending (plan created: `plans/260512-1933-sanity-content-population/`)
+**Priority:** P1
+
+**Deliverables (Planned):**
+
+- [ ] Seed files generated: `sanity/seed/` directory with 10 NDJSON files (siteSettings, about, experience×4, skills×17, certifications, education, languages, strengths×5, projects×3)
+- [ ] `sanity/seed/seed.sh` script to merge + import all seed data to Sanity via `sanity import` CLI
+- [ ] Verify all 14 content types instantiated with bilingual content
+- [ ] Test ISR revalidation with seeded content
+
+### Phase 9.5: MagicUI Blog Redesign (PENDING)
+
+**Status:** ⏳ Pending (plan created: `plans/260512-2048-magicui-blog-ui/`)
+**Priority:** P1
+
+**Deliverables (Planned):**
+
+- [ ] Featured blog post hero section with cover image + metadata
+- [ ] Tag filter + search for blog posts (per-locale)
+- [ ] Blog card grid with hover effects and read-time estimates
+- [ ] Polished blog post layout with typography, code highlighting, and related posts
+- [ ] Author bios with avatar and social links
 
 ### Success Metrics (9.0)
 
@@ -386,11 +429,14 @@ Phase 1 (DONE)
 | Phase 8.3 | May 10  | May 10 | 1 day                | ✅ Complete |
 | Phase 8.4 | May 11  | May 11 | —                    | ✅ Complete |
 | Phase 8.5 | May 12  | May 12 | —                    | ✅ Complete |
-| Phase 9.0 | May 11+ | —      | Ongoing              | 🚀 Live     |
-| Phase 9.1 | May 12  | May 12 | 1 day                | ✅ Complete  |
-| Phase 9.2 | May 12  | TBD    | ~2-3 days            | 🔄 In Progress |
+| Phase 9.0 | May 11+ | —      | Ongoing              | 🚀 Live          |
+| Phase 9.1 | May 12  | May 12 | 1 day                | ✅ Complete      |
+| Phase 9.2 | May 12  | May 12 | 1 day                | ✅ Complete      |
+| Phase 9.3 | May 12  | May 12 | <1 day               | ✅ Complete      |
+| Phase 9.4 | —       | —      | ~1-2 days (pending)  | ⏳ Pending       |
+| Phase 9.5 | —       | —      | ~2-3 days (pending)  | ⏳ Pending       |
 
-**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). Phase 9.1 complete May 12; Phase 9.2 Classic Layout in progress.
+**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). Phase 9.1, 9.2, 9.3 completed May 12. Phases 9.4 (seed data), 9.5 (blog redesign) planned.
 
 ---
 
@@ -407,4 +453,7 @@ Phase 1 (DONE)
 | 1.0.0               | May 11 | 8.1-8.4 | Production bilingual launch with sitemap and hreflang coverage                       |
 | 1.1.0-content-model | May 12 | 8.5     | Sanity content model refactor: 14 document types, grouped Studio, expanded GROQ      |
 | 1.2.0-magic-ui      | May 12 | 9.1     | Magic UI install: 12 components, shadcn/ui HSL tokens, cn utility, framer-motion    |
-| 1.2.1-classic-ui    | TBD    | 9.2     | Classic Layout: 12-section page, Dock nav, bilingual wiring to 14 Sanity types      |
+| 1.2.1-classic-ui    | May 12 | 9.2     | Classic Layout: 11 sections, Dock nav, scroll tracking, GitHub contributions, hydration fix |
+| 1.2.2-seo-canonical | May 12 | 9.3     | SEO canonical per-locale, self-referential hreflang, generateMetadata for all pages  |
+| 1.3.0-seed-data     | TBD    | 9.4     | Sanity seed data: 10 NDJSON files, 14 types populated with bilingual content        |
+| 1.4.0-blog-redesign | TBD    | 9.5     | Blog redesign: featured hero, tag filter, card grid, polished post layout           |

@@ -1,0 +1,3 @@
+{"_id":"seed-lang-es","_type":"language","name":"Spanish","code":"es","proficiency":"native","cefr":"C2"}
+{"_id":"seed-lang-en","_type":"language","name":"English","code":"en","proficiency":"professional","cefr":"C1"}
+{"_id":"seed-lang-pt","_type":"language","name":"Portuguese","code":"pt","proficiency":"basic","cefr":"A2"}

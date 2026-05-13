@@ -23,6 +23,7 @@ import { SkillsSection } from '@/components/sections/SkillsSection'
 import { SocialPostsGrid } from '@/components/sections/SocialPostsGrid'
 import { StrengthsCard } from '@/components/sections/StrengthsCard'
 import { WritingList } from '@/components/sections/WritingList'
+import { localeAlternates } from '@/lib/metadata'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -38,10 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: settings?.tagline ?? settings?.description ?? '',
       locale,
     },
-    alternates: {
-      canonical: `/${locale}`,
-      languages: { en: '/en', es: '/es' },
-    },
+    alternates: localeAlternates('', locale),
   }
 }
 

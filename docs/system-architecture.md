@@ -421,6 +421,58 @@ User visits /en/projects/my-cool-app
 
 ---
 
+## SEO & Metadata Management
+
+### Locale-Aware Metadata
+
+Each page with locale variants generates locale-specific metadata at render time:
+
+```typescript
+// All locale pages use generateMetadata with locale param
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  return {
+    title: `Page Title (${locale.toUpperCase()})`,
+    alternates: {
+      canonical: `https://emudev.cc/${locale}/path`, // Self-referential canonical
+      languages: localeAlternates('/path', locale),  // Hreflang for en, es, x-default
+    },
+  }
+}
+```
+
+**Key Implementation Details:**
+
+- **Self-Referential Canonicals** — `/en/about` has canonical `/en/about` (not `/en`)
+- **Per-Route Hreflang** — Homepage, projects, blog posts, etc. each generate locale alternates
+- **All pages use `generateMetadata`** — not static `export const metadata` (can't access params)
+- **`localeAlternates(pathname, locale)` helper** — generates standard hreflang structure:
+  ```json
+  {
+    "rel": "alternate",
+    "hreflang": "en",
+    "href": "https://emudev.cc/en/path"
+  },
+  {
+    "rel": "alternate",
+    "hreflang": "es",
+    "href": "https://emudev.cc/es/path"
+  },
+  {
+    "rel": "alternate",
+    "hreflang": "x-default",
+    "href": "https://emudev.cc/en/path"
+  }
+  ```
+
+### Sitemap & Robots
+
+- **Dynamic sitemap.ts** — generates `/sitemap.xml` with both `/en/...` and `/es/...` URLs + priorities
+- **Hreflang in sitemap** — included via `localeAlternates` function
+- **robots.ts** — allows all paths except `/api`, `/studio`, `/admin`
+
+---
+
 ## Security Model
 
 ### Authentication & Authorization

@@ -14,7 +14,7 @@ emudev_ws/
 │   ├── layout.tsx                # Root layout (stripped shell)
 │   ├── page.tsx                  # Root page (redirect to /en)
 │   ├── [locale]/                 # Locale-prefixed routes (en, es) [NEW]
-│   │   ├── layout.tsx            # Layout with NextIntlClientProvider
+│   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider
 │   │   ├── page.tsx              # Homepage (hero + featured projects)
 │   │   ├── about/page.tsx        # About page
 │   │   ├── projects/
@@ -212,7 +212,7 @@ emudev_ws/
 | `hooks/use-active-section.ts`                      | ~40  | Scroll tracking hook for active section highlighting                              |
 | `messages/en.json`                                 | ~80  | English UI strings (namespaced: nav, home, projects, blog, contact, common)       |
 | `messages/es.json`                                 | ~80  | Spanish translations (exact key structure parity)                                 |
-| `app/globals.css`                                  | ~100 | Full shadcn/ui HSL token set (:root/.dark) + @theme inline + @layer base reset    |
+| `app/globals.css`                                  | ~226 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles |
 | `components.json`                                  | ~20  | shadcn/ui project config (aliases, style: new-york, baseColor: zinc)              |
 
 ---
@@ -533,6 +533,85 @@ Each has isolated copies of the above secrets.
 | `clsx`                       | latest  | Conditional class merging                               |
 | `tailwind-merge`             | latest  | Tailwind class deduplication (used in cn() utility)     |
 | `next-themes`                | latest  | Dark/light theme provider for Phase 9.2 toggle          |
+
+---
+
+## Design Token System
+
+### Overview
+
+Custom CSS design tokens replace shadcn HSL color system. Dark-first architecture with light mode overrides via `[data-theme="light"]` attribute (not class).
+
+### Token Files
+
+- **`app/globals.css`** (226 LOC) — Token definitions, Tailwind mapping, element base styles
+- **`app/[locale]/layout.tsx`** (85 LOC) — Font imports (Inter + JetBrains Mono via `next/font/google`) with `--font-*` CSS variables + ThemeProvider setup
+- **`components/theme-provider.tsx`** — Thin wrapper around `next-themes` ThemeProvider with `attribute="data-theme"`
+
+### Token Structure
+
+**Dark mode (`:root`):**
+- Brand: `--accent: #e34d2a` (signal orange), `--status-ok: #22c55e`
+- Canvas: `--canvas: #0f0f10` (near-black background)
+- Surfaces: `--surface-1`, `--surface-2`, `--surface-input` (opacity-based, light on dark)
+- Foreground scale: `--fg-1` (white) → `--fg-4` (40% white) for opacity hierarchy
+- Type scale: `--t-display`, `--t-h1`, `--t-h2`, `--t-h3`, `--t-body`, `--t-body-sm`, `--t-label`
+- Fonts: `--font-sans` (Inter), `--font-mono` (JetBrains Mono)
+
+**Light mode (`[data-theme="light"]`):**
+- Canvas: `--canvas: #f0eee9` (warm white)
+- Surfaces: Dark-based opacity (dark on light)
+- Foreground scale: `--fg-1: #111111` (dark text) → `--fg-4` (40% dark)
+
+**Tailwind mapping:**
+- Semantic utilities: `bg-canvas`, `text-fg-1`, `border-hairline`, `bg-accent`
+- shadcn compat aliases: `--color-background`, `--color-foreground`, `--color-muted`, etc. (mapped to new tokens)
+- Custom animations: `animate-shimmer-slide`, `animate-marquee` for MagicUI
+
+**Custom variant:**
+```css
+@custom-variant dark (&:is([data-theme="dark"] *));
+```
+Allows `dark:` utility classes to work with `[data-theme="dark"]` selector.
+
+### Typography System
+
+**Font imports (next/font/google):**
+```tsx
+const inter = Inter({ variable: '--font-inter', display: 'swap' })
+const jetbrainsMono = JetBrains_Mono({ variable: '--font-jetbrains-mono', weight: ['400', '500', '600', '700'] })
+```
+
+**Applied to body:**
+```tsx
+<body className={`${inter.variable} ${jetbrainsMono.variable}`}>
+```
+
+**Element defaults (`@layer base`):**
+- `h1` — 56px (display size), 600 weight, display line-height, -0.02em letter-spacing
+- `h2` — 40px, 600 weight, -0.015em letter-spacing
+- `h3` — 28px, 600 weight
+- `h4` — 20px, 600 weight
+- `p` — 16px body size, 1.5 line-height, `--fg-2` color (secondary opacity), `text-wrap: pretty`
+- `code`, `kbd` — JetBrains Mono, 0.92em, `--surface-2` background, 4px radius
+
+### Theme Provider Setup
+
+**In `app/[locale]/layout.tsx`:**
+```tsx
+<ThemeProvider
+  attribute="data-theme"
+  defaultTheme="dark"
+  enableSystem={false}
+  disableTransitionOnChange
+>
+```
+
+**Key config:**
+- `attribute="data-theme"` — Sets/reads `data-theme` attribute on `<html>` element
+- `defaultTheme="dark"` — Dark mode on first load
+- `enableSystem={false}` — Ignores OS theme preference
+- `disableTransitionOnChange` — Instant theme switch (no fade-in delay)
 
 ---
 

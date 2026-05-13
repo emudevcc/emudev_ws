@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: "siteSettings singleton"
-status: pending
+status: completed
 priority: P1
 effort: "30m"
 dependencies: []
@@ -101,12 +101,12 @@ cat sanity/seed/01-site-settings.ndjson | npx sanity documents create --replace
 
 ## Todo List
 
-- [ ] Create `sanity/seed/` directory
-- [ ] Write `sanity/seed/01-site-settings.ndjson`
-- [ ] Verify document appears in Sanity Studio under "Site Settings"
+- [x] Create `sanity/seed/` directory
+- [x] Write `sanity/seed/01-site-settings.ndjson`
+- [x] Verify document appears in Sanity Studio under "Site Settings"
 
 ## Success Criteria
 
-- [ ] Studio → Site Settings shows full name, role (both locales), tagline (both locales)
-- [ ] `availableForWork: false`, location "San José, Costa Rica"
-- [ ] 3 social links visible: GitHub, LinkedIn, Email
+- [x] Studio → Site Settings shows full name, role (both locales), tagline (both locales)
+- [x] `availableForWork: false`, location "San José, Costa Rica"
+- [x] 3 social links visible: GitHub, LinkedIn, Email

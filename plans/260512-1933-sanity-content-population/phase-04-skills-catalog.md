@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "Skills catalog"
-status: pending
+status: completed
 priority: P1
 effort: "45m"
 dependencies: []
@@ -45,16 +45,16 @@ One document per line. Categories: `platform`, `language`, `tool`, `framework`, 
 
 ## Todo List
 
-- [ ] Write `sanity/seed/04-skills.ndjson` (17 documents)
-- [ ] Confirm all `_id` values match the `_ref` values used in phases 3 and 7
-- [ ] Verify skills appear in Studio grouped by category
+- [x] Write `sanity/seed/04-skills.ndjson` (17 documents)
+- [x] Confirm all `_id` values match the `_ref` values used in phases 3 and 7
+- [x] Verify skills appear in Studio grouped by category
 
 ## Success Criteria
 
-- [ ] 17 skill documents created
-- [ ] Platform category: Adobe Analytics, Adobe Target, AEP Tags, AAM
-- [ ] Language category: JS, TS, Python, SQL, HTML/CSS
-- [ ] Framework category: React, Next.js, Node.js, Drupal
-- [ ] Tool category: Power BI, Sanity, Git
-- [ ] Design category: Figma
-- [ ] All `iconSlug` values use simple-icons format (lowercase, no spaces)
+- [x] 17 skill documents created
+- [x] Platform category: Adobe Analytics, Adobe Target, AEP Tags, AAM
+- [x] Language category: JS, TS, Python, SQL, HTML/CSS
+- [x] Framework category: React, Next.js, Node.js, Drupal
+- [x] Tool category: Power BI, Sanity, Git
+- [x] Design category: Figma
+- [x] All `iconSlug` values use simple-icons format (lowercase, no spaces)

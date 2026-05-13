@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: "Certifications, Education & Languages"
-status: pending
+status: completed
 priority: P2
 effort: "30m"
 dependencies: [4]
@@ -99,13 +99,13 @@ Create `certification`, `education`, and `language` documents from CV data. Cert
 
 ## Todo List
 
-- [ ] Write `sanity/seed/05-certifications.ndjson` (3 documents)
-- [ ] Write `sanity/seed/05-education.ndjson` (2 documents)
-- [ ] Write `sanity/seed/05-languages.ndjson` (3 documents)
-- [ ] Confirm cert skill `_ref` IDs match phase 4 values
+- [x] Write `sanity/seed/05-certifications.ndjson` (3 documents)
+- [x] Write `sanity/seed/05-education.ndjson` (2 documents)
+- [x] Write `sanity/seed/05-languages.ndjson` (3 documents)
+- [x] Confirm cert skill `_ref` IDs match phase 4 values
 
 ## Success Criteria
 
-- [ ] 3 certifications, all issued by Adobe
-- [ ] 2 education entries: U Latina CS + COVAO Graphic Design
-- [ ] 3 languages: Spanish (native), English (professional/C1), Portuguese (basic/A2)
+- [x] 3 certifications, all issued by Adobe
+- [x] 2 education entries: U Latina CS + COVAO Graphic Design
+- [x] 3 languages: Spanish (native), English (professional/C1), Portuguese (basic/A2)

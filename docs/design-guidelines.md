@@ -2,28 +2,51 @@
 
 ## Color Palette
 
-### Semantic Colors
+### Semantic Design Tokens
 
-Defined via CSS variables in `globals.css` or Tailwind config:
+Dark-first palette defined in `app/globals.css`:
 
-| Token | Light | Dark | Purpose |
-|-------|-------|------|---------|
-| `--background` | #ffffff | #0a0a0a | Page background |
-| `--foreground` | #000000 | #ffffff | Text, primary elements |
-| `--muted-foreground` | #666666 | #999999 | Secondary text, hints |
-| `--border` | #e5e5e5 | #222222 | Borders, dividers |
-| `--destructive` | #ff0000 | #ff4444 | Errors, warnings |
-| `--input-bg` | #f5f5f5 | #1a1a1a | Form inputs |
+| Token | Dark | Light | Purpose |
+|-------|------|-------|---------|
+| `--canvas` | #0f0f10 | #f0eee9 | Page background |
+| `--accent` | #e34d2a | #e34d2a | Signal orange, CTAs, focus |
+| `--surface-1` | rgba(255,255,255,0.04) | rgba(0,0,0,0.025) | Cards, panels |
+| `--surface-2` | rgba(255,255,255,0.06) | rgba(0,0,0,0.05) | Buttons, secondary |
+| `--surface-input` | rgba(255,255,255,0.03) | rgba(0,0,0,0.02) | Form inputs |
+| `--hairline` | rgba(255,255,255,0.08) | rgba(0,0,0,0.08) | Borders, dividers |
+| `--fg-1` | #ffffff | #111111 | Primary text |
+| `--fg-2` | rgba(255,255,255,0.75) | rgba(0,0,0,0.70) | Secondary text |
+| `--fg-3` | rgba(255,255,255,0.55) | rgba(0,0,0,0.55) | Tertiary text, hints |
+| `--fg-4` | rgba(255,255,255,0.40) | rgba(0,0,0,0.40) | Disabled, meta |
+| `--status-ok` | #22c55e | #22c55e | Success, validation |
+
+### shadcn Compatibility Aliases
+
+For existing components, these aliases map to the new tokens:
+```css
+--background: var(--canvas)
+--foreground: var(--fg-1)
+--muted: var(--surface-2)
+--muted-foreground: var(--fg-3)
+--border: var(--hairline)
+--input: var(--surface-input)
+--ring: var(--accent)
+```
 
 ### Usage
 
 ```tsx
-// Use semantic tokens, not raw colors
+// Use semantic tokens via Tailwind classes
+<div className="bg-canvas text-fg-1">
+  <p className="text-fg-3">Secondary text</p>
+  <button className="bg-fg-1 text-canvas">Primary CTA</button>
+  <input className="bg-surface-input border border-hairline" />
+  <div className="border-b border-hairline">Divider</div>
+</div>
+
+// Or use shadcn compat aliases
 <div className="bg-background text-foreground">
   <p className="text-muted-foreground">Secondary text</p>
-  <button className="bg-foreground text-background">Primary CTA</button>
-  <input className="bg-input-bg border border-border" />
-  <p className="text-destructive">Error message</p>
 </div>
 ```
 
@@ -361,53 +384,163 @@ Use `space-y-5` for consistent vertical spacing between form groups.
 
 ---
 
-## Dark Mode & User Theme Toggle
+## Design Tokens System
 
-### Status
+### Overview
 
-Dark mode token set is **complete** (Phase 9.1). Full `:root` and `.dark` HSL token blocks are defined in `app/globals.css`. `next-themes` is installed. User-facing toggle wired in Phase 9.2 via `LangThemeToggle` component.
+Custom design token system replaces shadcn HSL color system. Dark-first architecture with light mode overrides via `[data-theme="light"]`.
 
-### CSS Token Setup (globals.css)
+**Key files:**
+- `app/globals.css` — Design token definitions, Tailwind mapping, element base styles
+- `app/[locale]/layout.tsx` — Font imports (Inter + JetBrains Mono) with CSS variables
 
-Full shadcn/ui token set with dark variant:
+### Token Architecture
 
+**Dark mode (default, `:root`):**
 ```css
 :root {
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  /* ... full set ... */
-}
-.dark {
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  /* ... full set ... */
+  /* Brand colors */
+  --accent: #e34d2a;           /* Signal orange */
+  --status-ok: #22c55e;        /* Success green */
+
+  /* Palette (dark-first) */
+  --canvas: #0f0f10;           /* Page background */
+  --surface-1: rgba(255,255,255,0.04);
+  --surface-2: rgba(255,255,255,0.06);
+  --hairline: rgba(255,255,255,0.08);
+
+  /* Type scale */
+  --t-display: 56px; --t-h1: 40px; --t-h2: 28px;
+  --t-body: 16px; --t-body-sm: 14px;
+
+  /* Foreground scale (opacity variants) */
+  --fg-1: #ffffff;             /* Primary text */
+  --fg-2: rgba(255,255,255,0.75);  /* Secondary */
+  --fg-3: rgba(255,255,255,0.55);  /* Tertiary */
+  --fg-4: rgba(255,255,255,0.40);  /* Quaternary */
 }
 ```
 
-`@theme inline` block maps tokens to Tailwind v4 utilities (`bg-background`, `text-foreground`, etc.).
+**Light mode (`[data-theme="light"]`):**
+```css
+[data-theme="light"] {
+  --canvas: #f0eee9;           /* Warm white */
+  --surface-1: rgba(0,0,0,0.025);
+  --fg-1: #111111;             /* Dark text */
+  --fg-2: rgba(0,0,0,0.70);
+  /* ... */
+}
+```
 
-### User Toggle (Phase 9.2 — next-themes + useSyncExternalStore)
+**Tailwind mapping via `@theme inline`:**
+```css
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface-1: var(--surface-1);
+  --color-accent: var(--accent);
+  /* shadcn compat aliases for existing components */
+  --color-background: var(--canvas);
+  --color-foreground: var(--fg-1);
+  /* ... */
+}
+```
 
-**Status:** ✅ Complete (Phase 9.2). Hydration safety implemented via `useSyncExternalStore` pattern.
+**Custom variant for dark mode selectors:**
+```css
+@custom-variant dark (&:is([data-theme="dark"] *));
+```
 
-`next-themes` is installed. `ThemeProvider` wraps the locale layout:
+### Theme Provider Setup
+
+ThemeProvider wraps the locale layout with dark-first defaults:
 
 ```tsx
 import { ThemeProvider } from 'next-themes'
 
-// In app/[locale]/layout.tsx
-export default function LocaleLayout({ children, params }) {
+export default async function LocaleLayout({ children, params }: LayoutProps) {
+  const { locale } = await params
+
   return (
-    <ThemeProvider attribute="class" defaultTheme="system">
-      {/* content */}
-    </ThemeProvider>
+    <html lang={locale} suppressHydrationWarning>
+      <body className={`${inter.variable} ${jetbrainsMono.variable}`}>
+        <NextIntlClientProvider messages={messages}>
+          <ThemeProvider
+            attribute="data-theme"
+            defaultTheme="dark"
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </NextIntlClientProvider>
+      </body>
+    </html>
   )
 }
 ```
 
+**Key settings:**
+- `attribute="data-theme"` — Uses `data-theme` attribute instead of class
+- `defaultTheme="dark"` — Dark mode on first load
+- `enableSystem={false}` — Ignore OS preferences
+- `disableTransitionOnChange` — Instant theme switch (no fade)
+
+### Typography System
+
+Fonts imported in `app/[locale]/layout.tsx` with CSS variables:
+
+```tsx
+import { Inter, JetBrains_Mono } from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap'
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+})
+
+export default async function LocaleLayout({ children, params }: LayoutProps) {
+  return (
+    <html>
+      <body className={`${inter.variable} ${jetbrainsMono.variable}`}>
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+**Defined in globals.css:**
+```css
+:root {
+  --font-sans: var(--font-inter, 'Inter', system-ui, -apple-system, sans-serif);
+  --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono', ui-monospace, monospace);
+
+  --t-display: 56px;  /* H1 equivalent */
+  --t-h1: 40px;       /* Page headings */
+  --t-h2: 28px;       /* Section headings */
+  --t-h3: 20px;       /* Subsection */
+  --t-body: 16px;     /* Paragraph text */
+  --t-body-sm: 14px;  /* Secondary text */
+}
+```
+
+**Element defaults (`@layer base`):**
+- `h1` — 56px, 600 weight, display line-height
+- `h2` — 40px, 600 weight, heading line-height
+- `h3` — 28px, 600 weight, heading line-height
+- `p` — 16px, body line-height, `--fg-2` color (secondary opacity)
+- `code` — JetBrains Mono, 92% em size, `--surface-2` background
+
 ### LangThemeToggle Component (Hydration-Safe)
 
-Combined locale + theme toggle in `components/ui/lang-theme-toggle.tsx`. Uses **`useSyncExternalStore`** (not `useState` + `useEffect`) to prevent React 19 hydration mismatch:
+Combined locale + theme toggle in `components/ui/lang-theme-toggle.tsx`. Uses **`useSyncExternalStore`** to prevent React 19 hydration mismatch:
 
 ```tsx
 'use client'
@@ -422,14 +555,13 @@ export function LangThemeToggle() {
   const locale = useLocale()
   const { theme, setTheme } = useTheme()
 
-  // Use useSyncExternalStore to sync client state (server snapshot = false, client = true)
   const isMounted = useSyncExternalStore(
     () => () => {},
-    () => true,  // Client snapshot
-    () => false  // Server snapshot (prevents hydration mismatch)
+    () => true,   // Client
+    () => false   // Server
   )
 
-  if (!isMounted) return null // Render after hydration
+  if (!isMounted) return null
 
   return (
     <div className="flex gap-2">
@@ -444,7 +576,7 @@ export function LangThemeToggle() {
 }
 ```
 
-**Why `useSyncExternalStore`?** React 19's strict hydration checking prevents `useState/useEffect` patterns. `useSyncExternalStore` provides explicit client-only rendering without hydration mismatch warnings.
+**Why `useSyncExternalStore`?** Provides explicit client-only rendering without hydration mismatch warnings in React 19.
 
 ---
 

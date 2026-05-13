@@ -1,7 +1,7 @@
 ---
 phase: 6
 title: "Strengths (CliftonStrengths)"
-status: pending
+status: completed
 priority: P2
 effort: "20m"
 dependencies: []
@@ -83,11 +83,11 @@ CliftonStrengths domains: Input & Ideation → Strategic Thinking; Self-Assuranc
 
 ## Todo List
 
-- [ ] Write `sanity/seed/06-strengths.ndjson` (5 documents)
-- [ ] Verify ranks 1–5 are all assigned
+- [x] Write `sanity/seed/06-strengths.ndjson` (5 documents)
+- [x] Verify ranks 1–5 are all assigned
 
 ## Success Criteria
 
-- [ ] 5 strength documents, ranked 1–5
-- [ ] All have bilingual `description` in portable-text format
-- [ ] Domains: Input (strategic-thinking), Self-Assurance (influencing), Maximizer (influencing), Ideation (strategic-thinking), Adaptability (relationship-building)
+- [x] 5 strength documents, ranked 1–5
+- [x] All have bilingual `description` in portable-text format
+- [x] Domains: Input (strategic-thinking), Self-Assurance (influencing), Maximizer (influencing), Ideation (strategic-thinking), Adaptability (relationship-building)

@@ -148,12 +148,12 @@ Ship a zero-maintenance portfolio that:
 - **Phase 9.2** ✅: Classic layout UI (11 sections, Magic UI components, scroll tracking, GitHub contributions)
 - **Phase 9.3** ✅: SEO canonical & hreflang fix (self-referential per-locale, generateMetadata for all pages)
 - **Phase 9.4** ✅: Design tokens system (dark-first CSS custom properties, [data-theme] attribute switching, semantic color/type/spacing scales, Tailwind v4 @theme inline mapping, shadcn compat aliases)
+- **Phase 9.5** ✅: MagicUI blog redesign (featured hero, tag filter, card grid, polished post layout, bilingual)
 
-### Future (Phase 9.5+)
+### Future (Phase 9.6+)
 
-- **Phase 9.5** ⏳: Sanity seed data & content population (10 NDJSON files, 14 types)
-- **Phase 9.6** ⏳: Blog redesign (featured hero, tag filter, card grid, polished post layout)
-- **Phase 9.7+** 🔄: Post-launch monitoring, analytics, admin dashboard, search, etc.
+- **Phase 9.6** 🔄: Sanity seed data & content population (10 NDJSON files, 14 types, bilingual)
+- **Phase 9.7+** ⏳: Post-launch monitoring, analytics, admin dashboard, search functionality
 
 ---
 

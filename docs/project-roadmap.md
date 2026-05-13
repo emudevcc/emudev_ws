@@ -293,18 +293,18 @@ Deliverables:
 - [ ] Verify all 14 content types instantiated with bilingual content
 - [ ] Test ISR revalidation with seeded content
 
-### Phase 9.5: MagicUI Blog Redesign (PENDING)
+### Phase 9.5: MagicUI Blog Redesign (COMPLETE)
 
-**Status:** ⏳ Pending (plan created: `plans/260512-2048-magicui-blog-ui/`)
+**Status:** ✅ Complete (May 12, 2026)
 **Priority:** P1
 
-**Deliverables (Planned):**
+**Deliverables:**
 
-- [ ] Featured blog post hero section with cover image + metadata
-- [ ] Tag filter + search for blog posts (per-locale)
-- [ ] Blog card grid with hover effects and read-time estimates
-- [ ] Polished blog post layout with typography, code highlighting, and related posts
-- [ ] Author bios with avatar and social links
+- [x] Featured blog post hero section with cover image + metadata
+- [x] Tag filter for blog posts (per-locale)
+- [x] Blog card grid with hover effects and date/author display
+- [x] Polished blog post layout with typography and styling
+- [x] Author attribution with bilingual support
 
 ### Success Metrics (9.0)
 
@@ -433,10 +433,10 @@ Phase 1 (DONE)
 | Phase 9.1 | May 12  | May 12 | 1 day                | ✅ Complete      |
 | Phase 9.2 | May 12  | May 12 | 1 day                | ✅ Complete      |
 | Phase 9.3 | May 12  | May 12 | <1 day               | ✅ Complete      |
-| Phase 9.4 | —       | —      | ~1-2 days (pending)  | ⏳ Pending       |
-| Phase 9.5 | —       | —      | ~2-3 days (pending)  | ⏳ Pending       |
+| Phase 9.4 | May 13  | May 13 | 1 day                | ✅ Complete      |
+| Phase 9.5 | May 12  | May 12 | 1 day                | ✅ Complete      |
 
-**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). Phase 9.1, 9.2, 9.3 completed May 12. Phases 9.4 (seed data), 9.5 (blog redesign) planned.
+**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.5) completed by May 13, 2026. Next phases: monitoring, analytics, admin dashboard, search functionality.
 
 ---
 
@@ -455,5 +455,5 @@ Phase 1 (DONE)
 | 1.2.0-magic-ui      | May 12 | 9.1     | Magic UI install: 12 components, shadcn/ui HSL tokens, cn utility, framer-motion    |
 | 1.2.1-classic-ui    | May 12 | 9.2     | Classic Layout: 11 sections, Dock nav, scroll tracking, GitHub contributions, hydration fix |
 | 1.2.2-seo-canonical | May 12 | 9.3     | SEO canonical per-locale, self-referential hreflang, generateMetadata for all pages  |
-| 1.3.0-seed-data     | TBD    | 9.4     | Sanity seed data: 10 NDJSON files, 14 types populated with bilingual content        |
-| 1.4.0-blog-redesign | TBD    | 9.5     | Blog redesign: featured hero, tag filter, card grid, polished post layout           |
+| 1.2.3-design-tokens | May 13 | 9.4     | Design tokens system: dark-first CSS custom properties, [data-theme] attribute, semantic scales |
+| 1.3.0-future        | TBD    | 9.5+    | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |

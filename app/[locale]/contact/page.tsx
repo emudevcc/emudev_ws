@@ -2,10 +2,16 @@ import type { Metadata } from 'next'
 import { localeAlternates } from '@/lib/metadata'
 import { ContactForm } from '@/components/contact-form'
 
-export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Get in touch with Esteban Montero',
-  alternates: localeAlternates('/contact'),
+type Props = { params: Promise<{ locale: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+
+  return {
+    title: 'Contact',
+    description: 'Get in touch with Esteban Montero',
+    alternates: localeAlternates('/contact', locale),
+  }
 }
 
 export default function ContactPage() {

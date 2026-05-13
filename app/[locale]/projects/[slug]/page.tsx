@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getProjects, getProjectBySlug } from '@/lib/sanity-queries'
 import { PortableTextRenderer } from '@/components/portable-text-renderer'
 import { routing } from '@/i18n/routing'
+import { localeAlternates } from '@/lib/metadata'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: project.description,
       images: project.cover ? [{ url: project.cover }] : [],
     },
+    alternates: localeAlternates(`/projects/${slug}`, locale),
   }
 }
 

@@ -5,10 +5,14 @@ import { PostCard } from '@/components/post-card'
 
 type Props = { params: Promise<{ locale: string }> }
 
-export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Thoughts and articles by Esteban Montero',
-  alternates: localeAlternates('/blog'),
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+
+  return {
+    title: 'Blog',
+    description: 'Thoughts and articles by Esteban Montero',
+    alternates: localeAlternates('/blog', locale),
+  }
 }
 
 export default async function BlogPage({ params }: Props) {

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getPosts, getPostBySlug } from '@/lib/sanity-queries'
 import { PortableTextRenderer } from '@/components/portable-text-renderer'
 import { routing } from '@/i18n/routing'
+import { localeAlternates } from '@/lib/metadata'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
@@ -29,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.excerpt,
+    alternates: localeAlternates(`/blog/${slug}`, locale),
   }
 }
 

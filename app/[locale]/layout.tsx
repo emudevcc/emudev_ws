@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
-import { Inter } from 'next/font/google'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -15,7 +15,14 @@ import { localeAlternates } from '@/lib/metadata'
 import { getSiteSettings } from '@/lib/sanity-queries'
 import '@/app/globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+})
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
@@ -50,12 +57,14 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${inter.className} antialiased bg-background text-foreground`}>
+      <body
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground`}
+      >
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
+            attribute="data-theme"
+            defaultTheme="dark"
+            enableSystem={false}
             disableTransitionOnChange
           >
             <div className="fixed inset-0 -z-10 overflow-hidden">

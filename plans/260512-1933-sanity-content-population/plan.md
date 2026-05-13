@@ -1,7 +1,7 @@
 ---
 title: "Sanity content population from CV"
 description: "Populate all Sanity singletons and document types with real content derived from Esteban's CV, using an approachable & conversational tone. Delivered as NDJSON import files executed via the Sanity CLI."
-status: pending
+status: completed
 priority: P2
 branch: "development"
 tags: [sanity, content, cms]
@@ -32,13 +32,13 @@ This is idempotent (same `_id` = upsert) and safe to re-run.
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 1 | [siteSettings singleton](./phase-01-sitesettings-singleton.md) | Pending |
-| 2 | [About singleton](./phase-02-about-singleton.md) | Pending |
-| 3 | [Experience documents](./phase-03-experience-documents.md) | Pending |
-| 4 | [Skills catalog](./phase-04-skills-catalog.md) | Pending |
-| 5 | [Certifications, Education & Languages](./phase-05-certifications-education-languages.md) | Pending |
-| 6 | [Strengths (CliftonStrengths)](./phase-06-strengths.md) | Pending |
-| 7 | [Sample projects](./phase-07-sample-projects.md) | Pending |
+| 1 | [siteSettings singleton](./phase-01-sitesettings-singleton.md) | Completed |
+| 2 | [About singleton](./phase-02-about-singleton.md) | Completed |
+| 3 | [Experience documents](./phase-03-experience-documents.md) | Completed |
+| 4 | [Skills catalog](./phase-04-skills-catalog.md) | Completed |
+| 5 | [Certifications, Education & Languages](./phase-05-certifications-education-languages.md) | Completed |
+| 6 | [Strengths (CliftonStrengths)](./phase-06-strengths.md) | Completed |
+| 7 | [Sample projects](./phase-07-sample-projects.md) | Completed |
 
 ## Files
 
@@ -62,3 +62,6 @@ This is idempotent (same `_id` = upsert) and safe to re-run.
 - Rich text fields use portable-text block array format
 - Skill references use `_ref` pointing to skill `_id` values defined in phase 4
 - Images/logos: left empty (no binary assets in NDJSON seed — upload manually later)
+- Execution completed on 2026-05-13: 39 seed documents were imported into the `production` dataset and a remote read-back query confirmed 39 `seed-*` documents.
+- The local Sanity CLI import path was blocked by interactive login / dotenv expansion in this workspace, so the import was executed with Sanity's HTTP mutation API using the same `createOrReplace` semantics as `--replace`.
+- Seed schema alignment was adjusted before import: `about.funFacts` and `experience.highlights` now match the repo's localized array-of-strings schema.

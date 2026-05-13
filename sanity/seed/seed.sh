@@ -12,6 +12,11 @@ DATASET="${1:-production}"
 SEED_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MERGED="$SEED_DIR/merged-seed.ndjson"
 
+cleanup() {
+  rm -f "$MERGED"
+}
+trap cleanup EXIT
+
 echo "==> Merging seed files (skills first)..."
 cat \
   "$SEED_DIR/04-skills.ndjson" \
@@ -31,7 +36,7 @@ echo "==> Importing $TOTAL documents into dataset: $DATASET"
 npx sanity dataset import "$MERGED" "$DATASET" --replace
 
 echo "==> Cleaning up..."
-rm "$MERGED"
+cleanup
 
 echo ""
 echo "Done. Open Sanity Studio to verify all content types are populated."

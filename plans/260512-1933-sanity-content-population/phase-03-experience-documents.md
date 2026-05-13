@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: "Experience documents"
-status: pending
+status: completed
 priority: P1
 effort: "1h"
 dependencies: [4]
@@ -161,13 +161,17 @@ One JSON object per line. Ordered newest-first (order: 1 = current).
 
 ## Todo List
 
-- [ ] Write `sanity/seed/03-experience.ndjson` (4 documents)
-- [ ] Confirm skill `_ref` IDs match those created in phase 4
-- [ ] Verify all 4 experience docs appear in Studio ordered correctly
+- [x] Write `sanity/seed/03-experience.ndjson` (4 documents)
+- [x] Confirm skill `_ref` IDs match those created in phase 4
+- [x] Verify all 4 experience docs appear in Studio ordered correctly
 
 ## Success Criteria
 
-- [ ] 4 experience documents created, ordered 1–4
-- [ ] Current role (Accenture) shows no `endDate`
-- [ ] `clients` arrays populated for Accenture and avVenta entries
-- [ ] Tech references resolve (no broken refs after skills import)
+- [x] 4 experience documents created, ordered 1–4
+- [x] Current role (Accenture) shows no `endDate`
+- [x] `clients` arrays populated for Accenture and avVenta entries
+- [x] Tech references resolve (no broken refs after skills import)
+
+## Execution Notes
+
+- `highlights.en` and `highlights.es` were normalized to arrays of primitive strings to match the repo's localized array schema.

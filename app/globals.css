@@ -1,79 +1,159 @@
 @import 'tailwindcss';
 
-@custom-variant dark (&:is(.dark *));
+/* Dark-first: [data-theme="light"] overrides. ThemeProvider uses attribute="data-theme". */
+@custom-variant dark (&:is([data-theme="dark"] *));
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 240 5.9% 10%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 240 10% 3.9%;
-  --radius: 0.5rem;
-  --magic-card-bg: hsl(240 10% 3.9% / 0.05);
+  /* ---------- Brand ---------- */
+  --accent: #e34d2a;
+  --accent-soft: #e34d2a1a;
+  --accent-line: #e34d2a33;
+  --status-ok: #22c55e;
+  --spotify: #1ed760;
+
+  /* ---------- Dark palette (default) ---------- */
+  --canvas: #0f0f10;
+  --surface-1: rgba(255, 255, 255, 0.04);
+  --surface-2: rgba(255, 255, 255, 0.06);
+  --surface-input: rgba(255, 255, 255, 0.03);
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-mid: rgba(255, 255, 255, 0.1);
+
+  --fg-1: #ffffff;
+  --fg-2: rgba(255, 255, 255, 0.75);
+  --fg-3: rgba(255, 255, 255, 0.55);
+  --fg-4: rgba(255, 255, 255, 0.4);
+
+  /* ---------- Type ---------- */
+  --font-sans: var(--font-inter, 'Inter', system-ui, -apple-system, sans-serif);
+  --font-mono: var(
+    --font-jetbrains-mono,
+    'JetBrains Mono',
+    ui-monospace,
+    SFMono-Regular,
+    monospace
+  );
+
+  /* ---------- Type scale ---------- */
+  --t-display: 56px;
+  --t-h1: 40px;
+  --t-h2: 28px;
+  --t-h3: 20px;
+  --t-body: 16px;
+  --t-body-sm: 14px;
+  --t-meta: 13.5px;
+  --t-label: 12px;
+  --t-micro: 11px;
+  --lh-display: 1.05;
+  --lh-heading: 1.15;
+  --lh-body: 1.5;
+
+  /* ---------- Spacing ---------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 14px;
+  --s-5: 16px;
+  --s-6: 20px;
+  --s-7: 24px;
+  --s-8: 32px;
+  --s-9: 40px;
+  --s-10: 56px;
+
+  /* ---------- Radii ---------- */
+  --r-input: 8px;
+  --r-btn: 10px;
+  --r-image: 12px;
+  --r-card: 14px;
+  --r-dock: 18px;
+  --r-pill: 99px;
+  --radius: 0.875rem;
+
+  /* ---------- Shadow / Motion ---------- */
+  --shadow-dock: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow-ok: 0 0 8px rgba(34, 197, 94, 0.6);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 0.15s;
+  --dur: 0.2s;
+
+  /* ---------- shadcn compatibility aliases ---------- */
+  --background: var(--canvas);
+  --foreground: var(--fg-1);
+  --card: var(--surface-1);
+  --card-foreground: var(--fg-1);
+  --popover: var(--surface-1);
+  --popover-foreground: var(--fg-1);
+  --primary: var(--fg-1);
+  --primary-foreground: var(--canvas);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--fg-2);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--fg-3);
+  --border: var(--hairline);
+  --input: var(--surface-input);
+  --ring: var(--accent);
+  --magic-card-bg: rgba(255, 255, 255, 0.05);
 }
 
-.dark {
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 240 4.9% 83.9%;
-  --magic-card-bg: hsl(0 0% 100% / 0.05);
+[data-theme='light'] {
+  --canvas: #f0eee9;
+  --surface-1: rgba(0, 0, 0, 0.025);
+  --surface-2: rgba(0, 0, 0, 0.05);
+  --surface-input: rgba(0, 0, 0, 0.02);
+  --hairline: rgba(0, 0, 0, 0.08);
+  --hairline-mid: rgba(0, 0, 0, 0.1);
+  --fg-1: #111111;
+  --fg-2: rgba(0, 0, 0, 0.7);
+  --fg-3: rgba(0, 0, 0, 0.55);
+  --fg-4: rgba(0, 0, 0, 0.4);
+  --shadow-dock: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --magic-card-bg: rgba(0, 0, 0, 0.03);
 }
 
 @theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Semantic design tokens */
+  --color-canvas: var(--canvas);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-status-ok: var(--status-ok);
+  --color-fg-1: var(--fg-1);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-fg-4: var(--fg-4);
+
+  /* shadcn compat (used by existing components) */
+  --color-background: var(--canvas);
+  --color-foreground: var(--fg-1);
+  --color-card: var(--surface-1);
+  --color-card-foreground: var(--fg-1);
+  --color-popover: var(--surface-1);
+  --color-popover-foreground: var(--fg-1);
+  --color-primary: var(--fg-1);
+  --color-primary-foreground: var(--canvas);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--fg-2);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--fg-3);
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--hairline);
+  --color-input: var(--surface-input);
+  --color-ring: var(--accent);
+
+  /* Radii */
+  --radius-sm: var(--r-input);
+  --radius-md: var(--r-btn);
+  --radius-lg: var(--r-card);
+
+  /* Fonts */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* Animations */
   --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
   --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
   --animate-marquee: marquee var(--duration) infinite linear;
@@ -140,7 +220,59 @@
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-family: Arial, Helvetica, sans-serif;
+    background: var(--canvas);
+    color: var(--fg-1);
+    font-family: var(--font-sans);
+    font-size: var(--t-body);
+    line-height: var(--lh-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1 {
+    font-size: var(--t-display);
+    line-height: var(--lh-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  h2 {
+    font-size: var(--t-h1);
+    line-height: var(--lh-heading);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  h3 {
+    font-size: var(--t-h2);
+    line-height: var(--lh-heading);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  h4 {
+    font-size: var(--t-h3);
+    line-height: var(--lh-heading);
+    font-weight: 600;
+  }
+  p {
+    font-size: var(--t-body);
+    line-height: var(--lh-body);
+    color: var(--fg-2);
+    text-wrap: pretty;
+  }
+
+  .eyebrow,
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+
+  code,
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    background: var(--surface-2);
+    padding: 1px 5px;
+    border-radius: 4px;
   }
 }

@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "About singleton"
-status: pending
+status: completed
 priority: P1
 effort: "30m"
 dependencies: []
@@ -86,12 +86,16 @@ Create the `about` singleton document with bilingual bio paragraphs (conversatio
 
 ## Todo List
 
-- [ ] Write `sanity/seed/02-about.ndjson`
-- [ ] Verify document appears in Studio under "About"
-- [ ] Confirm both `en` and `es` paragraphs render in portable-text preview
+- [x] Write `sanity/seed/02-about.ndjson`
+- [x] Verify document appears in Studio under "About"
+- [x] Confirm both `en` and `es` paragraphs render in portable-text preview
 
 ## Success Criteria
 
-- [ ] Studio → About shows 4 paragraphs per locale
-- [ ] Fun facts array has 4 items per locale
-- [ ] Photo caption present in both languages
+- [x] Studio → About shows 4 paragraphs per locale
+- [x] Fun facts array has 4 items per locale
+- [x] Photo caption present in both languages
+
+## Execution Notes
+
+- `funFacts.en` and `funFacts.es` were normalized to arrays of primitive strings to match the repo's localized array schema.

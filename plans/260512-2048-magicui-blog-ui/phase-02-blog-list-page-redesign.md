@@ -1,10 +1,11 @@
 ---
 phase: 2
 title: "Blog list page redesign"
-status: pending
+status: completed
 priority: P1
 effort: "1.5h"
 dependencies: [1, 4]
+completedAt: "2026-05-13"
 ---
 
 # Phase 2: Blog list page redesign
@@ -139,18 +140,22 @@ Note: `export const metadata` → `export async function generateMetadata` also 
 
 ## Todo List
 
-- [ ] Create `app/[locale]/blog/_components/` directory
-- [ ] Create `app/[locale]/blog/_components/blog-list-client.tsx`
-- [ ] Replace `app/[locale]/blog/page.tsx` with new implementation
-- [ ] Remove `import { PostCard }` from blog page
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run build` — passes
+- [x] Create `app/[locale]/blog/_components/` directory
+- [x] Create `app/[locale]/blog/_components/blog-list-client.tsx`
+- [x] Replace `app/[locale]/blog/page.tsx` with new implementation
+- [x] Remove `import { PostCard }` from blog page
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run build` — passes
 
 ## Success Criteria
 
-- [ ] First published post renders as full-width hero
-- [ ] Remaining posts render in 3-column grid (responsive to 2-col → 1-col)
-- [ ] Tag filter shows all unique tags; clicking filters grid without page reload
-- [ ] "All" button resets filter
-- [ ] Empty state shown when no posts match filter
-- [ ] Draft posts excluded from display
+- [x] First published post renders as full-width hero
+- [x] Remaining posts render in 3-column grid (responsive to 2-col → 1-col)
+- [x] Tag filter shows all unique tags; clicking filters grid without page reload
+- [x] "All" button resets filter
+- [x] Empty state shown when no posts match filter
+- [x] Draft posts excluded from display
+
+## Execution Notes
+
+- The page remains a Server Component. Client state is isolated in `app/[locale]/blog/_components/blog-list-client.tsx`.

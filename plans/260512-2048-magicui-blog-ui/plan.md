@@ -1,13 +1,14 @@
 ---
 title: "MagicUI-style blog UI (Sanity-powered)"
 description: "Implement the visual design patterns of the MagicUI Pro Blog Template — featured hero post, animated card grid, client-side tag filter, and polished single-post layout — wired to the existing Sanity CMS + next-intl stack."
-status: pending
+status: completed
 priority: P2
 branch: "development"
 tags: [ui, blog, magic-ui, sanity, i18n]
 blockedBy: []
 blocks: [260512-1924-seo-canonical-hreflang-fix]
 created: "2026-05-13T02:51:31.035Z"
+completedAt: "2026-05-13"
 createdBy: "ck:plan"
 source: skill
 ---
@@ -30,11 +31,11 @@ The MagicUI Pro Blog Template ships as an MDX-only Next.js starter — incompati
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 1 | [Enhance getPosts query for tag filtering](./phase-01-enhance-getposts-query-for-tag-filtering.md) | Pending |
-| 2 | [Blog list page redesign](./phase-02-blog-list-page-redesign.md) | Pending |
-| 3 | [Blog post page redesign](./phase-03-blog-post-page-redesign.md) | Pending |
-| 4 | [New blog UI components](./phase-04-new-blog-ui-components.md) | Pending |
-| 5 | [SEO metadata for blog pages](./phase-05-seo-metadata-for-blog-pages.md) | Pending |
+| 1 | [Enhance getPosts query for tag filtering](./phase-01-enhance-getposts-query-for-tag-filtering.md) | Completed |
+| 2 | [Blog list page redesign](./phase-02-blog-list-page-redesign.md) | Completed |
+| 3 | [Blog post page redesign](./phase-03-blog-post-page-redesign.md) | Completed |
+| 4 | [New blog UI components](./phase-04-new-blog-ui-components.md) | Completed |
+| 5 | [SEO metadata for blog pages](./phase-05-seo-metadata-for-blog-pages.md) | Completed |
 
 ## Files Changed
 
@@ -53,3 +54,5 @@ The MagicUI Pro Blog Template ships as an MDX-only Next.js starter — incompati
 - **No new dependencies required** — `BlurFade`, `MagicCard`, `Chip` are already installed
 - Tag filter is client-side (no URL params needed for MVP)
 - Phase 5 partially overlaps SEO plan 260512-1924 — coordinate so blog metadata changes aren't done twice
+- Execution completed on 2026-05-13: blog summaries now include tags and author images, the list page renders a featured hero plus filtered animated grid, and post pages render cover imagery, author metadata, tags, localized dates, and Open Graph cover images.
+- Verification passed: `npm run typecheck`, `npm run lint`, `npm run build`, and `git diff --check`.

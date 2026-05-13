@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { localeAlternates } from '@/lib/metadata'
 import { getPosts } from '@/lib/sanity-queries'
-import { PostCard } from '@/components/post-card'
+import { BlogHeroPost } from '@/components/blog/blog-hero-post'
+import { BlurFade } from '@/components/ui/blur-fade'
+import { BlogListClient } from './_components/blog-list-client'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -18,16 +20,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogPage({ params }: Props) {
   const { locale } = await params
   const posts = (await getPosts(locale)) ?? []
+  const publishedPosts = posts.filter((post) => post.status !== 'draft')
+  const [heroPost, ...gridPosts] = publishedPosts
 
   return (
-    <section className="mx-auto max-w-3xl px-6 py-20">
-      <h1 className="mb-10 text-4xl font-bold tracking-tight">Blog</h1>
-      {posts.length > 0 ? (
-        <div>
-          {posts.map((post) => (
-            <PostCard key={post._id} post={post} />
-          ))}
+    <section className="mx-auto max-w-6xl px-6 py-20">
+      <BlurFade delay={0.04}>
+        <div className="mb-12 max-w-3xl">
+          <p className="eyebrow mb-3">Writing</p>
+          <h1>Blog</h1>
+          <p className="mt-4 max-w-2xl text-muted-foreground">
+            Notes on analytics architecture, software engineering, and the systems behind useful
+            digital products.
+          </p>
         </div>
+      </BlurFade>
+
+      {heroPost ? (
+        <>
+          <BlogHeroPost post={heroPost} locale={locale} />
+          {gridPosts.length > 0 && <BlogListClient posts={gridPosts} locale={locale} />}
+        </>
       ) : (
         <p className="text-muted-foreground">No posts yet.</p>
       )}

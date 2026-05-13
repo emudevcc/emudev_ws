@@ -1,10 +1,11 @@
 ---
 phase: 3
 title: "Blog post page redesign"
-status: pending
+status: completed
 priority: P1
 effort: "1.5h"
 dependencies: [1]
+completedAt: "2026-05-13"
 ---
 
 # Phase 3: Blog post page redesign
@@ -150,22 +151,22 @@ npm run build
 
 ## Todo List
 
-- [ ] Replace `app/[locale]/blog/[slug]/page.tsx` with new implementation
-- [ ] Add `localeAlternates` import from `@/lib/metadata`
-- [ ] Add `Chip`, `BlurFade`, `Image` imports
-- [ ] Add `Link` from `@/i18n/navigation`
-- [ ] `npm run typecheck` — zero errors
-- [ ] `npm run build` — passes (static params still generated correctly)
+- [x] Replace `app/[locale]/blog/[slug]/page.tsx` with new implementation
+- [x] Add `localeAlternates` import from `@/lib/metadata`
+- [x] Add `Chip`, `BlurFade`, `Image` imports
+- [x] Add `Link` from `@/i18n/navigation`
+- [x] `npm run typecheck` — zero errors
+- [x] `npm run build` — passes (static params still generated correctly)
 
 ## Success Criteria
 
-- [ ] Cover image renders full-width with `priority` flag for LCP
-- [ ] Author avatar + name shown when available
-- [ ] Tags render as `Chip` components below title
-- [ ] Date is locale-aware (`es-CR` vs `en-US` formatting)
-- [ ] Back "← Blog" link present
-- [ ] `generateMetadata` includes OG image from cover
-- [ ] `localeAlternates` passes locale (satisfies SEO plan requirement for this page)
+- [x] Cover image renders full-width with `priority` flag for LCP
+- [x] Author avatar + name shown when available
+- [x] Tags render as `Chip` components below title
+- [x] Date is locale-aware (`es-CR` vs `en-US` formatting)
+- [x] Back "← Blog" link present
+- [x] `generateMetadata` includes OG image from cover
+- [x] `localeAlternates` passes locale (satisfies SEO plan requirement for this page)
 
 ## Risk Assessment
 
@@ -173,3 +174,7 @@ npm run build
 |------|-----------|--------|------------|
 | `authorOverride` ref resolves differently from `author` | Low | Low | Both fields fetched in same query; fallback `?? post.author` handles it |
 | `generateStaticParams` breaks if slug query changes | Low | Medium | Slug query unchanged — still uses `getPosts(locale)` |
+
+## Execution Notes
+
+- `generateMetadata()` now includes the post cover image as an Open Graph image when available.

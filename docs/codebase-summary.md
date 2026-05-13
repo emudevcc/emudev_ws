@@ -212,7 +212,7 @@ emudev_ws/
 | `hooks/use-active-section.ts`                      | ~40  | Scroll tracking hook for active section highlighting                              |
 | `messages/en.json`                                 | ~80  | English UI strings (namespaced: nav, home, projects, blog, contact, common)       |
 | `messages/es.json`                                 | ~80  | Spanish translations (exact key structure parity)                                 |
-| `app/globals.css`                                  | ~226 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles |
+| `app/globals.css`                                  | 279 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles + animations |
 | `components.json`                                  | ~20  | shadcn/ui project config (aliases, style: new-york, baseColor: zinc)              |
 
 ---
@@ -540,60 +540,81 @@ Each has isolated copies of the above secrets.
 
 ### Overview
 
-Custom CSS design tokens replace shadcn HSL color system. Dark-first architecture with light mode overrides via `[data-theme="light"]` attribute (not class).
+Custom CSS design tokens replace shadcn HSL color system. Dark-first architecture with light mode overrides via `[data-theme="light"]` attribute (not class). Fully compatible with shadcn/ui components via mapped aliases.
 
 ### Token Files
 
-- **`app/globals.css`** (226 LOC) — Token definitions, Tailwind mapping, element base styles
-- **`app/[locale]/layout.tsx`** (85 LOC) — Font imports (Inter + JetBrains Mono via `next/font/google`) with `--font-*` CSS variables + ThemeProvider setup
-- **`components/theme-provider.tsx`** — Thin wrapper around `next-themes` ThemeProvider with `attribute="data-theme"`
+- **`app/globals.css`** (279 LOC) — Token definitions (:root + [data-theme="light"]), @theme inline block for Tailwind v4 mapping, base element styles, keyframe animations
+- **`app/[locale]/layout.tsx`** (89 LOC) — Font imports (Inter + JetBrains Mono via `next/font/google`) with CSS variable classes, ThemeProvider setup
+- **`components/theme-provider.tsx`** — Thin wrapper around `next-themes` ThemeProvider with `attribute="data-theme"` for attribute-based theming
 
 ### Token Structure
 
-**Dark mode (`:root`):**
-- Brand: `--accent: #e34d2a` (signal orange), `--status-ok: #22c55e`
-- Canvas: `--canvas: #0f0f10` (near-black background)
-- Surfaces: `--surface-1`, `--surface-2`, `--surface-input` (opacity-based, light on dark)
-- Foreground scale: `--fg-1` (white) → `--fg-4` (40% white) for opacity hierarchy
-- Type scale: `--t-display`, `--t-h1`, `--t-h2`, `--t-h3`, `--t-body`, `--t-body-sm`, `--t-label`
+**Dark mode (`:root`, default):**
+- Brand: `--accent: #e34d2a` (signal orange), `--accent-soft: #e34d2a1a`, `--status-ok: #22c55e`
+- Canvas: `--canvas: #0f0f10` (near-black)
+- Surfaces: `--surface-1` (0.04 opacity white), `--surface-2` (0.06), `--surface-input` (0.03)
+- Hairlines: `--hairline` (0.08 opacity), `--hairline-mid` (0.1)
+- Foreground scale: `--fg-1` (#fff) → `--fg-4` (0.4 opacity) for text hierarchy
+- Type scale: `--t-display` (56px), `--t-h1` (40px), `--t-h2` (28px), `--t-h3` (20px), `--t-body` (16px), `--t-body-sm` (14px), `--t-meta` (13.5px), `--t-label` (12px), `--t-micro` (11px)
+- Line heights: `--lh-display` (1.05), `--lh-heading` (1.15), `--lh-body` (1.5)
+- Radii: `--r-input` (8px), `--r-btn` (10px), `--r-image` (12px), `--r-card` (14px), `--r-dock` (18px), `--r-pill` (99px)
+- Spacing: `--s-1` to `--s-10` (4px to 56px)
 - Fonts: `--font-sans` (Inter), `--font-mono` (JetBrains Mono)
+- Shadows: `--shadow-dock` (0 12px 40px rgba(0,0,0,0.5))
+- Animation: `--ease`, `--dur-fast` (0.15s), `--dur` (0.2s)
 
 **Light mode (`[data-theme="light"]`):**
-- Canvas: `--canvas: #f0eee9` (warm white)
-- Surfaces: Dark-based opacity (dark on light)
-- Foreground scale: `--fg-1: #111111` (dark text) → `--fg-4` (40% dark)
+- Canvas: `--canvas: #f0eee9` (warm beige)
+- Surfaces: Dark-based opacity (0.025, 0.05, 0.02)
+- Foreground scale: `--fg-1: #111111` (dark) → `--fg-4` (0.4 opacity dark)
+- Hairlines: `--hairline` (0.08 dark), `--hairline-mid` (0.1)
+- Shadow: `--shadow-dock` (0 12px 40px rgba(0,0,0,0.12))
 
-**Tailwind mapping:**
-- Semantic utilities: `bg-canvas`, `text-fg-1`, `border-hairline`, `bg-accent`
-- shadcn compat aliases: `--color-background`, `--color-foreground`, `--color-muted`, etc. (mapped to new tokens)
-- Custom animations: `animate-shimmer-slide`, `animate-marquee` for MagicUI
+**Tailwind mapping via `@theme inline`:**
+- Semantic color utilities: `bg-canvas`, `text-fg-1`, `border-hairline`, `bg-accent`, `bg-surface-1`, `bg-surface-2`
+- shadcn compat aliases: `--color-background`, `--color-foreground`, `--color-muted`, `--color-border`, etc. (mapped to new tokens for backward compatibility)
+- Radius utilities: `--radius-sm` (8px), `--radius-md` (10px), `--radius-lg` (14px)
+- Font utilities: `--font-sans`, `--font-mono`
+- Custom animations: `animate-shimmer-slide`, `animate-spin-around`, `animate-marquee`, `animate-marquee-vertical`, `animate-shiny-text`
 
-**Custom variant:**
+**Custom variant for dark mode:**
 ```css
 @custom-variant dark (&:is([data-theme="dark"] *));
 ```
-Allows `dark:` utility classes to work with `[data-theme="dark"]` selector.
+Allows `dark:` utility classes to work with `[data-theme="dark"]` selector instead of class-based dark mode.
 
 ### Typography System
 
-**Font imports (next/font/google):**
+**Font imports (next/font/google) in `app/[locale]/layout.tsx`:**
 ```tsx
-const inter = Inter({ variable: '--font-inter', display: 'swap' })
-const jetbrainsMono = JetBrains_Mono({ variable: '--font-jetbrains-mono', weight: ['400', '500', '600', '700'] })
+const inter = Inter({ 
+  subsets: ['latin'], 
+  variable: '--font-inter', 
+  display: 'swap' 
+})
+const jetbrainsMono = JetBrains_Mono({ 
+  subsets: ['latin'], 
+  variable: '--font-jetbrains-mono', 
+  display: 'swap',
+  weight: ['400', '500', '600', '700']
+})
 ```
+Font files loaded server-side, CSS variables inject into `<body>` for use throughout app.
 
 **Applied to body:**
 ```tsx
-<body className={`${inter.variable} ${jetbrainsMono.variable}`}>
+<body className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground`}>
 ```
 
-**Element defaults (`@layer base`):**
-- `h1` — 56px (display size), 600 weight, display line-height, -0.02em letter-spacing
-- `h2` — 40px, 600 weight, -0.015em letter-spacing
-- `h3` — 28px, 600 weight
-- `h4` — 20px, 600 weight
-- `p` — 16px body size, 1.5 line-height, `--fg-2` color (secondary opacity), `text-wrap: pretty`
-- `code`, `kbd` — JetBrains Mono, 0.92em, `--surface-2` background, 4px radius
+**CSS defaults defined in `@layer base` (globals.css):**
+- `h1` — 56px (`--t-display`), 600 weight, 1.05 line-height, -0.02em letter-spacing
+- `h2` — 40px (`--t-h1`), 600 weight, 1.15 line-height, -0.015em letter-spacing
+- `h3` — 28px (`--t-h2`), 600 weight, 1.15 line-height, -0.01em letter-spacing
+- `h4` — 20px (`--t-h3`), 600 weight, 1.15 line-height
+- `p` — 16px (`--t-body`), 1.5 line-height, `--fg-2` color (secondary opacity), `text-wrap: pretty`
+- `.eyebrow`, `.mono-label` — JetBrains Mono, `--t-micro` (11px), uppercase, 0.5px letter-spacing, `--fg-3` color
+- `code`, `kbd` — JetBrains Mono, 0.92em, `--surface-2` background, 1px 5px padding, 4px radius
 
 ### Theme Provider Setup
 

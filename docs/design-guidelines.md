@@ -63,14 +63,17 @@ font-family: 'Inter', system-ui, -apple-system, sans-serif;
 
 ### Heading Scales
 
-| Level | Size | Weight | Line Height | Usage |
+| Level | Size (token) | Weight | Line Height (token) | Usage |
 |-------|------|--------|-------------|-------|
-| H1 | 2.5rem (40px) | 700 (bold) | 1.2 | Page titles, hero |
-| H2 | 2rem (32px) | 700 (bold) | 1.3 | Section headers |
-| H3 | 1.5rem (24px) | 600 (semibold) | 1.4 | Subsection headers |
-| H4 | 1.25rem (20px) | 600 (semibold) | 1.5 | Card headers |
-| Body | 1rem (16px) | 400 (normal) | 1.6 | Paragraph text |
-| Small | 0.875rem (14px) | 400 (normal) | 1.5 | Captions, labels |
+| H1 | 56px (`--t-display`) | 600 | 1.05 (`--lh-display`) | Hero text, large displays |
+| H2 | 40px (`--t-h1`) | 600 | 1.15 (`--lh-heading`) | Page titles, main sections |
+| H3 | 28px (`--t-h2`) | 600 | 1.15 (`--lh-heading`) | Section headers |
+| H4 | 20px (`--t-h3`) | 600 | 1.15 (`--lh-heading`) | Card headers, subsections |
+| Body | 16px (`--t-body`) | 400 | 1.5 (`--lh-body`) | Paragraph text, default |
+| Small | 14px (`--t-body-sm`) | 400 | 1.5 (`--lh-body`) | Secondary text, labels |
+| Meta | 13.5px (`--t-meta`) | 400 | 1.5 (`--lh-body`) | Metadata, timestamps |
+| Label | 12px (`--t-label`) | 400 | 1.5 (`--lh-body`) | Form labels, buttons |
+| Micro | 11px (`--t-micro`) | 400 | 1.5 (`--lh-body`) | Eyebrow, badges, small text |
 
 ### Implementation
 
@@ -86,32 +89,32 @@ font-family: 'Inter', system-ui, -apple-system, sans-serif;
 
 ## Spacing
 
-### Scale (Tailwind Default)
+### Scale (Custom Design Tokens `--s-*`)
 
-```
-0    4px
-1    8px
-2    12px
-3    16px
-4    20px
-5    24px
-6    32px
-8    40px
-10   48px
-12   56px
-16   64px
-20   80px
-```
+| Token | Size | Common Use |
+|-------|------|------------|
+| `--s-1` | 4px | Micro padding, tight gaps |
+| `--s-2` | 8px | Small padding, inline spacing |
+| `--s-3` | 12px | Default small padding |
+| `--s-4` | 14px | Button padding (vertical) |
+| `--s-5` | 16px | Component padding, gap default |
+| `--s-6` | 20px | Card padding, section gaps |
+| `--s-7` | 24px | Generous padding, spacing |
+| `--s-8` | 32px | Large section spacing |
+| `--s-9` | 40px | Page section padding |
+| `--s-10` | 56px | Hero/large sections |
+
+**Tailwind mapping:** `p-1` = `--s-1` (4px), `gap-6` = `--s-6` (20px), etc.
 
 ### Usage Guidelines
 
-| Scenario | Spacing | Example |
+| Scenario | Token/Tailwind | Example |
 |----------|---------|---------|
-| **Component padding** | 4 (16px) or 6 (24px) | `p-4` or `px-6` |
-| **Section padding** | 20 (80px) or 16 (64px) | `py-20` |
-| **Grid gaps** | 4 (16px) or 6 (24px) | `gap-6` |
-| **Vertical rhythm** | 4-8 between elements | `mb-4` between paragraphs |
-| **Horizontal margin** | Auto for centering | `mx-auto` |
+| **Component padding** | `--s-5` / `p-4` (16px) or `--s-6` / `p-6` (20px) | `p-4` or `px-6` |
+| **Section padding** | `--s-9` / `py-9` (40px) | `py-20` (Tailwind native) |
+| **Grid gaps** | `--s-5` / `gap-4` (16px) or `--s-6` / `gap-6` (20px) | `gap-6` |
+| **Vertical rhythm** | Between elements | `mb-4` or `mb-5` |
+| **Horizontal margin** | Center with auto | `mx-auto` |
 
 ### Container Widths
 

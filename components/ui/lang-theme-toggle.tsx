@@ -1,14 +1,25 @@
 'use client'
 
+import { useSyncExternalStore } from 'react'
 import { Moon, Sun, Languages } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { useTheme } from 'next-themes'
+
+// Returns true only on the client; false on the server and during SSR hydration.
+// Prevents resolvedTheme from producing a server/client HTML mismatch (React #418).
+const useIsMounted = () =>
+  useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  )
 
 export function LangThemeToggle() {
   const locale = useLocale()
   const { resolvedTheme, setTheme } = useTheme()
   const nextLocale = locale === 'es' ? 'en' : 'es'
-  const isDark = resolvedTheme === 'dark'
+  const isMounted = useIsMounted()
+  const isDark = isMounted && resolvedTheme === 'dark'
 
   function switchLocale() {
     const nextPath = window.location.pathname.replace(/^\/(en|es)(?=\/|$)/, `/${nextLocale}`)

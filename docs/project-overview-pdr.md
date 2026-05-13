@@ -109,8 +109,8 @@ Ship a zero-maintenance portfolio that:
 | ------------------------ | -------------------------------------------------------------------------------------- |
 | **Frontend**             | Next.js 15.5 (App Router, Turbopack)                                                  |
 | **Internationalization** | next-intl v4 (bilingual EN/ES)                                                        |
-| **Styling**              | Tailwind CSS v4 + Magic UI (Phase 9.1 planned)                                        |
-| **UI Components**        | shadcn/ui + Magic UI free-tier + Pro components (MagicCard, Lens) in Phase 9.1        |
+| **Styling**              | Tailwind CSS v4 + shadcn/ui HSL tokens + Magic UI (Phase 9.1 complete)               |
+| **UI Components**        | 12 Magic UI components in `components/ui/` (10 free-tier + MagicCard + Lens Pro)     |
 | **CMS**                  | Sanity v3 (14 document types, GROQ, bilingual schemas, Presentation preview)          |
 | **Database**             | Supabase Postgres (RLS, Magic Link auth)                                              |
 | **Email**                | Resend (transactional)                                                                |

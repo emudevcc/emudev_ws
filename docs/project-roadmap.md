@@ -233,33 +233,35 @@
 - [x] Monitoring & alerts configured
 - [x] Post-launch retrospective
 
-### Phase 9.1: Magic UI Installation (PLANNED)
+### Phase 9.1: Magic UI Installation (COMPLETE)
 
-**Status:** ⏳ Planned (see `plans/260511-2210-magic-ui-install`)
+**Status:** ✅ Complete (May 12, 2026) (see `plans/260511-2210-magic-ui-install`)
 **Priority:** P1
 **Phases:** 3
 
 Deliverables:
-- [ ] Install 10 free-tier Magic UI components via shadcn CLI
-- [ ] Source MagicCard & Lens from Pro (manual copy from magicui.design/pro)
-- [ ] Integrate CSS token system (full shadcn/ui HSL token set + @theme inline)
-- [ ] Update Tailwind config for Magic UI compatibility
+- [x] Install 10 free-tier Magic UI components via shadcn CLI
+- [x] Source MagicCard & Lens from Pro (manual copy, API-compatible local components)
+- [x] Integrate CSS token system (full shadcn/ui HSL token set + @theme inline in globals.css)
+- [x] Add `components.json` (shadcn config) + `lib/utils.ts` (cn utility)
+- [x] Add framer-motion, clsx, tailwind-merge, next-themes dependencies
 
-### Phase 9.2: Classic Layout UI (PLANNED)
+### Phase 9.2: Classic Layout UI (IN PROGRESS)
 
-**Status:** ⏳ Planned (see `plans/260511-2210-classic-layout-ui`, blocked by Phase 9.1)
+**Status:** 🔄 In Progress — phases 2–8 complete, phase 1 page-shell wiring pending (see `plans/260511-2210-classic-layout-ui`)
 **Priority:** P1
 **Phases:** 8
 
 Deliverables:
-- [ ] 12-section portfolio layout (Hero → Footer)
-- [ ] Floating Dock navigation component
-- [ ] DotPattern background
-- [ ] Bilingual wiring to all 14 Sanity types
-- [ ] Dark mode toggle (next-themes)
-- [ ] Magic UI components: Dock, DotPattern, MagicCard, NumberTicker, BlurFade, ShimmerButton, BorderBeam
-- [ ] Responsive design across all breakpoints
-- [ ] Full i18n coverage for all new UI strings
+- [x] Page shell: DotPattern background, StatusPill, LangThemeToggle, DockNav
+- [x] Hero + About sections (BlurFade, NumberTicker, AnimatedShinyText, Chip row)
+- [x] Experience Timeline (vertical hairline, MagicCard rows, BlurFade stagger)
+- [x] Projects Grid (MagicCard, BorderBeam on featured, Lens on cover)
+- [x] Skills 2×2 tiles + GitHub Contributions heatmap (API route)
+- [x] Social posts, Credentials, Strengths, Writing List sections
+- [x] Contact form (MagicCard, ShimmerButton) + POST /api/contact (Resend)
+- [x] Footer + SEO polish (generateMetadata, OG image, sitemap, robots.ts)
+- [ ] Wire sections into app/[locale]/page.tsx (phase 1 integration)
 
 ### Success Metrics (9.0)
 
@@ -385,10 +387,10 @@ Phase 1 (DONE)
 | Phase 8.4 | May 11  | May 11 | —                    | ✅ Complete |
 | Phase 8.5 | May 12  | May 12 | —                    | ✅ Complete |
 | Phase 9.0 | May 11+ | —      | Ongoing              | 🚀 Live     |
-| Phase 9.1 | TBD     | TBD    | ~3-5 days            | ⏳ Planned   |
-| Phase 9.2 | TBD     | TBD    | ~5-7 days (post-9.1) | ⏳ Planned   |
+| Phase 9.1 | May 12  | May 12 | 1 day                | ✅ Complete  |
+| Phase 9.2 | May 12  | TBD    | ~2-3 days            | 🔄 In Progress |
 
-**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). Phase 9.1-9.2 UI enhancement planned for June 2026.
+**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). Phase 9.1 complete May 12; Phase 9.2 Classic Layout in progress.
 
 ---
 
@@ -404,4 +406,5 @@ Phase 1 (DONE)
 | 1.0.0-i18n.3        | May 10 | 8.3     | Sanity bilingual schemas: locale-aware content fields, per-locale ISR cache tags     |
 | 1.0.0               | May 11 | 8.1-8.4 | Production bilingual launch with sitemap and hreflang coverage                       |
 | 1.1.0-content-model | May 12 | 8.5     | Sanity content model refactor: 14 document types, grouped Studio, expanded GROQ      |
-| 1.1.1+              | TBD    | 9       | Post-launch features: analytics, admin dashboard, search, etc.                       |
+| 1.2.0-magic-ui      | May 12 | 9.1     | Magic UI install: 12 components, shadcn/ui HSL tokens, cn utility, framer-motion    |
+| 1.2.1-classic-ui    | TBD    | 9.2     | Classic Layout: 12-section page, Dock nav, bilingual wiring to 14 Sanity types      |

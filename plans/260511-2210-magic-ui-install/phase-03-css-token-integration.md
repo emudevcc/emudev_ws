@@ -1,9 +1,9 @@
 ---
 phase: 3
-title: "CSS Token Integration"
-status: pending
+title: 'CSS Token Integration'
+status: completed
 priority: P1
-effort: "1h"
+effort: '1h'
 dependencies: [1, 2]
 ---
 
@@ -113,8 +113,12 @@ Replace the current minimal `:root` block with the full token set. Tailwind v4 u
 
 ```css
 @layer base {
-  * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 ```
 
@@ -128,21 +132,21 @@ All `bg-muted`, `text-muted-foreground`, `border-border`, `bg-card` etc. classes
 
 ## Todo List
 
-- [ ] Replace `:root` block in `globals.css` with full shadcn token set
-- [ ] Add `.dark` block
-- [ ] Update `@theme inline` block with all color mappings
-- [ ] Add `@layer base` body/border reset
-- [ ] `npm run build` — no missing token warnings
+- [x] Replace `:root` block in `globals.css` with full shadcn token set
+- [x] Add `.dark` block
+- [x] Update `@theme inline` block with all color mappings
+- [x] Add `@layer base` body/border reset
+- [x] `npm run build` — no missing token warnings
 
 ## Success Criteria
 
-- [ ] `globals.css` has `:root`, `.dark`, `@theme inline`, `@layer base`
-- [ ] `npm run build` passes; no CSS variable warnings
-- [ ] Dark mode toggle (added in Classic Layout Phase 2) switches palette correctly
+- [x] `globals.css` has `:root`, `.dark`, `@theme inline`, `@layer base`
+- [x] `npm run build` passes; no CSS variable warnings
+- [x] Dark mode toggle (added in Classic Layout Phase 2) switches palette correctly
 
 ## Risk Assessment
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|-----------|--------|------------|
-| Tailwind v4 hsl() token format differs from v3 | Low | Low | v4 supports `hsl(var(--x))` natively — this format is correct |
-| Existing minimal globals.css colors conflict | Very Low | Low | Full replace; keep `--font-sans`/`--font-mono` |
+| Risk                                           | Likelihood | Impact | Mitigation                                                    |
+| ---------------------------------------------- | ---------- | ------ | ------------------------------------------------------------- |
+| Tailwind v4 hsl() token format differs from v3 | Low        | Low    | v4 supports `hsl(var(--x))` natively — this format is correct |
+| Existing minimal globals.css colors conflict   | Very Low   | Low    | Full replace; keep `--font-sans`/`--font-mono`                |

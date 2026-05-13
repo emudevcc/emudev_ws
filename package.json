@@ -32,6 +32,11 @@
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.105.3",
     "@vercel/speed-insights": "^2.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.14.0",
+    "motion": "^12.38.0",
     "next": "15.5.18",
     "next-intl": "^4.11.1",
     "next-sanity": "^5.5.11",
@@ -39,7 +44,8 @@
     "react-dom": "^19.2.6",
     "resend": "^6.12.3",
     "sanity": "^3.99.0",
-    "styled-components": "^6.4.1"
+    "styled-components": "^6.4.1",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",

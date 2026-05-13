@@ -4,14 +4,9 @@ import { useEffect, useState } from 'react'
 import { GitBranch } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import type { GitHubContributions } from '@/lib/github'
+import { tokens } from '@/lib/design-tokens'
 
-const levelClasses = [
-  'bg-muted/50',
-  'bg-primary/20',
-  'bg-primary/40',
-  'bg-primary/65',
-  'bg-primary',
-] as const
+const levelColors = tokens.colors.contributions
 
 export function ContributionsCard() {
   const t = useTranslations('contributions')
@@ -44,7 +39,8 @@ export function ContributionsCard() {
                 {week.days.map((day) => (
                   <div
                     key={day.date}
-                    className={`size-[10px] rounded-[2px] ${levelClasses[day.level]}`}
+                    className="size-[10px] rounded-[2px]"
+                    style={{ background: levelColors[day.level] }}
                     title={`${day.date}: ${day.count}`}
                   />
                 ))}

@@ -51,23 +51,26 @@ export function DockNav({ locale }: DockNavProps) {
 
   return (
     <div className="fixed inset-x-0 bottom-4 z-50 hidden justify-center px-4 md:flex">
-      <Dock className="mt-0 bg-background/75" iconSize={38} iconMagnification={56}>
-        {items.map(({ id, icon: Icon, label }) => (
-          <DockIcon key={id} className="bg-background/80" title={label}>
-            <button
-              type="button"
-              onClick={() => goTo(id)}
-              className={cn(
-                'inline-flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground',
-                active === id && 'bg-primary text-primary-foreground hover:text-primary-foreground'
-              )}
-              aria-label={label}
-            >
-              <Icon size={16} />
-            </button>
-          </DockIcon>
-        ))}
-      </Dock>
+      <div className="rounded-2xl" style={{ background: 'var(--dock-bg)' }}>
+        <Dock className="mt-0 bg-transparent" iconSize={38} iconMagnification={56}>
+          {items.map(({ id, icon: Icon, label }) => (
+            <DockIcon key={id} className="bg-background/80" title={label}>
+              <button
+                type="button"
+                onClick={() => goTo(id)}
+                className={cn(
+                  'inline-flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground',
+                  active === id &&
+                    'bg-primary text-primary-foreground hover:text-primary-foreground'
+                )}
+                aria-label={label}
+              >
+                <Icon size={16} />
+              </button>
+            </DockIcon>
+          ))}
+        </Dock>
+      </div>
     </div>
   )
 }

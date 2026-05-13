@@ -85,6 +85,7 @@ emudev_ws/
 ├── middleware.ts                 # next-intl middleware; routes /... → /[locale]/... [NEW]
 │
 ├── lib/                          # Utilities & clients
+│   ├── design-tokens.ts          # Typed `as const` design token exports (colors, spacing, radii, typography, shadow, motion)
 │   ├── sanity-client.ts          # createClient + sanityFetch helper
 │   ├── sanity-queries.ts         # GROQ queries with unstable_cache + locale cache keys
 │   ├── supabase-server.ts        # createSupabaseServerClient
@@ -156,6 +157,7 @@ emudev_ws/
 | `types/sanity.types.ts`                            | ~900 | Generated Sanity document types for the 14-type content model                     |
 | `types/supabase.types.ts`                          | 188  | Generated Supabase table types (contact_submissions, auth.users, etc.)            |
 | `lib/sanity-queries.ts`                            | ~550 | 14+ ISR-cached GROQ queries, locale-v3 cache keys, coalesce fallback, collection tags |
+| `lib/design-tokens.ts`                              | 125  | Typed `as const` design tokens (colors, spacing, radii, typography, shadow, motion) for programmatic component access |
 | `sanity/lib/i18n-helpers.ts`                        | ~80  | 6 shared localized field factories (localizedString, localizedText, localizedSlug, etc.) |
 | `components/contact-form.tsx`                      | 83   | React 19 useActionState form with validation feedback                             |
 | `app/[locale]/projects/[slug]/page.tsx`            | 82   | Dynamic project detail page (SSG per route per locale)                            |
@@ -540,10 +542,11 @@ Each has isolated copies of the above secrets.
 
 ### Overview
 
-Custom CSS design tokens replace shadcn HSL color system. Dark-first architecture with light mode overrides via `[data-theme="light"]` attribute (not class). Fully compatible with shadcn/ui components via mapped aliases.
+Custom CSS design tokens replace shadcn HSL color system. Dark-first architecture with light mode overrides via `[data-theme="light"]` attribute (not class). Fully compatible with shadcn/ui components via mapped aliases. Tokens are exported programmatically via TypeScript for component defaults.
 
 ### Token Files
 
+- **`lib/design-tokens.ts`** (125 LOC) — Typed `as const` TypeScript object exporting all tokens: colors (brand/dark/light/component-specific), spacing, radii, typography, shadow, motion. Used for programmatic component defaults.
 - **`app/globals.css`** (279 LOC) — Token definitions (:root + [data-theme="light"]), @theme inline block for Tailwind v4 mapping, base element styles, keyframe animations
 - **`app/[locale]/layout.tsx`** (89 LOC) — Font imports (Inter + JetBrains Mono via `next/font/google`) with CSS variable classes, ThemeProvider setup
 - **`components/theme-provider.tsx`** — Thin wrapper around `next-themes` ThemeProvider with `attribute="data-theme"` for attribute-based theming
@@ -583,6 +586,25 @@ Custom CSS design tokens replace shadcn HSL color system. Dark-first architectur
 @custom-variant dark (&:is([data-theme="dark"] *));
 ```
 Allows `dark:` utility classes to work with `[data-theme="dark"]` selector instead of class-based dark mode.
+
+### Programmatic Token Access (TypeScript)
+
+Components access tokens via `lib/design-tokens.ts` for defaults:
+
+```typescript
+import { tokens } from '@/lib/design-tokens'
+
+// BorderBeam defaults to accent color
+<BorderBeam colorFrom={tokens.colors.borderBeam.from} />
+
+// MagicCard defaults to brand gradient
+<MagicCard gradientColor={tokens.colors.magicCard.gradient} />
+
+// ContributionsCard uses level colors array
+const levelColors = tokens.colors.contributions
+```
+
+See `docs/design-guidelines.md` → "TypeScript Tokens Object" for full API reference.
 
 ### Typography System
 

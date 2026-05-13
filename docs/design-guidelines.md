@@ -394,8 +394,75 @@ Use `space-y-5` for consistent vertical spacing between form groups.
 Custom design token system replaces shadcn HSL color system. Dark-first architecture with light mode overrides via `[data-theme="light"]`.
 
 **Key files:**
+- `lib/design-tokens.ts` — Typed TypeScript object exporting all tokens (programmatic interface for components)
 - `app/globals.css` — Design token definitions, Tailwind mapping, element base styles
 - `app/[locale]/layout.tsx` — Font imports (Inter + JetBrains Mono) with CSS variables
+
+### TypeScript Tokens Object
+
+Use `lib/design-tokens.ts` to access tokens programmatically in components:
+
+```typescript
+import { tokens } from '@/lib/design-tokens'
+
+// Colors (brand, dark/light palettes, component-specific)
+tokens.colors.brand.accent           // '#e34d2a'
+tokens.colors.dark.canvas            // '#0f0f10'
+tokens.colors.light.canvas           // '#f0eee9'
+tokens.colors.borderBeam.from        // '#e34d2a'
+tokens.colors.magicCard.gradient     // 'rgba(227,77,42,0.08)'
+tokens.colors.contributions[0..4]    // GitHub heatmap level colors (array)
+
+// Spacing (4px to 56px)
+tokens.spacing[1]  // '4px'
+tokens.spacing[10] // '56px'
+
+// Radii (rounded corner sizes)
+tokens.radii.input  // '8px'
+tokens.radii.card   // '14px'
+
+// Typography
+tokens.typography.size.display    // '56px'
+tokens.typography.lineHeight.body // 1.5
+tokens.typography.family.sans     // "'Inter', system-ui, ..."
+
+// Shadow & Motion
+tokens.shadow.dock       // '0 12px 40px rgba(0,0,0,0.5)'
+tokens.motion.ease       // 'cubic-bezier(0.4, 0, 0.2, 1)'
+tokens.motion.normal     // '0.2s'
+```
+
+**Example: Using tokens in component defaults**
+
+```tsx
+import { tokens } from '@/lib/design-tokens'
+
+// BorderBeam with accent color
+export function BorderBeam({ colorFrom = tokens.colors.borderBeam.from, ... }) {
+  return (
+    <motion.div 
+      style={{ '--color-from': colorFrom } as React.CSSProperties} 
+    />
+  )
+}
+
+// MagicCard with brand gradient
+export function MagicCard({ gradientColor = tokens.colors.magicCard.gradient, ... }) {
+  return <div style={{ background: gradientColor }} />
+}
+
+// GitHub contributions heatmap
+export function ContributionsCard() {
+  const levelColors = tokens.colors.contributions
+  return (
+    <div style={{ background: levelColors[day.level] }} />
+  )
+}
+```
+
+**When to use TypeScript tokens vs CSS custom properties:**
+- **TypeScript tokens:** Component defaults, dynamic styles in JS, exported/reused across files
+- **CSS custom properties:** Tailwind utilities (already mapped), inline styles where property names are known
 
 ### Token Architecture
 

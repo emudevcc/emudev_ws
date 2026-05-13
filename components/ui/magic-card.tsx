@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 
+import { tokens } from '@/lib/design-tokens'
 import { cn } from '@/lib/utils'
 
 interface MagicCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -15,7 +16,7 @@ export function MagicCard({
   children,
   className,
   gradientSize = 220,
-  gradientColor = '#262626',
+  gradientColor = tokens.colors.magicCard.gradient,
   gradientOpacity = 0.35,
   onMouseMove,
   style,

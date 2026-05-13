@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { Moon, Sun, Languages } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { useTheme } from 'next-themes'
@@ -8,7 +9,10 @@ export function LangThemeToggle() {
   const locale = useLocale()
   const { resolvedTheme, setTheme } = useTheme()
   const nextLocale = locale === 'es' ? 'en' : 'es'
-  const isDark = resolvedTheme === 'dark'
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  // resolvedTheme is undefined on the server; use false until mounted to match SSR output
+  const isDark = mounted && resolvedTheme === 'dark'
 
   function switchLocale() {
     const nextPath = window.location.pathname.replace(/^\/(en|es)(?=\/|$)/, `/${nextLocale}`)

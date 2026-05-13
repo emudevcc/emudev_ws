@@ -109,7 +109,7 @@ Ship a zero-maintenance portfolio that:
 | ------------------------ | -------------------------------------------------------------------------------------- |
 | **Frontend**             | Next.js 15.5 (App Router, Turbopack)                                                  |
 | **Internationalization** | next-intl v4 (bilingual EN/ES)                                                        |
-| **Styling**              | Tailwind CSS v4 + shadcn/ui HSL tokens + Magic UI (Phase 9.1 complete)               |
+| **Styling**              | Tailwind CSS v4 + custom design tokens (dark-first, [data-theme] attribute, Phase 9.4 complete) + Magic UI |
 | **UI Components**        | 12 Magic UI components in `components/ui/` (10 free-tier + MagicCard + Lens Pro)     |
 | **CMS**                  | Sanity v3 (14 document types, GROQ, bilingual schemas, Presentation preview)          |
 | **Database**             | Supabase Postgres (RLS, Magic Link auth)                                              |
@@ -141,18 +141,19 @@ Ship a zero-maintenance portfolio that:
 - **Phase 8.4** ✅: SEO & sitemap (locale variants and hreflang alternates)
 - **Phase 8.5** ✅: Sanity content model refactor (14 document types, grouped Studio, expanded GROQ)
 
-### Completed Phase 9 Work (May 11-12, 2026)
+### Completed Phase 9 Work (May 11-13, 2026)
 
 - **Phase 9.0** ✅: Production deployment (bilingual live May 11, 2026)
 - **Phase 9.1** ✅: Magic UI installation (12 components: 10 free-tier + 2 Pro local)
 - **Phase 9.2** ✅: Classic layout UI (11 sections, Magic UI components, scroll tracking, GitHub contributions)
 - **Phase 9.3** ✅: SEO canonical & hreflang fix (self-referential per-locale, generateMetadata for all pages)
+- **Phase 9.4** ✅: Design tokens system (dark-first CSS custom properties, [data-theme] attribute switching, semantic color/type/spacing scales, Tailwind v4 @theme inline mapping, shadcn compat aliases)
 
-### Future (Phase 9.4+)
+### Future (Phase 9.5+)
 
-- **Phase 9.4** ⏳: Sanity seed data & content population (10 NDJSON files, 14 types)
-- **Phase 9.5** ⏳: Blog redesign (featured hero, tag filter, card grid, polished post layout)
-- **Phase 9.6+** 🔄: Post-launch monitoring, analytics, admin dashboard, search, etc.
+- **Phase 9.5** ⏳: Sanity seed data & content population (10 NDJSON files, 14 types)
+- **Phase 9.6** ⏳: Blog redesign (featured hero, tag filter, card grid, polished post layout)
+- **Phase 9.7+** 🔄: Post-launch monitoring, analytics, admin dashboard, search, etc.
 
 ---
 
@@ -193,5 +194,6 @@ Ship a zero-maintenance portfolio that:
 | **Phase 8.3 Complete (Sanity Bilingual)**     | May 10, 2026        |
 | **Phase 8.4 Complete (Sitemap hreflang)**     | May 11, 2026        |
 | **Phase 8.5 Complete (Sanity Content Model)** | May 12, 2026        |
+| **Phase 9.4 Complete (Design Tokens)**        | May 13, 2026        |
 | **Phase 9 (Post-Launch)**                     | TBD (future)        |
 | **Production Launch (Bilingual)**             | May 11, 2026 (live) |

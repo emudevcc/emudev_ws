@@ -13,11 +13,17 @@
 │  ┌─────────────────────────────────────────────────────────┐   │
 │  │           Next.js 15 (App Router + next-intl)          │   │
 │  │  ┌────────────────────────────────────────────────┐    │   │
-│  │  │  Middleware (Locale Detection & Routing) [NEW] │    │   │
-│  │  │  • Route / → /en or /es via locale detection   │    │   │
-│  │  │  • Extract locale from Accept-Language header  │    │   │
-│  │  │  • Pass locale to [locale] segment params      │    │   │
+│  │  │  Middleware (Locale Detection & Routing)      │    │   │
+│  │  │  • Route / → /en or /es via Accept-Language   │    │   │
 │  │  │  • Explicit prefix routing: /en, /es always   │    │   │
+│  │  │  • Pass locale to [locale] segment params      │    │   │
+│  │  └────────────────────────────────────────────────┘    │   │
+│  │  ┌────────────────────────────────────────────────┐    │   │
+│  │  │  Design Token System (CSS custom properties)  │    │   │
+│  │  │  • Dark-first (:root = dark)                  │    │   │
+│  │  │  • Light mode via [data-theme="light"]        │    │   │
+│  │  │  • 10 color scales, type scale, spacing scale │    │   │
+│  │  │  • Tailwind @theme inline mapping             │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
 │  │  ┌────────────────────────────────────────────────┐    │   │
 │  │  │  Page Generation (SSG / ISR / SSR)             │    │   │

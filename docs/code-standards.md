@@ -680,6 +680,33 @@ When making breaking changes:
 
 ---
 
+## CSS Design Tokens Naming Conventions
+
+**Dark-first token system in `app/globals.css` uses consistent naming patterns:**
+
+| Category | Pattern | Examples |
+|----------|---------|----------|
+| **Colors (brand)** | `--{name}` | `--accent`, `--accent-soft`, `--status-ok` |
+| **Canvas/background** | `--canvas` | `--canvas: #0f0f10` (dark), `#f0eee9` (light) |
+| **Surfaces (opacity)** | `--surface-{level}` | `--surface-1`, `--surface-2`, `--surface-input` |
+| **Borders** | `--hairline`, `--hairline-mid` | Light opacity on dark, dark on light |
+| **Foreground/text** | `--fg-{level}` (opacity scale) | `--fg-1` (primary) → `--fg-4` (quaternary) |
+| **Type scale** | `--t-{size}` | `--t-display`, `--t-h1`, `--t-body`, `--t-label` |
+| **Line height** | `--lh-{variant}` | `--lh-display`, `--lh-heading`, `--lh-body` |
+| **Spacing** | `--s-{1..10}` | `--s-1` (4px) → `--s-10` (56px) |
+| **Radii** | `--r-{component}` or `--radius` | `--r-input`, `--r-card`, `--r-pill` |
+| **Shadows** | `--shadow-{type}` | `--shadow-dock` (elevated), `--shadow-glow-ok` (status) |
+| **Font families** | `--font-{type}` | `--font-sans`, `--font-mono` |
+| **Animation** | `--ease`, `--dur{-variant}` | `--dur-fast` (0.15s), `--dur` (0.2s) |
+
+**Key rules:**
+- All color tokens defined at `:root` (dark) with `[data-theme="light"]` overrides
+- No hardcoded hex/rgb values in components; use CSS variable or Tailwind utility
+- Type scale and spacing use numeric scales (1-10) for hierarchy
+- Radii use semantic names (input, btn, card, dock, pill) matching component use case
+
+---
+
 ## Magic UI & Component Installation
 
 **Status:** Phase 9.1 ✅ complete (May 12, 2026). Phase 9.2 ✅ complete (11 section components integrated). 12 Magic UI components installed in `components/ui/`.

@@ -1,5 +1,6 @@
 import React, { type ComponentPropsWithoutRef, type CSSProperties } from 'react'
 
+import { tokens } from '@/lib/design-tokens'
 import { cn } from '@/lib/utils'
 
 export interface ShimmerButtonProps extends ComponentPropsWithoutRef<'button'> {
@@ -15,7 +16,7 @@ export interface ShimmerButtonProps extends ComponentPropsWithoutRef<'button'> {
 export const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
   (
     {
-      shimmerColor = '#ffffff',
+      shimmerColor = tokens.colors.shimmer,
       shimmerSize = '0.05em',
       shimmerDuration = '3s',
       borderRadius = '100px',

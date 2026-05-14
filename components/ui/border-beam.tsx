@@ -2,6 +2,7 @@
 
 import { motion, MotionStyle, Transition } from 'motion/react'
 
+import { tokens } from '@/lib/design-tokens'
 import { cn } from '@/lib/utils'
 
 interface BorderBeamProps {
@@ -56,8 +57,8 @@ export const BorderBeam = ({
   size = 50,
   delay = 0,
   duration = 6,
-  colorFrom = '#ffaa40',
-  colorTo = '#9c40ff',
+  colorFrom = tokens.colors.borderBeam.from,
+  colorTo = tokens.colors.borderBeam.to,
   transition,
   style,
   reverse = false,

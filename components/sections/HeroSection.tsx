@@ -5,6 +5,7 @@ import { AnimatedShinyText } from '@/components/ui/animated-shiny-text'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button'
 import { NumberTicker } from '@/components/ui/number-ticker'
+import { richTextToPlainText } from '@/lib/content'
 import type { SiteSettings } from '@/lib/sanity-queries'
 
 type HeroSectionProps = {
@@ -24,6 +25,7 @@ export function HeroSection({
   const name = settings?.shortName ?? settings?.siteName ?? 'Esteban Montero'
   const role = settings?.role ?? 'Software Engineer'
   const resume = settings?.resumePdfEn ?? settings?.resumePdfEs
+  const intro = richTextToPlainText(settings?.heroIntro)
   const stats = [
     { value: projectCount, label: t('statProjects') },
     { value: skillCount, label: t('statSkills') },
@@ -66,7 +68,7 @@ export function HeroSection({
 
         <BlurFade delay={0.16}>
           <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
-            {settings?.tagline ?? settings?.description ?? t('fallbackTagline')}
+            {intro || settings?.tagline || settings?.description || t('fallbackTagline')}
           </p>
         </BlurFade>
 

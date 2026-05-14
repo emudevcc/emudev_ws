@@ -33,7 +33,7 @@ export function ClassicShell({ locale, settings }: ClassicShellProps) {
       <header className="fixed inset-x-0 top-0 z-50 border-b border-border/50 bg-background/75 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5">
           <Link href="/" className="font-mono text-sm font-semibold tracking-tight">
-            {settings?.shortName ?? settings?.siteName ?? 'emudev'}
+            {settings?.siteName ?? 'emudev'}
           </Link>
           <nav className="hidden items-center gap-5 text-sm text-muted-foreground md:flex">
             {links.map((link) => (

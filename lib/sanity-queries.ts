@@ -176,7 +176,8 @@ export type Testimonial = {
 }
 
 const normalizeLocale = (locale?: string): Locale => (locale === 'es' ? 'es' : 'en')
-const cacheVersion = 'localized-v4'
+const cacheVersion = 'localized-v5'
+const revalidateSeconds = Number(process.env.SANITY_REVALIDATE_SECONDS ?? 60)
 
 const skillProjection = groq`{
   _id,
@@ -218,7 +219,7 @@ export const getProjects = (locale?: string) => {
         params: { locale: safeLocale },
       }),
     [`${cacheVersion}-projects-${safeLocale}`],
-    { tags: ['projects'], revalidate: 3600 }
+    { tags: ['projects'], revalidate: revalidateSeconds }
   )()
 }
 
@@ -256,7 +257,7 @@ export const getProjectBySlug = (slug: string, locale?: string) => {
         params: { slug, locale: safeLocale },
       }),
     [`${cacheVersion}-project-${slug}-${safeLocale}`],
-    { tags: ['projects', `project:${slug}`], revalidate: 3600 }
+    { tags: ['projects', `project:${slug}`], revalidate: revalidateSeconds }
   )()
 }
 
@@ -289,7 +290,7 @@ export const getPosts = (locale?: string) => {
         params: { locale: safeLocale },
       }),
     [`${cacheVersion}-posts-${safeLocale}`],
-    { tags: ['posts'], revalidate: 3600 }
+    { tags: ['posts'], revalidate: revalidateSeconds }
   )()
 }
 
@@ -327,7 +328,7 @@ export const getPostBySlug = (slug: string, locale?: string) => {
         params: { slug, locale: safeLocale },
       }),
     [`${cacheVersion}-post-${slug}-${safeLocale}`],
-    { tags: ['posts', `post:${slug}`], revalidate: 3600 }
+    { tags: ['posts', `post:${slug}`], revalidate: revalidateSeconds }
   )()
 }
 
@@ -341,7 +342,7 @@ export const getSiteSettings = (locale?: string) => {
   return unstable_cache(
     async () =>
       sanityFetch<SiteSettings | null>({
-        query: groq`*[_type == "siteSettings"][0] {
+        query: groq`*[_type == "siteSettings"] | order(_updatedAt desc)[0] {
           fullName,
           shortName,
           "role": coalesce(role[$locale], role.en),
@@ -365,7 +366,7 @@ export const getSiteSettings = (locale?: string) => {
         params: { locale: safeLocale },
       }),
     [`${cacheVersion}-site-settings-${safeLocale}`],
-    { tags: ['site-settings'], revalidate: 3600 }
+    { tags: ['site-settings'], revalidate: revalidateSeconds }
   )()
 }
 
@@ -380,7 +381,7 @@ export const getSkills = () =>
         query: groq`*[_type == "skill"] | order(order asc, name asc) ${skillProjection}`,
       }),
     [`${cacheVersion}-skills`],
-    { tags: ['skills'], revalidate: 3600 }
+    { tags: ['skills'], revalidate: revalidateSeconds }
   )()
 
 export const getAbout = (locale?: string) => {
@@ -389,7 +390,7 @@ export const getAbout = (locale?: string) => {
   return unstable_cache(
     async () =>
       sanityFetch<About | null>({
-        query: groq`*[_type == "about"][0] {
+        query: groq`*[_type == "about"] | order(_updatedAt desc)[0] {
           "paragraphs": coalesce(paragraphs[$locale], paragraphs.en),
           "funFacts": coalesce(funFacts[$locale], funFacts.en),
           "photoCaption": coalesce(photoCaption[$locale], photoCaption.en)
@@ -397,7 +398,7 @@ export const getAbout = (locale?: string) => {
         params: { locale: safeLocale },
       }),
     [`${cacheVersion}-about-${safeLocale}`],
-    { tags: ['about'], revalidate: 3600 }
+    { tags: ['about'], revalidate: revalidateSeconds }
   )()
 }
 
@@ -407,7 +408,7 @@ export const getExperiences = (locale?: string) => {
   return unstable_cache(
     async () =>
       sanityFetch<Experience[]>({
-        query: groq`*[_type == "experience"] | order(startDate desc) {
+        query: groq`*[_type == "experience"] | order(coalesce(order, 9999) asc, startDate desc) {
           _id,
           "role": coalesce(role[$locale], role.en),
           company,
@@ -426,7 +427,7 @@ export const getExperiences = (locale?: string) => {
         params: { locale: safeLocale },
       }),
     [`${cacheVersion}-experiences-${safeLocale}`],
-    { tags: ['experiences'], revalidate: 3600 }
+    { tags: ['experiences'], revalidate: revalidateSeconds }
   )()
 }
 
@@ -448,7 +449,7 @@ export const getCertifications = () =>
         }`,
       }),
     [`${cacheVersion}-certifications`],
-    { tags: ['certifications'], revalidate: 3600 }
+    { tags: ['certifications'], revalidate: revalidateSeconds }
   )()
 
 export const getEducation = (locale?: string) => {
@@ -470,7 +471,7 @@ export const getEducation = (locale?: string) => {
         params: { locale: safeLocale },
       }),
     [`${cacheVersion}-education-${safeLocale}`],
-    { tags: ['educations'], revalidate: 3600 }
+    { tags: ['educations'], revalidate: revalidateSeconds }
   )()
 }
 
@@ -489,7 +490,7 @@ export const getLanguages = () =>
         }`,
       }),
     [`${cacheVersion}-languages`],
-    { tags: ['languages'], revalidate: 3600 }
+    { tags: ['languages'], revalidate: revalidateSeconds }
   )()
 
 export const getStrengths = (locale?: string) => {
@@ -508,7 +509,7 @@ export const getStrengths = (locale?: string) => {
         params: { locale: safeLocale },
       }),
     [`${cacheVersion}-strengths-${safeLocale}`],
-    { tags: ['strengths'], revalidate: 3600 }
+    { tags: ['strengths'], revalidate: revalidateSeconds }
   )()
 }
 
@@ -532,7 +533,7 @@ export const getSocialPosts = (locale?: string) => {
         params: { locale: safeLocale },
       }),
     [`${cacheVersion}-social-posts-${safeLocale}`],
-    { tags: ['socialPosts'], revalidate: 3600 }
+    { tags: ['socialPosts'], revalidate: revalidateSeconds }
   )()
 }
 
@@ -558,6 +559,6 @@ export const getTestimonials = (locale?: string) => {
         params: { locale: safeLocale },
       }),
     [`${cacheVersion}-testimonials-${safeLocale}`],
-    { tags: ['testimonials'], revalidate: 3600 }
+    { tags: ['testimonials'], revalidate: revalidateSeconds }
   )()
 }

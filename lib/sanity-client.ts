@@ -12,7 +12,7 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion: '2024-01-01',
-  useCdn: process.env.NODE_ENV === 'production',
+  useCdn: false,
 })
 
 export async function sanityFetch<T>({

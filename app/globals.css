@@ -4,14 +4,12 @@
 @custom-variant dark (&:is([data-theme="dark"] *));
 
 :root {
-  /* ---------- Brand ---------- */
+  /* [tokens:start] */
   --accent: #e34d2a;
   --accent-soft: #e34d2a1a;
   --accent-line: #e34d2a33;
   --status-ok: #22c55e;
   --spotify: #1ed760;
-
-  /* ---------- Dark palette (default) ---------- */
   --canvas: #0f0f10;
   --surface-1: rgba(255, 255, 255, 0.04);
   --surface-2: rgba(255, 255, 255, 0.06);
@@ -19,23 +17,10 @@
   --hairline: rgba(255, 255, 255, 0.08);
   --hairline-mid: rgba(255, 255, 255, 0.1);
   --dock-bg: rgba(20, 20, 22, 0.7);
-
   --fg-1: #ffffff;
   --fg-2: rgba(255, 255, 255, 0.75);
   --fg-3: rgba(255, 255, 255, 0.55);
   --fg-4: rgba(255, 255, 255, 0.4);
-
-  /* ---------- Type ---------- */
-  --font-sans: var(--font-inter, 'Inter', system-ui, -apple-system, sans-serif);
-  --font-mono: var(
-    --font-jetbrains-mono,
-    'JetBrains Mono',
-    ui-monospace,
-    SFMono-Regular,
-    monospace
-  );
-
-  /* ---------- Type scale ---------- */
   --t-display: 56px;
   --t-h1: 40px;
   --t-h2: 28px;
@@ -48,8 +33,6 @@
   --lh-display: 1.05;
   --lh-heading: 1.15;
   --lh-body: 1.5;
-
-  /* ---------- Spacing ---------- */
   --s-1: 4px;
   --s-2: 8px;
   --s-3: 12px;
@@ -60,22 +43,31 @@
   --s-8: 32px;
   --s-9: 40px;
   --s-10: 56px;
-
-  /* ---------- Radii ---------- */
   --r-input: 8px;
   --r-btn: 10px;
   --r-image: 12px;
   --r-card: 14px;
   --r-dock: 18px;
   --r-pill: 99px;
-  --radius: 0.875rem;
-
-  /* ---------- Shadow / Motion ---------- */
   --shadow-dock: 0 12px 40px rgba(0, 0, 0, 0.5);
   --shadow-glow-ok: 0 0 8px rgba(34, 197, 94, 0.6);
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --dur-fast: 0.15s;
   --dur: 0.2s;
+  --hero: #e34d2a;
+  /* [tokens:end] */
+
+  /* ---------- Type ---------- */
+  --font-sans: var(--font-inter, 'Inter', system-ui, -apple-system, sans-serif);
+  --font-mono: var(
+    --font-jetbrains-mono,
+    'JetBrains Mono',
+    ui-monospace,
+    SFMono-Regular,
+    monospace
+  );
+
+  --radius: 0.875rem;
 
   /* ---------- shadcn compatibility aliases ---------- */
   --background: var(--canvas);
@@ -94,10 +86,12 @@
   --input: var(--surface-input);
   --ring: var(--accent);
   --magic-card-bg: rgba(255, 255, 255, 0.05);
+  --hero-btn-bg: var(--accent-soft);
 }
 
 [data-theme='light'] {
-  --canvas: #f0eee9;
+  /* [tokens-light:start] */
+  --canvas: #ffffff;
   --surface-1: rgba(0, 0, 0, 0.025);
   --surface-2: rgba(0, 0, 0, 0.05);
   --surface-input: rgba(0, 0, 0, 0.02);
@@ -109,7 +103,10 @@
   --fg-3: rgba(0, 0, 0, 0.55);
   --fg-4: rgba(0, 0, 0, 0.4);
   --shadow-dock: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --hero: #e34d2a1a;
+  /* [tokens-light:end] */
   --magic-card-bg: rgba(0, 0, 0, 0.03);
+  --hero-btn-bg: var(--accent-soft);
 }
 
 @theme inline {
@@ -172,14 +169,17 @@
     0% {
       transform: translateZ(0) rotate(0);
     }
+
     15%,
     35% {
       transform: translateZ(0) rotate(90deg);
     }
+
     65%,
     85% {
       transform: translateZ(0) rotate(270deg);
     }
+
     100% {
       transform: translateZ(0) rotate(360deg);
     }
@@ -189,6 +189,7 @@
     from {
       transform: translateX(0);
     }
+
     to {
       transform: translateX(calc(-100% - var(--gap)));
     }
@@ -198,6 +199,7 @@
     from {
       transform: translateY(0);
     }
+
     to {
       transform: translateY(calc(-100% - var(--gap)));
     }
@@ -209,6 +211,7 @@
     100% {
       background-position: calc(-100% - var(--shiny-width)) 0;
     }
+
     30%,
     60% {
       background-position: calc(100% + var(--shiny-width)) 0;
@@ -236,23 +239,27 @@
     font-weight: 600;
     letter-spacing: -0.02em;
   }
+
   h2 {
     font-size: var(--t-h1);
     line-height: var(--lh-heading);
     font-weight: 600;
     letter-spacing: -0.015em;
   }
+
   h3 {
     font-size: var(--t-h2);
     line-height: var(--lh-heading);
     font-weight: 600;
     letter-spacing: -0.01em;
   }
+
   h4 {
     font-size: var(--t-h3);
     line-height: var(--lh-heading);
     font-weight: 600;
   }
+
   p {
     font-size: var(--t-body);
     line-height: var(--lh-body);

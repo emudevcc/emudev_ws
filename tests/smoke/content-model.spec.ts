@@ -79,9 +79,9 @@ test.describe('content model static contracts', () => {
     }
   })
 
-  test('sanity-queries.ts uses updated cache version localized-v3', () => {
+  test('sanity-queries.ts uses updated cache version localized-v5', () => {
     const queries = readText('lib/sanity-queries.ts')
-    expect(queries).toContain("cacheVersion = 'localized-v3'")
+    expect(queries).toContain("cacheVersion = 'localized-v5'")
   })
 
   test('new type queries use locale coalesce fallback for localized fields', () => {

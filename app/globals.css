@@ -55,6 +55,7 @@
   --dur-fast: 0.15s;
   --dur: 0.2s;
   --hero: #e34d2a;
+  --overlay: rgba(0, 0, 0, 0.65);
   /* [tokens:end] */
 
   /* ---------- Type ---------- */
@@ -104,6 +105,7 @@
   --fg-4: rgba(0, 0, 0, 0.4);
   --shadow-dock: 0 12px 40px rgba(0, 0, 0, 0.12);
   --hero: #e34d2a1a;
+  --overlay: rgba(0, 0, 0, 0.45);
   /* [tokens-light:end] */
   --magic-card-bg: rgba(0, 0, 0, 0.03);
   --hero-btn-bg: var(--accent-soft);
@@ -142,6 +144,7 @@
   --color-border: var(--hairline);
   --color-input: var(--surface-input);
   --color-ring: var(--accent);
+  --color-overlay: var(--overlay);
 
   /* Radii */
   --radius-sm: var(--r-input);

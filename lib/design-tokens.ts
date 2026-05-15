@@ -120,6 +120,10 @@ export const tokens = {
     dockLight: '0 12px 40px rgba(0,0,0,0.12)',
     glowOk: '0 0 8px rgba(34,197,94,0.6)',
   },
+  overlay: {
+    dark: 'rgba(0,0,0,0.65)',
+    light: 'rgba(0,0,0,0.45)',
+  },
   motion: {
     ease: 'cubic-bezier(0.4, 0, 0.2, 1)',
     fast: '0.15s',
@@ -179,6 +183,7 @@ export const cssVars = {
     '--dur-fast': tokens.motion.fast,
     '--dur': tokens.motion.normal,
     '--hero': tokens.colors.dark.hero,
+    '--overlay': tokens.overlay.dark,
   },
   light: {
     '--canvas': tokens.colors.light.canvas,
@@ -194,5 +199,6 @@ export const cssVars = {
     '--fg-4': tokens.colors.light.fg4,
     '--shadow-dock': tokens.shadow.dockLight,
     '--hero': tokens.colors.light.hero,
+    '--overlay': tokens.overlay.light,
   },
 } satisfies Record<string, Record<string, string>>

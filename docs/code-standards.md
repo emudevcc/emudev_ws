@@ -71,6 +71,37 @@ export default async function Page({ params }) {
 | **GROQ Queries**     | Inline or kebab-case alias                | `getProjects`, `getProjectBySlug`                              |
 | **Env Vars**         | UPPER*SNAKE_CASE with NEXT_PUBLIC* prefix | `NEXT_PUBLIC_SANITY_PROJECT_ID`, `SANITY_REVALIDATE_SECRET`    |
 | **Locales**          | lowercase 2-letter code                   | `'en'`, `'es'` (not 'EN', 'ES')                                |
+| **Section anchors**  | lowercase hyphenated                      | `id="about"`, `id="contact"` (in JSX/HTML)                     |
+
+---
+
+## Hash-Anchor Navigation Pattern
+
+**When to use:** Same-page scroll navigation (e.g., About and Contact sections on homepage).
+
+**Pattern:**
+
+```tsx
+// Navigation (use native <a> for hash anchors, not next-intl Link)
+<a href={`/${locale}#about`} className="nav-link">
+  About
+</a>
+
+// Section definition (same page)
+<section id="about" className="py-24">
+  <h2>About Me</h2>
+  ...
+</section>
+```
+
+**Why not next-intl Link?**
+
+- `Link` from next-intl triggers full page navigation (uses router.push)
+- Router.push with hash-only path (#about) is treated as a route change
+- This causes hydration issues with ThemeProvider and other hydration-sensitive components
+- Native `<a>` provides browser-native hash navigation without client-side routing
+
+**Rule:** Use native `<a href="/{locale}#anchor">` for same-page navigation. Use next-intl `Link` only for full route changes (pages, blog posts, projects).
 
 ---
 

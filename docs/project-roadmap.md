@@ -1,9 +1,9 @@
 # Project Roadmap
 
-## Current Status: Phases 1-8.5 Complete, Bilingual Live
+## Current Status: Phases 1-8.5 + 9.0-9.8 Complete, Bilingual Live
 
-**Timeline:** May 12, 2026
-**Overall Progress:** 98% (Phases 1-8.5 complete, Phase 9 future)
+**Timeline:** May 15, 2026
+**Overall Progress:** 99% (Phases 1-8.5 + 9.0-9.8 complete, Phase 9.9+ future)
 
 ---
 
@@ -217,11 +217,11 @@
 
 ---
 
-## Phase 9: Post-Launch & UI Enhancement (ACTIVE)
+## Phase 9: Post-Launch & UI Enhancement (MOSTLY COMPLETE)
 
-**Status:** 🚀 In Progress (post-launch monitoring + Phase 9.1-9.2 planned)
-**Target:** June 2026
-**Duration:** Ongoing
+**Status:** ✅ Phases 9.0-9.8 complete; 9.9+ planned
+**Current Date:** May 15, 2026
+**Overall Progress:** 99%
 
 ### Phase 9.0: Production Deployment (COMPLETE)
 
@@ -328,6 +328,49 @@ Deliverables:
 - Mobile optimized: capped pixel ratio (1.5×), fixed particle count
 - Motion-safe: respects `prefers-reduced-motion` → static frame
 - Uses design token `--accent` (#e34d2a) for connection color
+
+### Phase 9.7: Navigation Refactor & PageTransition (COMPLETE)
+
+**Status:** ✅ Complete (May 15, 2026)
+**Priority:** P0 (UX polish)
+
+**Deliverables:**
+
+- [x] Removed `/[locale]/about` and `/[locale]/contact` standalone page routes
+- [x] About and Contact now implemented as `<section id="about|contact">` elements on homepage
+- [x] Top nav uses native `<a href="/{locale}#anchor">` tags for same-page hash navigation (not next-intl Link)
+- [x] Nav order: Home → About (hash) → Blog → Contact (hash)
+- [x] `components/ui/page-transition.tsx` — Client component with motion.main keyed by pathname
+- [x] PageTransition animation: opacity 0→1, y: 8→0, blur 4px→0, 300ms easeOut
+- [x] Applied globally in `app/[locale]/layout.tsx` wrapping page children
+- [x] Hash anchor navigation does NOT trigger PageTransition (same pathname)
+- [x] Documentation updated: `docs/design-guidelines.md` (Motion section + PageTransition), `docs/code-standards.md` (hash-anchor pattern), `docs/system-architecture.md` (route table)
+
+**Technical Highlights:**
+
+- Native `<a>` prevents next-intl Client Component hydration issues with hash-only navigation
+- PageTransition triggers on full route changes (pathname key change in motion.main)
+- Motion library dependency: `motion/react` (framer-motion v11+)
+
+### Phase 9.8: DotPattern Hydration Fix (COMPLETE)
+
+**Status:** ✅ Complete (May 15, 2026)
+**Priority:** P1 (stability)
+
+**Deliverables:**
+
+- [x] Fixed hydration mismatch in `components/ui/dot-pattern.tsx`
+- [x] Root cause: `useId()` indexing shifts between SSR and client when ThemeProvider injects `<script>` tag
+- [x] Solution: Conditionally render `<defs>/<radialGradient>` ONLY when `glow={true}`
+- [x] When `glow=false` (layout default), no `id` attribute emitted → no SSR/client mismatch
+- [x] Added `shouldRenderDots` guard to prevent dot rendering before dimensions measured
+- [x] Verified in both light and dark themes
+
+**Technical Highlights:**
+
+- Eliminates React hydration mismatch error in browser console
+- Conditional ID generation prevents index desync
+- Performance: no impact (glow typically false in layout backgrounds)
 
 ### Success Metrics (9.0)
 
@@ -452,14 +495,17 @@ Phase 1 (DONE)
 | Phase 8.3 | May 10  | May 10 | 1 day                | ✅ Complete |
 | Phase 8.4 | May 11  | May 11 | —                    | ✅ Complete |
 | Phase 8.5 | May 12  | May 12 | —                    | ✅ Complete |
-| Phase 9.0 | May 11+ | —      | Ongoing              | 🚀 Live          |
+| Phase 9.0 | May 11  | May 11 | Ongoing              | ✅ Live          |
 | Phase 9.1 | May 12  | May 12 | 1 day                | ✅ Complete      |
 | Phase 9.2 | May 12  | May 12 | 1 day                | ✅ Complete      |
 | Phase 9.3 | May 12  | May 12 | <1 day               | ✅ Complete      |
 | Phase 9.4 | May 13  | May 13 | 1 day                | ✅ Complete      |
 | Phase 9.5 | May 12  | May 12 | 1 day                | ✅ Complete      |
+| Phase 9.6 | May 14  | May 14 | <1 day               | ✅ Complete      |
+| Phase 9.7 | May 15  | May 15 | <1 day               | ✅ Complete      |
+| Phase 9.8 | May 15  | May 15 | <1 day               | ✅ Complete      |
 
-**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.5) completed by May 13, 2026. Next phases: monitoring, analytics, admin dashboard, search functionality.
+**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.8) completed by May 15, 2026 with navigation refactor, PageTransition component, and hydration fixes. Next phases: monitoring, analytics, admin dashboard, search functionality.
 
 ---
 
@@ -479,4 +525,6 @@ Phase 1 (DONE)
 | 1.2.1-classic-ui    | May 12 | 9.2     | Classic Layout: 11 sections, Dock nav, scroll tracking, GitHub contributions, hydration fix |
 | 1.2.2-seo-canonical | May 12 | 9.3     | SEO canonical per-locale, self-referential hreflang, generateMetadata for all pages  |
 | 1.2.3-design-tokens | May 13 | 9.4     | Design tokens system: dark-first CSS custom properties, [data-theme] attribute, semantic scales |
-| 1.3.0-future        | TBD    | 9.5+    | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |
+| 1.3.0-blog-redesign | May 13 | 9.5     | MagicUI blog redesign: featured hero, tag filter, card grid, bilingual layout       |
+| 1.4.0-nav-refactor  | May 15 | 9.6-9.8 | Navigation refactor: removed /about /contact routes, hash anchors, PageTransition, DotPattern fix |
+| 1.5.0-future        | TBD    | 9.9+    | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |

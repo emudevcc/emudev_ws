@@ -111,18 +111,21 @@ middleware.ts (next-intl/middleware)
 
 | Route                       | Generation          | Cache              | Purpose                                                   |
 | --------------------------- | ------------------- | ------------------ | --------------------------------------------------------- |
-| `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (hero + featured projects, locale-specific)      |
+| `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer) |
 | `/[locale]/projects`        | ISR × 2             | Tag: `projects`    | Projects list (gallery, skill filter, per-locale content) |
 | `/[locale]/projects/[slug]` | SSG (per-route × 2) | Per-route + locale | Project detail page with OG image                         |
 | `/[locale]/blog`            | ISR × 2             | Tag: `posts`       | Blog post list (locale-specific)                          |
 | `/[locale]/blog/[slug]`     | SSG (per-route × 2) | Per-route + locale | Blog post detail with OG image                            |
-| `/[locale]/about`           | SSR                 | None               | Static about page (locale-aware text)                     |
-| `/[locale]/contact`         | SSR                 | None               | Contact form (locale-aware labels, validation)            |
 | `/studio`                   | SSR                 | None               | Embedded Sanity Studio (root, no locale)                  |
 | `/api/draft-mode/enable`    | Route               | None               | Enable Sanity draft mode (root, validatePreviewUrl)       |
 | `/api/draft-mode/disable`   | Route               | None               | Disable draft mode (root)                                 |
 | `/robots.txt`               | Generated           | Static             | Robots.txt (allow all except /studio, /api, /admin)       |
 | `/sitemap.xml`              | Generated           | Static             | XML sitemap with locale variants + priorities             |
+
+**Hash Anchor Navigation:** About and Contact are homepage `<section>` elements with `id="about"` and `id="contact"`. Top nav uses native `<a>` tags:
+- About → `<a href="/{locale}#about">` (same-page scroll, no next-intl Link)
+- Contact → `<a href="/{locale}#contact">` (same-page scroll, no next-intl Link)
+- Home, Blog → use next-intl `Link` for full-route navigation
 
 #### Dynamic Params (SSG with Per-Locale Variants)
 

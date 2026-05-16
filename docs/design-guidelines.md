@@ -52,6 +52,7 @@ app/globals.css
 | `--fg-3` | `rgba(255,255,255,0.55)` | Tertiary text, placeholders |
 | `--fg-4` | `rgba(255,255,255,0.40)` | Disabled, meta labels |
 | `--hero` | `#e34d2a` | Hero section gradient/glow |
+| `--hero-vignette` | `rgba(255,255,255,0.08)` | Hero particle background radial gradient edge fade |
 | `--overlay` | `rgba(0,0,0,0.65)` | Modal/dialog backdrop |
 | `--shadow-dock` | `0 12px 40px rgba(0,0,0,0.5)` | Dock shadow |
 
@@ -71,6 +72,7 @@ app/globals.css
 | `--fg-3` | `rgba(0,0,0,0.55)` |
 | `--fg-4` | `rgba(0,0,0,0.40)` |
 | `--hero` | `#e34d2a1a` |
+| `--hero-vignette` | `rgba(227,77,42,0.06)` |
 | `--overlay` | `rgba(0,0,0,0.45)` |
 | `--shadow-dock` | `0 12px 40px rgba(0,0,0,0.12)` |
 
@@ -354,6 +356,49 @@ For custom interactive elements:
 // Section container (consistent across all sections)
 <section className="mx-auto max-w-6xl px-5 py-24">
 ```
+
+---
+
+## Three.js Background Pattern
+
+### Hero Particle Network
+
+The hero section features a Three.js particle network (`components/ui/hero-background.tsx`):
+
+**Technical approach:**
+- 110 white particles distributed in 3D space; accent-orange connection lines (20% opacity) for nearby nodes
+- Mouse parallax: camera follows cursor via `lerp(mouseX, mouseY)` for subtle depth effect
+- Ambient rotation: slow `group.rotation.y/x` for infinite motion
+- Mobile optimized: low pixel ratio cap (1.5×), fixed particle count, static topology
+- Motion-safe: `prefers-reduced-motion` → static frame (no rotation, no parallax)
+- Vignette overlay: `radial-gradient` using `--hero-vignette` token (dark: white fade, light: accent fade)
+
+**SSR boundary (critical):**
+Three.js renders only on client. Use the `hero-background-loader.tsx` shim in server components:
+
+```tsx
+// In server component (HeroSection.tsx):
+import { HeroBackground } from '@/components/ui/hero-background-loader'
+<HeroBackground />
+
+// loader is:
+export const HeroBackground = dynamic(
+  () => import('@/components/ui/hero-background').then(m => m.HeroBackground),
+  { ssr: false }
+)
+```
+
+The loader is necessary because `next/dynamic` with `ssr: false` must be called from a Client Component, but HeroSection is a Server Component. The shim provides the boundary.
+
+**Dependencies:** `three` package (r184+) for 3D rendering.
+
+### Design Token: --hero-vignette
+
+CSS variable controlling hero background edge fade:
+- **Dark mode:** `rgba(255, 255, 255, 0.08)` — white fade
+- **Light mode:** `rgba(227, 77, 42, 0.06)` — accent-orange fade (lighter, subtle)
+
+Applied as `radial-gradient(ellipse 85% 65% at 50% 45%, transparent 25%, var(--hero-vignette) 100%)` in hero-background.tsx.
 
 ---
 

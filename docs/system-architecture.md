@@ -98,7 +98,7 @@ middleware.ts (next-intl/middleware)
 
 #### Important Constraints
 
-- Explicit locale prefix is **always required**: `/en/about`, `/es/about` (not bare `/about`)
+- Explicit locale prefix is **always required**: `/en/blog`, `/es/blog` (not bare `/blog`)
 - Root `/` redirects to `/en` (English default)
 - API routes and `/studio` are excluded from middleware rewriting
 - LocaleSwitcher in nav allows manual EN↔ES toggle
@@ -122,10 +122,11 @@ middleware.ts (next-intl/middleware)
 | `/robots.txt`               | Generated           | Static             | Robots.txt (allow all except /studio, /api, /admin)       |
 | `/sitemap.xml`              | Generated           | Static             | XML sitemap with locale variants + priorities             |
 
-**Hash Anchor Navigation:** About and Contact are homepage `<section>` elements with `id="about"` and `id="contact"`. Top nav uses native `<a>` tags:
-- About → `<a href="/{locale}#about">` (same-page scroll, no next-intl Link)
-- Contact → `<a href="/{locale}#contact">` (same-page scroll, no next-intl Link)
-- Home, Blog → use next-intl `Link` for full-route navigation
+**Hash Anchor Navigation:** All homepage sections (About, Experience, Skills, Social, Credentials, Strengths, Writing, Contact) are `<section id="…">` elements — no standalone routes for these. ClassicShell nav uses:
+- `<a href="/{locale}#section">` for hash anchors (About, Contact) — same-page scroll, no next-intl Link
+- `Link href="/"`, `Link href="/blog"` for full-route navigation
+
+**PageTransition:** `motion.main` keyed by `usePathname()` — opacity/y/blur animation on route change (0.3s easeOut). Hash anchor changes share the same pathname, so transition does NOT fire for in-page scroll.
 
 #### Dynamic Params (SSG with Per-Locale Variants)
 

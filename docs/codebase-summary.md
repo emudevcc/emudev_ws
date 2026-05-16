@@ -49,10 +49,10 @@ emudev_ws/
 │   │   ├── projects-grid.tsx          # Project gallery with filter + Lens
 │   │   ├── credentials-section.tsx    # Certifications + education + languages
 │   │   ├── writing-list.tsx           # Blog posts list
-│   │   ├── social-posts-grid.tsx      # Marquee of social posts
+│   │   ├── social-posts-grid.tsx      # Section wrapper for SocialFeedGrid (platform filter + 3-col grid)
 │   │   ├── strengths-card.tsx         # CliftonStrengths cards
 │   │   ├── contributions-card.tsx     # GitHub contributions heatmap
-│   │   ├── footer-section.tsx         # Footer with socials
+│   │   ├── footer-section.tsx         # Async server component: brand column, Navigate + Explore nav columns, copyright bar
 │   │   └── contact-section.tsx        # Contact form + CTA
 │   ├── ui/                       # UI primitives
 │       ├── hero-background.tsx           # Three.js particle network (110 nodes, accent connections)
@@ -195,10 +195,12 @@ emudev_ws/
 | `components/sections/projects-grid.tsx`            | ~90  | Project gallery with tag filter, MagicCard, BorderBeam, and Lens                  |
 | `components/sections/credentials-section.tsx`      | ~80  | Certifications, education, and language credentials display                       |
 | `components/sections/writing-list.tsx`             | ~50  | Blog posts list with date, title, excerpt, and author                             |
-| `components/sections/social-posts-grid.tsx`        | ~40  | Marquee of social media posts                                                     |
+| `components/sections/social-posts-grid.tsx`        | 25   | Section wrapper; passes dummy items to SocialFeedGrid                             |
+| `components/ui/social-feed-grid.tsx`               | ~85  | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination: planned, not yet implemented |
+| `components/ui/social-feed-card.tsx`               | ~157 | Individual social card: platform config map, MediaPlaceholder (YT/TikTok/IG), engagement metrics (views/likes/comments/shares), `fmt()` helper |
 | `components/sections/strengths-card.tsx`           | ~60  | CliftonStrengths cards with descriptions                                          |
 | `components/sections/contributions-card.tsx`       | ~70  | GitHub contributions heatmap (calendar visualization)                             |
-| `components/sections/footer-section.tsx`           | ~50  | Footer with social links and navigation                                           |
+| `components/sections/footer-section.tsx`           | ~102 | Async server component: brand column (name/tagline/social links), Navigate col (Home/Blog/Projects/Contact), Explore col (About/Experience/Skills/Credentials), copyright bar. i18n via `getTranslations`/`getLocale`. Props: `settings?: SiteSettings` |
 | `components/sections/contact-section.tsx`          | ~80  | Contact form section with MagicCard wrapper                                       |
 | `app/api/draft-mode/enable/route.ts`               | 15   | Enable Next.js draft mode with validatePreviewUrl                                 |
 | `app/api/draft-mode/disable/route.ts`              | 10   | Disable draft mode and redirect to home                                           |

@@ -433,6 +433,21 @@ Before shipping any new component:
 - [ ] `prefers-reduced-motion` respected for animations
 - [ ] Touch targets ≥ 44px for interactive elements
 
+### FooterSection Component
+
+**File:** `components/sections/footer-section.tsx` — async server component
+
+Layout: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` with brand spanning `lg:col-span-2`.
+
+| Column | Content |
+|---|---|
+| Brand (lg: 2 cols) | Site name (`font-mono font-semibold`), tagline (`text-muted-foreground text-sm`), social links (`ExternalLink` icon + handle) |
+| Navigate | Home, Blog, Projects, Contact — locale-prefixed hrefs |
+| Explore | About, Experience, Skills, Credentials — hash anchors |
+| Bottom bar | Full-width separator + copyright (`font-mono text-xs text-muted-foreground`) |
+
+**Tokens used:** `border-border/50` (separators), `text-muted-foreground` (body), `hover:text-foreground` (link hover), `font-mono text-xs` (labels/metadata), `text-sm` (body links).
+
 ---
 
 ## Codegen Workflow

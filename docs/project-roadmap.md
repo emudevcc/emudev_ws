@@ -1,9 +1,9 @@
 # Project Roadmap
 
-## Current Status: Phases 1-8.5 + 9.0-9.8 Complete, Bilingual Live
+## Current Status: Phases 1-8.5 + 9.0-9.9 Complete, Bilingual Live
 
-**Timeline:** May 15, 2026
-**Overall Progress:** 99% (Phases 1-8.5 + 9.0-9.8 complete, Phase 9.9+ future)
+**Timeline:** May 16, 2026
+**Overall Progress:** 99% (Phases 1-8.5 + 9.0-9.9 complete, Phase 9.10+ future)
 
 ---
 
@@ -371,6 +371,25 @@ Deliverables:
 - Eliminates React hydration mismatch error in browser console
 - Conditional ID generation prevents index desync
 - Performance: no impact (glow typically false in layout backgrounds)
+
+### Phase 9.9: Footer & Social Feed Redesign (COMPLETE)
+
+**Status:** ✅ Complete (May 15, 2026)
+**Priority:** P1 (UX completeness)
+
+**Deliverables:**
+
+- [x] `FooterSection` rebuilt as async server component — brand column (name, tagline, social links), Navigate column (Home/Blog/Projects/Contact), Explore column (About/Experience/Skills/Credentials), copyright bar
+- [x] Footer i18n: `getTranslations('footer')`, `getLocale()` from next-intl/server; keys added to `messages/en.json` and `messages/es.json`
+- [x] Social feed replaced marquee with `SocialFeedGrid` — 7 platform filter tabs (All/YouTube/TikTok/Instagram/Reddit/X/Threads), 3-col responsive grid, BlurFade animations per card
+- [x] `SocialFeedCard` — platform color/label config map, MediaPlaceholder for video platforms, engagement metrics, `fmt()` helper
+- [x] Removed social links block from below ContactSection (now in footer only)
+- [x] Pagination for SocialFeedGrid: planned, not yet implemented
+
+**Technical Highlights:**
+
+- Footer navigation uses locale-prefixed hrefs (`/${locale}#section` for hash anchors, `/${locale}/blog` for routes)
+- SocialFeedGrid filter tabs reset `useMemo` on tab change; BlurFade staggered delay `0.04 + i * 0.05`
 
 ### Success Metrics (9.0)
 

@@ -142,6 +142,38 @@ export async function generateStaticParams() {
 - Middleware routes all requests to `/[locale]/...` before reaching pages
 - ISR allows on-demand SSG for new content (post-build publication in both locales)
 
+#### SSR Boundary Pattern (Client-Only Components)
+
+Three.js and other browser-only libraries must live behind an SSR boundary. Use the dynamic import shim pattern:
+
+**Pattern:**
+
+```tsx
+// hero-background-loader.tsx (Client Component shim)
+'use client'
+import dynamic from 'next/dynamic'
+export const HeroBackground = dynamic(
+  () => import('./hero-background').then(m => m.HeroBackground),
+  { ssr: false }  // ✅ Valid in Client Component
+)
+
+// HeroSection.tsx (Server Component)
+import { HeroBackground } from './hero-background-loader'
+export function HeroSection() {
+  return <HeroBackground />  // Rendered on client; skipped during SSR
+}
+```
+
+**Why this is necessary:**
+
+- Next.js requires `'use client'` at the top of files using `next/dynamic` with `ssr: false`
+- But parent components may need to be Server Components (for `getTranslations()`, database access, etc.)
+- The loader shim bridges this: it's a lightweight Client Component that wraps the dynamic import
+- During server-side rendering, the loader is skipped entirely
+- On the client, the dynamic import loads the heavy 3D library on-demand
+
+**Current usage:** `HeroBackground` particle network uses this pattern to load Three.js only on client.
+
 ---
 
 ### 2. Content Management (Sanity CMS + Bilingual Schemas)

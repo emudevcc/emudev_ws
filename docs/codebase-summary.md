@@ -55,6 +55,8 @@ emudev_ws/
 │   │   ├── footer-section.tsx         # Footer with socials
 │   │   └── contact-section.tsx        # Contact form + CTA
 │   ├── ui/                       # UI primitives
+│       ├── hero-background.tsx           # Three.js particle network (110 nodes, accent connections)
+│       ├── hero-background-loader.tsx    # SSR-safe dynamic import shim (ssr: false)
 │       ├── hero-section.tsx              # Animated hero on homepage
 │       ├── animated-shiny-text.tsx       # MagicUI: shimmer text gradient
 │       ├── avatar-circles.tsx            # MagicUI: overlapping avatar stack
@@ -214,7 +216,9 @@ emudev_ws/
 | `hooks/use-active-section.ts`                      | ~40  | Scroll tracking hook for active section highlighting                              |
 | `messages/en.json`                                 | ~80  | English UI strings (namespaced: nav, home, projects, blog, contact, common)       |
 | `messages/es.json`                                 | ~80  | Spanish translations (exact key structure parity)                                 |
-| `app/globals.css`                                  | 279 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles + animations |
+| `components/ui/hero-background.tsx`                | 149 | Three.js client component: 110-particle network, accent-orange connection lines, mouse parallax, ambient rotation |
+| `components/ui/hero-background-loader.tsx`         | 10  | SSR-safe dynamic import wrapper (ssr: false) for Three.js particle background |
+| `app/globals.css`                                  | 279 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles + animations + --hero-vignette |
 | `components.json`                                  | ~20  | shadcn/ui project config (aliases, style: new-york, baseColor: zinc)              |
 
 ---
@@ -519,6 +523,7 @@ Each has isolated copies of the above secrets.
 | ---------------------------- | ------- | ------------------------------------------------------- |
 | `next`                       | 15.5.18 | App Router, SSG/ISR, server actions                     |
 | `react`                      | 19.2.6  | UI library                                              |
+| `three`                      | ^0.184.0 | 3D graphics library (particle network in hero background) |
 | `next-intl`                  | ^4.11.1 | Bilingual routing & message management (EN/ES)          |
 | `next-sanity`                | 5.5.11  | Sanity client + next/cache integration                  |
 | `@sanity/visual-editing`     | ^4.0.3  | Draft mode / Presentation Tool (v5 requires Next.js 16) |

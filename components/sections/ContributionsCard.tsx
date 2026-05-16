@@ -33,7 +33,7 @@ export function ContributionsCard() {
 
       {data ? (
         <>
-          <div className="flex gap-[3px] overflow-x-auto pb-1">
+          <div className="flex justify-between overflow-x-auto pb-1">
             {data.weeks.map((week, weekIndex) => (
               <div key={weekIndex} className="flex flex-col gap-[3px]">
                 {week.days.map((day) => (

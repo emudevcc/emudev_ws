@@ -306,6 +306,29 @@ Deliverables:
 - [x] Polished blog post layout with typography and styling
 - [x] Author attribution with bilingual support
 
+### Phase 9.6: Three.js Hero Particle Background (COMPLETE)
+
+**Status:** ✅ Complete (May 15, 2026)
+**Priority:** P0 (visual polish)
+
+**Deliverables:**
+
+- [x] Three.js WebGL particle network: 110 nodes with accent-orange connection lines
+- [x] `components/ui/hero-background.tsx` — Client component with mouse parallax, ambient rotation, prefers-reduced-motion support
+- [x] `components/ui/hero-background-loader.tsx` — SSR-safe dynamic import shim (ssr: false boundary pattern)
+- [x] Design token `--hero-vignette` added to `app/globals.css` (dark: white fade, light: accent-orange fade)
+- [x] `three@^0.184.0` dependency added to package.json
+- [x] HeroSection integrated with HeroBackground positioned absolutely behind content
+- [x] Documentation added to `docs/design-guidelines.md` (SSR boundary pattern, vignette token) and `docs/system-architecture.md`
+
+**Technical Highlights:**
+
+- Static topology (pre-computed connection lines) for performance
+- Responsive canvas with ResizeObserver
+- Mobile optimized: capped pixel ratio (1.5×), fixed particle count
+- Motion-safe: respects `prefers-reduced-motion` → static frame
+- Uses design token `--accent` (#e34d2a) for connection color
+
 ### Success Metrics (9.0)
 
 - [x] Uptime: 99.9%

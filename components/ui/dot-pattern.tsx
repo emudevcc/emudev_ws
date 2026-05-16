@@ -100,9 +100,12 @@ export function DotPattern({
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
+  const shouldRenderDots = dimensions.width > 0 && dimensions.height > 0
   const dots = Array.from(
     {
-      length: Math.ceil(dimensions.width / width) * Math.ceil(dimensions.height / height),
+      length: shouldRenderDots
+        ? Math.ceil(dimensions.width / width) * Math.ceil(dimensions.height / height)
+        : 0,
     },
     (_, i) => {
       const col = i % Math.ceil(dimensions.width / width)
@@ -125,12 +128,14 @@ export function DotPattern({
       )}
       {...props}
     >
-      <defs>
-        <radialGradient id={`${id}-gradient`}>
-          <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
-          <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
-        </radialGradient>
-      </defs>
+      {shouldRenderDots && glow && (
+        <defs>
+          <radialGradient id={`${id}-gradient`}>
+            <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+      )}
       {dots.map((dot) => (
         <motion.circle
           key={`${dot.x}-${dot.y}`}

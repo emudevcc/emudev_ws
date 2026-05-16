@@ -10,6 +10,7 @@ import { ClassicShell } from '@/components/classic-shell'
 import { SanityVisualEditing } from '@/components/sanity-visual-editing'
 import { ThemeProvider } from '@/components/theme-provider'
 import { DotPattern } from '@/components/ui/dot-pattern'
+import { PageTransition } from '@/components/ui/page-transition'
 import { routing } from '@/i18n/routing'
 import { localeAlternates } from '@/lib/metadata'
 import { getSiteSettings } from '@/lib/sanity-queries'
@@ -76,7 +77,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
               />
             </div>
             <ClassicShell locale={locale} settings={settings} />
-            <main>{children}</main>
+            <PageTransition>{children}</PageTransition>
             {isDraft && <SanityVisualEditing />}
             <SpeedInsights />
           </ThemeProvider>

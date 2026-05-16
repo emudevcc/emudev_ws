@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { Link } from '@/i18n/navigation'
 import { getProjects, getProjectBySlug } from '@/lib/sanity-queries'
 import { PortableTextRenderer } from '@/components/portable-text-renderer'
+import { BlurFade } from '@/components/ui/blur-fade'
+import { Chip } from '@/components/ui/chip'
 import { routing } from '@/i18n/routing'
 import { localeAlternates } from '@/lib/metadata'
 
@@ -45,51 +49,67 @@ export default async function ProjectDetailPage({ params }: Props) {
   if (!project) notFound()
 
   return (
-    <article className="mx-auto max-w-3xl px-6 py-20">
-      <h1 className="mb-4 text-4xl font-bold tracking-tight">{project.title}</h1>
-      {project.description && (
-        <p className="mb-8 text-lg text-muted-foreground">{project.description}</p>
-      )}
+    <article className="mx-auto max-w-3xl px-5 py-24">
+      <BlurFade delay={0.04}>
+        <Link
+          href="/projects"
+          className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors hover:text-accent"
+        >
+          <ArrowLeft size={12} /> Projects
+        </Link>
+      </BlurFade>
 
-      <div className="mb-8 flex gap-4">
-        {project.liveUrl && (
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-md bg-foreground px-4 py-2 text-sm text-background"
-          >
-            Live site ↗
-          </a>
+      <BlurFade delay={0.08}>
+        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">Project</p>
+        <h1 className="mb-4 text-4xl font-bold tracking-tight">{project.title}</h1>
+        {project.description && (
+          <p className="mb-8 text-base leading-8 text-muted-foreground">{project.description}</p>
         )}
-        {project.repoUrl && (
-          <a
-            href={project.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-md border px-4 py-2 text-sm"
-          >
-            Repository ↗
-          </a>
-        )}
-      </div>
+      </BlurFade>
+
+      <BlurFade delay={0.12}>
+        <div className="mb-8 flex flex-wrap gap-3">
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-10 items-center gap-2 rounded-[var(--r-btn)] bg-accent px-5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            >
+              Live site <ArrowUpRight size={14} />
+            </a>
+          )}
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-10 items-center gap-2 rounded-[var(--r-btn)] border border-hairline bg-surface-1 px-5 text-sm font-medium transition-colors hover:border-accent/60"
+            >
+              Repository <ArrowUpRight size={14} />
+            </a>
+          )}
+        </div>
+      </BlurFade>
 
       {project.tech && project.tech.length > 0 && (
-        <div className="mb-8 flex flex-wrap gap-2">
-          {project.tech.map((skill) => (
-            <span key={skill._id} className="rounded-full bg-muted px-3 py-1 text-xs">
-              {skill.name}
-            </span>
-          ))}
-        </div>
+        <BlurFade delay={0.16}>
+          <div className="mb-10 flex flex-wrap gap-1.5">
+            {project.tech.map((skill) => (
+              <Chip key={skill._id} label={skill.name} />
+            ))}
+          </div>
+        </BlurFade>
       )}
 
       {project.content && (
-        <div className="prose prose-neutral dark:prose-invert max-w-none">
-          <PortableTextRenderer
-            content={project.content as Parameters<typeof PortableTextRenderer>[0]['content']}
-          />
-        </div>
+        <BlurFade delay={0.2}>
+          <div className="prose prose-neutral dark:prose-invert max-w-none">
+            <PortableTextRenderer
+              content={project.content as Parameters<typeof PortableTextRenderer>[0]['content']}
+            />
+          </div>
+        </BlurFade>
       )}
     </article>
   )

@@ -10,7 +10,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-lg bg-foreground px-4 py-3 text-sm font-medium text-background transition-opacity disabled:opacity-60"
+      className="w-full rounded-[var(--r-btn)] bg-accent px-4 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
     >
       {pending ? 'Sending…' : 'Send Message'}
     </button>
@@ -22,7 +22,7 @@ export function ContactForm() {
 
   if (state?.success) {
     return (
-      <div className="rounded-lg border border-green-200 bg-green-50 p-6 text-green-800 dark:border-green-900 dark:bg-green-950 dark:text-green-200">
+      <div className="rounded-lg border border-status-ok/30 bg-status-ok/10 p-6 text-status-ok">
         Message sent! I&apos;ll get back to you soon.
       </div>
     )
@@ -44,7 +44,7 @@ export function ContactForm() {
           required
           maxLength={100}
           placeholder="Your name"
-          className="w-full rounded-lg border bg-background px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-foreground/20"
+          className="h-10 w-full rounded-md border border-hairline bg-surface-input px-3 text-sm outline-none transition-colors focus:border-ring"
         />
       </div>
 
@@ -58,7 +58,7 @@ export function ContactForm() {
           type="email"
           required
           placeholder="you@example.com"
-          className="w-full rounded-lg border bg-background px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-foreground/20"
+          className="h-10 w-full rounded-md border border-hairline bg-surface-input px-3 text-sm outline-none transition-colors focus:border-ring"
         />
       </div>
 
@@ -73,7 +73,7 @@ export function ContactForm() {
           rows={5}
           maxLength={2000}
           placeholder="Tell me about your project…"
-          className="w-full rounded-lg border bg-background px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-foreground/20"
+          className="w-full resize-none rounded-md border border-hairline bg-surface-input px-3 py-2 text-sm outline-none transition-colors focus:border-ring"
         />
       </div>
 

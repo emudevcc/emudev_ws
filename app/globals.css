@@ -88,6 +88,7 @@
   --ring: var(--accent);
   --magic-card-bg: rgba(255, 255, 255, 0.05);
   --hero-btn-bg: var(--accent-soft);
+  --hero-vignette: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme='light'] {
@@ -109,6 +110,7 @@
   /* [tokens-light:end] */
   --magic-card-bg: rgba(0, 0, 0, 0.03);
   --hero-btn-bg: var(--accent-soft);
+  --hero-vignette: rgba(227, 77, 42, 0.06);
 }
 
 @theme inline {

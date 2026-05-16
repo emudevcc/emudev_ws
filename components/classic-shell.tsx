@@ -14,19 +14,12 @@ export function ClassicShell({ locale, settings }: ClassicShellProps) {
     locale === 'es'
       ? {
           home: 'Inicio',
-          projects: 'Proyectos',
           blog: 'Blog',
           about: 'Sobre mí',
           contact: 'Contacto',
         }
-      : { home: 'Home', projects: 'Projects', blog: 'Blog', about: 'About', contact: 'Contact' }
-  const links = [
-    { href: '/' as const, label: labels.home },
-    { href: '/projects' as const, label: labels.projects },
-    { href: '/blog' as const, label: labels.blog },
-    { href: '/about' as const, label: labels.about },
-    { href: '/contact' as const, label: labels.contact },
-  ]
+      : { home: 'Home', blog: 'Blog', about: 'About', contact: 'Contact' }
+  const navLinkClass = 'transition-colors hover:text-foreground'
 
   return (
     <>
@@ -36,15 +29,18 @@ export function ClassicShell({ locale, settings }: ClassicShellProps) {
             {settings?.siteName ?? 'emudev'}
           </Link>
           <nav className="hidden items-center gap-5 text-sm text-muted-foreground md:flex">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </Link>
-            ))}
+            <Link href="/" className={navLinkClass}>
+              {labels.home}
+            </Link>
+            <a href={`/${locale}#about`} className={navLinkClass}>
+              {labels.about}
+            </a>
+            <Link href="/blog" className={navLinkClass}>
+              {labels.blog}
+            </Link>
+            <a href={`/${locale}#contact`} className={navLinkClass}>
+              {labels.contact}
+            </a>
           </nav>
           <div className="flex items-center gap-2">
             <StatusPill

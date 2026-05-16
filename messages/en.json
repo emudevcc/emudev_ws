@@ -157,6 +157,17 @@
     }
   },
   "footer": {
-    "built": "Built with care - {year}"
+    "built": "Built with care - {year}",
+    "tagline": "Software engineer building polished products with practical engineering judgment.",
+    "navigate": "Navigate",
+    "explore": "Explore",
+    "home": "Home",
+    "blog": "Blog",
+    "projects": "Projects",
+    "contact": "Contact",
+    "about": "About",
+    "experience": "Experience",
+    "skills": "Skills",
+    "credentials": "Credentials"
   }
 }

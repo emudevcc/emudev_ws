@@ -16,7 +16,7 @@ export function BlogPostCard({ post, locale }: BlogPostCardProps) {
   if (!slug) return null
 
   return (
-    <MagicCard className="h-full overflow-hidden rounded-xl border border-border/60 bg-card p-0">
+    <MagicCard className="h-full overflow-hidden rounded-xl border border-hairline bg-surface-1 p-0">
       <Link href={`/blog/${slug}`} className="group block h-full">
         {post.cover && (
           <div className="relative h-44 w-full overflow-hidden">

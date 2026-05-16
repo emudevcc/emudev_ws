@@ -51,7 +51,7 @@ export default async function BlogPostPage({ params }: Props) {
       <BlurFade delay={0.04}>
         <Link
           href="/blog"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors hover:text-accent"
         >
           <span aria-hidden="true">←</span>
           <span>Blog</span>
@@ -60,7 +60,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       {post.cover && (
         <BlurFade delay={0.08}>
-          <div className="relative mb-10 aspect-video w-full overflow-hidden rounded-2xl border border-border/60">
+          <div className="relative mb-10 aspect-video w-full overflow-hidden rounded-2xl border border-hairline">
             <Image
               src={post.cover}
               alt={post.title ?? ''}

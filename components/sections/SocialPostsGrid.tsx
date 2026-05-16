@@ -4,8 +4,7 @@ import { SocialFeedGrid } from '@/components/ui/social-feed-grid'
 import { SOCIAL_DUMMY_ITEMS } from '@/lib/social-dummy-data'
 import type { SocialPost } from '@/lib/sanity-queries'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function SocialPostsGrid({ posts }: { posts: SocialPost[] }) {
+export function SocialPostsGrid({ posts: _posts }: { posts: SocialPost[] }) {
   const t = useTranslations('social')
 
   return (

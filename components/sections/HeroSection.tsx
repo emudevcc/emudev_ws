@@ -105,7 +105,7 @@ export function HeroSection({
         <BlurFade delay={0.32}>
           <div className="mt-16 grid max-w-3xl grid-cols-2 gap-5 sm:grid-cols-4">
             {stats.map((stat) => (
-              <div key={stat.label} className="border-l border-border pl-4">
+              <div key={stat.label} className="border-l-2 border-accent/50 pl-4">
                 <NumberTicker value={stat.value} className="text-4xl font-bold tabular-nums" />
                 <p className="mt-1 font-mono text-xs text-muted-foreground">{stat.label}</p>
               </div>

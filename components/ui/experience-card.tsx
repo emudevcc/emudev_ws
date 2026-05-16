@@ -18,8 +18,8 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
       <span
         className={
           experience.endDate
-            ? 'absolute -left-[5px] top-2 size-2.5 rounded-full border-2 border-background bg-muted-foreground'
-            : 'absolute -left-[5px] top-2 size-2.5 rounded-full border-2 border-background bg-primary ring-4 ring-primary/20'
+            ? 'absolute -left-[5px] top-2 size-2.5 rounded-full border-2 border-background bg-muted-foreground/60'
+            : 'absolute -left-[5px] top-2 size-2.5 rounded-full border-2 border-background bg-accent ring-4 ring-accent/20'
         }
       />
       <p className="mb-1 font-mono text-xs text-muted-foreground">

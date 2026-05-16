@@ -10,12 +10,14 @@ export function ExperienceTimeline({ experiences }: { experiences: Experience[] 
   return (
     <section id="experience" className="mx-auto max-w-6xl px-5 py-24">
       <BlurFade delay={0}>
-        <p className="mb-3 font-mono text-xs text-muted-foreground">{t('eyebrow')}</p>
+        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
+          {t('eyebrow')}
+        </p>
         <h2 className="mb-12 text-4xl font-bold tracking-tight">{t('title')}</h2>
       </BlurFade>
 
       <div className="relative">
-        <div className="absolute bottom-0 left-0 top-0 w-px bg-border" />
+        <div className="absolute bottom-0 left-0 top-0 w-px bg-accent/20" />
         <div className="space-y-5">
           {experiences.map((experience, index) => (
             <BlurFade key={experience._id} delay={0.05 + index * 0.08}>

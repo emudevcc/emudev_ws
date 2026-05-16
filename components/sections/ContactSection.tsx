@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, type FormEvent } from 'react'
-import { ExternalLink } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { MagicCard } from '@/components/ui/magic-card'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
@@ -96,23 +95,6 @@ export function ContactSection({ settings }: ContactSectionProps) {
           </form>
         )}
       </MagicCard>
-
-      {settings?.socialLinks && settings.socialLinks.length > 0 && (
-        <div className="mt-6 flex gap-4">
-          {settings.socialLinks.map((social) => (
-            <a
-              key={`${social.platform}-${social.url}`}
-              href={social.url}
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-              aria-label={social.platform}
-            >
-              <SocialIcon platform={social.platform} />
-            </a>
-          ))}
-        </div>
-      )}
     </section>
   )
 }
@@ -179,9 +161,4 @@ function Textarea({ name, label, required }: { name: string; label: string; requ
       />
     </label>
   )
-}
-
-function SocialIcon({ platform }: { platform?: string }) {
-  if (!platform) return <ExternalLink size={18} />
-  return <span className="font-mono text-xs uppercase">{platform.slice(0, 2)}</span>
 }

@@ -157,6 +157,17 @@
     }
   },
   "footer": {
-    "built": "Construido con cuidado - {year}"
+    "built": "Construido con cuidado - {year}",
+    "tagline": "Ingeniero de software construyendo productos bien terminados con juicio práctico de ingeniería.",
+    "navigate": "Navegar",
+    "explore": "Explorar",
+    "home": "Inicio",
+    "blog": "Blog",
+    "projects": "Proyectos",
+    "contact": "Contacto",
+    "about": "Sobre mí",
+    "experience": "Experiencia",
+    "skills": "Habilidades",
+    "credentials": "Credenciales"
   }
 }

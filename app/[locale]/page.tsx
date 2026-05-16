@@ -92,7 +92,7 @@ export default async function HomePage({ params }: Props) {
       <StrengthsCard strengths={strengths ?? []} />
       <WritingList posts={posts ?? []} />
       <ContactSection settings={settings} />
-      <FooterSection />
+      <FooterSection settings={settings} />
     </>
   )
 }

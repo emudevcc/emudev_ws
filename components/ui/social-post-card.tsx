@@ -17,7 +17,7 @@ export function SocialPostCard({ post }: { post: SocialPost }) {
       href={post.permalink ?? '#'}
       target="_blank"
       rel="noreferrer"
-      className="group flex h-full flex-col gap-3 rounded-lg border border-border/70 bg-card p-5 transition-colors hover:border-foreground/30"
+      className="group flex h-full flex-col gap-3 rounded-lg border border-hairline bg-surface-1 p-5 transition-colors hover:border-accent/40"
     >
       <div className="flex items-center justify-between gap-3">
         <span className="font-mono text-[11px] text-muted-foreground">

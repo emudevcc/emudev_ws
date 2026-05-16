@@ -18,7 +18,9 @@ export function SkillsSection({ skills }: { skills: SkillSummary[] }) {
   return (
     <section id="skills" className="mx-auto max-w-6xl px-5 py-24">
       <BlurFade delay={0}>
-        <p className="mb-3 font-mono text-xs text-muted-foreground">{t('eyebrow')}</p>
+        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
+          {t('eyebrow')}
+        </p>
         <h2 className="mb-10 text-4xl font-bold tracking-tight">{t('title')}</h2>
       </BlurFade>
 
@@ -26,7 +28,7 @@ export function SkillsSection({ skills }: { skills: SkillSummary[] }) {
         {grouped.map(({ category, items }, index) => (
           <BlurFade key={category} delay={0.05 + index * 0.07}>
             <div className="rounded-lg border border-border/70 bg-card p-5">
-              <p className="mb-3 font-mono text-xs uppercase text-primary">
+              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
                 {t(`category.${category}`)}
               </p>
               <div className="flex flex-wrap gap-1.5">

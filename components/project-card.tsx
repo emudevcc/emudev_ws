@@ -1,5 +1,8 @@
 import Image from 'next/image'
+import { ArrowUpRight } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import { Chip } from '@/components/ui/chip'
+import { MagicCard } from '@/components/ui/magic-card'
 
 interface ProjectCardProps {
   project: {
@@ -17,40 +20,42 @@ export function ProjectCard({ project }: ProjectCardProps) {
   if (!slug) return null
 
   return (
-    <article
+    <MagicCard
       data-testid="project-card"
-      className="group flex flex-col rounded-xl border bg-card transition-shadow hover:shadow-md"
+      className="h-full overflow-hidden rounded-xl border border-hairline bg-surface-1 p-0"
+      gradientOpacity={0.06}
     >
-      {project.cover && (
-        <div className="relative h-48 overflow-hidden rounded-t-xl">
-          <Image
-            src={project.cover}
-            alt={project.title ?? 'Project image'}
-            fill
-            className="object-cover transition-transform group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
-        </div>
-      )}
-      <div className="flex flex-1 flex-col p-5">
-        <Link href={`/projects/${slug}`} className="mb-2 text-lg font-semibold hover:underline">
-          {project.title}
-        </Link>
-        {project.description && (
-          <p className="mb-4 line-clamp-2 flex-1 text-sm text-muted-foreground">
-            {project.description}
-          </p>
-        )}
-        {project.tech && project.tech.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {project.tech.map((skill) => (
-              <span key={skill._id} className="rounded-full bg-muted px-2.5 py-0.5 text-xs">
-                {skill.name}
-              </span>
-            ))}
+      <Link href={`/projects/${slug}`} className="group block h-full">
+        {project.cover && (
+          <div className="relative h-48 overflow-hidden">
+            <Image
+              src={project.cover}
+              alt={project.title ?? 'Project image'}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
           </div>
         )}
-      </div>
-    </article>
+        <div className="flex flex-1 flex-col gap-3 p-5">
+          <h2 className="text-base font-semibold leading-snug transition-colors group-hover:text-accent">
+            {project.title}
+          </h2>
+          {project.description && (
+            <p className="line-clamp-2 text-sm text-muted-foreground">{project.description}</p>
+          )}
+          {project.tech && project.tech.length > 0 && (
+            <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+              {project.tech.map((skill) => (
+                <Chip key={skill._id} label={skill.name} />
+              ))}
+            </div>
+          )}
+          <span className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground transition-colors group-hover:text-accent">
+            View project <ArrowUpRight size={11} />
+          </span>
+        </div>
+      </Link>
+    </MagicCard>
   )
 }

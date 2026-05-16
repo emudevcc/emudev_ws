@@ -19,7 +19,7 @@ export function BlogHeroPost({ post, locale }: BlogHeroPostProps) {
     <BlurFade delay={0.08}>
       <Link
         href={`/blog/${slug}`}
-        className="group mb-14 grid gap-6 rounded-2xl border border-border/60 bg-card/70 p-3 transition-colors hover:border-accent/50 md:grid-cols-[1.15fr_0.85fr] md:items-center md:p-4"
+        className="group mb-14 grid gap-6 rounded-2xl border border-hairline bg-surface-1 p-3 transition-colors hover:border-accent/50 md:grid-cols-[1.15fr_0.85fr] md:items-center md:p-4"
       >
         {post.cover ? (
           <div className="relative aspect-video overflow-hidden rounded-xl">

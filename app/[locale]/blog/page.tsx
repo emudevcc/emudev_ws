@@ -24,11 +24,11 @@ export default async function BlogPage({ params }: Props) {
   const [heroPost, ...gridPosts] = publishedPosts
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20">
+    <section className="mx-auto max-w-6xl px-5 py-24">
       <BlurFade delay={0.04}>
         <div className="mb-12 max-w-3xl">
-          <p className="eyebrow mb-3">Writing</p>
-          <h1>Blog</h1>
+          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">Writing</p>
+          <h1 className="text-4xl font-bold tracking-tight">Blog</h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
             Notes on analytics architecture, software engineering, and the systems behind useful
             digital products.

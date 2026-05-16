@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl'
 import { ArrowDown, Calendar, FileText } from 'lucide-react'
 import { AnimatedShinyText } from '@/components/ui/animated-shiny-text'
 import { BlurFade } from '@/components/ui/blur-fade'
+import { HeroBackground } from '@/components/ui/hero-background-loader'
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button'
 import { NumberTicker } from '@/components/ui/number-ticker'
 import { richTextToPlainText } from '@/lib/content'
@@ -34,8 +35,12 @@ export function HeroSection({
   ]
 
   return (
-    <section id="home" className="flex min-h-screen flex-col justify-center px-5 pb-20 pt-28">
-      <div className="mx-auto w-full max-w-6xl">
+    <section
+      id="home"
+      className="relative flex min-h-screen flex-col justify-center px-5 pb-20 pt-28"
+    >
+      <HeroBackground />
+      <div className="relative mx-auto w-full max-w-6xl">
         <BlurFade delay={0}>
           <div className="mb-8 flex items-center gap-4">
             <div className="relative size-20 overflow-hidden rounded-full border border-border bg-muted">
@@ -105,7 +110,7 @@ export function HeroSection({
         <BlurFade delay={0.32}>
           <div className="mt-16 grid max-w-3xl grid-cols-2 gap-5 sm:grid-cols-4">
             {stats.map((stat) => (
-              <div key={stat.label} className="border-l border-border pl-4">
+              <div key={stat.label} className="border-l-2 border-accent/50 pl-4">
                 <NumberTicker value={stat.value} className="text-4xl font-bold tabular-nums" />
                 <p className="mt-1 font-mono text-xs text-muted-foreground">{stat.label}</p>
               </div>

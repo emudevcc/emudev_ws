@@ -11,7 +11,9 @@ export function WritingList({ posts }: { posts: PostSummary[] }) {
   return (
     <section id="writing" className="mx-auto max-w-6xl px-5 py-24">
       <BlurFade delay={0}>
-        <p className="mb-3 font-mono text-xs text-muted-foreground">{t('eyebrow')}</p>
+        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
+          {t('eyebrow')}
+        </p>
         <h2 className="mb-10 text-4xl font-bold tracking-tight">{t('title')}</h2>
       </BlurFade>
 
@@ -41,7 +43,7 @@ export function WritingList({ posts }: { posts: PostSummary[] }) {
                       <span>{t('readMin', { count: post.readingMinutes })}</span>
                     )}
                   </div>
-                  <h3 className="font-semibold transition-colors group-hover:text-primary">
+                  <h3 className="font-semibold transition-colors group-hover:text-accent">
                     {post.title}
                   </h3>
                   {post.excerpt && (
@@ -52,7 +54,7 @@ export function WritingList({ posts }: { posts: PostSummary[] }) {
                 </div>
                 <ArrowRight
                   size={16}
-                  className="shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                  className="shrink-0 text-muted-foreground transition-colors group-hover:text-accent"
                 />
               </Link>
             </BlurFade>

@@ -35,7 +35,7 @@ export function ContactSection({ settings }: ContactSectionProps) {
 
   return (
     <section id="contact" className="mx-auto max-w-6xl px-5 py-24">
-      <p className="mb-3 font-mono text-xs text-muted-foreground">{t('eyebrow')}</p>
+      <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">{t('eyebrow')}</p>
       <h2 className="text-4xl font-bold tracking-tight">{t('title')}</h2>
       <p className="mt-3 max-w-2xl text-muted-foreground">{t('subtitle')}</p>
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { localeAlternates } from '@/lib/metadata'
 import { getProjects } from '@/lib/sanity-queries'
+import { BlurFade } from '@/components/ui/blur-fade'
 import { TagFilter } from '@/components/tag-filter'
 
 type Props = { params: Promise<{ locale: string }> }
@@ -20,8 +21,11 @@ export default async function ProjectsPage({ params }: Props) {
   const projects = (await getProjects(locale)) ?? []
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20">
-      <h1 className="mb-10 text-4xl font-bold tracking-tight">Projects</h1>
+    <section className="mx-auto max-w-6xl px-5 py-24">
+      <BlurFade delay={0.04}>
+        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">Work</p>
+        <h1 className="mb-10 text-4xl font-bold tracking-tight">Projects</h1>
+      </BlurFade>
       {projects.length > 0 ? (
         <TagFilter projects={projects} />
       ) : (

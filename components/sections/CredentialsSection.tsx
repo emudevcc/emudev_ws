@@ -16,7 +16,9 @@ export function CredentialsSection({ certs, education, languages }: CredentialsS
   return (
     <section id="credentials" className="mx-auto max-w-6xl px-5 py-24">
       <BlurFade delay={0}>
-        <p className="mb-3 font-mono text-xs text-muted-foreground">{t('eyebrow')}</p>
+        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
+          {t('eyebrow')}
+        </p>
         <h2 className="mb-10 text-4xl font-bold tracking-tight">{t('title')}</h2>
       </BlurFade>
 
@@ -83,7 +85,7 @@ export function CredentialsSection({ certs, education, languages }: CredentialsS
 function CredentialRow({ title, meta }: { title?: string; meta?: string }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-1 size-2 rounded-full bg-primary" />
+      <div className="mt-1 size-2 rounded-full bg-accent" />
       <div>
         <p className="text-sm font-medium">{title}</p>
         {meta && <p className="mt-1 font-mono text-[11px] text-muted-foreground">{meta}</p>}
@@ -101,7 +103,7 @@ function ProficiencyDots({ level }: { level?: string }) {
         <span
           key={index}
           className={
-            index < filled ? 'size-1.5 rounded-full bg-primary' : 'size-1.5 rounded-full bg-muted'
+            index < filled ? 'size-1.5 rounded-full bg-accent' : 'size-1.5 rounded-full bg-muted'
           }
         />
       ))}

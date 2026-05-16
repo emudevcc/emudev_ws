@@ -16,7 +16,9 @@ export function AboutSection({ about, settings }: AboutSectionProps) {
   return (
     <section id="about" className="mx-auto max-w-6xl px-5 py-24">
       <BlurFade delay={0}>
-        <p className="mb-3 font-mono text-xs text-muted-foreground">{t('eyebrow')}</p>
+        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
+          {t('eyebrow')}
+        </p>
         <h2 className="mb-10 text-4xl font-bold tracking-tight">{t('title')}</h2>
       </BlurFade>
 

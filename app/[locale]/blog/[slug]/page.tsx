@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import { ArrowLeft } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { getPosts, getPostBySlug } from '@/lib/sanity-queries'
 import { PortableTextRenderer } from '@/components/portable-text-renderer'
@@ -47,26 +48,25 @@ export default async function BlogPostPage({ params }: Props) {
   const dateLocale = locale === 'es' ? 'es-CR' : 'en-US'
 
   return (
-    <article className="mx-auto max-w-4xl px-6 py-20">
+    <article className="mx-auto max-w-3xl px-5 py-24">
       <BlurFade delay={0.04}>
         <Link
           href="/blog"
           className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors hover:text-accent"
         >
-          <span aria-hidden="true">←</span>
-          <span>Blog</span>
+          <ArrowLeft size={12} /> Blog
         </Link>
       </BlurFade>
 
       {post.cover && (
         <BlurFade delay={0.08}>
-          <div className="relative mb-10 aspect-video w-full overflow-hidden rounded-2xl border border-hairline">
+          <div className="relative mb-10 aspect-video w-full overflow-hidden rounded-xl border border-hairline">
             <Image
               src={post.cover}
               alt={post.title ?? ''}
               fill
               priority
-              sizes="(min-width: 896px) 896px, 100vw"
+              sizes="(min-width: 768px) 768px, 100vw"
               className="object-cover"
             />
           </div>
@@ -75,25 +75,17 @@ export default async function BlogPostPage({ params }: Props) {
 
       <BlurFade delay={0.12}>
         <header className="mb-10">
-          {post.tags && post.tags.length > 0 && (
-            <div className="mb-5 flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <Chip key={tag._id} label={tag.title} />
-              ))}
-            </div>
-          )}
-          <h1 className="mb-5 max-w-3xl text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
-            {post.title}
-          </h1>
-          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">Writing</p>
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">{post.title}</h1>
+          <div className="mb-5 flex flex-wrap items-center gap-4 font-mono text-xs text-muted-foreground">
             {author?.name && (
               <div className="flex items-center gap-2">
                 {author.image && (
                   <Image
                     src={author.image}
                     alt={author.name}
-                    width={28}
-                    height={28}
+                    width={24}
+                    height={24}
                     className="rounded-full"
                   />
                 )}
@@ -111,12 +103,19 @@ export default async function BlogPostPage({ params }: Props) {
             )}
             {post.readingMinutes ? <span>{post.readingMinutes} min read</span> : null}
           </div>
+          {post.tags && post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {post.tags.map((tag) => (
+                <Chip key={tag._id} label={tag.title} />
+              ))}
+            </div>
+          )}
         </header>
       </BlurFade>
 
       {post.content && (
-        <BlurFade delay={0.16}>
-          <div className="mx-auto max-w-3xl">
+        <BlurFade delay={0.2}>
+          <div className="prose prose-neutral dark:prose-invert max-w-none">
             <PortableTextRenderer
               content={post.content as Parameters<typeof PortableTextRenderer>[0]['content']}
             />

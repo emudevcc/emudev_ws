@@ -219,6 +219,24 @@ Injected via `app/[locale]/layout.tsx` with `next/font/google`, used in `:root` 
 
 **Rule:** All `transition-*` utilities should pair with `var(--ease)` and `var(--dur)` or `var(--dur-fast)`. Always add `@media (prefers-reduced-motion: reduce)` support.
 
+### PageTransition Component (Route Animations)
+
+**File:** `components/ui/page-transition.tsx`
+
+Client component using `motion/react` (`motion.main`) for blur-fade animation on route changes:
+
+- **Trigger:** Keyed by `usePathname()` — animates on full route change (not hash-only navigation)
+- **Animation:** Opacity 0→1, y: 8→0, filter blur(4px)→blur(0px), duration 300ms easeOut
+- **Usage:** Wraps `children` in `app/[locale]/layout.tsx` to animate every locale page transition
+- **Note:** Hash anchors (About/Contact) do NOT trigger animation (same pathname), only full route changes do
+
+**Implementation:**
+```tsx
+<motion.main key={pathname} initial={{ opacity: 0, y: 8, filter: 'blur(4px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.3, ease: 'easeOut' }}>
+  {children}
+</motion.main>
+```
+
 ---
 
 ## Shadows

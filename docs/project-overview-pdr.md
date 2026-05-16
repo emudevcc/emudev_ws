@@ -141,7 +141,7 @@ Ship a zero-maintenance portfolio that:
 - **Phase 8.4** ✅: SEO & sitemap (locale variants and hreflang alternates)
 - **Phase 8.5** ✅: Sanity content model refactor (14 document types, grouped Studio, expanded GROQ)
 
-### Completed Phase 9 Work (May 11-13, 2026)
+### Completed Phase 9 Work (May 11-15, 2026)
 
 - **Phase 9.0** ✅: Production deployment (bilingual live May 11, 2026)
 - **Phase 9.1** ✅: Magic UI installation (12 components: 10 free-tier + 2 Pro local)
@@ -149,11 +149,14 @@ Ship a zero-maintenance portfolio that:
 - **Phase 9.3** ✅: SEO canonical & hreflang fix (self-referential per-locale, generateMetadata for all pages)
 - **Phase 9.4** ✅: Design tokens system (dark-first CSS custom properties, [data-theme] attribute switching, semantic color/type/spacing scales, Tailwind v4 @theme inline mapping, shadcn compat aliases)
 - **Phase 9.5** ✅: MagicUI blog redesign (featured hero, tag filter, card grid, polished post layout, bilingual)
+- **Phase 9.6** ✅: Navigation refactor (removed /about, /contact standalone routes; hash anchors #about, #contact on homepage; native `<a>` in nav for same-page scroll)
+- **Phase 9.7** ✅: PageTransition component (motion.main keyed by pathname, blur-fade route animations, 300ms easeOut)
+- **Phase 9.8** ✅: DotPattern hydration fix (conditional glow defs based on glow prop; prevents SSR/client mismatch)
 
-### Future (Phase 9.6+)
+### Future (Phase 9.9+)
 
-- **Phase 9.6** 🔄: Sanity seed data & content population (10 NDJSON files, 14 types, bilingual)
-- **Phase 9.7+** ⏳: Post-launch monitoring, analytics, admin dashboard, search functionality
+- **Phase 9.9** 🔄: Sanity seed data & content population (10 NDJSON files, 14 types, bilingual)
+- **Phase 10+** ⏳: Post-launch monitoring, analytics, admin dashboard, search functionality
 
 ---
 
@@ -184,16 +187,16 @@ Ship a zero-maintenance portfolio that:
 
 ## Key Dates
 
-| Event                                         | Date                |
-| --------------------------------------------- | ------------------- |
-| **Phase 1-5 Complete**                        | May 8, 2026         |
-| **Phase 6 Complete (Cloudflare, Draft Mode)** | May 10, 2026        |
-| **Phase 7 Complete (Smoke Tests)**            | May 10, 2026        |
-| **Phase 8.1 Complete (i18n Routing)**         | May 10, 2026        |
-| **Phase 8.2 Complete (UI Strings)**           | May 10, 2026        |
-| **Phase 8.3 Complete (Sanity Bilingual)**     | May 10, 2026        |
-| **Phase 8.4 Complete (Sitemap hreflang)**     | May 11, 2026        |
-| **Phase 8.5 Complete (Sanity Content Model)** | May 12, 2026        |
-| **Phase 9.4 Complete (Design Tokens)**        | May 13, 2026        |
-| **Phase 9 (Post-Launch)**                     | TBD (future)        |
-| **Production Launch (Bilingual)**             | May 11, 2026 (live) |
+| Event                                                  | Date                |
+| ------------------------------------------------------ | ------------------- |
+| **Phase 1-5 Complete**                                 | May 8, 2026         |
+| **Phase 6 Complete (Cloudflare, Draft Mode)**          | May 10, 2026        |
+| **Phase 7 Complete (Smoke Tests)**                     | May 10, 2026        |
+| **Phase 8.1 Complete (i18n Routing)**                  | May 10, 2026        |
+| **Phase 8.2 Complete (UI Strings)**                    | May 10, 2026        |
+| **Phase 8.3 Complete (Sanity Bilingual)**              | May 10, 2026        |
+| **Phase 8.4 Complete (Sitemap hreflang)**              | May 11, 2026        |
+| **Phase 8.5 Complete (Sanity Content Model)**          | May 12, 2026        |
+| **Phase 9.0-9.5 Complete (UI & Design)**               | May 13, 2026        |
+| **Phase 9.6-9.8 Complete (Navigation & Animations)**   | May 15, 2026        |
+| **Production Launch (Bilingual)**                      | May 11, 2026 (live) |

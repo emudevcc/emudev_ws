@@ -63,13 +63,14 @@ emudev_ws/
 │       ├── blur-fade.tsx                 # MagicUI: scroll-in blur + fade animation
 │       ├── border-beam.tsx               # MagicUI: animated border on cards
 │       ├── dock.tsx                      # MagicUI: macOS-style magnifying dock
-│       ├── dot-pattern.tsx               # MagicUI: SVG dot grid background
+│       ├── dot-pattern.tsx               # MagicUI: SVG dot grid background (hydration fix: conditional glow defs)
 │       ├── interactive-hover-button.tsx  # MagicUI: hover-reveal CTA button
 │       ├── lang-theme-toggle.tsx         # [UPDATED] Lang + theme toggle (useSyncExternalStore hydration fix)
 │       ├── lens.tsx                      # MagicUI Pro: zoom-on-hover image lens
 │       ├── magic-card.tsx                # MagicUI Pro: mouse-spotlight card
 │       ├── marquee.tsx                   # MagicUI: infinite scroll marquee
 │       ├── number-ticker.tsx             # MagicUI: animated count-up number
+│       ├── page-transition.tsx           # [NEW] Client component: opacity/y/blur animation on route change (keyed by pathname)
 │       └── shimmer-button.tsx            # MagicUI: shimmer-effect submit button
 │
 ├── hooks/                        # Custom React hooks
@@ -218,6 +219,7 @@ emudev_ws/
 | `messages/es.json`                                 | ~80  | Spanish translations (exact key structure parity)                                 |
 | `components/ui/hero-background.tsx`                | 149 | Three.js client component: 110-particle network, accent-orange connection lines, mouse parallax, ambient rotation |
 | `components/ui/hero-background-loader.tsx`         | 10  | SSR-safe dynamic import wrapper (ssr: false) for Three.js particle background |
+| `components/ui/page-transition.tsx`                | 12  | Client component: motion.main keyed by usePathname(), opacity 0→1, y: 8→0, blur 4px→0, 300ms easeOut |
 | `app/globals.css`                                  | 279 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles + animations + --hero-vignette |
 | `components.json`                                  | ~20  | shadcn/ui project config (aliases, style: new-york, baseColor: zinc)              |
 

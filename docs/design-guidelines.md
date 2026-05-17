@@ -243,6 +243,27 @@ Ambient star-like animation for DotPattern background (used in layouts):
 
 **Note:** DotPattern with `twinkle` does not use `fillOpacity` for non-twinkling dots (they stay static at 0.2). The `glow` prop is separate and controls a different radial gradient animation.
 
+### Smooth Scroll Behavior
+
+**File:** `app/globals.css` (base layer)
+
+Added smooth scroll animation for anchor navigation:
+
+```css
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+```
+
+Applied globally to all `<a href="#anchor">` navigation (hero stats, footer, section links). Respects `prefers-reduced-motion` for accessibility.
+
 ### PageTransition Component (Route Animations)
 
 **File:** `components/ui/page-transition.tsx`

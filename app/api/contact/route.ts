@@ -43,10 +43,6 @@ export async function POST(req: NextRequest) {
       text: [
         `From: ${name} <${email}>`,
         body.company ? `Company: ${body.company}` : '',
-        body.oppType ? `Opportunity: ${body.oppType}` : '',
-        body.budget ? `Budget: ${body.budget}` : '',
-        body.timeline ? `Timeline: ${body.timeline}` : '',
-        body.foundVia ? `Found via: ${body.foundVia}` : '',
         '',
         message,
       ]

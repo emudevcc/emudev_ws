@@ -141,7 +141,7 @@ Ship a zero-maintenance portfolio that:
 - **Phase 8.4** ✅: SEO & sitemap (locale variants and hreflang alternates)
 - **Phase 8.5** ✅: Sanity content model refactor (14 document types, grouped Studio, expanded GROQ)
 
-### Completed Phase 9 Work (May 11-15, 2026)
+### Completed Phase 9 Work (May 11-16, 2026)
 
 - **Phase 9.0** ✅: Production deployment (bilingual live May 11, 2026)
 - **Phase 9.1** ✅: Magic UI installation (12 components: 10 free-tier + 2 Pro local)
@@ -152,10 +152,16 @@ Ship a zero-maintenance portfolio that:
 - **Phase 9.6** ✅: Navigation refactor (removed /about, /contact standalone routes; hash anchors #about, #contact on homepage; native `<a>` in nav for same-page scroll)
 - **Phase 9.7** ✅: PageTransition component (motion.main keyed by pathname, blur-fade route animations, 300ms easeOut)
 - **Phase 9.8** ✅: DotPattern hydration fix (conditional glow defs based on glow prop; prevents SSR/client mismatch)
+- **Phase 9.9** ✅: Footer & social feed redesign (async server Footer, SocialFeedGrid pagination PAGE_SIZE=9)
+- **Phase 9.10** ✅: DotPattern twinkle animation (~12% of dots star-like animation, 2.5–5s duration, prefers-reduced-motion safe)
+- **Phase 9.11** ✅: Contact form simplification (4 fields: name, email, company, message; removed opp/budget/timeline; new CONTACT_TO_EMAIL env var)
+- **Phase 9.12** ✅: Smooth scroll behavior (scroll-behavior: smooth on html with prefers-reduced-motion guard)
+- **Phase 9.13** ✅: Hero metrics expansion (6 stats: yrs experience, skills, credentials, posts, languages, social links; stat anchors to sections)
+- **Phase 9.14** ✅: Homepage section reorder (Strengths & Social moved to bottom, Contact before Footer)
 
-### Future (Phase 9.9+)
+### Future (Phase 9.15+)
 
-- **Phase 9.9** 🔄: Sanity seed data & content population (10 NDJSON files, 14 types, bilingual)
+- **Phase 9.15** ⏳: Sanity seed data & content population (10 NDJSON files, 14 types, bilingual)
 - **Phase 10+** ⏳: Post-launch monitoring, analytics, admin dashboard, search functionality
 
 ---

@@ -1,6 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server'
-import { ExternalLink } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import { SocialPlatformIcon } from '@/components/ui/social-platform-icon'
 import type { SiteSettings } from '@/lib/sanity-queries'
 
 type SocialLink = NonNullable<SiteSettings['socialLinks']>[number]
@@ -52,18 +52,17 @@ export async function FooterSection({ settings }: FooterSectionProps) {
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">{tagline}</p>
             {settings?.socialLinks && settings.socialLinks.length > 0 && (
-              <div className="flex gap-3 pt-1">
+              <div className="flex gap-1 pt-1">
                 {settings.socialLinks.map((link: SocialLink) => (
                   <a
                     key={`${link.platform}-${link.url}`}
                     href={link.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
                     aria-label={link.platform ?? 'Social link'}
+                    className="inline-flex items-center justify-center p-1.5 -m-1.5 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
                   >
-                    <ExternalLink size={13} aria-hidden />
-                    {link.handle ?? link.platform}
+                    <SocialPlatformIcon platform={link.platform ?? ''} size={16} />
                   </a>
                 ))}
               </div>

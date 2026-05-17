@@ -46,41 +46,9 @@ export function ContactSection({ settings }: ContactSectionProps) {
             <Field name="name" label={t('field.name')} required />
             <Field name="email" label={t('field.email')} type="email" required />
             <Field name="company" label={t('field.company')} />
-            <SelectField
-              name="oppType"
-              label={t('field.oppType')}
-              options={['fulltime', 'freelance', 'consulting', 'other'].map((value) => ({
-                value,
-                label: t(`opp.${value}`),
-              }))}
-            />
-            <SelectField
-              name="budget"
-              label={t('field.budget')}
-              options={['sub5k', '5to20k', '20kplus', 'na'].map((value) => ({
-                value,
-                label: t(`budget.${value}`),
-              }))}
-            />
-            <SelectField
-              name="timeline"
-              label={t('field.timeline')}
-              options={['asap', '1to3', '3to6', 'flexible'].map((value) => ({
-                value,
-                label: t(`timeline.${value}`),
-              }))}
-            />
             <div className="md:col-span-2">
               <Textarea name="message" label={t('field.message')} required />
             </div>
-            <SelectField
-              name="foundVia"
-              label={t('field.foundVia')}
-              options={['google', 'github', 'linkedin', 'referral', 'other'].map((value) => ({
-                value,
-                label: t(`found.${value}`),
-              }))}
-            />
             <div className="flex items-end justify-between gap-4 md:col-span-2">
               <p className="font-mono text-xs text-muted-foreground">
                 {t('basedIn', { location: settings?.location ?? 'Costa Rica' })}
@@ -119,32 +87,6 @@ function Field({
         required={required}
         className="h-10 rounded-md border border-border bg-background px-3 text-sm outline-none transition-colors focus:border-ring"
       />
-    </label>
-  )
-}
-
-function SelectField({
-  name,
-  label,
-  options,
-}: {
-  name: string
-  label: string
-  options: Array<{ value: string; label: string }>
-}) {
-  return (
-    <label className="flex flex-col gap-1.5">
-      <span className="font-mono text-xs text-muted-foreground">{label}</span>
-      <select
-        name={name}
-        className="h-10 rounded-md border border-border bg-background px-3 text-sm outline-none transition-colors focus:border-ring"
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
     </label>
   )
 }

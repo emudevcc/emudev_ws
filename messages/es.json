@@ -113,47 +113,18 @@
   },
   "contactHome": {
     "eyebrow": "CONTACTO",
-    "title": "Trabajemos juntos",
-    "subtitle": "Comparte el contexto, restricciones y timeline. Respondere con el siguiente paso util.",
-    "sent": "Mensaje enviado. Te respondere pronto.",
+    "title": "Escríbeme",
+    "subtitle": "¿Tienes una pregunta o simplemente quieres saludar? Envíame un mensaje y te responderé pronto.",
+    "sent": "¡Mensaje enviado! Te responderé pronto.",
     "sending": "Enviando...",
     "submit": "Enviar mensaje",
-    "error": "Algo salio mal. Intentalo de nuevo.",
+    "error": "Algo salió mal. Inténtalo de nuevo.",
     "basedIn": "Basado en {location}",
     "field": {
       "name": "Nombre",
       "email": "Correo",
-      "company": "Empresa",
-      "oppType": "Oportunidad",
-      "budget": "Presupuesto",
-      "timeline": "Timeline",
-      "message": "Mensaje",
-      "foundVia": "Como llegaste"
-    },
-    "opp": {
-      "fulltime": "Tiempo completo",
-      "freelance": "Freelance",
-      "consulting": "Consultoria",
-      "other": "Otro"
-    },
-    "budget": {
-      "sub5k": "Menos de $5k",
-      "5to20k": "$5k-$20k",
-      "20kplus": "$20k+",
-      "na": "No aplica"
-    },
-    "timeline": {
-      "asap": "Lo antes posible",
-      "1to3": "1-3 meses",
-      "3to6": "3-6 meses",
-      "flexible": "Flexible"
-    },
-    "found": {
-      "google": "Google",
-      "github": "GitHub",
-      "linkedin": "LinkedIn",
-      "referral": "Referencia",
-      "other": "Otro"
+      "company": "Empresa / Organización",
+      "message": "Mensaje"
     }
   },
   "footer": {

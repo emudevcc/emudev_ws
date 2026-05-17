@@ -384,12 +384,35 @@ Deliverables:
 - [x] Social feed replaced marquee with `SocialFeedGrid` — 7 platform filter tabs (All/YouTube/TikTok/Instagram/Reddit/X/Threads), 3-col responsive grid, BlurFade animations per card
 - [x] `SocialFeedCard` — platform color/label config map, MediaPlaceholder for video platforms, engagement metrics, `fmt()` helper
 - [x] Removed social links block from below ContactSection (now in footer only)
-- [x] Pagination for SocialFeedGrid: planned, not yet implemented
+- [x] Pagination for SocialFeedGrid: PAGE_SIZE=6, prev/next buttons, page counter; filter tab click resets page to 1; BlurFade re-keyed on page change (`${id}-p${page}`)
 
 **Technical Highlights:**
 
 - Footer navigation uses locale-prefixed hrefs (`/${locale}#section` for hash anchors, `/${locale}/blog` for routes)
 - SocialFeedGrid filter tabs reset `useMemo` on tab change; BlurFade staggered delay `0.04 + i * 0.05`
+
+### Phase 9.10: DotPattern Twinkle Animation (COMPLETE)
+
+**Status:** ✅ Complete (May 16, 2026)
+**Priority:** P2 (visual polish)
+
+**Deliverables:**
+
+- [x] Added `twinkle?: boolean` prop to `components/ui/dot-pattern.tsx`
+- [x] Implemented `useReducedMotion()` from `motion/react` — skips animation for users with reduced motion preference
+- [x] Per-dot animation: `dotTiming(index)` function uses two independent hash seeds (`n1`, `n2`) for delay + star selection and duration
+- [x] Star selection: `isStar = n1 < 0.12` → ~12% of dots randomly selected for twinkling
+- [x] Twinkling animation: `fillOpacity: [0.2, 0.72, 0.2]` pulse, duration 2.5–5s (calculated per-dot), delay 0–7s, `ease: 'easeInOut'`, `repeat: Infinity`
+- [x] Non-twinkling dots: static `fillOpacity={0.2}` with no animation
+- [x] Applied in `app/[locale]/layout.tsx`: `<DotPattern twinkle className="text-muted-foreground [mask-image:...]" />`
+- [x] Design tokens: Dot color from `text-muted-foreground` token (full color, no opacity modifier)
+
+**Technical Highlights:**
+
+- Independent hash seeds prevent delay/duration correlation
+- `prefers-reduced-motion` support ensures accessibility
+- Per-dot random selection creates natural star-like twinkling effect
+- No impact on layout or performance (CSS-driven animation)
 
 ### Success Metrics (9.0)
 

@@ -14,7 +14,7 @@ emudev_ws/
 │   ├── layout.tsx                # Root layout (stripped shell)
 │   ├── page.tsx                  # Root page (redirect to /en)
 │   ├── [locale]/                 # Locale-prefixed routes (en, es) [NEW]
-│   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider
+│   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider; DotPattern with twinkle animation
 │   │   ├── page.tsx              # Homepage (hero + featured projects)
 │   │   ├── about/page.tsx        # About page
 │   │   ├── projects/
@@ -188,7 +188,7 @@ emudev_ws/
 | `app/[locale]/blog/[slug]/opengraph-image.tsx`     | 20   | Dynamic OG image for blog posts (1200×630, dark gradient)                         |
 | `app/[locale]/projects/[slug]/opengraph-image.tsx` | 20   | Dynamic OG image for projects                                                     |
 | `components/tag-filter.tsx`                        | 18   | Client component for project filtering by skills/tech                             |
-| `components/sections/hero-section.tsx`             | ~80  | Hero with name, title, bio, and animated CTA                                      |
+| `components/sections/HeroSection.tsx`              | ~124 | Hero with avatar, name, title, bio, CTA buttons, and 4 stat anchor links (projects/skills/credentials/social) with hover brightening + ArrowRight affordance |
 | `components/sections/about-section.tsx`            | ~70  | About biography with fun facts and call-to-action                                 |
 | `components/sections/experience-timeline.tsx`      | ~100 | Vertical timeline with MagicCard experience rows                                   |
 | `components/sections/skills-section.tsx`           | ~60  | 2×2 skill tiles with categories and level indicators                              |
@@ -196,7 +196,7 @@ emudev_ws/
 | `components/sections/credentials-section.tsx`      | ~80  | Certifications, education, and language credentials display                       |
 | `components/sections/writing-list.tsx`             | ~50  | Blog posts list with date, title, excerpt, and author                             |
 | `components/sections/social-posts-grid.tsx`        | 25   | Section wrapper; passes dummy items to SocialFeedGrid                             |
-| `components/ui/social-feed-grid.tsx`               | ~85  | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination: planned, not yet implemented |
+| `components/ui/social-feed-grid.tsx`               | ~135 | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination implemented: PAGE_SIZE=6, prev/next buttons, page counter; filter tab click resets to page 1; BlurFade key: `${id}-p${page}` forces re-animation on pagination |
 | `components/ui/social-feed-card.tsx`               | ~157 | Individual social card: platform config map, MediaPlaceholder (YT/TikTok/IG), engagement metrics (views/likes/comments/shares), `fmt()` helper |
 | `components/sections/strengths-card.tsx`           | ~60  | CliftonStrengths cards with descriptions                                          |
 | `components/sections/contributions-card.tsx`       | ~70  | GitHub contributions heatmap (calendar visualization)                             |

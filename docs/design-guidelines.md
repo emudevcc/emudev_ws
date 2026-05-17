@@ -219,6 +219,30 @@ Injected via `app/[locale]/layout.tsx` with `next/font/google`, used in `:root` 
 
 **Rule:** All `transition-*` utilities should pair with `var(--ease)` and `var(--dur)` or `var(--dur-fast)`. Always add `@media (prefers-reduced-motion: reduce)` support.
 
+### DotPattern Twinkle Animation
+
+**File:** `components/ui/dot-pattern.tsx`
+
+Ambient star-like animation for DotPattern background (used in layouts):
+
+- **Trigger:** `twinkle={true}` prop enables animation
+- **Selection:** ~12% of dots randomly selected via `dotTiming(index)` hash function (seed: `n1 < 0.12`)
+- **Animation:** Per-dot `fillOpacity: [0.2, 0.72, 0.2]` pulse, duration 2.5–5s (staggered per-dot via `dotTiming()`)
+- **Stagger:** Delay range 0–7s, applied via `dotTiming()` independent hash seed
+- **Easing:** `easeInOut` for smooth pulse
+- **Reduced Motion:** Respects `useReducedMotion()` — skips animation if user prefers reduced motion
+- **Color:** Uses `text-muted-foreground` token for dot fill color (via `className` prop)
+
+**Usage (layout.tsx):**
+```tsx
+<DotPattern 
+  twinkle 
+  className="text-muted-foreground [mask-image:radial-gradient(...)]" 
+/>
+```
+
+**Note:** DotPattern with `twinkle` does not use `fillOpacity` for non-twinkling dots (they stay static at 0.2). The `glow` prop is separate and controls a different radial gradient animation.
+
 ### PageTransition Component (Route Animations)
 
 **File:** `components/ui/page-transition.tsx`

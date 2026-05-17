@@ -83,14 +83,14 @@ export default async function HomePage({ params }: Props) {
       <ExperienceTimeline experiences={experiences ?? []} />
       <ProjectsGrid projects={projects ?? []} />
       <SkillsSection skills={skills ?? []} />
-      <SocialPostsGrid posts={socialPosts ?? []} />
       <CredentialsSection
         certs={certs ?? []}
         education={education ?? []}
         languages={languages ?? []}
       />
-      <StrengthsCard strengths={strengths ?? []} />
       <WritingList posts={posts ?? []} />
+      <StrengthsCard strengths={strengths ?? []} />
+      <SocialPostsGrid posts={socialPosts ?? []} />
       <ContactSection settings={settings} />
       <FooterSection settings={settings} />
     </>

@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-const publicPages = ['/', '/about', '/projects', '/blog', '/contact']
+// /about and /contact are now homepage hash sections (#about, #contact), not standalone pages
+const publicPages = ['/', '/projects', '/blog']
 
 for (const path of publicPages) {
   test(`${path} returns 200`, async ({ page }) => {

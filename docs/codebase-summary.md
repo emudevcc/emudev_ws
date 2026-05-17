@@ -71,7 +71,8 @@ emudev_ws/
 │       ├── marquee.tsx                   # MagicUI: infinite scroll marquee
 │       ├── number-ticker.tsx             # MagicUI: animated count-up number
 │       ├── page-transition.tsx           # [NEW] Client component: opacity/y/blur animation on route change (keyed by pathname)
-│       └── shimmer-button.tsx            # MagicUI: shimmer-effect submit button
+│       ├── shimmer-button.tsx            # MagicUI: shimmer-effect submit button
+│       └── social-platform-icon.tsx      # Inline SVG brand icons for 9 platforms (github/linkedin/twitter/x/youtube/instagram/reddit/spotify/email)
 │
 ├── hooks/                        # Custom React hooks
 │   └── use-active-section.ts     # [NEW] Scroll tracking for active section highlighting in nav
@@ -198,9 +199,10 @@ emudev_ws/
 | `components/sections/social-posts-grid.tsx`        | 25   | Section wrapper; passes dummy items to SocialFeedGrid                             |
 | `components/ui/social-feed-grid.tsx`               | ~135 | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination implemented: PAGE_SIZE=6, prev/next buttons, page counter; filter tab click resets to page 1; BlurFade key: `${id}-p${page}` forces re-animation on pagination |
 | `components/ui/social-feed-card.tsx`               | ~157 | Individual social card: platform config map, MediaPlaceholder (YT/TikTok/IG), engagement metrics (views/likes/comments/shares), `fmt()` helper |
+| `components/ui/social-platform-icon.tsx`           | ~108 | Inline SVG brand icons (no external dep): 9 platforms — github/linkedin/twitter/x/youtube/instagram/reddit/spotify filled paths (simple-icons CC0) + email stroke + globe fallback. `SocialPlatformIcon` props: `platform`, `size=16` |
 | `components/sections/strengths-card.tsx`           | ~60  | CliftonStrengths cards with descriptions                                          |
 | `components/sections/contributions-card.tsx`       | ~70  | GitHub contributions heatmap (calendar visualization)                             |
-| `components/sections/footer-section.tsx`           | ~102 | Async server component: brand column (name/tagline/social links), Navigate col (Home/Blog/Projects/Contact), Explore col (About/Experience/Skills/Credentials), copyright bar. i18n via `getTranslations`/`getLocale`. Props: `settings?: SiteSettings` |
+| `components/sections/FooterSection.tsx`            | ~103 | Async server component: brand column (name/tagline + social icon links via `SocialPlatformIcon`), Navigate col (Home/Blog/Projects/Contact), Explore col (About/Experience/Skills/Credentials), copyright bar. i18n via `getTranslations`/`getLocale`. Props: `settings?: SiteSettings` |
 | `components/sections/contact-section.tsx`          | ~80  | Contact form section with MagicCard wrapper                                       |
 | `app/api/draft-mode/enable/route.ts`               | 15   | Enable Next.js draft mode with validatePreviewUrl                                 |
 | `app/api/draft-mode/disable/route.ts`              | 10   | Disable draft mode and redirect to home                                           |

@@ -219,6 +219,30 @@ Injected via `app/[locale]/layout.tsx` with `next/font/google`, used in `:root` 
 
 **Rule:** All `transition-*` utilities should pair with `var(--ease)` and `var(--dur)` or `var(--dur-fast)`. Always add `@media (prefers-reduced-motion: reduce)` support.
 
+### DotPattern Twinkle Animation
+
+**File:** `components/ui/dot-pattern.tsx`
+
+Ambient star-like animation for DotPattern background (used in layouts):
+
+- **Trigger:** `twinkle={true}` prop enables animation
+- **Selection:** ~12% of dots randomly selected via `dotTiming(index)` hash function (seed: `n1 < 0.12`)
+- **Animation:** Per-dot `fillOpacity: [0.2, 0.72, 0.2]` pulse, duration 2.5–5s (staggered per-dot via `dotTiming()`)
+- **Stagger:** Delay range 0–7s, applied via `dotTiming()` independent hash seed
+- **Easing:** `easeInOut` for smooth pulse
+- **Reduced Motion:** Respects `useReducedMotion()` — skips animation if user prefers reduced motion
+- **Color:** Uses `text-muted-foreground` token for dot fill color (via `className` prop)
+
+**Usage (layout.tsx):**
+```tsx
+<DotPattern 
+  twinkle 
+  className="text-muted-foreground [mask-image:radial-gradient(...)]" 
+/>
+```
+
+**Note:** DotPattern with `twinkle` does not use `fillOpacity` for non-twinkling dots (they stay static at 0.2). The `glow` prop is separate and controls a different radial gradient animation.
+
 ### PageTransition Component (Route Animations)
 
 **File:** `components/ui/page-transition.tsx`
@@ -432,6 +456,21 @@ Before shipping any new component:
 - [ ] No hardcoded motion durations — use `var(--dur)` / `var(--dur-fast)`
 - [ ] `prefers-reduced-motion` respected for animations
 - [ ] Touch targets ≥ 44px for interactive elements
+
+### FooterSection Component
+
+**File:** `components/sections/footer-section.tsx` — async server component
+
+Layout: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` with brand spanning `lg:col-span-2`.
+
+| Column | Content |
+|---|---|
+| Brand (lg: 2 cols) | Site name (`font-mono font-semibold`), tagline (`text-muted-foreground text-sm`), social links (`ExternalLink` icon + handle) |
+| Navigate | Home, Blog, Projects, Contact — locale-prefixed hrefs |
+| Explore | About, Experience, Skills, Credentials — hash anchors |
+| Bottom bar | Full-width separator + copyright (`font-mono text-xs text-muted-foreground`) |
+
+**Tokens used:** `border-border/50` (separators), `text-muted-foreground` (body), `hover:text-foreground` (link hover), `font-mono text-xs` (labels/metadata), `text-sm` (body links).
 
 ---
 

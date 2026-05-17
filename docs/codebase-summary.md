@@ -14,7 +14,7 @@ emudev_ws/
 │   ├── layout.tsx                # Root layout (stripped shell)
 │   ├── page.tsx                  # Root page (redirect to /en)
 │   ├── [locale]/                 # Locale-prefixed routes (en, es) [NEW]
-│   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider
+│   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider; DotPattern with twinkle animation
 │   │   ├── page.tsx              # Homepage (hero + featured projects)
 │   │   ├── about/page.tsx        # About page
 │   │   ├── projects/
@@ -49,10 +49,10 @@ emudev_ws/
 │   │   ├── projects-grid.tsx          # Project gallery with filter + Lens
 │   │   ├── credentials-section.tsx    # Certifications + education + languages
 │   │   ├── writing-list.tsx           # Blog posts list
-│   │   ├── social-posts-grid.tsx      # Marquee of social posts
+│   │   ├── social-posts-grid.tsx      # Section wrapper for SocialFeedGrid (platform filter + 3-col grid)
 │   │   ├── strengths-card.tsx         # CliftonStrengths cards
 │   │   ├── contributions-card.tsx     # GitHub contributions heatmap
-│   │   ├── footer-section.tsx         # Footer with socials
+│   │   ├── footer-section.tsx         # Async server component: brand column, Navigate + Explore nav columns, copyright bar
 │   │   └── contact-section.tsx        # Contact form + CTA
 │   ├── ui/                       # UI primitives
 │       ├── hero-background.tsx           # Three.js particle network (110 nodes, accent connections)
@@ -188,17 +188,19 @@ emudev_ws/
 | `app/[locale]/blog/[slug]/opengraph-image.tsx`     | 20   | Dynamic OG image for blog posts (1200×630, dark gradient)                         |
 | `app/[locale]/projects/[slug]/opengraph-image.tsx` | 20   | Dynamic OG image for projects                                                     |
 | `components/tag-filter.tsx`                        | 18   | Client component for project filtering by skills/tech                             |
-| `components/sections/hero-section.tsx`             | ~80  | Hero with name, title, bio, and animated CTA                                      |
+| `components/sections/HeroSection.tsx`              | ~124 | Hero with avatar, name, title, bio, CTA buttons, and 4 stat anchor links (projects/skills/credentials/social) with hover brightening + ArrowRight affordance |
 | `components/sections/about-section.tsx`            | ~70  | About biography with fun facts and call-to-action                                 |
 | `components/sections/experience-timeline.tsx`      | ~100 | Vertical timeline with MagicCard experience rows                                   |
 | `components/sections/skills-section.tsx`           | ~60  | 2×2 skill tiles with categories and level indicators                              |
 | `components/sections/projects-grid.tsx`            | ~90  | Project gallery with tag filter, MagicCard, BorderBeam, and Lens                  |
 | `components/sections/credentials-section.tsx`      | ~80  | Certifications, education, and language credentials display                       |
 | `components/sections/writing-list.tsx`             | ~50  | Blog posts list with date, title, excerpt, and author                             |
-| `components/sections/social-posts-grid.tsx`        | ~40  | Marquee of social media posts                                                     |
+| `components/sections/social-posts-grid.tsx`        | 25   | Section wrapper; passes dummy items to SocialFeedGrid                             |
+| `components/ui/social-feed-grid.tsx`               | ~135 | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination implemented: PAGE_SIZE=6, prev/next buttons, page counter; filter tab click resets to page 1; BlurFade key: `${id}-p${page}` forces re-animation on pagination |
+| `components/ui/social-feed-card.tsx`               | ~157 | Individual social card: platform config map, MediaPlaceholder (YT/TikTok/IG), engagement metrics (views/likes/comments/shares), `fmt()` helper |
 | `components/sections/strengths-card.tsx`           | ~60  | CliftonStrengths cards with descriptions                                          |
 | `components/sections/contributions-card.tsx`       | ~70  | GitHub contributions heatmap (calendar visualization)                             |
-| `components/sections/footer-section.tsx`           | ~50  | Footer with social links and navigation                                           |
+| `components/sections/footer-section.tsx`           | ~102 | Async server component: brand column (name/tagline/social links), Navigate col (Home/Blog/Projects/Contact), Explore col (About/Experience/Skills/Credentials), copyright bar. i18n via `getTranslations`/`getLocale`. Props: `settings?: SiteSettings` |
 | `components/sections/contact-section.tsx`          | ~80  | Contact form section with MagicCard wrapper                                       |
 | `app/api/draft-mode/enable/route.ts`               | 15   | Enable Next.js draft mode with validatePreviewUrl                                 |
 | `app/api/draft-mode/disable/route.ts`              | 10   | Disable draft mode and redirect to home                                           |

@@ -1,17 +1,20 @@
 'use client'
 
 import React, { useEffect, useId, useRef, useState } from 'react'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 
 import { cn } from '@/lib/utils'
 
 function dotTiming(index: number) {
-  const seed = Math.sin(index * 12.9898) * 43758.5453
-  const normalized = seed - Math.floor(seed)
+  const seed1 = Math.sin(index * 12.9898) * 43758.5453
+  const seed2 = Math.sin(index * 78.233) * 43758.5453
+  const n1 = seed1 - Math.floor(seed1)
+  const n2 = seed2 - Math.floor(seed2)
 
   return {
-    delay: normalized * 5,
-    duration: 2 + ((index * 9301 + 49297) % 3000) / 1000,
+    delay: n1 * 7,
+    duration: 2.5 + n2 * 2.5, // 2.5–5s
+    isStar: n1 < 0.12, // ~12% of dots twinkle
   }
 }
 
@@ -27,6 +30,7 @@ function dotTiming(index: number) {
  * @param {number} [cr=1] - The radius of each dot
  * @param {string} [className] - Additional CSS classes to apply to the SVG container
  * @param {boolean} [glow=false] - Whether dots should have a glowing animation effect
+ * @param {boolean} [twinkle=false] - Whether a random subset of dots (~12%) should pulse like stars
  */
 interface DotPatternProps extends React.SVGProps<SVGSVGElement> {
   width?: number
@@ -38,6 +42,7 @@ interface DotPatternProps extends React.SVGProps<SVGSVGElement> {
   cr?: number
   className?: string
   glow?: boolean
+  twinkle?: boolean
   [key: string]: unknown
 }
 
@@ -81,11 +86,13 @@ export function DotPattern({
   cr = 1,
   className,
   glow = false,
+  twinkle = false,
   ...props
 }: DotPatternProps) {
   const id = useId()
   const containerRef = useRef<SVGSVGElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -136,35 +143,47 @@ export function DotPattern({
           </radialGradient>
         </defs>
       )}
-      {dots.map((dot) => (
-        <motion.circle
-          key={`${dot.x}-${dot.y}`}
-          cx={dot.x}
-          cy={dot.y}
-          r={cr}
-          fill={glow ? `url(#${id}-gradient)` : 'currentColor'}
-          initial={glow ? { opacity: 0.4, scale: 1 } : {}}
-          animate={
-            glow
-              ? {
-                  opacity: [0.4, 1, 0.4],
-                  scale: [1, 1.5, 1],
-                }
-              : {}
-          }
-          transition={
-            glow
-              ? {
-                  duration: dot.duration,
-                  repeat: Infinity,
-                  repeatType: 'reverse',
-                  delay: dot.delay,
-                  ease: 'easeInOut',
-                }
-              : {}
-          }
-        />
-      ))}
+      {dots.map((dot) => {
+        const shouldTwinkle = twinkle && dot.isStar && !prefersReducedMotion
+
+        return (
+          <motion.circle
+            key={`${dot.x}-${dot.y}`}
+            cx={dot.x}
+            cy={dot.y}
+            r={cr}
+            fill={glow ? `url(#${id}-gradient)` : 'currentColor'}
+            fillOpacity={twinkle && !glow ? 0.2 : undefined}
+            initial={glow ? { opacity: 0.4, scale: 1 } : shouldTwinkle ? { fillOpacity: 0.2 } : {}}
+            animate={
+              glow
+                ? { opacity: [0.4, 1, 0.4], scale: [1, 1.5, 1] }
+                : shouldTwinkle
+                  ? { fillOpacity: [0.2, 0.72, 0.2] }
+                  : {}
+            }
+            transition={
+              glow
+                ? {
+                    duration: dot.duration,
+                    repeat: Infinity,
+                    repeatType: 'reverse',
+                    delay: dot.delay,
+                    ease: 'easeInOut',
+                  }
+                : shouldTwinkle
+                  ? {
+                      duration: dot.duration,
+                      repeat: Infinity,
+                      repeatType: 'loop',
+                      delay: dot.delay,
+                      ease: 'easeInOut',
+                    }
+                  : {}
+            }
+          />
+        )
+      })}
     </svg>
   )
 }

@@ -73,7 +73,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
                 width={28}
                 height={28}
                 cr={1}
-                className="text-muted-foreground/20 [mask-image:linear-gradient(to_bottom,white,transparent_85%)]"
+                twinkle
+                className="text-muted-foreground [mask-image:linear-gradient(to_bottom,white,transparent_85%)]"
               />
             </div>
             <ClassicShell locale={locale} settings={settings} />

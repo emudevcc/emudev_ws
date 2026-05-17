@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { ArrowDown, Calendar, FileText } from 'lucide-react'
+import { ArrowDown, ArrowRight, Calendar, FileText } from 'lucide-react'
 import { AnimatedShinyText } from '@/components/ui/animated-shiny-text'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { HeroBackground } from '@/components/ui/hero-background-loader'
@@ -28,10 +28,10 @@ export function HeroSection({
   const resume = settings?.resumePdfEn ?? settings?.resumePdfEs
   const intro = richTextToPlainText(settings?.heroIntro)
   const stats = [
-    { value: projectCount, label: t('statProjects') },
-    { value: skillCount, label: t('statSkills') },
-    { value: certificationCount, label: t('statCredentials') },
-    { value: settings?.socialLinks?.length ?? 0, label: t('statLinks') },
+    { value: projectCount, label: t('statProjects'), href: '#projects' },
+    { value: skillCount, label: t('statSkills'), href: '#skills' },
+    { value: certificationCount, label: t('statCredentials'), href: '#credentials' },
+    { value: settings?.socialLinks?.length ?? 0, label: t('statLinks'), href: '#social' },
   ]
 
   return (
@@ -110,10 +110,25 @@ export function HeroSection({
         <BlurFade delay={0.32}>
           <div className="mt-16 grid max-w-3xl grid-cols-2 gap-5 sm:grid-cols-4">
             {stats.map((stat) => (
-              <div key={stat.label} className="border-l-2 border-accent/50 pl-4">
-                <NumberTicker value={stat.value} className="text-4xl font-bold tabular-nums" />
-                <p className="mt-1 font-mono text-xs text-muted-foreground">{stat.label}</p>
-              </div>
+              <a
+                key={stat.label}
+                href={stat.href}
+                className="group block border-l-2 border-accent/50 pl-4 transition-all duration-200 hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                <NumberTicker
+                  value={stat.value}
+                  className="text-4xl font-bold tabular-nums transition-colors duration-200 group-hover:text-foreground"
+                />
+                <div className="mt-1 flex items-center gap-1.5">
+                  <p className="font-mono text-xs text-muted-foreground transition-colors duration-200 group-hover:text-foreground/70">
+                    {stat.label}
+                  </p>
+                  <ArrowRight
+                    size={10}
+                    className="text-muted-foreground opacity-0 transition-all duration-200 group-hover:opacity-100"
+                  />
+                </div>
+              </a>
             ))}
           </div>
         </BlurFade>

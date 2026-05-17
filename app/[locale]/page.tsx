@@ -71,13 +71,24 @@ export default async function HomePage({ params }: Props) {
     getPosts(locale),
   ])
 
+  const thisYear = new Date().getFullYear()
+  const earliestYear =
+    experiences?.reduce((min, e) => {
+      if (!e.startDate) return min
+      const y = new Date(e.startDate).getFullYear()
+      return y < min ? y : min
+    }, thisYear) ?? thisYear
+  const yearsOfExperience = thisYear - earliestYear
+
   return (
     <>
       <HeroSection
         settings={settings}
-        projectCount={projects?.length ?? 0}
+        yearsOfExperience={yearsOfExperience}
         skillCount={skills?.length ?? 0}
         certificationCount={certs?.length ?? 0}
+        postCount={posts?.length ?? 0}
+        languageCount={languages?.length ?? 0}
       />
       <AboutSection about={about} settings={settings} />
       <ExperienceTimeline experiences={experiences ?? []} />

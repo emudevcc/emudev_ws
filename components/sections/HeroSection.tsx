@@ -11,16 +11,20 @@ import type { SiteSettings } from '@/lib/sanity-queries'
 
 type HeroSectionProps = {
   settings: SiteSettings | null
-  projectCount: number
+  yearsOfExperience: number
   skillCount: number
   certificationCount: number
+  postCount: number
+  languageCount: number
 }
 
 export function HeroSection({
   settings,
-  projectCount,
+  yearsOfExperience,
   skillCount,
   certificationCount,
+  postCount,
+  languageCount,
 }: HeroSectionProps) {
   const t = useTranslations('hero')
   const name = settings?.shortName ?? settings?.siteName ?? 'Esteban Montero'
@@ -28,9 +32,11 @@ export function HeroSection({
   const resume = settings?.resumePdfEn ?? settings?.resumePdfEs
   const intro = richTextToPlainText(settings?.heroIntro)
   const stats = [
-    { value: projectCount, label: t('statProjects'), href: '#projects' },
+    { value: yearsOfExperience, label: t('statExperience'), href: '#experience' },
     { value: skillCount, label: t('statSkills'), href: '#skills' },
     { value: certificationCount, label: t('statCredentials'), href: '#credentials' },
+    { value: postCount, label: t('statPosts'), href: '#writing' },
+    { value: languageCount, label: t('statLanguages'), href: '#credentials' },
     { value: settings?.socialLinks?.length ?? 0, label: t('statLinks'), href: '#social' },
   ]
 
@@ -108,7 +114,7 @@ export function HeroSection({
         </BlurFade>
 
         <BlurFade delay={0.32}>
-          <div className="mt-16 grid max-w-3xl grid-cols-2 gap-5 sm:grid-cols-4">
+          <div className="mt-16 grid max-w-4xl grid-cols-3 gap-5 sm:grid-cols-6">
             {stats.map((stat) => (
               <a
                 key={stat.label}

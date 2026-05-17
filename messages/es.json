@@ -55,9 +55,11 @@
     "ctaContact": "Contacto",
     "ctaSchedule": "Agendar",
     "ctaResume": "CV",
-    "statProjects": "proyectos",
+    "statExperience": "años de exp.",
     "statSkills": "habilidades",
     "statCredentials": "credenciales",
+    "statPosts": "publicaciones",
+    "statLanguages": "idiomas",
     "statLinks": "enlaces"
   },
   "aboutHome": {

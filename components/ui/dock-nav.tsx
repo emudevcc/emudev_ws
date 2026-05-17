@@ -15,6 +15,7 @@ import {
 import { useMemo } from 'react'
 import { Dock, DockIcon } from '@/components/ui/dock'
 import { useActiveSection } from '@/hooks/use-active-section'
+import { useScrollVisibility } from '@/hooks/use-scroll-visibility'
 import { cn } from '@/lib/utils'
 
 const items = [
@@ -23,10 +24,10 @@ const items = [
   { id: 'experience', icon: BriefcaseBusiness, label: 'Experience' },
   { id: 'projects', icon: Code2, label: 'Projects' },
   { id: 'skills', icon: GitBranch, label: 'Skills' },
-  { id: 'social', icon: MessageSquareText, label: 'Social' },
   { id: 'credentials', icon: IdCard, label: 'Credentials' },
-  { id: 'strengths', icon: Sparkles, label: 'Strengths' },
   { id: 'writing', icon: FileText, label: 'Writing' },
+  { id: 'strengths', icon: Sparkles, label: 'Strengths' },
+  { id: 'social', icon: MessageSquareText, label: 'Social' },
   { id: 'contact', icon: Contact, label: 'Contact' },
 ] as const
 
@@ -37,6 +38,7 @@ type DockNavProps = {
 export function DockNav({ locale }: DockNavProps) {
   const ids = useMemo(() => items.map((item) => item.id), [])
   const active = useActiveSection(ids)
+  const dockVisible = useScrollVisibility()
 
   function goTo(id: string) {
     const element = document.getElementById(id)
@@ -50,7 +52,13 @@ export function DockNav({ locale }: DockNavProps) {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-4 z-50 hidden justify-center px-4 md:flex">
+    <div
+      className={cn(
+        'fixed inset-x-0 bottom-4 z-50 hidden justify-center px-4 md:flex',
+        'transition-all duration-300 ease-out',
+        dockVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'
+      )}
+    >
       <div className="rounded-2xl" style={{ background: 'var(--dock-bg)' }}>
         <Dock className="mt-0 bg-transparent" iconSize={38} iconMagnification={56}>
           {items.map(({ id, icon: Icon, label }) => (

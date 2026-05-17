@@ -6,25 +6,20 @@ export function useActiveSection(ids: string[]) {
   const [active, setActive] = useState(ids[0] ?? '')
 
   useEffect(() => {
-    const elements = ids
-      .map((id) => document.getElementById(id))
-      .filter((element): element is HTMLElement => Boolean(element))
+    function update() {
+      const scrollMid = window.scrollY + window.innerHeight * 0.35
+      let bestId = ids[0] ?? ''
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (!el) continue
+        if (el.offsetTop <= scrollMid) bestId = id
+      }
+      setActive(bestId)
+    }
 
-    if (elements.length === 0) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-
-        if (visible?.target.id) setActive(visible.target.id)
-      },
-      { rootMargin: '-35% 0px -55% 0px', threshold: [0.1, 0.35, 0.6] }
-    )
-
-    elements.forEach((element) => observer.observe(element))
-    return () => observer.disconnect()
+    window.addEventListener('scroll', update, { passive: true })
+    update()
+    return () => window.removeEventListener('scroll', update)
   }, [ids])
 
   return active

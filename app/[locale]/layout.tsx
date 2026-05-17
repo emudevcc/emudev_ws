@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ClassicShell } from '@/components/classic-shell'
+import { FooterSection } from '@/components/sections/FooterSection'
 import { SanityVisualEditing } from '@/components/sanity-visual-editing'
 import { ThemeProvider } from '@/components/theme-provider'
 import { DotPattern } from '@/components/ui/dot-pattern'
@@ -79,6 +80,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             </div>
             <ClassicShell locale={locale} settings={settings} />
             <PageTransition>{children}</PageTransition>
+            <FooterSection settings={settings} />
             {isDraft && <SanityVisualEditing />}
             <SpeedInsights />
           </ThemeProvider>

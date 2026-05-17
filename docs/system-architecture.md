@@ -534,6 +534,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 | `SANITY_API_READ_TOKEN`         | GitHub (environment) | Draft content queries     | Medium (read-only) → optional                    |
 | `SUPABASE_DB_URL`               | GitHub (environment) | Migrations only           | High (DB access) → restricted to runner          |
 | `RESEND_API_KEY`                | GitHub (environment) | Email sending             | High (billing) → instantiated inside try/catch   |
+| `CONTACT_TO_EMAIL`              | GitHub (environment) | Contact form recipient    | Low (email) → takes priority over ADMIN_EMAIL    |
 | `ADMIN_EMAIL`                   | GitHub (environment) | Allow-list gating         | Low (email, public)                              |
 
 ### Best Practices

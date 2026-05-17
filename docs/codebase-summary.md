@@ -189,7 +189,7 @@ emudev_ws/
 | `app/[locale]/blog/[slug]/opengraph-image.tsx`     | 20   | Dynamic OG image for blog posts (1200×630, dark gradient)                         |
 | `app/[locale]/projects/[slug]/opengraph-image.tsx` | 20   | Dynamic OG image for projects                                                     |
 | `components/tag-filter.tsx`                        | 18   | Client component for project filtering by skills/tech                             |
-| `components/sections/HeroSection.tsx`              | ~124 | Hero with avatar, name, title, bio, CTA buttons, and 4 stat anchor links (projects/skills/credentials/social) with hover brightening + ArrowRight affordance |
+| `components/sections/HeroSection.tsx`              | ~150 | Hero with avatar, name, title, bio, CTA buttons, and 6 stat anchor links (experience/skills/credentials/posts/languages/links) with hover brightening + ArrowRight affordance |
 | `components/sections/about-section.tsx`            | ~70  | About biography with fun facts and call-to-action                                 |
 | `components/sections/experience-timeline.tsx`      | ~100 | Vertical timeline with MagicCard experience rows                                   |
 | `components/sections/skills-section.tsx`           | ~60  | 2×2 skill tiles with categories and level indicators                              |
@@ -197,13 +197,13 @@ emudev_ws/
 | `components/sections/credentials-section.tsx`      | ~80  | Certifications, education, and language credentials display                       |
 | `components/sections/writing-list.tsx`             | ~50  | Blog posts list with date, title, excerpt, and author                             |
 | `components/sections/social-posts-grid.tsx`        | 25   | Section wrapper; passes dummy items to SocialFeedGrid                             |
-| `components/ui/social-feed-grid.tsx`               | ~135 | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination implemented: PAGE_SIZE=6, prev/next buttons, page counter; filter tab click resets to page 1; BlurFade key: `${id}-p${page}` forces re-animation on pagination |
+| `components/ui/social-feed-grid.tsx`               | ~135 | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination implemented: PAGE_SIZE=9, prev/next buttons, page counter; filter tab click resets to page 1; BlurFade key: `${id}-p${page}` forces re-animation on pagination |
 | `components/ui/social-feed-card.tsx`               | ~157 | Individual social card: platform config map, MediaPlaceholder (YT/TikTok/IG), engagement metrics (views/likes/comments/shares), `fmt()` helper |
 | `components/ui/social-platform-icon.tsx`           | ~108 | Inline SVG brand icons (no external dep): 9 platforms — github/linkedin/twitter/x/youtube/instagram/reddit/spotify filled paths (simple-icons CC0) + email stroke + globe fallback. `SocialPlatformIcon` props: `platform`, `size=16` |
 | `components/sections/strengths-card.tsx`           | ~60  | CliftonStrengths cards with descriptions                                          |
 | `components/sections/contributions-card.tsx`       | ~70  | GitHub contributions heatmap (calendar visualization)                             |
 | `components/sections/FooterSection.tsx`            | ~103 | Async server component: brand column (name/tagline + social icon links via `SocialPlatformIcon`), Navigate col (Home/Blog/Projects/Contact), Explore col (About/Experience/Skills/Credentials), copyright bar. i18n via `getTranslations`/`getLocale`. Props: `settings?: SiteSettings` |
-| `components/sections/contact-section.tsx`          | ~80  | Contact form section with MagicCard wrapper                                       |
+| `components/sections/ContactSection.tsx`          | ~100 | Contact form section (4 fields: name, email, company, message); MagicCard wrapper; location-based CTA footer |
 | `app/api/draft-mode/enable/route.ts`               | 15   | Enable Next.js draft mode with validatePreviewUrl                                 |
 | `app/api/draft-mode/disable/route.ts`              | 10   | Disable draft mode and redirect to home                                           |
 | `i18n/routing.ts`                                  | ~8   | defineRouting config (locales, defaultLocale, localePrefix) [NEW]                 |
@@ -271,22 +271,22 @@ User sees fresh bilingual content in their locale (within <5s)
 
 **Key files:** `app/api/revalidate-tag/route.ts`, `lib/sanity-queries.ts`
 
-### Contact Form Submission (Client → DB → Email, Locale-Aware)
+### Contact Form Submission (Client → API → DB → Email, Locale-Aware)
 
 ```
 User fills contact form (on /en/contact or /es/contact)
     ↓
-submitContact (server action, locale-aware form labels)
-    ├─ Validate: name, email, message
-    ├─ Supabase RLS: anon can INSERT
-    └─ await resend.emails.send() (best-effort, try/catch)
+POST /api/contact (form data: name, email, company?, message)
+    ├─ Validate: name, email, message required
+    ├─ Supabase RLS: anon can INSERT to contact_submissions
+    └─ Try/catch Resend email notification (best-effort; DB insert is authoritative)
         ↓
-Return success/error state (localized error messages)
+Return 200 with success message (localized via messages/{locale}.json)
     ↓
-useActionState updates form with message (in user's locale)
+Client component updates form state (sent/error)
 ```
 
-**Key files:** `components/contact-form.tsx`, `app/actions/contact.ts`
+**Key files:** `components/sections/ContactSection.tsx`, `app/api/contact/route.ts`, `messages/en.json`, `messages/es.json`
 
 ### Static Site Generation (SSG per Route, Per-Locale)
 

@@ -1,9 +1,9 @@
 # Project Roadmap
 
-## Current Status: Phases 1-8.5 + 9.0-9.9 Complete, Bilingual Live
+## Current Status: Phases 1-8.5 + 9.0-9.14 Complete, Bilingual Live
 
 **Timeline:** May 16, 2026
-**Overall Progress:** 99% (Phases 1-8.5 + 9.0-9.9 complete, Phase 9.10+ future)
+**Overall Progress:** 99% (Phases 1-8.5 + 9.0-9.14 complete, Phase 9.15+ future)
 
 ---
 
@@ -217,10 +217,10 @@
 
 ---
 
-## Phase 9: Post-Launch & UI Enhancement (MOSTLY COMPLETE)
+## Phase 9: Post-Launch & UI Enhancement (COMPLETE)
 
-**Status:** ✅ Phases 9.0-9.8 complete; 9.9+ planned
-**Current Date:** May 15, 2026
+**Status:** ✅ Phases 9.0-9.14 complete; 9.15+ planned
+**Current Date:** May 16, 2026
 **Overall Progress:** 99%
 
 ### Phase 9.0: Production Deployment (COMPLETE)
@@ -414,6 +414,83 @@ Deliverables:
 - Per-dot random selection creates natural star-like twinkling effect
 - No impact on layout or performance (CSS-driven animation)
 
+### Phase 9.11: Contact Form Simplification (COMPLETE)
+
+**Status:** ✅ Complete (May 16, 2026)
+**Priority:** P2 (UX cleanup)
+
+**Deliverables:**
+
+- [x] Contact form reduced from 7 fields to 4: name, email, company (optional), message
+- [x] Removed oppType, budget, timeline, foundVia fields (no longer collected)
+- [x] Removed SelectField component (no longer needed)
+- [x] API endpoint: `POST /api/contact` sends only name, email (optional company), message to DB
+- [x] Email notification updated: From + Company (if provided) + message body
+- [x] New env var: `CONTACT_TO_EMAIL=esteban@emudev.com` (takes priority over `ADMIN_EMAIL`)
+- [x] Message keys updated: removed opp/budget/timeline/found keys; updated subtitle to general contact framing
+- [x] i18n: `messages/en.json` and `messages/es.json` updated with 4-field form labels
+
+**Technical Highlights:**
+
+- Simplified contact form flow reduces spam filtering complexity
+- `CONTACT_TO_EMAIL` allows independent contact routing from admin email
+
+### Phase 9.12: Smooth Scroll Behavior (COMPLETE)
+
+**Status:** ✅ Complete (May 16, 2026)
+**Priority:** P2 (UX polish)
+
+**Deliverables:**
+
+- [x] Added `scroll-behavior: smooth` to `html` in `app/globals.css` (@layer base)
+- [x] Added `@media (prefers-reduced-motion: reduce)` guard: resets to `scroll-behavior: auto`
+- [x] Applied to all anchor navigation: hero stats (#experience, #skills, #credentials, #posts, #languages, #social), footer links, section navigation
+
+**Technical Highlights:**
+
+- Respects accessibility preferences (prefers-reduced-motion)
+- Improves perceived smoothness of hash anchor navigation
+
+### Phase 9.13: Hero Section — 6 Stats with Anchor Links (COMPLETE)
+
+**Status:** ✅ Complete (May 16, 2026)
+**Priority:** P1 (core feature)
+
+**Deliverables:**
+
+- [x] Hero stats expanded from 5 to 6: Years of Experience, Skills, Credentials, Posts, Languages, Social Links
+- [x] Grid layout: `grid-cols-3 sm:grid-cols-6` (responsive 3×2 on mobile, 1×6 on desktop)
+- [x] `yearsOfExperience`: computed in `app/[locale]/page.tsx` from earliest `experience.startDate` — `currentYear - min(startDate.year)`
+- [x] `languageCount`: from `languages.length` (already fetched)
+- [x] `postCount`: from `posts.length` (already fetched)
+- [x] Stat anchors: #experience, #skills, #credentials, #writing, #credentials (languages), #social
+- [x] Stats are clickable links with hover brightening + ArrowRight affordance
+- [x] i18n: Added `statExperience`, `statSkills`, `statCredentials`, `statPosts`, `statLanguages`, `statLinks` to messages
+- [x] Removed `projectCount` prop (replaced with language count)
+
+**Technical Highlights:**
+
+- Years of experience computed at runtime from earliest recorded start date
+- Each stat anchors to relevant section for easy navigation
+- Responsive grid adapts 6 stats to mobile (3 per row) and desktop (single row)
+
+### Phase 9.14: Homepage Section Reorder (COMPLETE)
+
+**Status:** ✅ Complete (May 16, 2026)
+**Priority:** P2 (UX structure)
+
+**Deliverables:**
+
+- [x] Updated section order: Hero → About → Experience → Projects → Skills → Credentials → Writing → Strengths → Social → Contact → Footer
+- [x] Previously: Social was before Credentials, Strengths was before Writing
+- [x] All section IDs updated in HTML to match nav anchor links
+- [x] Footer positioned at end (after Contact)
+
+**Technical Highlights:**
+
+- Better UX flow: core info → credentials → content → social proof → contact call-to-action
+- Strengthens conversion funnel (call-to-action positioned before footer)
+
 ### Success Metrics (9.0)
 
 - [x] Uptime: 99.9%
@@ -546,8 +623,14 @@ Phase 1 (DONE)
 | Phase 9.6 | May 14  | May 14 | <1 day               | ✅ Complete      |
 | Phase 9.7 | May 15  | May 15 | <1 day               | ✅ Complete      |
 | Phase 9.8 | May 15  | May 15 | <1 day               | ✅ Complete      |
+| Phase 9.9 | May 15  | May 15 | <1 day               | ✅ Complete      |
+| Phase 9.10 | May 16 | May 16 | <1 day               | ✅ Complete      |
+| Phase 9.11 | May 16 | May 16 | <1 day               | ✅ Complete      |
+| Phase 9.12 | May 16 | May 16 | <1 day               | ✅ Complete      |
+| Phase 9.13 | May 16 | May 16 | <1 day               | ✅ Complete      |
+| Phase 9.14 | May 16 | May 16 | <1 day               | ✅ Complete      |
 
-**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.8) completed by May 15, 2026 with navigation refactor, PageTransition component, and hydration fixes. Next phases: monitoring, analytics, admin dashboard, search functionality.
+**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.14) completed by May 16, 2026 with hero metrics expansion, contact form simplification, smooth scroll, and section reordering. Next phases: monitoring, analytics, admin dashboard, search functionality.
 
 ---
 
@@ -569,4 +652,6 @@ Phase 1 (DONE)
 | 1.2.3-design-tokens | May 13 | 9.4     | Design tokens system: dark-first CSS custom properties, [data-theme] attribute, semantic scales |
 | 1.3.0-blog-redesign | May 13 | 9.5     | MagicUI blog redesign: featured hero, tag filter, card grid, bilingual layout       |
 | 1.4.0-nav-refactor  | May 15 | 9.6-9.8 | Navigation refactor: removed /about /contact routes, hash anchors, PageTransition, DotPattern fix |
-| 1.5.0-future        | TBD    | 9.9+    | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |
+| 1.5.0-social-redesign | May 15 | 9.9  | Footer & social feed redesign: async server Footer, SocialFeedGrid with pagination (PAGE_SIZE=9) |
+| 1.6.0-hero-metrics  | May 16 | 9.10-9.14 | Hero metrics: 6 stats (yrs exp, skills, creds, posts, langs, links); Contact form 4-field; smooth scroll; section reorder |
+| 1.7.0-future        | TBD    | 9.15+   | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |

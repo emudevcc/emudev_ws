@@ -57,7 +57,9 @@ function corsHeaders(origin: string) {
 function isAllowedOrigin(origin: string) {
   if (process.env.NODE_ENV !== 'production') return true
   const allowed = process.env.CHAT_ALLOWED_ORIGIN ?? ''
-  return !allowed || origin === allowed
+  if (!allowed) return true
+  // Support comma-separated list: "https://emudev.cc,https://www.emudev.cc"
+  return allowed.split(',').some((o) => o.trim() === origin)
 }
 
 function getIp(req: NextRequest) {

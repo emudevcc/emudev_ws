@@ -1,0 +1,350 @@
+'use client'
+
+import { Bot, Loader2, MessageCircle, Mic, Send, Trash2, Volume2, VolumeX, X } from 'lucide-react'
+import { FormEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { useFocusTrap } from '@/hooks/use-focus-trap'
+import { useSpeechRecognition } from '@/hooks/use-speech-recognition'
+import { useSpeechSynthesis } from '@/hooks/use-speech-synthesis'
+import { cn } from '@/lib/utils'
+
+type ChatMessage = {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+type WidgetStatus = 'collapsed' | 'open' | 'processing' | 'error' | 'out-of-scope' | 'limit-reached'
+
+const MAX_INPUT = 400
+const MAX_SESSION_MESSAGES = 15
+const COOLDOWN_MS = 2000
+
+function detectLang(text: string): 'es-ES' | 'en-US' {
+  const spanishSignals =
+    /\b(qué|como|cómo|cuál|cual|tienes|trabajas|puedes|sobre|hola|gracias|experiencia|proyectos|habilidades)\b/i
+  return spanishSignals.test(text) ? 'es-ES' : 'en-US'
+}
+
+export function AIChatWidget() {
+  const [status, setStatus] = useState<WidgetStatus>('collapsed')
+  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [input, setInput] = useState('')
+  const [everOpened, setEverOpened] = useState(false)
+  const [showBadge, setShowBadge] = useState(false)
+  const [cooldown, setCooldown] = useState(false)
+  const [ttsEnabled, setTtsEnabled] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const cooldownRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const lastUserText = useMemo(
+    () => [...messages].reverse().find((message) => message.role === 'user')?.content ?? input,
+    [messages, input]
+  )
+  const speechLang = detectLang(lastUserText)
+  const trapRef = useFocusTrap(status !== 'collapsed')
+  const {
+    supported: sttSupported,
+    listening,
+    start,
+    stop,
+    reset,
+  } = useSpeechRecognition(speechLang, setInput)
+  const { supported: ttsSupported, speaking, speak, cancel } = useSpeechSynthesis()
+
+  const isOpen = status !== 'collapsed'
+  const canSend =
+    input.trim().length > 0 &&
+    input.length <= MAX_INPUT &&
+    status !== 'processing' &&
+    status !== 'limit-reached' &&
+    !cooldown
+
+  useEffect(() => {
+    if (everOpened) return
+    const badgeTimer = setTimeout(() => setShowBadge(true), 5000)
+    return () => clearTimeout(badgeTimer)
+  }, [everOpened])
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
+  }, [messages, status])
+
+  useEffect(() => {
+    function onKeyDown(event: globalThis.KeyboardEvent) {
+      if (event.key === 'Escape' && status !== 'collapsed') setStatus('collapsed')
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [status])
+
+  useEffect(() => {
+    if (!ttsEnabled) return
+    const last = messages[messages.length - 1]
+    if (last?.role === 'assistant') speak(last.content, speechLang)
+  }, [messages, speechLang, speak, ttsEnabled])
+
+  useEffect(() => {
+    return () => {
+      if (cooldownRef.current) clearTimeout(cooldownRef.current)
+      cancel()
+    }
+  }, [cancel])
+
+  function openWidget() {
+    setStatus('open')
+    setEverOpened(true)
+    setShowBadge(false)
+  }
+
+  function resetConversation() {
+    setMessages([])
+    setInput('')
+    setStatus('open')
+    setCooldown(false)
+    reset()
+    cancel()
+    if (cooldownRef.current) clearTimeout(cooldownRef.current)
+  }
+
+  async function sendMessage() {
+    const trimmed = input.trim()
+    if (!trimmed || trimmed.length > MAX_INPUT || status === 'processing' || cooldown) return
+    if (messages.length >= MAX_SESSION_MESSAGES) {
+      setStatus('limit-reached')
+      return
+    }
+
+    const userMessage: ChatMessage = { role: 'user', content: trimmed }
+    const nextMessages = [...messages, userMessage]
+    setMessages(nextMessages)
+    setInput('')
+    setStatus('processing')
+    reset()
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: nextMessages.slice(-6) }),
+      })
+      const data = (await response.json().catch(() => null)) as {
+        reply?: string
+        error?: string
+      } | null
+
+      if (!response.ok) {
+        setStatus(response.status === 400 ? 'out-of-scope' : 'error')
+        return
+      }
+
+      setMessages((current) => [...current, { role: 'assistant', content: data?.reply ?? '' }])
+      setStatus(nextMessages.length + 1 >= MAX_SESSION_MESSAGES ? 'limit-reached' : 'open')
+      setCooldown(true)
+      cooldownRef.current = setTimeout(() => setCooldown(false), COOLDOWN_MS)
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    void sendMessage()
+  }
+
+  function onInputKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault()
+      void sendMessage()
+    }
+  }
+
+  if (!isOpen) {
+    return (
+      <>
+        {showBadge && (
+          <div className="fixed bottom-24 right-4 z-[60] max-w-[210px] rounded-xl border border-hairline bg-surface-1 px-3 py-2 text-xs text-fg-2 shadow-[var(--shadow-dock)] sm:right-6">
+            Ask me about my work
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={openWidget}
+          className="fixed bottom-6 right-4 z-[60] flex size-14 items-center justify-center rounded-full border border-hairline bg-[var(--dock-bg)] text-fg-1 shadow-[var(--shadow-dock)] backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95 sm:right-6"
+          aria-label="Open chat"
+        >
+          <MessageCircle size={22} />
+        </button>
+      </>
+    )
+  }
+
+  return (
+    <div
+      ref={trapRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Chat with Esteban"
+      className="fixed bottom-20 right-3 z-[60] flex max-h-[min(620px,calc(100vh-112px))] w-[calc(100vw-24px)] flex-col overflow-hidden rounded-2xl border border-hairline bg-canvas shadow-[var(--shadow-dock)] sm:bottom-24 sm:right-6 sm:w-[360px]"
+    >
+      <div className="flex items-center justify-between border-b border-hairline bg-surface-1 px-4 py-3">
+        <div className="flex items-center gap-2">
+          <span className="flex size-8 items-center justify-center rounded-full bg-accent text-white">
+            <Bot size={16} />
+          </span>
+          <div>
+            <p className="text-sm font-medium text-fg-1">Ask Esteban</p>
+            <p className="text-xs text-fg-3">Portfolio assistant</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
+          {ttsSupported && (
+            <button
+              type="button"
+              onClick={() => {
+                setTtsEnabled((enabled) => !enabled)
+                if (speaking) cancel()
+              }}
+              className={cn(
+                'rounded-md p-1.5 transition-colors',
+                ttsEnabled ? 'text-accent' : 'text-fg-4 hover:text-fg-1'
+              )}
+              aria-label={ttsEnabled ? 'Disable voice output' : 'Enable voice output'}
+            >
+              {ttsEnabled ? <Volume2 size={15} /> : <VolumeX size={15} />}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={resetConversation}
+            className="rounded-md p-1.5 text-fg-4 transition-colors hover:text-fg-1"
+            aria-label="Clear conversation"
+          >
+            <Trash2 size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => setStatus('collapsed')}
+            className="rounded-md p-1.5 text-fg-4 transition-colors hover:text-fg-1"
+            aria-label="Close chat"
+          >
+            <X size={15} />
+          </button>
+        </div>
+      </div>
+
+      <div ref={scrollRef} className="min-h-[260px] flex-1 space-y-3 overflow-y-auto px-4 py-4">
+        <div aria-live="polite" aria-atomic="false" className="sr-only">
+          {messages[messages.length - 1]?.role === 'assistant'
+            ? messages[messages.length - 1].content
+            : ''}
+        </div>
+        {messages.length === 0 && (
+          <div className="rounded-xl border border-hairline bg-surface-1 px-3 py-3 text-sm text-fg-2">
+            Ask about my Adobe stack, analytics work, projects, or availability.
+          </div>
+        )}
+        {messages.map((message, index) => (
+          <div
+            key={`${message.role}-${index}`}
+            className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
+          >
+            <p
+              className={cn(
+                'max-w-[82%] rounded-2xl px-3 py-2 text-sm leading-relaxed',
+                message.role === 'user'
+                  ? 'bg-accent text-white'
+                  : 'border border-hairline bg-surface-1 text-fg-1'
+              )}
+            >
+              {message.content}
+            </p>
+          </div>
+        ))}
+        {status === 'processing' && (
+          <div className="flex items-center gap-1 px-3 py-2" aria-label="Assistant is typing">
+            <span className="size-1.5 animate-bounce rounded-full bg-fg-3" />
+            <span className="size-1.5 animate-bounce rounded-full bg-fg-3 [animation-delay:150ms]" />
+            <span className="size-1.5 animate-bounce rounded-full bg-fg-3 [animation-delay:300ms]" />
+          </div>
+        )}
+      </div>
+
+      {listening && (
+        <div className="flex items-center gap-2 border-t border-hairline px-4 py-2 text-xs text-accent">
+          <span className="size-1.5 animate-pulse rounded-full bg-accent" />
+          Listening...
+        </div>
+      )}
+
+      {(status === 'error' || status === 'out-of-scope' || status === 'limit-reached') && (
+        <div className="border-t border-hairline px-4 py-2 text-center text-xs text-fg-3">
+          {status === 'error' && (
+            <>
+              Something went wrong.{' '}
+              <button type="button" onClick={() => setStatus('open')} className="text-accent">
+                Try again
+              </button>
+            </>
+          )}
+          {status === 'out-of-scope' &&
+            'I can only answer questions about my professional background and work.'}
+          {status === 'limit-reached' && (
+            <>
+              We reached the session limit.{' '}
+              <a href="#contact" className="text-accent underline">
+                Contact me directly
+              </a>
+              .
+            </>
+          )}
+        </div>
+      )}
+
+      <form onSubmit={onSubmit} className="border-t border-hairline p-3">
+        <div className="flex items-end gap-2 rounded-xl border border-hairline bg-surface-input p-2">
+          <textarea
+            value={input}
+            onChange={(event) => setInput(event.target.value.slice(0, MAX_INPUT + 1))}
+            onKeyDown={onInputKeyDown}
+            rows={2}
+            className="min-h-11 flex-1 resize-none bg-transparent text-base text-fg-1 outline-none placeholder:text-fg-4 sm:text-sm"
+            placeholder="Ask a question..."
+            aria-label="Type your message"
+            maxLength={MAX_INPUT + 1}
+          />
+          {sttSupported && (
+            <button
+              type="button"
+              onClick={listening ? stop : start}
+              className={cn(
+                'rounded-full p-2 transition-colors',
+                listening ? 'bg-accent text-white' : 'text-fg-3 hover:text-fg-1'
+              )}
+              aria-label={listening ? 'Listening, click to stop' : 'Activate microphone'}
+            >
+              <Mic size={16} />
+            </button>
+          )}
+          <button
+            type="submit"
+            disabled={!canSend}
+            className="rounded-full bg-accent p-2 text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+            aria-label="Send message"
+          >
+            {status === 'processing' ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : (
+              <Send size={16} />
+            )}
+          </button>
+        </div>
+        <div className="mt-1 flex justify-between text-[11px] text-fg-4">
+          <span>{cooldown ? 'One moment...' : 'Enter sends, Shift+Enter adds a line'}</span>
+          <span className={cn(input.length > MAX_INPUT && 'text-accent')}>
+            {Math.min(input.length, MAX_INPUT + 1)}/{MAX_INPUT}
+          </span>
+        </div>
+      </form>
+    </div>
+  )
+}

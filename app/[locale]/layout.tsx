@@ -9,6 +9,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ClassicShell } from '@/components/classic-shell'
 import { SanityVisualEditing } from '@/components/sanity-visual-editing'
 import { ThemeProvider } from '@/components/theme-provider'
+import { AIChatWidget } from '@/components/ui/ai-chat-widget'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import { PageTransition } from '@/components/ui/page-transition'
 import { routing } from '@/i18n/routing'
@@ -79,6 +80,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             </div>
             <ClassicShell locale={locale} settings={settings} />
             <PageTransition>{children}</PageTransition>
+            <AIChatWidget />
             {isDraft && <SanityVisualEditing />}
             <SpeedInsights />
           </ThemeProvider>

@@ -55,6 +55,7 @@ function corsHeaders(origin: string) {
 }
 
 function isAllowedOrigin(origin: string) {
+  if (process.env.NODE_ENV !== 'production') return true
   const allowed = process.env.CHAT_ALLOWED_ORIGIN ?? ''
   return !allowed || origin === allowed
 }

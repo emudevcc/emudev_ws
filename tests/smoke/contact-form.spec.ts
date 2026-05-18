@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test('contact page renders form with required fields', async ({ page }) => {
-  await page.goto('/contact')
+test('contact section renders form with required fields', async ({ page }) => {
+  await page.goto('/en')
   await expect(page.locator('form')).toBeVisible()
   await expect(page.locator('input[name="name"]')).toBeVisible()
   await expect(page.locator('input[name="email"]')).toBeVisible()
@@ -10,7 +10,7 @@ test('contact page renders form with required fields', async ({ page }) => {
 })
 
 test('contact form submits without 500', async ({ page }) => {
-  await page.goto('/contact')
+  await page.goto('/en')
 
   await page.fill('input[name="name"]', 'Smoke Test')
   await page.fill('input[name="email"]', 'smoke@example.com')

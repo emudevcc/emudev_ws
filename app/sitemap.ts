@@ -13,10 +13,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return contentByLocale.flatMap(({ locale, projects, posts }) => [
     { url: `${base}/${locale}`, lastModified: new Date(), priority: 1.0 },
-    { url: `${base}/${locale}/about`, lastModified: new Date(), priority: 0.8 },
     { url: `${base}/${locale}/projects`, lastModified: new Date(), priority: 0.9 },
     { url: `${base}/${locale}/blog`, lastModified: new Date(), priority: 0.8 },
-    { url: `${base}/${locale}/contact`, lastModified: new Date(), priority: 0.7 },
     ...projects.flatMap((project) => {
       const slug = project.slug?.current
       return slug

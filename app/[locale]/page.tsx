@@ -16,7 +16,6 @@ import { AboutSection } from '@/components/sections/AboutSection'
 import { ContactSection } from '@/components/sections/ContactSection'
 import { CredentialsSection } from '@/components/sections/CredentialsSection'
 import { ExperienceTimeline } from '@/components/sections/ExperienceTimeline'
-import { FooterSection } from '@/components/sections/FooterSection'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ProjectsGrid } from '@/components/sections/ProjectsGrid'
 import { SkillsSection } from '@/components/sections/SkillsSection'
@@ -103,7 +102,6 @@ export default async function HomePage({ params }: Props) {
       <StrengthsCard strengths={strengths ?? []} />
       <SocialPostsGrid posts={socialPosts ?? []} />
       <ContactSection settings={settings} />
-      <FooterSection settings={settings} />
     </>
   )
 }

@@ -43,7 +43,7 @@ const TABS: { id: FilterId; label: string }[] = [
   { id: 'threads', label: 'Threads' },
 ]
 
-const PAGE_SIZE = 6
+const PAGE_SIZE = 9
 
 export function SocialFeedGrid({ items }: { items: SocialItem[] }) {
   const [active, setActive] = useState<FilterId>('all')

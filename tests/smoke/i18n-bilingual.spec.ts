@@ -8,7 +8,8 @@ type JsonValue = string | number | boolean | null | JsonObject | JsonValue[]
 type JsonObject = { [key: string]: JsonValue }
 type Locale = 'en' | 'es'
 
-const staticPages = ['', '/about', '/projects', '/blog', '/contact']
+// /about and /contact are now homepage hash sections — no standalone pages
+const staticPages = ['', '/projects', '/blog']
 
 function readJson(relativePath: string): JsonObject {
   return JSON.parse(fs.readFileSync(path.join(process.cwd(), relativePath), 'utf8'))
@@ -101,7 +102,7 @@ test.describe('i18n static contracts', () => {
     expect(sitemap).toContain('routing.locales.map')
     expect(sitemap).toContain('url: `${base}/${locale}`')
 
-    for (const pagePath of ['/about', '/projects', '/blog', '/contact']) {
+    for (const pagePath of ['/projects', '/blog']) {
       expect(sitemap).toContain(`url: \`\${base}/\${locale}${pagePath}\``)
     }
   })

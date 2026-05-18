@@ -46,20 +46,26 @@ function hasInjection(text: string): boolean {
 }
 
 function corsHeaders(origin: string) {
-  const allowed = process.env.CHAT_ALLOWED_ORIGIN ?? ''
+  const allowOrigin = isAllowedOrigin(origin) ? origin : ''
   return {
-    'Access-Control-Allow-Origin': allowed || origin || '*',
+    'Access-Control-Allow-Origin': allowOrigin || '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   }
 }
 
+function allowedOrigins() {
+  return (process.env.CHAT_ALLOWED_ORIGIN ?? '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean)
+}
+
 function isAllowedOrigin(origin: string) {
   if (process.env.NODE_ENV !== 'production') return true
-  const allowed = process.env.CHAT_ALLOWED_ORIGIN ?? ''
-  if (!allowed) return true
-  // Support comma-separated list: "https://emudev.cc,https://www.emudev.cc"
-  return allowed.split(',').some((o) => o.trim() === origin)
+  const allowed = allowedOrigins()
+  if (allowed.length === 0) return true
+  return allowed.includes(origin)
 }
 
 function getIp(req: NextRequest) {

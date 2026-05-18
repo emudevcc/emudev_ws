@@ -22,11 +22,21 @@ const POSTAMBLE = `
 
 let cachedPrompt: string | null = null
 
+function readProfile(): string {
+  const envProfile = process.env.CHAT_PROFILE_MARKDOWN?.trim()
+  if (envProfile) return envProfile
+
+  const profilePath = path.join(process.cwd(), 'data', 'profile.md')
+  if (fs.existsSync(profilePath)) return fs.readFileSync(profilePath, 'utf-8')
+
+  const templatePath = path.join(process.cwd(), 'data', 'profile-template.md')
+  return fs.readFileSync(templatePath, 'utf-8')
+}
+
 export function buildSystemPrompt(): string {
   if (cachedPrompt) return cachedPrompt
 
-  const profilePath = path.join(process.cwd(), 'data', 'profile.md')
-  const profile = fs.readFileSync(profilePath, 'utf-8')
+  const profile = readProfile()
   cachedPrompt = PREAMBLE + profile + POSTAMBLE
   return cachedPrompt
 }

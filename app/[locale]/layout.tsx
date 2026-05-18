@@ -10,6 +10,7 @@ import { ClassicShell } from '@/components/classic-shell'
 import { FooterSection } from '@/components/sections/FooterSection'
 import { SanityVisualEditing } from '@/components/sanity-visual-editing'
 import { ThemeProvider } from '@/components/theme-provider'
+import { AIChatWidget } from '@/components/ui/ai-chat-widget'
 import { DotPattern } from '@/components/ui/dot-pattern'
 import { PageTransition } from '@/components/ui/page-transition'
 import { routing } from '@/i18n/routing'
@@ -81,6 +82,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             <ClassicShell locale={locale} settings={settings} />
             <PageTransition>{children}</PageTransition>
             <FooterSection settings={settings} />
+            <AIChatWidget />
             {isDraft && <SanityVisualEditing />}
             <SpeedInsights />
           </ThemeProvider>

@@ -6,6 +6,10 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Python generated files
+__pycache__/
+*.py[cod]
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -178,6 +182,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+
+# Local AI assistant profile data may contain public contact details or PII.
+data/profile.md
 
 # vercel
 .vercel

@@ -7,11 +7,10 @@ import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ClassicShell } from '@/components/classic-shell'
+import { LayoutWidgets } from '@/components/layout-widgets'
 import { FooterSection } from '@/components/sections/FooterSection'
 import { SanityVisualEditing } from '@/components/sanity-visual-editing'
 import { ThemeProvider } from '@/components/theme-provider'
-import { AIChatWidget } from '@/components/ui/ai-chat-widget'
-import { DotPattern } from '@/components/ui/dot-pattern'
 import { PageTransition } from '@/components/ui/page-transition'
 import { routing } from '@/i18n/routing'
 import { localeAlternates } from '@/lib/metadata'
@@ -70,19 +69,10 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             enableSystem={false}
             disableTransitionOnChange
           >
-            <div className="fixed inset-0 -z-10 overflow-hidden">
-              <DotPattern
-                width={28}
-                height={28}
-                cr={1}
-                twinkle
-                className="text-muted-foreground [mask-image:linear-gradient(to_bottom,white,transparent_85%)]"
-              />
-            </div>
+            <LayoutWidgets />
             <ClassicShell locale={locale} settings={settings} />
             <PageTransition>{children}</PageTransition>
             <FooterSection settings={settings} />
-            <AIChatWidget />
             {isDraft && <SanityVisualEditing />}
             <SpeedInsights />
           </ThemeProvider>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import {
   getAbout,
   getCertifications,
@@ -13,7 +14,6 @@ import {
   getStrengths,
 } from '@/lib/sanity-queries'
 import { AboutSection } from '@/components/sections/AboutSection'
-import { ContactSection } from '@/components/sections/ContactSection'
 import { CredentialsSection } from '@/components/sections/CredentialsSection'
 import { ExperienceTimeline } from '@/components/sections/ExperienceTimeline'
 import { HeroSection } from '@/components/sections/HeroSection'
@@ -23,6 +23,11 @@ import { SocialPostsGrid } from '@/components/sections/SocialPostsGrid'
 import { StrengthsCard } from '@/components/sections/StrengthsCard'
 import { WritingList } from '@/components/sections/WritingList'
 import { localeAlternates } from '@/lib/metadata'
+
+// Code-split the below-fold contact form — defers its JS chunk from the initial bundle
+const ContactSection = dynamic(() =>
+  import('@/components/sections/ContactSection').then((m) => ({ default: m.ContactSection }))
+)
 
 type Props = { params: Promise<{ locale: string }> }
 

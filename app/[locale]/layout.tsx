@@ -9,7 +9,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ClassicShell } from '@/components/classic-shell'
 import { LayoutWidgets } from '@/components/layout-widgets'
 import { FooterSection } from '@/components/sections/FooterSection'
-import { SanityVisualEditing } from '@/components/sanity-visual-editing'
 import { ThemeProvider } from '@/components/theme-provider'
 import { PageTransition } from '@/components/ui/page-transition'
 import { routing } from '@/i18n/routing'
@@ -69,11 +68,10 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             enableSystem={false}
             disableTransitionOnChange
           >
-            <LayoutWidgets />
+            <LayoutWidgets showVisualEditing={isDraft} />
             <ClassicShell locale={locale} settings={settings} />
             <PageTransition>{children}</PageTransition>
             <FooterSection settings={settings} />
-            {isDraft && <SanityVisualEditing />}
             <SpeedInsights />
           </ThemeProvider>
         </NextIntlClientProvider>

@@ -6,15 +6,17 @@ export function localeAlternates(
   locale: string = routing.defaultLocale
 ): Metadata['alternates'] {
   const normalizedPath = pathname ? `/${pathname.replace(/^\/+/, '')}` : ''
-  const defaultPath = `/${routing.defaultLocale}${normalizedPath}`
+
+  // With localePrefix: 'as-needed', the default locale has no prefix in the URL
+  function localePath(l: string) {
+    return l === routing.defaultLocale ? normalizedPath || '/' : `/${l}${normalizedPath}`
+  }
 
   return {
-    canonical: `/${locale}${normalizedPath}`,
+    canonical: localePath(locale),
     languages: {
-      ...Object.fromEntries(
-        routing.locales.map((locale) => [locale, `/${locale}${normalizedPath}`])
-      ),
-      'x-default': defaultPath,
+      ...Object.fromEntries(routing.locales.map((l) => [l, localePath(l)])),
+      'x-default': localePath(routing.defaultLocale),
     },
   }
 }

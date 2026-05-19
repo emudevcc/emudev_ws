@@ -18,13 +18,18 @@ import { CredentialsSection } from '@/components/sections/CredentialsSection'
 import { ExperienceTimeline } from '@/components/sections/ExperienceTimeline'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ProjectsGrid } from '@/components/sections/ProjectsGrid'
-import { SkillsSection } from '@/components/sections/SkillsSection'
-import { SocialPostsGrid } from '@/components/sections/SocialPostsGrid'
 import { StrengthsCard } from '@/components/sections/StrengthsCard'
 import { WritingList } from '@/components/sections/WritingList'
 import { localeAlternates } from '@/lib/metadata'
 
-// Code-split the below-fold contact form — defers its JS chunk from the initial bundle
+// Defer client JS for below-fold sections with unique heavy Client Component children
+const SkillsSection = dynamic(() =>
+  import('@/components/sections/SkillsSection').then((m) => ({ default: m.SkillsSection }))
+)
+const SocialPostsGrid = dynamic(() =>
+  import('@/components/sections/SocialPostsGrid').then((m) => ({ default: m.SocialPostsGrid }))
+)
+// Code-split the below-fold contact form
 const ContactSection = dynamic(() =>
   import('@/components/sections/ContactSection').then((m) => ({ default: m.ContactSection }))
 )

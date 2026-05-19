@@ -14,7 +14,18 @@ const DotPattern = dynamic(
   { ssr: false }
 )
 
-export function LayoutWidgets() {
+// Draft-mode only — keep the Sanity overlay JS out of the real-user bundle entirely
+const SanityVisualEditing = dynamic(
+  () =>
+    import('@/components/sanity-visual-editing').then((m) => ({ default: m.SanityVisualEditing })),
+  { ssr: false }
+)
+
+interface LayoutWidgetsProps {
+  showVisualEditing?: boolean
+}
+
+export function LayoutWidgets({ showVisualEditing }: LayoutWidgetsProps) {
   return (
     <>
       <div className="fixed inset-0 -z-10 overflow-hidden">
@@ -27,6 +38,7 @@ export function LayoutWidgets() {
         />
       </div>
       <AIChatWidget />
+      {showVisualEditing && <SanityVisualEditing />}
     </>
   )
 }

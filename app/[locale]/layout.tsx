@@ -6,18 +6,10 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import dynamic from 'next/dynamic'
 import { ClassicShell } from '@/components/classic-shell'
 import { LayoutWidgets } from '@/components/layout-widgets'
 import { FooterSection } from '@/components/sections/FooterSection'
 import { ThemeProvider } from '@/components/theme-provider'
-
-// Draft-mode only — keep the Sanity overlay JS out of the real-user bundle entirely
-const SanityVisualEditing = dynamic(
-  () =>
-    import('@/components/sanity-visual-editing').then((m) => ({ default: m.SanityVisualEditing })),
-  { ssr: false }
-)
 import { PageTransition } from '@/components/ui/page-transition'
 import { routing } from '@/i18n/routing'
 import { localeAlternates } from '@/lib/metadata'
@@ -76,11 +68,10 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             enableSystem={false}
             disableTransitionOnChange
           >
-            <LayoutWidgets />
+            <LayoutWidgets showVisualEditing={isDraft} />
             <ClassicShell locale={locale} settings={settings} />
             <PageTransition>{children}</PageTransition>
             <FooterSection settings={settings} />
-            {isDraft && <SanityVisualEditing />}
             <SpeedInsights />
           </ThemeProvider>
         </NextIntlClientProvider>

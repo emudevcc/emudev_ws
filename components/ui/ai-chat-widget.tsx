@@ -28,7 +28,7 @@ const COOLDOWN_MS = 2000
 
 function parseInline(text: string): ReactNode[] {
   const parts: ReactNode[] = []
-  const regex = /(\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`)/g
+  const regex = /(\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`|(https?:\/\/[^\s<>"']+))/g
   let lastIndex = 0
   let match: RegExpExecArray | null
 
@@ -43,6 +43,20 @@ function parseInline(text: string): ReactNode[] {
         <code key={match.index} className="rounded bg-surface-2 px-1 font-mono text-[11px]">
           {match[4]}
         </code>
+      )
+    } else if (match[5]) {
+      // URL comes from the controlled API endpoint, not user input — safe to use as href
+      const url = match[5].replace(/[.,;:!?]+$/, '')
+      parts.push(
+        <a
+          key={match.index}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="break-all text-accent underline hover:opacity-80"
+        >
+          {url}
+        </a>
       )
     }
     lastIndex = match.index + match[0].length
@@ -84,6 +98,7 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
   const badgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const suggestions = useMemo(() => getSuggestions(t.raw('suggestions')), [t])
+  const quickReplies = useMemo(() => getSuggestions(t.raw('quickReplies')), [t])
   const speechLang = locale === 'es' ? 'es-ES' : 'en-US'
   const trapRef = useFocusTrap(status !== 'collapsed')
   const {
@@ -96,6 +111,13 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
   const { supported: ttsSupported, speaking, speak, cancel } = useSpeechSynthesis()
 
   const isOpen = status !== 'collapsed'
+  const lastMsg = messages[messages.length - 1]
+  const showQuickReplies =
+    lastMsg?.role === 'assistant' &&
+    status === 'open' &&
+    !cooldown &&
+    lastMsg.content.trimEnd().endsWith('?') &&
+    quickReplies.length > 0
   const canSend =
     input.trim().length > 0 &&
     input.length <= MAX_INPUT &&
@@ -219,6 +241,12 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
   if (!isOpen) {
     return (
       <>
+        {!everOpened && (
+          <span
+            className="fixed bottom-6 right-4 z-[59] size-14 animate-ping rounded-full bg-accent/25 sm:right-6"
+            aria-hidden="true"
+          />
+        )}
         {showBadge && (
           <div className="fixed bottom-24 right-4 z-[60] max-w-[210px] rounded-xl border border-hairline bg-surface-1 px-3 py-2 shadow-[var(--shadow-dock)] sm:right-6">
             <AnimatedShinyText className="text-xs text-fg-2">{t('bubble')}</AnimatedShinyText>
@@ -227,7 +255,10 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
         <button
           type="button"
           onClick={openWidget}
-          className="fixed bottom-6 right-4 z-[60] flex size-14 items-center justify-center rounded-full border border-hairline bg-[var(--dock-bg)] text-fg-1 shadow-[var(--shadow-dock)] backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95 sm:right-6"
+          className={cn(
+            'fixed bottom-6 right-4 z-[60] flex size-14 items-center justify-center rounded-full border border-hairline bg-[var(--dock-bg)] text-fg-1 shadow-[var(--shadow-dock)] backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95 sm:right-6',
+            !everOpened && 'animate-chat-pulse'
+          )}
           aria-label={t('ariaOpen')}
         >
           {avatarUrl ? (
@@ -362,6 +393,21 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
           </div>
         )}
       </div>
+
+      {showQuickReplies && (
+        <div className="flex flex-wrap gap-2 border-t border-hairline px-4 py-2">
+          {quickReplies.map((reply) => (
+            <button
+              key={reply}
+              type="button"
+              onClick={() => void sendMessage(reply)}
+              className="rounded-full border border-hairline bg-surface-1 px-3 py-1 text-xs text-fg-2 transition-colors hover:border-accent/40 hover:bg-surface-2 hover:text-fg-1"
+            >
+              {reply}
+            </button>
+          ))}
+        </div>
+      )}
 
       {listening && (
         <div className="flex items-center gap-2 border-t border-hairline px-4 py-2 text-xs text-accent">

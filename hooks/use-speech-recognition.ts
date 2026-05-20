@@ -8,6 +8,10 @@ type SpeechRecognitionEventLike = Event & {
   results: ArrayLike<ArrayLike<{ transcript: string }>>
 }
 
+type SpeechRecognitionErrorEvent = Event & {
+  error: string
+}
+
 type SpeechRecognition = EventTarget & {
   continuous: boolean
   interimResults: boolean
@@ -17,7 +21,7 @@ type SpeechRecognition = EventTarget & {
   abort: () => void
   onresult: ((event: SpeechRecognitionEventLike) => void) | null
   onend: (() => void) | null
-  onerror: (() => void) | null
+  onerror: ((event: SpeechRecognitionErrorEvent) => void) | null
 }
 
 type SpeechWindow = Window & {
@@ -54,7 +58,7 @@ export function useSpeechRecognition(
     if (!Recognition) return
 
     const recognition = new Recognition()
-    recognition.continuous = false
+    recognition.continuous = true
     recognition.interimResults = true
     recognition.lang = lang
     recognition.onresult = (event) => {
@@ -65,7 +69,9 @@ export function useSpeechRecognition(
       onTranscriptRef.current?.(nextTranscript)
     }
     recognition.onend = () => setListening(false)
-    recognition.onerror = () => setListening(false)
+    recognition.onerror = (event) => {
+      if (event.error !== 'no-speech') setListening(false)
+    }
 
     recognitionRef.current = recognition
     setSupported(true)

@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from 'react'
 
 const PREFERRED_VOICES: Record<string, string[]> = {
-  es: ['Paulina', 'Monica', 'Google español', 'Google Español', 'es-ES'],
-  en: ['Samantha', 'Google US English', 'en-US'],
+  en: ['Daniel', 'Tom', 'Alex', 'Google UK English Male', 'Fred'],
+  es: ['Jorge', 'Diego', 'Carlos', 'Google español de Estados Unidos'],
 }
 
 function pickVoice(lang: string): SpeechSynthesisVoice | null {

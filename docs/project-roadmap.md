@@ -494,20 +494,26 @@ Deliverables:
 - Better UX flow: core info → credentials → content → social proof → contact call-to-action
 - Strengthens conversion funnel (call-to-action positioned before footer)
 
-### Phase 9.15: AI Chat Widget Full Enhancement (COMPLETE)
+### Phase 9.15: AI Chat Widget & TTS Migration (COMPLETE)
 
-**Status:** ✅ Complete (May 19, 2026)
+**Status:** ✅ Complete (May 19-20, 2026)
 **Priority:** P0 (engagement feature)
 
-**Deliverables:**
+**Deliverables (Gemini & Google Cloud TTS):**
 
+- [x] **Claude → Gemini Migration:** `app/api/chat/route.ts` now uses `@google/generative-ai`, model `gemini-2.5-flash-lite`
+- [x] **TTS Migration:** Web Speech API → Google Cloud TTS WaveNet (`app/api/tts/route.ts` POST endpoint)
 - [x] `lib/chat/system-prompt.ts`: PREAMBLE rewritten with warmer tone; new `buildSystemPromptForLocale(locale?)` export
-- [x] `app/api/chat/route.ts`: Accepts optional `locale` field in POST body; validates to ['en', 'es'], defaults to 'en'
-- [x] `components/ui/ai-chat-widget.tsx` (443 LOC): Full widget with profile photo (Sanity CDN), bubble with AnimatedShinyText shimmer, timer (8–20s first, then 30–60s repeating), locale-aware suggestions, voice I/O support, MarkdownText rendering of responses; **[POLISH]** ping ring + scale pulse animation on collapsed button, URL parsing in `parseInline()`, quick-reply chips when last assistant message ends with `?`
+- [x] `app/api/chat/route.ts`: Accepts optional `locale` field in POST body; validates to ['en', 'es'], defaults to 'en'; uses `systemInstruction` parameter for Gemini; max 350 output tokens; max 6 messages context
+- [x] `app/api/tts/route.ts` (NEW): Google Cloud TTS WaveNet; POST `{text, lang}` → base64 MP3 audio; WaveNet voices EN `en-US-Wavenet-J`, ES `es-US-Wavenet-C`; rate limiting 30 req/hr/IP with stale-entry pruning
+- [x] `components/ui/ai-chat-widget.tsx` (443 LOC): Full widget with profile photo (Sanity CDN), bubble with AnimatedShinyText shimmer, timer (8–20s first, then 30–60s repeating), locale-aware suggestions, voice I/O support, MarkdownText rendering of responses; ping ring + scale pulse animation on collapsed button, URL parsing, quick-reply chips
 - [x] `hooks/use-speech-recognition.ts` (102 LOC): Rewritten for stability—recognition created once on mount, onTranscript in stable useRef, lang updated via separate useEffect
-- [x] `hooks/use-speech-synthesis.ts` (78 LOC): Voice selection per language (PREFERRED_VOICES map), voiceschanged listener for async voice loading (Chrome/Safari compat), pickVoice helper
-- [x] `components/layout-widgets.tsx`: Updated to pass `avatarUrl` prop from settings
+- [x] `hooks/use-speech-synthesis.ts` (57 LOC): [REWRITTEN] Now fetches `/api/tts` server route instead of `window.speechSynthesis`; plays MP3 via `new Audio('data:audio/mpeg;base64,' + audioBase64)`; interface unchanged
+- [x] `components/layout-widgets.tsx`: Updated to pass `avatarUrl` prop from settings; hosts AIChatWidget, DotPattern, SanityVisualEditing
 - [x] `app/[locale]/layout.tsx`: Passes `avatarUrl={settings?.avatar ?? undefined}` to LayoutWidgets
+- [x] **Env vars added:** `GEMINI_API_KEY` (replaced ANTHROPIC_API_KEY), `GOOGLE_TTS_API_KEY`, `CHAT_ALLOWED_ORIGIN` (CORS whitelist)
+- [x] **Rate limiting:** Chat & TTS both limited to 30 req/hr/IP with per-IP window tracking and stale-entry pruning
+- [x] **Security:** 9 regex patterns detect prompt injection in chat messages; CORS validation on origin header
 - [x] `lib/social-adapters.ts` (40 LOC): Pure adapters for social posts, relativeTime helper using Intl.RelativeTimeFormat
 - [x] `components/sections/CredentialsSection.tsx`: Fixed language proficiency `levels` array from ['basic', 'intermediate', 'advanced', 'fluent', 'native'] to ['basic', 'conversational', 'professional', 'fluent', 'native'] to match Sanity schema PROFICIENCY values
 - [x] `messages/en.json` + `messages/es.json`: New `chat` namespace with 21 keys: bubble, ariaOpen/Close/Clear/Voice/Mic/Send, headerTitle, headerSubtitle, placeholder, welcome, listening, hint, hintCooldown, errorGeneric/Retry/Scope/Limit/LimitCta, suggestions (3 items), **[NEW]** quickReplies array (3 items: "Yes!", "No thanks", "Tell me more" in English)
@@ -517,14 +523,17 @@ Deliverables:
 
 **Technical Highlights:**
 
-- Locale-aware system prompt appends language-lock instruction for correct bot language
-- Speech recognition stable: single instance, proper cleanup on lang change
-- Speech synthesis voice selection cascades through preferred names → locale match → fallback
+- **Gemini vs Claude:** Switched to Google Gemini 2.5 Flash-Lite for cost/latency; uses `systemInstruction` parameter (not Claude's `system` role)
+- **TTS Migration:** Server-side Google Cloud TTS WaveNet replaces browser Web Speech API; more consistent voice, better language support
+- Locale-aware system prompt appends language-lock instruction for correct bot language (EN/ES)
+- Speech recognition: client-side browser API; single instance, proper cleanup on lang change
+- Speech synthesis: now server-side via `/api/tts` endpoint; plays MP3 audio from base64
 - Social feed backend wired with real Sanity data via adapters
 - CredentialsSection proficiency fix enables correct dot indicators per language level
 - Bundle optimization: removed dead framer-motion, lazy-loaded heavy sections
 - Chat widget fully client-side rendered (SSR: false in layout-widgets boundary)
-- **[POLISH]** Ping ring + scale pulse animation draws attention to collapsed button, URL parsing enables clickable links in responses, quick-reply chips reduce friction for question-based interactions
+- Rate limiting: 30 req/hr/IP per endpoint with map-based tracking and window resets
+- Injection protection: 9 regex patterns detect prompt injection attempts in user messages
 
 ### Success Metrics (9.0)
 
@@ -690,5 +699,5 @@ Phase 1 (DONE)
 | 1.4.0-nav-refactor  | May 15 | 9.6-9.8 | Navigation refactor: removed /about /contact routes, hash anchors, PageTransition, DotPattern fix |
 | 1.5.0-social-redesign | May 15 | 9.9  | Footer & social feed redesign: async server Footer, SocialFeedGrid with pagination (PAGE_SIZE=9) |
 | 1.6.0-hero-metrics  | May 16 | 9.10-9.14 | Hero metrics: 6 stats (yrs exp, skills, creds, posts, langs, links); Contact form 4-field; smooth scroll; section reorder |
-| 1.7.0-ai-chat       | May 19 | 9.15  | AI chat widget full enhancement: profile photo + voice I/O + locale-aware suggestions; system prompt locale-aware; social backend; credential fix; bundle optimization (framer-motion removal, lazy-load sections) |
+| 1.7.0-gemini-tts    | May 20 | 9.15  | AI chat & TTS migration: Claude → Gemini 2.5 Flash-Lite; Web Speech API → Google Cloud TTS WaveNet; `/api/tts` endpoint; rate limiting (30 req/hr/IP); prompt injection protection (9 regex patterns); env vars GEMINI_API_KEY, GOOGLE_TTS_API_KEY, CHAT_ALLOWED_ORIGIN |
 | 1.8.0-future        | TBD    | 9.16+   | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |

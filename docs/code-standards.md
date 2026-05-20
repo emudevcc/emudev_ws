@@ -661,7 +661,7 @@ When making breaking changes: (1) update CHANGELOG with migration guide, (2) cre
 
 ## AI Chat Integration
 
-### System Prompt Pattern (Locale-Aware)
+### System Prompt Pattern (Locale-Aware, Gemini-Based)
 
 **File:** `lib/chat/system-prompt.ts`
 
@@ -687,15 +687,21 @@ export function buildSystemPromptForLocale(locale?: string) {
 
 ```typescript
 // app/api/chat/route.ts
-const body = await req.json()
-const locale = (['en', 'es'].includes(body.locale) ? body.locale : 'en')
-const systemPrompt = buildSystemPromptForLocale(locale)
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+const model = genAI.getGenerativeModel({
+  model: 'gemini-2.5-flash-lite',
+  systemInstruction: buildSystemPromptForLocale(locale),
+  generationConfig: { maxOutputTokens: 350 },
+})
+
+const result = await model.generateContent({ contents })
 ```
 
 **Key points:**
-- System prompt appends locale-specific language lock to ensure bot responds in user's language
+- System prompt uses `systemInstruction` parameter (Gemini API, not Claude-style `system` role)
 - Caller passes `locale` from POST body; validated to ['en', 'es']
 - Defaults to 'en' if missing or invalid
+- Rate limited to 30 req/hr/IP; 9 regex patterns detect prompt injection
 
 ### Speech Recognition & Synthesis (Voice I/O)
 
@@ -723,25 +729,28 @@ useEffect(() => {
 }, [lang]) // Only lang dependency
 ```
 
-**Synthesis pattern (voice selection cascade):**
+**Synthesis pattern (server-side TTS via /api/tts):**
 
 ```typescript
-const PREFERRED_VOICES = {
-  es: ['Paulina', 'Monica', 'Google español', ...],
-  en: ['Samantha', 'Google US English', ...],
-}
+// useSpeechSynthesis hook now fetches from server
+const speak = useCallback((text: string, lang = 'en-US') => {
+  fetch('/api/tts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, lang }),
+  })
+    .then((res) => res.json())
+    .then(({ audioBase64 }: { audioBase64?: string }) => {
+      if (!audioBase64) return
+      const audio = new Audio('data:audio/mpeg;base64,' + audioBase64)
+      audio.play()
+    })
+}, [])
 
-function pickVoice(lang: string): SpeechSynthesisVoice | null {
-  const voices = speechSynthesis.getVoices()
-  const preferred = PREFERRED_VOICES[lang as keyof typeof PREFERRED_VOICES] || []
-  
-  // Try preferred names → exact locale match → any prefix match
-  for (const name of preferred) {
-    const v = voices.find(v => v.name.includes(name))
-    if (v) return v
-  }
-  return voices.find(v => v.lang.startsWith(lang)) || null
-}
+// API route uses Google Cloud TTS WaveNet
+// POST /api/tts receives {text, lang: 'en-US' | 'es-US'}
+// Returns {audioBase64: string} (MP3 format)
+// WaveNet voices: EN = en-US-Wavenet-J, ES = es-US-Wavenet-C
 ```
 
 ---

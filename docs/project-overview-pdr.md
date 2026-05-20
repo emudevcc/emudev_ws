@@ -114,6 +114,8 @@ Ship a zero-maintenance portfolio that:
 | **CMS**                  | Sanity v3 (14 document types, GROQ, bilingual schemas, Presentation preview)          |
 | **Database**             | Supabase Postgres (RLS, Magic Link auth)                                              |
 | **Email**                | Resend (transactional)                                                                |
+| **AI Chat**              | Google Gemini 2.5 Flash-Lite (locale-aware system prompt, rate limiting, injection protection) |
+| **Text-to-Speech**       | Google Cloud TTS WaveNet (en-US-Wavenet-J, es-US-Wavenet-C)                          |
 | **Hosting**              | Vercel (dev/staging/prod)                                                             |
 | **CDN/WAF**              | Cloudflare                                                                             |
 | **CI/CD**                | GitHub Actions (3-env pipeline, smoke tests)                                          |

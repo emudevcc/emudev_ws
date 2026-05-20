@@ -78,6 +78,7 @@ export function HeroBackground() {
     group.add(new THREE.LineSegments(lineGeo, lineMat))
 
     // ── Mouse parallax ────────────────────────────────────────────────────────
+    const isMobile = window.matchMedia('(pointer: coarse)').matches
     let mouseX = 0
     let mouseY = 0
     const onMouseMove = (e: MouseEvent) => {
@@ -85,7 +86,54 @@ export function HeroBackground() {
       mouseX = (e.clientX / window.innerWidth - 0.5) * 2 // −1 … +1
       mouseY = (e.clientY / window.innerHeight - 0.5) * 2
     }
-    window.addEventListener('mousemove', onMouseMove, { passive: true })
+    const onOrientation = (e: DeviceOrientationEvent) => {
+      if (prefersReducedMotion) return
+      const gamma = e.gamma ?? 0
+      const beta = e.beta ?? 45
+      mouseX = Math.max(-1, Math.min(1, gamma / 45))
+      mouseY = Math.max(-1, Math.min(1, (beta - 45) / 45))
+    }
+
+    let onTouchForGyroPermission: (() => void) | null = null
+    const requestGyroPermission = () => {
+      if (!('DeviceOrientationEvent' in window)) return
+
+      const orientationEvent = window.DeviceOrientationEvent as unknown as {
+        requestPermission?: () => Promise<string>
+      }
+
+      if (typeof orientationEvent.requestPermission === 'function') {
+        onTouchForGyroPermission = () => {
+          orientationEvent
+            .requestPermission?.()
+            .then((state) => {
+              if (state === 'granted') {
+                window.addEventListener('deviceorientation', onOrientation, { passive: true })
+              }
+            })
+            .catch(() => {
+              // Permission denied or unavailable: keep ambient animation only.
+            })
+          if (onTouchForGyroPermission) {
+            window.removeEventListener('touchstart', onTouchForGyroPermission)
+            onTouchForGyroPermission = null
+          }
+        }
+        window.addEventListener('touchstart', onTouchForGyroPermission, {
+          once: true,
+          passive: true,
+        })
+        return
+      }
+
+      window.addEventListener('deviceorientation', onOrientation, { passive: true })
+    }
+
+    if (isMobile) {
+      requestGyroPermission()
+    } else {
+      window.addEventListener('mousemove', onMouseMove, { passive: true })
+    }
 
     // ── Resize ────────────────────────────────────────────────────────────────
     const ro = new ResizeObserver(() => {
@@ -116,7 +164,14 @@ export function HeroBackground() {
     return () => {
       cancelAnimationFrame(animId)
       ro.disconnect()
-      window.removeEventListener('mousemove', onMouseMove)
+      if (isMobile) {
+        window.removeEventListener('deviceorientation', onOrientation)
+        if (onTouchForGyroPermission) {
+          window.removeEventListener('touchstart', onTouchForGyroPermission)
+        }
+      } else {
+        window.removeEventListener('mousemove', onMouseMove)
+      }
       particleGeo.dispose()
       particleMat.dispose()
       lineGeo.dispose()

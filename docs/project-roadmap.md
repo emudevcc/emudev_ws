@@ -331,19 +331,21 @@ Deliverables:
 
 ### Phase 9.7: Navigation Refactor & PageTransition (COMPLETE)
 
-**Status:** ✅ Complete (May 15, 2026)
+**Status:** ✅ Complete (May 15, 2026); About page re-added (May 19, 2026)
 **Priority:** P0 (UX polish)
 
 **Deliverables:**
 
-- [x] Removed `/[locale]/about` and `/[locale]/contact` standalone page routes
-- [x] About and Contact now implemented as `<section id="about|contact">` elements on homepage
+- [x] Initially removed `/[locale]/about` and `/[locale]/contact` standalone page routes
+- [x] About and Contact initially implemented as `<section id="about|contact">` elements on homepage
 - [x] Top nav uses native `<a href="/{locale}#anchor">` tags for same-page hash navigation (not next-intl Link)
-- [x] Nav order: Home → About (hash) → Blog → Contact (hash)
+- [x] Nav order: Home → Projects → Blog → About (hash) → Contact (hash)
+- [x] **Re-added** `/[locale]/about` as dedicated About page route (May 19, 2026) — reuses existing AboutSection component
 - [x] `components/ui/page-transition.tsx` — Client component with motion.main keyed by pathname
 - [x] PageTransition animation: opacity 0→1, y: 8→0, blur 4px→0, 300ms easeOut
 - [x] Applied globally in `app/[locale]/layout.tsx` wrapping page children
 - [x] Hash anchor navigation does NOT trigger PageTransition (same pathname)
+- [x] Navigation: added Projects route link (`Link href="/projects"`) to nav, updated nav order: Home → Projects → Blog → About → Contact
 - [x] Documentation updated: `docs/design-guidelines.md` (Motion section + PageTransition), `docs/code-standards.md` (hash-anchor pattern), `docs/system-architecture.md` (route table)
 
 **Technical Highlights:**
@@ -351,6 +353,7 @@ Deliverables:
 - Native `<a>` prevents next-intl Client Component hydration issues with hash-only navigation
 - PageTransition triggers on full route changes (pathname key change in motion.main)
 - Motion library dependency: `motion/react` (framer-motion v11+)
+- Navigation uses mix of full routes (Home, Projects, Blog) and hash anchors (About, Contact) for flexible user flows
 
 ### Phase 9.8: DotPattern Hydration Fix (COMPLETE)
 

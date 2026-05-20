@@ -19,6 +19,8 @@ emudev_ws/
 │   ├── [locale]/                 # Locale-prefixed routes (en, es) [NEW]
 │   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider; DotPattern with twinkle animation; PageTransition animation on route change
 │   │   ├── page.tsx              # Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer)
+│   │   ├── about/
+│   │   │   └── page.tsx          # About page (standalone route, reuses AboutSection)
 │   │   ├── projects/
 │   │   │   ├── page.tsx          # Projects list (ISR × 2 locales, collection cache tag)
 │   │   │   └── [slug]/
@@ -173,6 +175,7 @@ emudev_ws/
 | `app/actions/contact.ts`                           | 54   | Server action: validate → Supabase insert → Resend email                          |
 | `app/[locale]/blog/[slug]/page.tsx`                | 52   | Dynamic blog post page (SSG per route per locale)                                 |
 | `components/portable-text-renderer.tsx`            | 46   | Rich text rendering for Sanity content                                            |
+| `app/[locale]/about/page.tsx`                      | 27   | About page (standalone route, 2 locales, reuses AboutSection component)           |
 | `app/[locale]/blog/page.tsx`                       | 43   | Blog list page (ISR with locale cache keys)                                       |
 | `app/api/revalidate-tag/route.ts`                  | 41   | Sanity webhook handler → revalidateTag (validates x-sanity-webhook-secret header) |
 | `app/api/chat/route.ts`                            | ~50  | [NEW] AI chat proxy; `allowedOrigins()` helper for comma-split CORS; `readProfile()` fallback: `CHAT_PROFILE_MARKDOWN` env → `data/profile.md` → `data/profile-template.md` |
@@ -229,7 +232,7 @@ emudev_ws/
 | `lib/supabase-server.ts`                           | 21   | createSupabaseServerClient (cookie-based)                                         |
 | `lib/supabase-browser.ts`                          | 7    | createSupabaseBrowserClient (browser context)                                     |
 | `lib/utils.ts`                                     | ~5   | cn() utility (clsx + tailwind-merge) for conditional class merging                |
-| `lib/metadata.ts`                                  | ~60  | Metadata helpers: localeAlternates(pathname, locale), dynamic metadata per page    |
+| `lib/metadata.ts`                                  | ~60  | [UPDATED] Metadata helpers: localeAlternates(pathname, locale) generates per-locale hreflang; all locales always prefixed (localePrefix: 'always' behavior) |
 | `lib/content.ts`                                   | ~100 | Content aggregation for portfolio sections (projects, posts, experiences, skills)  |
 | `lib/github.ts`                                    | ~50  | GitHub API client for contributions heatmap (calendar data)                        |
 | `hooks/use-active-section.ts`                      | ~40  | Scroll tracking hook for active section highlighting                              |
@@ -245,15 +248,18 @@ emudev_ws/
 
 ## Data Flow
 
-### Locale Resolution (Middleware → Page)
+### Locale Resolution (Middleware → Page, All Locales Prefixed)
 
 ```
 User requests /projects/my-cool-app
     ↓
-Middleware (next-intl)
-    ├─ Check Accept-Language header / Accept-Language: es-ES
-    ├─ Detect locale: 'es'
-    └─ Rewrite to /es/projects/my-cool-app
+Middleware (next-intl) with localePrefix: 'always'
+    ├─ Check if already prefixed (/en/* or /es/*)
+    │   └─ If yes: pass through
+    ├─ If not (bare path):
+    │   ├─ Check Accept-Language header (e.g., Accept-Language: es-ES)
+    │   ├─ Detect locale: 'es'
+    │   └─ Rewrite to /es/projects/my-cool-app
         ↓
 [locale]/projects/[slug]/page.tsx (locale='es')
     ├─ Extract locale from params: 'es'
@@ -261,9 +267,14 @@ Middleware (next-intl)
     ├─ Query getProjectBySlug(slug, 'es')
     │  └─ GROQ: coalesce(project.title['es'], project.title.en) → renders Spanish title
     └─ Render with Spanish UI strings + bilingual content
+        ↓
+Metadata generates hreflang alternates:
+    ├─ /en/projects/my-cool-app (hreflang: en)
+    ├─ /es/projects/my-cool-app (hreflang: es)
+    └─ /en/projects/my-cool-app (hreflang: x-default)
 ```
 
-**Key files:** `middleware.ts`, `i18n/routing.ts`, `i18n/request.ts`, `i18n/navigation.ts`, `lib/sanity-queries.ts`
+**Key files:** `middleware.ts`, `i18n/routing.ts` (localePrefix: 'always'), `lib/metadata.ts` (localeAlternates), `lib/sanity-queries.ts`
 
 ### Content Publishing (CMS → Cache → Page, Per-Locale)
 

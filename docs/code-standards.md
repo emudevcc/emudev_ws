@@ -573,9 +573,9 @@ counter++
 
 ## SEO Metadata Patterns
 
-### Locale-Aware Canonical Links
+### Locale-Aware Canonical Links (All Locales Always Prefixed)
 
-For pages with locale variants (EN/ES), use `generateMetadata` to generate self-referential canonicals per locale:
+For pages with locale variants (EN/ES), use `generateMetadata` to generate self-referential canonicals per locale. Note: `localePrefix: 'always'` means English URLs are always `/en/path`, never bare `/path`.
 
 ```typescript
 // app/[locale]/about/page.tsx
@@ -594,8 +594,8 @@ export async function generateMetadata({
     title: t('title'),
     description: t('description'),
     alternates: {
-      canonical: `https://emudev.cc/${locale}/about`, // Self-referential
-      languages: localeAlternates('/about', locale), // Hreflang alternates
+      canonical: `https://emudev.cc/${locale}/about`, // Self-referential (always /en, never bare)
+      languages: localeAlternates('/about', locale), // Hreflang: /en/about, /es/about, /en/about (x-default)
     },
     openGraph: {
       url: `https://emudev.cc/${locale}/about`,
@@ -612,8 +612,8 @@ export default async function AboutPage({ params }) {
 **Key Rules:**
 
 1. **All locale pages use `generateMetadata`** — not `export const metadata` (can't access locale at static time)
-2. **Pass locale to `localeAlternates(pathname, locale)`** — generates self-referential canonical + hreflang for en, es, x-default
-3. **Self-referential canonical** — `/en/about` has canonical `/en/about`, not always `/en`
+2. **Pass locale to `localeAlternates(pathname, locale)`** — generates hreflang for `/en/path`, `/es/path`, `/en/path` (x-default). Never bare paths.
+3. **Self-referential canonical** — `/en/about` has canonical `/en/about` (always prefixed due to `localePrefix: 'always'`)
 4. **Dynamic routes** — `/[locale]/blog/[slug]` calls `localeAlternates('/blog/${slug}', locale)` to include slug in alternates
 
 ---

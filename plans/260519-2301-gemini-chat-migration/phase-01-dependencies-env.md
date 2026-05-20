@@ -1,9 +1,9 @@
 ---
 phase: 1
-title: "Dependencies & Env"
-status: pending
+title: Dependencies & Env
+status: completed
 priority: P1
-effort: "10 min"
+effort: 10 min
 dependencies: []
 ---
 

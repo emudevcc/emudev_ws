@@ -1,10 +1,11 @@
 ---
 phase: 2
-title: "API Route Migration"
-status: pending
+title: API Route Migration
+status: completed
 priority: P1
-effort: "20 min"
-dependencies: [1]
+effort: 20 min
+dependencies:
+  - 1
 ---
 
 # Phase 2: API Route Migration

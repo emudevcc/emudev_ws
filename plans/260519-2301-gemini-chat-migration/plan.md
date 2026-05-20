@@ -1,14 +1,21 @@
 ---
-title: "Migrate AI Chat Widget to Gemini 2.5 Flash-Lite"
-description: "Swap @anthropic-ai/sdk + claude-haiku-4-5 for @google/generative-ai + gemini-2.5-flash-lite in the /api/chat serverless route. Frontend and system prompt unchanged."
-status: pending
+title: Migrate AI Chat Widget to Gemini 2.5 Flash-Lite
+description: >-
+  Swap @anthropic-ai/sdk + claude-haiku-4-5 for @google/generative-ai +
+  gemini-2.5-flash-lite in the /api/chat serverless route. Frontend and system
+  prompt unchanged.
+status: completed
 priority: P2
-branch: "development"
-tags: ["chat", "ai", "gemini", "migration"]
+branch: development
+tags:
+  - chat
+  - ai
+  - gemini
+  - migration
 blockedBy: []
 blocks: []
-created: "2026-05-20T05:02:44.065Z"
-createdBy: "ck:plan"
+created: '2026-05-20T05:02:44.065Z'
+createdBy: 'ck:plan'
 source: skill
 ---
 
@@ -22,8 +29,8 @@ Replace the Anthropic SDK with Google's Generative AI SDK in the `/api/chat` ser
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 1 | [Dependencies & Env](./phase-01-dependencies-env.md) | Pending |
-| 2 | [API Route Migration](./phase-02-api-route-migration.md) | Pending |
+| 1 | [Dependencies & Env](./phase-01-dependencies-env.md) | Completed |
+| 2 | [API Route Migration](./phase-02-api-route-migration.md) | Completed |
 
 ## Files Modified
 

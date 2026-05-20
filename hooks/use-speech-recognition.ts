@@ -42,6 +42,11 @@ export function useSpeechRecognition(
   const [listening, setListening] = useState(false)
   const [transcript, setTranscript] = useState('')
   const recognitionRef = useRef<SpeechRecognition | null>(null)
+  const onTranscriptRef = useRef(onTranscript)
+
+  useEffect(() => {
+    onTranscriptRef.current = onTranscript
+  }, [onTranscript])
 
   useEffect(() => {
     const speechWindow = window as SpeechWindow
@@ -57,7 +62,7 @@ export function useSpeechRecognition(
         .map((result) => result[0]?.transcript ?? '')
         .join('')
       setTranscript(nextTranscript)
-      onTranscript?.(nextTranscript)
+      onTranscriptRef.current?.(nextTranscript)
     }
     recognition.onend = () => setListening(false)
     recognition.onerror = () => setListening(false)
@@ -69,13 +74,22 @@ export function useSpeechRecognition(
       recognition.abort()
       recognitionRef.current = null
     }
-  }, [lang, onTranscript])
+  }, [])
+
+  useEffect(() => {
+    if (recognitionRef.current) recognitionRef.current.lang = lang
+  }, [lang])
 
   const start = useCallback(() => {
-    if (!recognitionRef.current) return
+    const recognition = recognitionRef.current
+    if (!recognition) return
     setTranscript('')
     setListening(true)
-    recognitionRef.current.start()
+    try {
+      recognition.start()
+    } catch {
+      setListening(false)
+    }
   }, [])
 
   const stop = useCallback(() => {

@@ -95,7 +95,8 @@
   },
   "social": {
     "eyebrow": "SOCIAL",
-    "title": "Signals from the web"
+    "title": "Signals from the web",
+    "empty": "No posts yet — check back soon."
   },
   "credentials": {
     "eyebrow": "CREDENTIALS",
@@ -128,6 +129,34 @@
       "company": "Company / Organization",
       "message": "Message"
     }
+  },
+  "chat": {
+    "bubble": "Ask me about my work",
+    "ariaOpen": "Open chat",
+    "ariaClose": "Close chat",
+    "ariaClear": "Clear conversation",
+    "ariaEnableVoice": "Enable voice output",
+    "ariaDisableVoice": "Disable voice output",
+    "ariaActivateMic": "Activate microphone",
+    "ariaStopListening": "Listening, click to stop",
+    "ariaSend": "Send message",
+    "headerTitle": "Ask Esteban",
+    "headerSubtitle": "Portfolio assistant",
+    "placeholder": "Ask a question...",
+    "welcome": "What would you like to know? Feel free to ask about my projects, skills, experience, or anything on this site.",
+    "listening": "Listening...",
+    "hint": "Enter sends - Shift+Enter adds a line",
+    "hintCooldown": "One moment...",
+    "errorGeneric": "Something went wrong.",
+    "errorRetry": "Try again",
+    "errorScope": "That's a bit outside what I know, but I'm happy to tell you about my work.",
+    "errorLimit": "We've reached the session limit.",
+    "errorLimitCta": "Contact me directly",
+    "suggestions": [
+      "What's your Adobe Experience Cloud experience?",
+      "Tell me about your recent projects",
+      "Are you available for consulting?"
+    ]
   },
   "footer": {
     "built": "Built with care - {year}",

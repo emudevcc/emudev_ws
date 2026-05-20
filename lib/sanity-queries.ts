@@ -157,8 +157,9 @@ export type SocialPost = {
   _id: string
   platform?: string
   handle?: string
+  postTitle?: string
   subreddit?: string
-  body?: unknown[]
+  body?: string
   postedAt?: string
   permalink?: string
   stats?: { likes?: number; replies?: number; reposts?: number }
@@ -523,8 +524,9 @@ export const getSocialPosts = (locale?: string) => {
           _id,
           platform,
           handle,
+          postTitle,
           subreddit,
-          "body": coalesce(body[$locale], body.en),
+          "body": pt::text(coalesce(body[$locale], body.en)),
           postedAt,
           permalink,
           stats,

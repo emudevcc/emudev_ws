@@ -39,9 +39,10 @@
 │  │  │  • POST /api/revalidate-tag (Sanity webhook)   │    │   │
 │  │  │    - Validates x-sanity-webhook-secret header  │    │   │
 │  │  │    - Revalidates both en & es cache tags       │    │   │
-│  │  │  • POST /api/chat (AI chat proxy, [NEW])       │    │   │
-│  │  │    - Validates allowed CORS origins            │    │   │
-│  │  │    - System prompt builder with inclusive tone │    │   │
+│  │  │  • POST /api/chat (AI chat proxy, [UPDATED])   │    │   │
+│  │  │    - Accepts optional `locale` field in body   │    │   │
+│  │  │    - Uses buildSystemPromptForLocale(locale)   │    │   │
+│  │  │    - Validates CORS origins (allowedOrigins)   │    │   │
 │  │  │  • GET /api/draft-mode/enable (preview token)  │    │   │
 │  │  │  • GET /api/draft-mode/disable                 │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
@@ -114,7 +115,8 @@ middleware.ts (next-intl/middleware)
 
 | Route                       | Generation          | Cache              | Purpose                                                   |
 | --------------------------- | ------------------- | ------------------ | --------------------------------------------------------- |
-| `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer) with AI chat widget |
+| `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (11 sections: hero, about, experience, projects, skills, credentials, writing, strengths, social, contact, footer) with AI chat widget (profile photo, voice I/O, locale-aware suggestions) |
+| `/[locale]/about`           | SSG × 2             | 1 hour             | About page (standalone route, reuses AboutSection component, 2 locales) |
 | `/[locale]/projects`        | ISR × 2             | Tag: `projects`    | Projects list (gallery, skill filter, per-locale content) |
 | `/[locale]/projects/[slug]` | SSG (per-route × 2) | Per-route + locale | Project detail page with OG image                         |
 | `/[locale]/blog`            | ISR × 2             | Tag: `posts`       | Blog post list (locale-specific)                          |
@@ -122,17 +124,18 @@ middleware.ts (next-intl/middleware)
 | `/studio`                   | SSR                 | None               | Embedded Sanity Studio (root, no locale)                  |
 | `/api/draft-mode/enable`    | Route               | None               | Enable Sanity draft mode (root, validatePreviewUrl)       |
 | `/api/draft-mode/disable`   | Route               | None               | Disable draft mode (root)                                 |
-| `/api/chat`                 | Route               | None               | [NEW] AI chat proxy with CORS support                     |
+| `/api/chat`                 | Route               | None               | [UPDATED] AI chat proxy with CORS support, locale-aware system prompt |
 | `/robots.txt`               | Generated           | Static             | Robots.txt (allow all except /studio, /api, /admin)       |
-| `/sitemap.xml`              | Generated           | Static             | XML sitemap with locale variants + priorities             |
+| `/sitemap.xml`              | Generated           | Static             | XML sitemap with locale variants + hreflang alternates    |
 
-**Hash Anchor Navigation:** All homepage sections (About, Experience, Skills, Social, Credentials, Strengths, Writing, Contact) are `<section id="…">` elements — no standalone routes for these. Nav uses:
-- `<a href="/{locale}#section">` for hash anchors (About, Contact) — same-page scroll, no next-intl Link
-- `Link href="/"`, `Link href="/blog"` for full-route navigation
+**Navigation Structure:** Top nav has both full routes and hash anchors. Routes:
+- Full routes: `Link href="/"` (Home), `Link href="/projects"` (Projects), `Link href="/blog"` (Blog)
+- Hash anchors: `<a href="/{locale}#about">` (About), `<a href="/{locale}#contact">` (Contact) — same-page scroll, no next-intl Link
+- Standalone routes: `/[locale]/about` (dedicated About page), `/[locale]/projects/[slug]` (Project detail)
 
 **PageTransition:** `motion.main` keyed by `usePathname()` — opacity/y/blur animation on route change (0.3s easeOut). Hash anchor changes share the same pathname, so transition does NOT fire for in-page scroll.
 
-**SSR Boundary (layout-widgets.tsx):** New `'use client'` wrapper component that hosts `AIChatWidget`, `DotPattern`, and `SanityVisualEditing` with `ssr: false` dynamic imports (cannot use `ssr:false` in Server Components).
+**SSR Boundary (layout-widgets.tsx):** Client Component wrapper that hosts three `ssr: false` components: `AIChatWidget` (full chat with voice/avatar), `DotPattern` (background), `SanityVisualEditing` (draft mode). Cannot use `ssr:false` in Server Components; this wrapper enables client-only rendering.
 
 #### Dynamic Params (SSG with Per-Locale Variants)
 
@@ -473,7 +476,7 @@ User visits /en/projects/my-cool-app
 
 ### Locale-Aware Metadata
 
-Each page with locale variants generates locale-specific metadata at render time:
+Each page with locale variants generates locale-specific metadata at render time. **All locales are always prefixed** (`localePrefix: 'always'` in i18n config), ensuring consistent hreflang alternates.
 
 ```typescript
 // All locale pages use generateMetadata with locale param
@@ -482,8 +485,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     title: `Page Title (${locale.toUpperCase()})`,
     alternates: {
-      canonical: `https://emudev.cc/${locale}/path`, // Self-referential canonical
-      languages: localeAlternates('/path', locale),  // Hreflang for en, es, x-default
+      canonical: `https://emudev.cc/${locale}/path`, // Self-referential canonical (always prefixed)
+      languages: localeAlternates('/path', locale),  // Hreflang for /en/path, /es/path, /en/path (x-default)
     },
   }
 }
@@ -491,15 +494,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 **Key Implementation Details:**
 
+- **Locale Prefix Behavior** — `localePrefix: 'always'` ensures English URLs are `/en/path` (not bare `/path`), making hreflang alternates uniform
 - **Self-Referential Canonicals** — `/en/about` has canonical `/en/about` (not `/en`)
-- **Per-Route Hreflang** — Homepage, projects, blog posts, etc. each generate locale alternates
+- **Per-Route Hreflang** — Homepage, projects, blog posts, about page, etc. each generate locale alternates
 - **All pages use `generateMetadata`** — not static `export const metadata` (can't access params)
-- **`localeAlternates(pathname, locale)` helper** — generates standard hreflang structure:
+- **`localeAlternates(pathname, locale)` helper** — generates standard hreflang structure with all locales prefixed:
   ```json
   {
     "rel": "alternate",
     "hreflang": "en",
-    "href": "https://emudev.cc/en/path"
+    "href": "https://emudev.cc/en/path"  // Always /en, never bare
   },
   {
     "rel": "alternate",
@@ -509,7 +513,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   {
     "rel": "alternate",
     "hreflang": "x-default",
-    "href": "https://emudev.cc/en/path"
+    "href": "https://emudev.cc/en/path"  // Defaults to English
   }
   ```
 

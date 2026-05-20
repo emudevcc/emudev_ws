@@ -23,9 +23,10 @@ const SanityVisualEditing = dynamic(
 
 interface LayoutWidgetsProps {
   showVisualEditing?: boolean
+  avatarUrl?: string
 }
 
-export function LayoutWidgets({ showVisualEditing }: LayoutWidgetsProps) {
+export function LayoutWidgets({ showVisualEditing, avatarUrl }: LayoutWidgetsProps) {
   return (
     <>
       <div className="fixed inset-0 -z-10 overflow-hidden">
@@ -37,7 +38,7 @@ export function LayoutWidgets({ showVisualEditing }: LayoutWidgetsProps) {
           className="text-muted-foreground [mask-image:linear-gradient(to_bottom,white,transparent_85%)]"
         />
       </div>
-      <AIChatWidget />
+      <AIChatWidget avatarUrl={avatarUrl} />
       {showVisualEditing && <SanityVisualEditing />}
     </>
   )

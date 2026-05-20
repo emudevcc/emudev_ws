@@ -465,6 +465,45 @@ Applied as `radial-gradient(ellipse 85% 65% at 50% 45%, transparent 25%, var(--h
 
 ---
 
+## AI Chat Widget Integration
+
+**Files:** `components/ui/ai-chat-widget.tsx`, `hooks/use-speech-recognition.ts`, `hooks/use-speech-synthesis.ts`, `lib/chat/system-prompt.ts`
+
+### Chat Widget Design
+
+- **Collapsed state:** Floating button with profile photo (Sanity CDN image) or MessageCircle icon fallback. Positioned bottom-right with bounce-in on load.
+- **Chat bubble:** Appears after 8–20s (random timer), re-appears every 30–60s while widget closed. Uses `AnimatedShinyText` for "Ask me about my work" tagline with shimmer effect.
+- **Open state:** Expands to chat interface with profile header (32×32 photo or Bot icon), messages, suggested questions (locale-aware chips), input field with voice button.
+- **Voice I/O:** Microphone for speech input (speech-recognition), speaker for bot responses (speech-synthesis).
+
+### Localization Strategy
+
+- **Chat suggestions:** 3 locale-aware question chips fetched from `t.raw('suggestions')` in messages/{locale}.json
+- **System prompt:** Appended with language-lock instruction via `buildSystemPromptForLocale(locale)` to ensure bot responds in user's language
+- **UI labels:** All aria-labels, input placeholder, voice button tooltips, and error messages from `messages/{locale}.json` under `chat` namespace
+
+### Profile Avatar Usage
+
+Pass `avatarUrl` prop (Sanity CDN image) from `layout-widgets.tsx`:
+
+```tsx
+<LayoutWidgets avatarUrl={settings?.avatar ?? undefined} />
+```
+
+Avatar renders as:
+- Collapsed button: 40×40 with border radius matching design system
+- Header: 32×32 with fallback to Bot icon if missing
+
+### AnimatedShinyText Component
+
+Magic UI component used in collapsed chat bubble for "Ask me about my work" tagline.
+
+- **Shimmer animation:** Horizontal gradient slide, 0.6s duration, infinite loop
+- **Token color:** Uses accent color (#e34d2a) for shimmer gradient
+- **Styling:** Applied only to chat bubble tagline; integrates with dark/light theme via CSS variables
+
+---
+
 ## Component Checklist
 
 Before shipping any new component:

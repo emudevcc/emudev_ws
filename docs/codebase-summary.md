@@ -19,6 +19,8 @@ emudev_ws/
 │   ├── [locale]/                 # Locale-prefixed routes (en, es) [NEW]
 │   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider; DotPattern with twinkle animation; PageTransition animation on route change
 │   │   ├── page.tsx              # Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer)
+│   │   ├── about/
+│   │   │   └── page.tsx          # About page (standalone route, reuses AboutSection)
 │   │   ├── projects/
 │   │   │   ├── page.tsx          # Projects list (ISR × 2 locales, collection cache tag)
 │   │   │   └── [slug]/
@@ -173,11 +175,17 @@ emudev_ws/
 | `app/actions/contact.ts`                           | 54   | Server action: validate → Supabase insert → Resend email                          |
 | `app/[locale]/blog/[slug]/page.tsx`                | 52   | Dynamic blog post page (SSG per route per locale)                                 |
 | `components/portable-text-renderer.tsx`            | 46   | Rich text rendering for Sanity content                                            |
+| `app/[locale]/about/page.tsx`                      | 27   | About page (standalone route, 2 locales, reuses AboutSection component)           |
 | `app/[locale]/blog/page.tsx`                       | 43   | Blog list page (ISR with locale cache keys)                                       |
 | `app/api/revalidate-tag/route.ts`                  | 41   | Sanity webhook handler → revalidateTag (validates x-sanity-webhook-secret header) |
 | `app/api/chat/route.ts`                            | ~50  | [NEW] AI chat proxy; `allowedOrigins()` helper for comma-split CORS; `readProfile()` fallback: `CHAT_PROFILE_MARKDOWN` env → `data/profile.md` → `data/profile-template.md` |
-| `lib/chat/system-prompt.ts`                        | ~30  | [NEW] System prompt builder with inclusive framing to reduce false out-of-scope rejections |
-| `components/layout-widgets.tsx`                    | ~40  | [NEW] 'use client' wrapper; hosts `AIChatWidget`, `DotPattern`, `SanityVisualEditing` with `ssr: false` |
+| `lib/chat/system-prompt.ts`                        | ~50  | [UPDATED] System prompt builder with inclusive framing + `buildSystemPromptForLocale(locale?)` export; appends language-lock instruction per locale (EN/ES) |
+| `components/layout-widgets.tsx`                    | ~45  | [UPDATED] 'use client' wrapper; hosts `AIChatWidget` (w/ avatarUrl prop), `DotPattern`, `SanityVisualEditing` with `ssr: false` |
+| `components/ui/ai-chat-widget.tsx`                 | 443  | [NEW] Full AI chat widget: profile photo, bubble with AnimatedShinyText, timer, locale-aware suggestions, voice I/O, MarkdownText rendering |
+| `hooks/use-speech-recognition.ts`                  | 102  | [NEW] Rewritten: recognition instance once on mount, onTranscript in stable useRef, lang via separate effect |
+| `hooks/use-speech-synthesis.ts`                    | 78   | [NEW] Voice selection per language (PREFERRED_VOICES map), voiceschanged listener, pickVoice helper |
+| `lib/social-adapters.ts`                           | ~40  | [NEW] Pure adapters: adaptSocialPost(s), relativeTime helper using Intl.RelativeTimeFormat |
+| `components/sections/CredentialsSection.tsx`       | ~85  | [UPDATED] Language proficiency `levels` array fixed from ['basic', 'intermediate', ...] to ['basic', 'conversational', 'professional', 'fluent', 'native'] |
 | `components/ui/lang-theme-toggle.tsx`             | ~40  | Language + theme toggle; uses `useSyncExternalStore` for hydration safety          |
 | `components/ui/hero-section.tsx`                   | 39   | Animated hero with name + bio                                                     |
 | `tests/smoke/pages.spec.ts`                        | 35   | Playwright smoke tests for original routes                                        |
@@ -224,12 +232,12 @@ emudev_ws/
 | `lib/supabase-server.ts`                           | 21   | createSupabaseServerClient (cookie-based)                                         |
 | `lib/supabase-browser.ts`                          | 7    | createSupabaseBrowserClient (browser context)                                     |
 | `lib/utils.ts`                                     | ~5   | cn() utility (clsx + tailwind-merge) for conditional class merging                |
-| `lib/metadata.ts`                                  | ~60  | Metadata helpers: localeAlternates(pathname, locale), dynamic metadata per page    |
+| `lib/metadata.ts`                                  | ~60  | [UPDATED] Metadata helpers: localeAlternates(pathname, locale) generates per-locale hreflang; all locales always prefixed (localePrefix: 'always' behavior) |
 | `lib/content.ts`                                   | ~100 | Content aggregation for portfolio sections (projects, posts, experiences, skills)  |
 | `lib/github.ts`                                    | ~50  | GitHub API client for contributions heatmap (calendar data)                        |
 | `hooks/use-active-section.ts`                      | ~40  | Scroll tracking hook for active section highlighting                              |
-| `messages/en.json`                                 | ~80  | English UI strings (namespaced: nav, home, projects, blog, contact, common)       |
-| `messages/es.json`                                 | ~80  | Spanish translations (exact key structure parity)                                 |
+| `messages/en.json`                                 | ~100 | English UI strings (namespaced: nav, home, projects, blog, contact, common, chat) |
+| `messages/es.json`                                 | ~100 | Spanish translations (exact key structure parity, chat namespace: aria labels, suggestions, etc.) |
 | `components/ui/hero-background.tsx`                | 149 | Three.js client component: 110-particle network, accent-orange connection lines, mouse parallax, ambient rotation |
 | `components/ui/hero-background-loader.tsx`         | 10  | SSR-safe dynamic import wrapper (ssr: false) for Three.js particle background |
 | `components/ui/page-transition.tsx`                | 12  | Client component: motion.main keyed by usePathname(), opacity 0→1, y: 8→0, blur 4px→0, 300ms easeOut |
@@ -240,15 +248,18 @@ emudev_ws/
 
 ## Data Flow
 
-### Locale Resolution (Middleware → Page)
+### Locale Resolution (Middleware → Page, All Locales Prefixed)
 
 ```
 User requests /projects/my-cool-app
     ↓
-Middleware (next-intl)
-    ├─ Check Accept-Language header / Accept-Language: es-ES
-    ├─ Detect locale: 'es'
-    └─ Rewrite to /es/projects/my-cool-app
+Middleware (next-intl) with localePrefix: 'always'
+    ├─ Check if already prefixed (/en/* or /es/*)
+    │   └─ If yes: pass through
+    ├─ If not (bare path):
+    │   ├─ Check Accept-Language header (e.g., Accept-Language: es-ES)
+    │   ├─ Detect locale: 'es'
+    │   └─ Rewrite to /es/projects/my-cool-app
         ↓
 [locale]/projects/[slug]/page.tsx (locale='es')
     ├─ Extract locale from params: 'es'
@@ -256,9 +267,14 @@ Middleware (next-intl)
     ├─ Query getProjectBySlug(slug, 'es')
     │  └─ GROQ: coalesce(project.title['es'], project.title.en) → renders Spanish title
     └─ Render with Spanish UI strings + bilingual content
+        ↓
+Metadata generates hreflang alternates:
+    ├─ /en/projects/my-cool-app (hreflang: en)
+    ├─ /es/projects/my-cool-app (hreflang: es)
+    └─ /en/projects/my-cool-app (hreflang: x-default)
 ```
 
-**Key files:** `middleware.ts`, `i18n/routing.ts`, `i18n/request.ts`, `i18n/navigation.ts`, `lib/sanity-queries.ts`
+**Key files:** `middleware.ts`, `i18n/routing.ts` (localePrefix: 'always'), `lib/metadata.ts` (localeAlternates), `lib/sanity-queries.ts`
 
 ### Content Publishing (CMS → Cache → Page, Per-Locale)
 
@@ -551,7 +567,7 @@ Each has isolated copies of the above secrets.
 | `typescript`                 | 5.9.3   | Type safety                                             |
 | `eslint`                     | ^9      | Linting (v10 incompatible with eslint-plugin-react@7.x) |
 | `@playwright/test`           | 1.59.1  | Static and browser smoke tests                          |
-| `framer-motion`              | latest  | Animation engine (required by MagicUI blur-fade, etc.)  |
+| `motion/react`               | v11+    | Animation library (framer-motion v11+, all animations use this, standalone framer-motion removed) |
 | `clsx`                       | latest  | Conditional class merging                               |
 | `tailwind-merge`             | latest  | Tailwind class deduplication (used in cn() utility)     |
 | `next-themes`                | latest  | Dark/light theme provider for Phase 9.2 toggle          |

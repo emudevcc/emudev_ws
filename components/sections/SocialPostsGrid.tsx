@@ -1,11 +1,12 @@
 import { useTranslations } from 'next-intl'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { SocialFeedGrid } from '@/components/ui/social-feed-grid'
-import { SOCIAL_DUMMY_ITEMS } from '@/lib/social-dummy-data'
+import { adaptSocialPosts } from '@/lib/social-adapters'
 import type { SocialPost } from '@/lib/sanity-queries'
 
-export function SocialPostsGrid({ posts: _posts }: { posts: SocialPost[] }) {
+export function SocialPostsGrid({ posts }: { posts: SocialPost[] }) {
   const t = useTranslations('social')
+  const items = adaptSocialPosts(posts)
 
   return (
     <section id="social" className="mx-auto max-w-6xl px-5 py-24">
@@ -16,9 +17,15 @@ export function SocialPostsGrid({ posts: _posts }: { posts: SocialPost[] }) {
         <h2 className="mb-10 text-4xl font-bold tracking-tight">{t('title')}</h2>
       </BlurFade>
 
-      <BlurFade delay={0.08}>
-        <SocialFeedGrid items={SOCIAL_DUMMY_ITEMS} />
-      </BlurFade>
+      {items.length === 0 ? (
+        <BlurFade delay={0.08}>
+          <p className="font-mono text-sm text-fg-3">{t('empty')}</p>
+        </BlurFade>
+      ) : (
+        <BlurFade delay={0.08}>
+          <SocialFeedGrid items={items} />
+        </BlurFade>
+      )}
     </section>
   )
 }

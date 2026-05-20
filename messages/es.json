@@ -95,7 +95,8 @@
   },
   "social": {
     "eyebrow": "SOCIAL",
-    "title": "Senales de la web"
+    "title": "Senales de la web",
+    "empty": "Aun no hay publicaciones — vuelve pronto."
   },
   "credentials": {
     "eyebrow": "CREDENCIALES",
@@ -128,6 +129,34 @@
       "company": "Empresa / Organización",
       "message": "Mensaje"
     }
+  },
+  "chat": {
+    "bubble": "Pregúntame sobre mi trabajo",
+    "ariaOpen": "Abrir chat",
+    "ariaClose": "Cerrar chat",
+    "ariaClear": "Borrar conversación",
+    "ariaEnableVoice": "Activar voz",
+    "ariaDisableVoice": "Desactivar voz",
+    "ariaActivateMic": "Activar micrófono",
+    "ariaStopListening": "Escuchando, haz clic para detener",
+    "ariaSend": "Enviar mensaje",
+    "headerTitle": "Pregunta a Esteban",
+    "headerSubtitle": "Asistente del portafolio",
+    "placeholder": "Haz una pregunta...",
+    "welcome": "¿Qué te gustaría saber? Puedes preguntarme sobre mis proyectos, habilidades, experiencia o cualquier cosa del sitio.",
+    "listening": "Escuchando...",
+    "hint": "Enter envía - Shift+Enter agrega una línea",
+    "hintCooldown": "Un momento...",
+    "errorGeneric": "Algo salió mal.",
+    "errorRetry": "Intentar de nuevo",
+    "errorScope": "Eso está un poco fuera de lo que sé, pero con gusto te cuento sobre mi trabajo.",
+    "errorLimit": "Llegamos al límite de la sesión.",
+    "errorLimitCta": "Contáctame directamente",
+    "suggestions": [
+      "¿Cuál es tu experiencia con Adobe Experience Cloud?",
+      "Cuéntame sobre tus proyectos recientes",
+      "¿Estás disponible para consultoría?"
+    ]
   },
   "footer": {
     "built": "Construido con cuidado - {year}",

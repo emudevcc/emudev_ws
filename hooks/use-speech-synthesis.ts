@@ -2,6 +2,32 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
+const PREFERRED_VOICES: Record<string, string[]> = {
+  es: ['Paulina', 'Monica', 'Google español', 'Google Español', 'es-ES'],
+  en: ['Samantha', 'Google US English', 'en-US'],
+}
+
+function pickVoice(lang: string): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis.getVoices()
+  if (voices.length === 0) return null
+
+  const prefix = lang.split('-')[0]
+  const preferred = PREFERRED_VOICES[prefix] ?? []
+
+  for (const name of preferred) {
+    const voice = voices.find(
+      (candidate) => candidate.name.includes(name) && candidate.lang.startsWith(prefix)
+    )
+    if (voice) return voice
+  }
+
+  return (
+    voices.find((candidate) => candidate.lang === lang) ??
+    voices.find((candidate) => candidate.lang.startsWith(prefix)) ??
+    null
+  )
+}
+
 type UseSpeechSynthesisReturn = {
   supported: boolean
   speaking: boolean
@@ -14,7 +40,15 @@ export function useSpeechSynthesis(): UseSpeechSynthesisReturn {
   const [speaking, setSpeaking] = useState(false)
 
   useEffect(() => {
-    setSupported(typeof window !== 'undefined' && 'speechSynthesis' in window)
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
+    setSupported(true)
+
+    function onVoicesChanged() {
+      window.speechSynthesis.getVoices()
+    }
+
+    window.speechSynthesis.addEventListener('voiceschanged', onVoicesChanged)
+    return () => window.speechSynthesis.removeEventListener('voiceschanged', onVoicesChanged)
   }, [])
 
   const speak = useCallback(
@@ -27,10 +61,7 @@ export function useSpeechSynthesis(): UseSpeechSynthesisReturn {
       utterance.rate = 1
       utterance.pitch = 1
 
-      const languagePrefix = lang.split('-')[0]
-      const voice = window.speechSynthesis
-        .getVoices()
-        .find((candidate) => candidate.lang.startsWith(languagePrefix))
+      const voice = pickVoice(lang)
       if (voice) utterance.voice = voice
 
       utterance.onstart = () => setSpeaking(true)

@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { NextRequest, NextResponse } from 'next/server'
-import { buildSystemPrompt } from '@/lib/chat/system-prompt'
+import { buildSystemPromptForLocale } from '@/lib/chat/system-prompt'
 
 type ChatMessage = {
   role: 'user' | 'assistant'
@@ -12,6 +12,7 @@ const MAX_REQUESTS = 30
 const MAX_MESSAGES = 6
 const MAX_MESSAGE_CHARS = 400
 const MODEL = 'claude-haiku-4-5'
+const LOCALES = ['en', 'es'] as const
 
 const rateMap = new Map<string, { count: number; windowStart: number }>()
 
@@ -97,6 +98,12 @@ function validateMessages(value: unknown): ChatMessage[] | null {
   return messages
 }
 
+function validateLocale(value: unknown): (typeof LOCALES)[number] {
+  return typeof value === 'string' && LOCALES.includes(value as (typeof LOCALES)[number])
+    ? (value as (typeof LOCALES)[number])
+    : 'en'
+}
+
 export async function OPTIONS(req: NextRequest) {
   const origin = req.headers.get('origin') ?? ''
   if (!isAllowedOrigin(origin)) return new NextResponse(null, { status: 403 })
@@ -124,7 +131,9 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json().catch(() => null)
-  const messages = validateMessages((body as { messages?: unknown } | null)?.messages)
+  const payload = body as { messages?: unknown; locale?: unknown } | null
+  const messages = validateMessages(payload?.messages)
+  const locale = validateLocale(payload?.locale)
 
   if (!messages) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400, headers })
@@ -141,7 +150,7 @@ export async function POST(req: NextRequest) {
 
   let systemPrompt: string
   try {
-    systemPrompt = buildSystemPrompt()
+    systemPrompt = buildSystemPromptForLocale(locale)
   } catch {
     return NextResponse.json({ error: 'Chat profile is unavailable' }, { status: 503, headers })
   }

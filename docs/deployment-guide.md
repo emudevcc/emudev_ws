@@ -43,8 +43,7 @@ git checkout -b hotfix/fix-name main
 | `main`      | Yes           | Production     | emudev.cc                | Manual approval (UI) | Production release  |
 | PR (any)    | Yes           | —              | —                        | Required to pass     | Pre-merge checks    |
 
-**Important:** Vercel git integration handles all deployments. No manual `vercel deploy` CLI calls needed.  
-**Branches:** Three active branches: `develop` (dev), staging, `main` (production).
+**Note:** Vercel git integration handles all deployments. Three active branches: `develop`, `staging`, `main`.
 
 ---
 
@@ -161,7 +160,12 @@ Vercel git integration automatically deploys on push; no manual configuration ne
 | `CHAT_PROFILE_MARKDOWN`           | Optional; inline markdown for the AI chat system prompt (overrides `data/profile.md`) | No       |
 | `ANTHROPIC_API_KEY`               | Anthropic API key for AI chat proxy                                        | No       |
 
-**Note:** Preview deployments (develop branch) use real Sanity data if CI vars set; no secrets needed. Production deployment uses the `production` environment secrets above.
+**AI Chat Notes:**
+- System prompt automatically appends locale-specific language lock instruction (EN/ES) based on POST body `locale` field
+- `CHAT_ALLOWED_ORIGIN` controls CORS; set to comma-separated domains (e.g., `https://emudev.cc`)
+- Voice I/O (speech recognition/synthesis) runs client-side only; no server-side secrets needed
+
+**Note:** Preview deployments (develop) use real Sanity data if CI vars set. Production uses `production` environment secrets.
 
 ---
 

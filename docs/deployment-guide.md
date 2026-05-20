@@ -156,14 +156,17 @@ Vercel git integration automatically deploys on push; no manual configuration ne
 | `SANITY_STUDIO_REVALIDATE_SECRET` | Same as `SANITY_REVALIDATE_SECRET`                                         | Yes      |
 | `RESEND_API_KEY`                  | Resend email API key (for contact form emails)                             | Yes      |
 | `ADMIN_EMAIL`                     | `esteban.montero@gmail.com`                                                | Yes      |
+| `GEMINI_API_KEY`                  | Google Gemini 2.5 Flash-Lite API key (for AI chat proxy)                   | Yes      |
+| `GOOGLE_TTS_API_KEY`              | Google Cloud Text-to-Speech API key (for voice synthesis)                  | Yes      |
 | `CHAT_ALLOWED_ORIGIN`             | Comma-separated allowed origins for AI chat CORS (e.g., `https://emudev.cc,https://www.emudev.cc`) | No       |
 | `CHAT_PROFILE_MARKDOWN`           | Optional; inline markdown for the AI chat system prompt (overrides `data/profile.md`) | No       |
-| `ANTHROPIC_API_KEY`               | Anthropic API key for AI chat proxy                                        | No       |
 
-**AI Chat Notes:**
-- System prompt automatically appends locale-specific language lock instruction (EN/ES) based on POST body `locale` field
+**AI Chat & TTS Notes:**
+- Chat API: Google Gemini 2.5 Flash-Lite via `@google/generative-ai` package; system prompt appends locale-specific language lock (EN/ES) based on POST body `locale` field
+- TTS API: Google Cloud Text-to-Speech WaveNet voices (EN: `en-US-Wavenet-J`, ES: `es-US-Wavenet-C`); returns base64 MP3
 - `CHAT_ALLOWED_ORIGIN` controls CORS; set to comma-separated domains (e.g., `https://emudev.cc`)
-- Voice I/O (speech recognition/synthesis) runs client-side only; no server-side secrets needed
+- `GOOGLE_TTS_API_KEY` must be restricted to "Cloud Text-to-Speech API" in Google Cloud Console for security
+- Speech recognition (STT) runs client-side browser API (Web Speech API); no server-side secrets needed
 
 **Note:** Preview deployments (develop) use real Sanity data if CI vars set. Production uses `production` environment secrets.
 

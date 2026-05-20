@@ -178,12 +178,13 @@ emudev_ws/
 | `app/[locale]/about/page.tsx`                      | 27   | About page (standalone route, 2 locales, reuses AboutSection component)           |
 | `app/[locale]/blog/page.tsx`                       | 43   | Blog list page (ISR with locale cache keys)                                       |
 | `app/api/revalidate-tag/route.ts`                  | 41   | Sanity webhook handler → revalidateTag (validates x-sanity-webhook-secret header) |
-| `app/api/chat/route.ts`                            | ~50  | [NEW] AI chat proxy; `allowedOrigins()` helper for comma-split CORS; `readProfile()` fallback: `CHAT_PROFILE_MARKDOWN` env → `data/profile.md` → `data/profile-template.md` |
+| `app/api/chat/route.ts`                            | 186  | AI chat proxy using Google Gemini 2.5 Flash-Lite (not Claude); accepts optional `locale` field in POST body; validates to ['en', 'es'], defaults to 'en'; `buildSystemPromptForLocale(locale)` for locale-aware system instructions; rate limiting 30 req/hr/IP; 9 regex patterns for prompt injection protection |
+| `app/api/tts/route.ts`                             | TBD  | [NEW] Google Cloud TTS WaveNet; POST `{text, lang}` → Google Cloud TTS REST API → base64 MP3 audio; WaveNet voices EN `en-US-Wavenet-J`, ES `es-US-Wavenet-C`; rate limiting 30 req/hr/IP with stale-entry pruning |
 | `lib/chat/system-prompt.ts`                        | ~50  | [UPDATED] System prompt builder with inclusive framing + `buildSystemPromptForLocale(locale?)` export; appends language-lock instruction per locale (EN/ES) |
 | `components/layout-widgets.tsx`                    | ~45  | [UPDATED] 'use client' wrapper; hosts `AIChatWidget` (w/ avatarUrl prop), `DotPattern`, `SanityVisualEditing` with `ssr: false` |
 | `components/ui/ai-chat-widget.tsx`                 | 443  | [NEW] Full AI chat widget: profile photo, bubble with AnimatedShinyText, timer, locale-aware suggestions, voice I/O, MarkdownText rendering; **[POLISH]** ping ring on collapsed button + scale pulse animation, URL parsing in `parseInline()`, quick-reply chips when assistant msg ends with `?` |
 | `hooks/use-speech-recognition.ts`                  | 102  | [NEW] Rewritten: recognition instance once on mount, onTranscript in stable useRef, lang via separate effect |
-| `hooks/use-speech-synthesis.ts`                    | 78   | [NEW] Voice selection per language (PREFERRED_VOICES map), voiceschanged listener, pickVoice helper |
+| `hooks/use-speech-synthesis.ts`                    | 57   | [UPDATED] Rewritten to fetch `/api/tts` server route instead of `window.speechSynthesis`; plays MP3 via `new Audio('data:audio/mpeg;base64,' + audioBase64)`; interface unchanged: `{ supported: true, speaking, speak(text, lang?), cancel() }` |
 | `lib/social-adapters.ts`                           | ~40  | [NEW] Pure adapters: adaptSocialPost(s), relativeTime helper using Intl.RelativeTimeFormat |
 | `components/sections/CredentialsSection.tsx`       | ~85  | [UPDATED] Language proficiency `levels` array fixed from ['basic', 'intermediate', ...] to ['basic', 'conversational', 'professional', 'fluent', 'native'] |
 | `components/ui/lang-theme-toggle.tsx`             | ~40  | Language + theme toggle; uses `useSyncExternalStore` for hydration safety          |
@@ -214,7 +215,7 @@ emudev_ws/
 | `components/sections/CredentialsSection.tsx`       | ~80  | Certifications, education, and language credentials display; `levels` array matches Sanity PROFICIENCY values: `['basic', 'conversational', 'professional', 'fluent', 'native']` |
 | `components/sections/writing-list.tsx`             | ~50  | Blog posts list with date, title, excerpt, and author                             |
 | `components/sections/social-posts-grid.tsx`        | 25   | Section wrapper; passes dummy items to SocialFeedGrid                             |
-| `components/ui/social-feed-grid.tsx`               | ~135 | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination added (PAGE_SIZE=9, prev/next controls, resets on filter change); BlurFade key: `${id}-p${page}` forces re-animation on pagination |
+| `components/ui/social-feed-grid.tsx`               | ~135 | Client component: 7 platform filter tabs (All/YouTube/TikTok/Instagram/Reddit/X/Threads), 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination: PAGE_SIZE=9, prev/next controls, resets to page 1 on filter change; BlurFade re-keyed on pagination change for entrance animation replay |
 | `components/ui/social-feed-card.tsx`               | ~157 | Individual social card: platform config map, MediaPlaceholder (YT/TikTok/IG), engagement metrics (views/likes/comments/shares), `fmt()` helper |
 | `components/ui/social-platform-icon.tsx`           | ~108 | Inline SVG brand icons (no external dep): 9 platforms — github/linkedin/twitter/x/youtube/instagram/reddit/spotify filled paths (simple-icons CC0) + email stroke + globe fallback. `SocialPlatformIcon` props: `platform`, `size=16` |
 | `components/sections/strengths-card.tsx`           | ~60  | CliftonStrengths cards with descriptions                                          |
@@ -516,6 +517,7 @@ redirect(`/studio`)
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase anon key (safe to expose)
 - `NEXT_PUBLIC_SITE_URL` — Canonical site URL (for metadata)
 - `NEXT_PUBLIC_SITE_DOMAIN` — Domain for email From: (e.g., emudev.cc)
+- `GEMINI_API_KEY` — Google Gemini 2.5 Flash-Lite API key (for AI chat)
 
 ### Private (Runtime & Build)
 
@@ -527,6 +529,9 @@ redirect(`/studio`)
 - `SUPABASE_PAT` — Supabase personal access token (for `supabase db push`)
 - `RESEND_API_KEY` — Resend transactional email API (required at runtime for contact emails; instantiated inside try/catch)
 - `ADMIN_EMAIL` — Allow-list for sendMagicLink (comma-separated)
+- `GOOGLE_TTS_API_KEY` — Google Cloud Text-to-Speech API key (WaveNet voices)
+- `CHAT_ALLOWED_ORIGIN` — CORS whitelist for AI chat (optional, comma-separated domains)
+- `CHAT_PROFILE_MARKDOWN` — Optional inline markdown for AI chat system prompt (overrides `data/profile.md`)
 
 ### Environment-Level (GitHub Secrets)
 
@@ -568,6 +573,7 @@ Each has isolated copies of the above secrets.
 | `eslint`                     | ^9      | Linting (v10 incompatible with eslint-plugin-react@7.x) |
 | `@playwright/test`           | 1.59.1  | Static and browser smoke tests                          |
 | `motion/react`               | v11+    | Animation library (framer-motion v11+, all animations use this, standalone framer-motion removed) |
+| `@google/generative-ai`      | Latest  | Google Gemini 2.5 Flash-Lite API client (AI chat)       |
 | `clsx`                       | latest  | Conditional class merging                               |
 | `tailwind-merge`             | latest  | Tailwind class deduplication (used in cn() utility)     |
 | `next-themes`                | latest  | Dark/light theme provider for Phase 9.2 toggle          |

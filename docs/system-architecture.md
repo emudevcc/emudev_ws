@@ -39,10 +39,14 @@
 │  │  │  • POST /api/revalidate-tag (Sanity webhook)   │    │   │
 │  │  │    - Validates x-sanity-webhook-secret header  │    │   │
 │  │  │    - Revalidates both en & es cache tags       │    │   │
-│  │  │  • POST /api/chat (AI chat proxy, [UPDATED])   │    │   │
+│  │  │  • POST /api/chat (Gemini 2.5 Flash-Lite)      │    │   │
 │  │  │    - Accepts optional `locale` field in body   │    │   │
 │  │  │    - Uses buildSystemPromptForLocale(locale)   │    │   │
-│  │  │    - Validates CORS origins (allowedOrigins)   │    │   │
+│  │  │    - 30 req/hr/IP rate limiting                │    │   │
+│  │  │    - 9 regex patterns for prompt injection      │    │   │
+│  │  │  • POST /api/tts (Google Cloud TTS WaveNet)    │    │   │
+│  │  │    - {text, lang} → base64 MP3 audio response  │    │   │
+│  │  │    - 30 req/hr/IP rate limiting                │    │   │
 │  │  │  • GET /api/draft-mode/enable (preview token)  │    │   │
 │  │  │  • GET /api/draft-mode/disable                 │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
@@ -546,6 +550,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 | `RESEND_API_KEY`                | GitHub (environment) | Email sending             | High (billing) → instantiated inside try/catch   |
 | `CONTACT_TO_EMAIL`              | GitHub (environment) | Contact form recipient    | Low (email) → takes priority over ADMIN_EMAIL    |
 | `ADMIN_EMAIL`                   | GitHub (environment) | Allow-list gating         | Low (email, public)                              |
+| `GEMINI_API_KEY`                | GitHub (environment) | Gemini 2.5 Flash-Lite API | High (billing) → validated rate limiting         |
+| `GOOGLE_TTS_API_KEY`            | GitHub (environment) | Google Cloud TTS WaveNet  | High (billing) → API key restricted to TTS API  |
+| `CHAT_ALLOWED_ORIGIN`           | GitHub (environment) | AI chat CORS whitelist    | Low (domain list) → optional                     |
 
 ### Best Practices
 

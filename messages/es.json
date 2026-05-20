@@ -157,7 +157,8 @@
       "Cuéntame sobre tus proyectos recientes",
       "¿Estás disponible para consultoría?"
     ],
-    "quickReplies": ["¡Sí!", "No, gracias", "Cuéntame más"]
+    "quickReplies": ["¡Sí!", "No, gracias", "Cuéntame más"],
+    "followUps": ["Cuéntame más", "¿Qué más?", "¿Cómo te contacto?"]
   },
   "footer": {
     "built": "Construido con cuidado - {year}",

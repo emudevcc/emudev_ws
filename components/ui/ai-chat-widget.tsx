@@ -99,6 +99,7 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
 
   const suggestions = useMemo(() => getSuggestions(t.raw('suggestions')), [t])
   const quickReplies = useMemo(() => getSuggestions(t.raw('quickReplies')), [t])
+  const followUps = useMemo(() => getSuggestions(t.raw('followUps')), [t])
   const speechLang = locale === 'es' ? 'es-ES' : 'en-US'
   const trapRef = useFocusTrap(status !== 'collapsed')
   const {
@@ -112,12 +113,10 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
 
   const isOpen = status !== 'collapsed'
   const lastMsg = messages[messages.length - 1]
-  const showQuickReplies =
-    lastMsg?.role === 'assistant' &&
-    status === 'open' &&
-    !cooldown &&
-    lastMsg.content.trimEnd().endsWith('?') &&
-    quickReplies.length > 0
+  const isClosingQuestion = lastMsg?.content.trimEnd().endsWith('?') ?? false
+  const activeChips = isClosingQuestion ? quickReplies : followUps
+  const showChips =
+    lastMsg?.role === 'assistant' && status === 'open' && !cooldown && activeChips.length > 0
   const canSend =
     input.trim().length > 0 &&
     input.length <= MAX_INPUT &&
@@ -394,9 +393,9 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
         )}
       </div>
 
-      {showQuickReplies && (
+      {showChips && (
         <div className="flex flex-wrap gap-2 border-t border-hairline px-4 py-2">
-          {quickReplies.map((reply) => (
+          {activeChips.map((reply) => (
             <button
               key={reply}
               type="button"

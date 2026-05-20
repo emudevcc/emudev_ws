@@ -157,7 +157,8 @@
       "Tell me about your recent projects",
       "Are you available for consulting?"
     ],
-    "quickReplies": ["Yes!", "No thanks", "Tell me more"]
+    "quickReplies": ["Yes!", "No thanks", "Tell me more"],
+    "followUps": ["Tell me more", "What else?", "How do I contact you?"]
   },
   "footer": {
     "built": "Built with care - {year}",

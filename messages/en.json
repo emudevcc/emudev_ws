@@ -145,6 +145,7 @@
     "placeholder": "Ask a question...",
     "welcome": "What would you like to know? Feel free to ask about my projects, skills, experience, or anything on this site.",
     "listening": "Listening...",
+    "listeningPermission": "Requesting microphone...",
     "hint": "Enter sends - Shift+Enter adds a line",
     "hintCooldown": "One moment...",
     "errorGeneric": "Something went wrong.",

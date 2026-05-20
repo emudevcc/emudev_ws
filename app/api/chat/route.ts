@@ -12,7 +12,7 @@ const MAX_REQUESTS = 30
 const MAX_MESSAGES = 6
 const MAX_MESSAGE_CHARS = 400
 const MODEL = 'claude-haiku-4-5'
-const MAX_TOKENS = 500
+const MAX_TOKENS = 350
 const LOCALES = ['en', 'es'] as const
 
 const rateMap = new Map<string, { count: number; windowStart: number }>()

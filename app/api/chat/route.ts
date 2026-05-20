@@ -1,4 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextRequest, NextResponse } from 'next/server'
 import { buildSystemPromptForLocale } from '@/lib/chat/system-prompt'
 
@@ -11,7 +11,7 @@ const WINDOW_MS = 60 * 60 * 1000
 const MAX_REQUESTS = 30
 const MAX_MESSAGES = 6
 const MAX_MESSAGE_CHARS = 400
-const MODEL = 'claude-haiku-4-5'
+const MODEL = 'gemini-2.5-flash-lite'
 const MAX_TOKENS = 350
 const LOCALES = ['en', 'es'] as const
 
@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400, headers })
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.GEMINI_API_KEY) {
     return NextResponse.json({ error: 'Chat service is not configured' }, { status: 503, headers })
   }
 
@@ -163,25 +163,20 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-    const response = await client.messages.create({
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+    const model = genAI.getGenerativeModel({
       model: MODEL,
-      max_tokens: MAX_TOKENS,
-      system: [
-        {
-          type: 'text',
-          text: systemPrompt,
-          cache_control: { type: 'ephemeral' },
-        },
-      ],
-      messages,
+      systemInstruction: systemPrompt,
+      generationConfig: { maxOutputTokens: MAX_TOKENS },
     })
 
-    const reply = response.content
-      .filter((block) => block.type === 'text')
-      .map((block) => block.text)
-      .join('')
-      .trim()
+    const contents = messages.map((msg) => ({
+      role: msg.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: msg.content }],
+    }))
+
+    const result = await model.generateContent({ contents })
+    const reply = result.response.text().trim()
 
     return NextResponse.json({ reply }, { headers })
   } catch {

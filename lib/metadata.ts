@@ -7,9 +7,8 @@ export function localeAlternates(
 ): Metadata['alternates'] {
   const normalizedPath = pathname ? `/${pathname.replace(/^\/+/, '')}` : ''
 
-  // With localePrefix: 'as-needed', the default locale has no prefix in the URL
   function localePath(l: string) {
-    return l === routing.defaultLocale ? normalizedPath || '/' : `/${l}${normalizedPath}`
+    return `/${l}${normalizedPath}`
   }
 
   return {

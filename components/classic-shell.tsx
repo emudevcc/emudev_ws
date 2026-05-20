@@ -14,11 +14,12 @@ export function ClassicShell({ locale, settings }: ClassicShellProps) {
     locale === 'es'
       ? {
           home: 'Inicio',
+          projects: 'Proyectos',
           blog: 'Blog',
           about: 'Sobre mí',
           contact: 'Contacto',
         }
-      : { home: 'Home', blog: 'Blog', about: 'About', contact: 'Contact' }
+      : { home: 'Home', projects: 'Projects', blog: 'Blog', about: 'About', contact: 'Contact' }
   const navLinkClass = 'transition-colors hover:text-foreground'
 
   return (
@@ -35,6 +36,9 @@ export function ClassicShell({ locale, settings }: ClassicShellProps) {
             <a href={`/${locale}#about`} className={navLinkClass}>
               {labels.about}
             </a>
+            <Link href="/projects" className={navLinkClass}>
+              {labels.projects}
+            </Link>
             <Link href="/blog" className={navLinkClass}>
               {labels.blog}
             </Link>

@@ -12,6 +12,7 @@ const MAX_REQUESTS = 30
 const MAX_MESSAGES = 6
 const MAX_MESSAGE_CHARS = 400
 const MODEL = 'claude-haiku-4-5'
+const MAX_TOKENS = 500
 const LOCALES = ['en', 'es'] as const
 
 const rateMap = new Map<string, { count: number; windowStart: number }>()
@@ -91,7 +92,13 @@ function validateMessages(value: unknown): ChatMessage[] | null {
     content: message.content.trim(),
   }))
 
-  if (messages.some((message) => !message.content || message.content.length > MAX_MESSAGE_CHARS)) {
+  // Only enforce char limit on user messages — assistant replies can be longer and ride in history
+  if (
+    messages.some(
+      (message) =>
+        !message.content || (message.role === 'user' && message.content.length > MAX_MESSAGE_CHARS)
+    )
+  ) {
     return null
   }
 
@@ -159,7 +166,7 @@ export async function POST(req: NextRequest) {
     const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
     const response = await client.messages.create({
       model: MODEL,
-      max_tokens: 300,
+      max_tokens: MAX_TOKENS,
       system: [
         {
           type: 'text',

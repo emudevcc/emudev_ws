@@ -42,8 +42,12 @@ export async function POST(req: NextRequest) {
   const type = body._type as string
   const tags = TAG_MAP[type] ?? []
 
-  for (const tag of tags) {
-    revalidateTag(tag)
+  try {
+    for (const tag of tags) {
+      revalidateTag(tag)
+    }
+  } catch {
+    return Response.json({ error: 'Revalidation failed' }, { status: 500 })
   }
 
   return Response.json({ revalidated: true, tags, type })

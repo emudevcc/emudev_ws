@@ -96,6 +96,7 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const cooldownRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const badgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const lastSpokenContentRef = useRef<string | null>(null)
 
   const suggestions = useMemo(() => getSuggestions(t.raw('suggestions')), [t])
   const quickReplies = useMemo(() => getSuggestions(t.raw('quickReplies')), [t])
@@ -159,7 +160,10 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
   useEffect(() => {
     if (!ttsEnabled) return
     const last = messages[messages.length - 1]
-    if (last?.role === 'assistant') speak(last.content, speechLang)
+    if (last?.role === 'assistant' && last.content !== lastSpokenContentRef.current) {
+      lastSpokenContentRef.current = last.content
+      speak(last.content, speechLang)
+    }
   }, [messages, speechLang, speak, ttsEnabled])
 
   useEffect(() => {

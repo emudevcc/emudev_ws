@@ -105,6 +105,7 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
   const {
     supported: sttSupported,
     listening,
+    requesting,
     start,
     stop,
     reset,
@@ -408,10 +409,25 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
         </div>
       )}
 
-      {listening && (
-        <div className="flex items-center gap-2 border-t border-hairline px-4 py-2 text-xs text-accent">
-          <span className="size-1.5 animate-pulse rounded-full bg-accent" />
-          {t('listening')}
+      {(listening || requesting) && (
+        <div className="flex items-center justify-between gap-3 border-t border-hairline px-4 py-2 text-xs text-accent">
+          <div className="flex items-center gap-2">
+            <span className="size-1.5 animate-pulse rounded-full bg-accent" />
+            {requesting ? t('listeningPermission') : t('listening')}
+          </div>
+          <div className="flex h-5 items-center gap-0.5" aria-hidden="true">
+            {[10, 16, 12, 20, 14, 18, 11].map((height, index) => (
+              <span
+                key={`${height}-${index}`}
+                className="w-0.5 animate-pulse rounded-full bg-accent"
+                style={{
+                  height,
+                  animationDelay: `${index * 90}ms`,
+                  animationDuration: '700ms',
+                }}
+              />
+            ))}
+          </div>
         </div>
       )}
 
@@ -453,12 +469,12 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
           {sttSupported && (
             <button
               type="button"
-              onClick={listening ? stop : start}
+              onClick={listening || requesting ? stop : () => void start()}
               className={cn(
                 'rounded-full p-2 transition-colors',
-                listening ? 'bg-accent text-white' : 'text-fg-3 hover:text-fg-1'
+                listening || requesting ? 'bg-accent text-white' : 'text-fg-3 hover:text-fg-1'
               )}
-              aria-label={listening ? t('ariaStopListening') : t('ariaActivateMic')}
+              aria-label={listening || requesting ? t('ariaStopListening') : t('ariaActivateMic')}
             >
               <Mic size={16} />
             </button>

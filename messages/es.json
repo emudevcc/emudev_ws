@@ -145,6 +145,7 @@
     "placeholder": "Haz una pregunta...",
     "welcome": "¿Qué te gustaría saber? Puedes preguntarme sobre mis proyectos, habilidades, experiencia o cualquier cosa del sitio.",
     "listening": "Escuchando...",
+    "listeningPermission": "Solicitando micrófono...",
     "hint": "Enter envía - Shift+Enter agrega una línea",
     "hintCooldown": "Un momento...",
     "errorGeneric": "Algo salió mal.",

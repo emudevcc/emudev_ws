@@ -503,14 +503,15 @@ Deliverables:
 
 - [x] `lib/chat/system-prompt.ts`: PREAMBLE rewritten with warmer tone; new `buildSystemPromptForLocale(locale?)` export
 - [x] `app/api/chat/route.ts`: Accepts optional `locale` field in POST body; validates to ['en', 'es'], defaults to 'en'
-- [x] `components/ui/ai-chat-widget.tsx` (443 LOC): Full widget with profile photo (Sanity CDN), bubble with AnimatedShinyText shimmer, timer (8–20s first, then 30–60s repeating), locale-aware suggestions, voice I/O support, MarkdownText rendering of responses
+- [x] `components/ui/ai-chat-widget.tsx` (443 LOC): Full widget with profile photo (Sanity CDN), bubble with AnimatedShinyText shimmer, timer (8–20s first, then 30–60s repeating), locale-aware suggestions, voice I/O support, MarkdownText rendering of responses; **[POLISH]** ping ring + scale pulse animation on collapsed button, URL parsing in `parseInline()`, quick-reply chips when last assistant message ends with `?`
 - [x] `hooks/use-speech-recognition.ts` (102 LOC): Rewritten for stability—recognition created once on mount, onTranscript in stable useRef, lang updated via separate useEffect
 - [x] `hooks/use-speech-synthesis.ts` (78 LOC): Voice selection per language (PREFERRED_VOICES map), voiceschanged listener for async voice loading (Chrome/Safari compat), pickVoice helper
 - [x] `components/layout-widgets.tsx`: Updated to pass `avatarUrl` prop from settings
 - [x] `app/[locale]/layout.tsx`: Passes `avatarUrl={settings?.avatar ?? undefined}` to LayoutWidgets
 - [x] `lib/social-adapters.ts` (40 LOC): Pure adapters for social posts, relativeTime helper using Intl.RelativeTimeFormat
 - [x] `components/sections/CredentialsSection.tsx`: Fixed language proficiency `levels` array from ['basic', 'intermediate', 'advanced', 'fluent', 'native'] to ['basic', 'conversational', 'professional', 'fluent', 'native'] to match Sanity schema PROFICIENCY values
-- [x] `messages/en.json` + `messages/es.json`: New `chat` namespace with 20 keys: bubble, ariaOpen/Close/Clear/Voice/Mic/Send, headerTitle, headerSubtitle, placeholder, welcome, listening, hint, hintCooldown, errorGeneric/Retry/Scope/Limit/LimitCta, suggestions (3 items)
+- [x] `messages/en.json` + `messages/es.json`: New `chat` namespace with 21 keys: bubble, ariaOpen/Close/Clear/Voice/Mic/Send, headerTitle, headerSubtitle, placeholder, welcome, listening, hint, hintCooldown, errorGeneric/Retry/Scope/Limit/LimitCta, suggestions (3 items), **[NEW]** quickReplies array (3 items: "Yes!", "No thanks", "Tell me more" in English)
+- [x] `app/globals.css`: **[NEW]** `chat-pulse` keyframe added for collapsed button scale animation (3s ease-in-out, scales 1→1.15→1)
 - [x] Removed `framer-motion` from dependencies (all animations use `motion/react` directly)
 - [x] `page.tsx`: SkillsSection, SocialPostsGrid, ContactSection now lazy-loaded via `next/dynamic` with `ssr: false`
 
@@ -523,6 +524,7 @@ Deliverables:
 - CredentialsSection proficiency fix enables correct dot indicators per language level
 - Bundle optimization: removed dead framer-motion, lazy-loaded heavy sections
 - Chat widget fully client-side rendered (SSR: false in layout-widgets boundary)
+- **[POLISH]** Ping ring + scale pulse animation draws attention to collapsed button, URL parsing enables clickable links in responses, quick-reply chips reduce friction for question-based interactions
 
 ### Success Metrics (9.0)
 

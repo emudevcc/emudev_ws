@@ -156,7 +156,8 @@
       "¿Cuál es tu experiencia con Adobe Experience Cloud?",
       "Cuéntame sobre tus proyectos recientes",
       "¿Estás disponible para consultoría?"
-    ]
+    ],
+    "quickReplies": ["¡Sí!", "No, gracias", "Cuéntame más"]
   },
   "footer": {
     "built": "Construido con cuidado - {year}",

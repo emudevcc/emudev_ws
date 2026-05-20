@@ -181,7 +181,7 @@ emudev_ws/
 | `app/api/chat/route.ts`                            | ~50  | [NEW] AI chat proxy; `allowedOrigins()` helper for comma-split CORS; `readProfile()` fallback: `CHAT_PROFILE_MARKDOWN` env → `data/profile.md` → `data/profile-template.md` |
 | `lib/chat/system-prompt.ts`                        | ~50  | [UPDATED] System prompt builder with inclusive framing + `buildSystemPromptForLocale(locale?)` export; appends language-lock instruction per locale (EN/ES) |
 | `components/layout-widgets.tsx`                    | ~45  | [UPDATED] 'use client' wrapper; hosts `AIChatWidget` (w/ avatarUrl prop), `DotPattern`, `SanityVisualEditing` with `ssr: false` |
-| `components/ui/ai-chat-widget.tsx`                 | 443  | [NEW] Full AI chat widget: profile photo, bubble with AnimatedShinyText, timer, locale-aware suggestions, voice I/O, MarkdownText rendering |
+| `components/ui/ai-chat-widget.tsx`                 | 443  | [NEW] Full AI chat widget: profile photo, bubble with AnimatedShinyText, timer, locale-aware suggestions, voice I/O, MarkdownText rendering; **[POLISH]** ping ring on collapsed button + scale pulse animation, URL parsing in `parseInline()`, quick-reply chips when assistant msg ends with `?` |
 | `hooks/use-speech-recognition.ts`                  | 102  | [NEW] Rewritten: recognition instance once on mount, onTranscript in stable useRef, lang via separate effect |
 | `hooks/use-speech-synthesis.ts`                    | 78   | [NEW] Voice selection per language (PREFERRED_VOICES map), voiceschanged listener, pickVoice helper |
 | `lib/social-adapters.ts`                           | ~40  | [NEW] Pure adapters: adaptSocialPost(s), relativeTime helper using Intl.RelativeTimeFormat |
@@ -236,12 +236,12 @@ emudev_ws/
 | `lib/content.ts`                                   | ~100 | Content aggregation for portfolio sections (projects, posts, experiences, skills)  |
 | `lib/github.ts`                                    | ~50  | GitHub API client for contributions heatmap (calendar data)                        |
 | `hooks/use-active-section.ts`                      | ~40  | Scroll tracking hook for active section highlighting                              |
-| `messages/en.json`                                 | ~100 | English UI strings (namespaced: nav, home, projects, blog, contact, common, chat) |
-| `messages/es.json`                                 | ~100 | Spanish translations (exact key structure parity, chat namespace: aria labels, suggestions, etc.) |
+| `messages/en.json`                                 | ~100 | English UI strings (namespaced: nav, home, projects, blog, contact, common, chat); **[UPDATED]** `chat.quickReplies` array added: ["Yes!", "No thanks", "Tell me more"] |
+| `messages/es.json`                                 | ~100 | Spanish translations (exact key structure parity, chat namespace: aria labels, suggestions, etc.); **[UPDATED]** `chat.quickReplies` array with Spanish equivalents |
 | `components/ui/hero-background.tsx`                | 149 | Three.js client component: 110-particle network, accent-orange connection lines, mouse parallax, ambient rotation |
 | `components/ui/hero-background-loader.tsx`         | 10  | SSR-safe dynamic import wrapper (ssr: false) for Three.js particle background |
 | `components/ui/page-transition.tsx`                | 12  | Client component: motion.main keyed by usePathname(), opacity 0→1, y: 8→0, blur 4px→0, 300ms easeOut |
-| `app/globals.css`                                  | 279 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles + animations + --hero-vignette |
+| `app/globals.css`                                  | 279 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles + animations + --hero-vignette; **[NEW]** `chat-pulse` keyframe for collapsed button scale animation |
 | `components.json`                                  | ~20  | shadcn/ui project config (aliases, style: new-york, baseColor: zinc)              |
 
 ---

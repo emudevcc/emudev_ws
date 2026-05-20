@@ -163,6 +163,7 @@
   --animate-marquee: marquee var(--duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   --animate-shiny-text: shiny-text 8s infinite;
+  --animate-chat-pulse: chat-pulse 3s ease-in-out infinite;
 
   @keyframes shimmer-slide {
     to {
@@ -220,6 +221,16 @@
     30%,
     60% {
       background-position: calc(100% + var(--shiny-width)) 0;
+    }
+  }
+
+  @keyframes chat-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
     }
   }
 }

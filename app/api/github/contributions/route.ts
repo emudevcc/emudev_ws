@@ -42,25 +42,44 @@ export async function GET(req: NextRequest) {
     }
   }`
 
-  const res = await fetch('https://api.github.com/graphql', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ query, variables }),
-    next: { revalidate: 3600 },
-  })
+  let res: Response
+  try {
+    res = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query, variables }),
+      next: { revalidate: 3600 },
+    })
+  } catch {
+    return NextResponse.json(null, { status: 503 })
+  }
 
   if (!res.ok) return NextResponse.json(null, { status: res.status })
 
-  const json = await res.json()
-  const calendar = json?.data?.user?.contributionsCollection?.contributionCalendar
+  let json: unknown
+  try {
+    json = await res.json()
+  } catch {
+    return NextResponse.json(null, { status: 502 })
+  }
+
+  const data = json as {
+    data?: { user?: { contributionsCollection?: { contributionCalendar?: unknown } } }
+  }
+  const calendar = data?.data?.user?.contributionsCollection?.contributionCalendar as
+    | {
+        totalContributions: number
+        weeks: Array<{ contributionDays: Array<Record<string, unknown>> }>
+      }
+    | undefined
   if (!calendar) return NextResponse.json(null, { status: 404 })
 
   return NextResponse.json({
     totalContributions: calendar.totalContributions,
-    weeks: calendar.weeks.map((week: { contributionDays: Array<Record<string, unknown>> }) => ({
+    weeks: calendar.weeks.map((week) => ({
       days: week.contributionDays.map((day) => ({
         date: day.date,
         count: day.contributionCount,

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 const PREFERRED_VOICES: Record<string, string[]> = {
-  en: ['Daniel', 'Tom', 'Alex', 'Google UK English Male', 'Fred'],
+  en: ['Mellow', 'Daniel', 'Tom', 'Alex', 'Google UK English Male', 'Fred'],
   es: ['Jorge', 'Diego', 'Carlos', 'Google español de Estados Unidos'],
 }
 

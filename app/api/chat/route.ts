@@ -34,6 +34,10 @@ function checkRateLimit(ip: string): boolean {
   const entry = rateMap.get(ip)
 
   if (!entry || now - entry.windowStart > WINDOW_MS) {
+    // Prune expired entries on window reset to prevent unbounded map growth
+    for (const [key, val] of rateMap) {
+      if (now - val.windowStart > WINDOW_MS) rateMap.delete(key)
+    }
     rateMap.set(ip, { count: 1, windowStart: now })
     return true
   }
@@ -50,7 +54,7 @@ function hasInjection(text: string): boolean {
 function corsHeaders(origin: string) {
   const allowOrigin = isAllowedOrigin(origin) ? origin : ''
   return {
-    'Access-Control-Allow-Origin': allowOrigin || '*',
+    'Access-Control-Allow-Origin': allowOrigin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   }
@@ -176,7 +180,14 @@ export async function POST(req: NextRequest) {
     }))
 
     const result = await model.generateContent({ contents })
-    const reply = result.response.text().trim()
+
+    // response.text() throws when Gemini blocks the response (safety/recitation filters)
+    let reply: string
+    try {
+      reply = result.response.text().trim()
+    } catch {
+      return NextResponse.json({ error: 'Content filtered' }, { status: 400, headers })
+    }
 
     return NextResponse.json({ reply }, { headers })
   } catch {

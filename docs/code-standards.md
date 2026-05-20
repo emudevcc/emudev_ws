@@ -507,98 +507,17 @@ export default async function ProjectPage({
 
 ### Playwright Smoke Tests
 
-**Setup:**
+**Setup:** `npm run test:smoke:local` (localhost:3000) or `npm run test:smoke` (production)
 
-```bash
-npm run test:smoke:local   # Run against localhost:3000
-npm run test:smoke         # Run against BASE_URL env var (production)
-```
+**Three test suites:** pages.spec.ts (health/navigation), i18n-bilingual.spec.ts (routing/message parity), content-model.spec.ts (schema/query contracts).
 
-**Test structure:**
+**Key contracts tested:**
+- Routing: `locales: ['en', 'es']`, `defaultLocale: 'en'`, `localePrefix: 'always'`
+- Message parity: leafKeys(en.json) === leafKeys(es.json)
+- Static rendering: all locale pages load without console errors
+- Content model: Sanity schema registry, query exports, cache version 'localized-v3'
 
-```typescript
-import { expect, test } from '@playwright/test'
-
-test.describe('Smoke Tests', () => {
-  test('homepage loads successfully', async ({ page }) => {
-    await page.goto('/')
-
-    const status = page.url()
-    expect(status).toContain('/en') // Verify locale routing
-
-    const heading = await page.getByRole('heading', { level: 1 })
-    await expect(heading).toBeVisible()
-  })
-
-  test('contact form renders with required fields', async ({ page }) => {
-    await page.goto('/contact')
-
-    await expect(page.getByLabel(/name/i)).toBeVisible()
-    await expect(page.getByLabel(/email/i)).toBeVisible()
-    await expect(page.getByRole('button', { name: /send/i })).toBeVisible()
-  })
-})
-```
-
-### Bilingual Test Contracts
-
-**Message Key Parity:**
-
-```typescript
-test('message namespaces and keys match for English and Spanish', () => {
-  const en = readJson('messages/en.json')
-  const es = readJson('messages/es.json')
-
-  const enKeys = leafKeys(en).sort()
-  const esKeys = leafKeys(es).sort()
-
-  expect(esKeys).toEqual(enKeys)
-})
-```
-
-**Routing Contracts:**
-
-```typescript
-test('routing is explicit bilingual en/es with English default', () => {
-  const routing = readText('i18n/routing.ts')
-
-  expect(routing).toContain("locales: ['en', 'es']")
-  expect(routing).toContain("defaultLocale: 'en'")
-  expect(routing).toContain("localePrefix: 'always'")
-})
-```
-
-**Static Rendering (Per-Locale):**
-
-```typescript
-test('static pages render without errors in both locales', async ({ page }) => {
-  const pages = ['', '/about', '/projects', '/blog', '/contact']
-  const locales = ['en', 'es']
-
-  for (const locale of locales) {
-    for (const path of pages) {
-      const url = `/${locale}${path}`
-      await page.goto(url)
-      expect(page.url()).toContain(`/${locale}`)
-
-      // Verify no console errors
-      const errors = []
-      page.on('console', (msg) => {
-        if (msg.type() === 'error') errors.push(msg.text())
-      })
-      expect(errors).toHaveLength(0)
-    }
-  }
-})
-```
-
-### Key Guidelines
-
-- **Target:** Required static and browser smoke suites pass
-- **Timing:** ~7-10 seconds against production
-- **Frequency:** On every deploy (staging + production)
-- **Scope:** Happy path only (not comprehensive feature tests)
-- **CI Integration:** GitHub Actions runs smoke tests post-deploy
+**Timing:** ~7-10 seconds against production. Runs in CI post-deploy.
 
 ---
 
@@ -701,13 +620,7 @@ export default async function AboutPage({ params }) {
 
 ## Breaking Changes & Migrations
 
-When making breaking changes:
-
-1. **Update docs/CHANGELOG.md** with migration guide
-2. **Create deprecation period** if possible (2+ releases)
-3. **Notify users** in release notes
-4. **Test migrations** locally before releasing
-5. **Update related docs** (codebase-summary, deployment guide, etc.)
+When making breaking changes: (1) update CHANGELOG with migration guide, (2) create deprecation period if possible, (3) notify in release notes, (4) test locally, (5) update related docs.
 
 ---
 
@@ -740,58 +653,146 @@ When making breaking changes:
 
 ## Magic UI & Component Installation
 
-**Status:** Phase 9.1 ✅ complete (May 12, 2026). Phase 9.2 ✅ complete (11 section components integrated). 12 Magic UI components installed in `components/ui/`.
+**Status:** Phase 9.1-9.2 ✅ complete. 12 Magic UI components installed (10 free-tier, 2 Pro local). See `docs/design-guidelines.md` for component details.
 
-### Installed Components
+**Quick reference:** Free-tier components auto-installed via shadcn CLI. Pro components (MagicCard, Lens) are API-compatible local copies. All use `cn()` utility from `lib/utils.ts` for class merging. `AnimatedShinyText` used in chat widget bubble.
 
-| Component                    | Source     | Used in |
-| ---------------------------- | ---------- | ------- |
-| `animated-shiny-text`        | Free-tier  | Hero name animation |
-| `avatar-circles`             | Free-tier  | Cert badge stacks |
-| `blur-fade`                  | Free-tier  | Scroll-in section entry |
-| `border-beam`                | Free-tier  | Featured project cards |
-| `dock`                       | Free-tier  | Floating bottom nav |
-| `dot-pattern`                | Free-tier  | Page shell background |
-| `interactive-hover-button`   | Free-tier  | Hero CTA primary |
-| `marquee`                    | Free-tier  | Social posts row |
-| `number-ticker`              | Free-tier  | Hero stat count-up |
-| `shimmer-button`             | Free-tier  | Contact form submit |
-| `magic-card`                 | Pro (local)| Experience + project cards |
-| `lens`                       | Pro (local)| Project cover zoom |
+---
 
-### Component Installation
+## AI Chat Integration
 
-**Free-tier:** `npx shadcn@latest add "https://magicui.design/r/[name].json"` → auto-placed in `components/ui/`.
+### System Prompt Pattern (Locale-Aware)
 
-**Pro components:** `MagicCard` and `Lens` are API-compatible local components (no runtime registry dependency).
+**File:** `lib/chat/system-prompt.ts`
 
-**CSS token integration:** Full shadcn/ui HSL token set in `app/globals.css` (`:root` + `.dark`) + `@theme inline` block for Tailwind v4 token mapping.
+```typescript
+// PREAMBLE: warmer tone, explicit rules
+const PREAMBLE = `You are an AI assistant for Esteban's portfolio...
+Never decline questions about my career, projects, or skills...`
 
-**Utility:** `lib/utils.ts` exports `cn()` (clsx + tailwind-merge) — required by all Magic UI components.
+// Language-lock instructions per locale
+const LANG_INSTRUCTIONS = {
+  'es': 'Responde SIEMPRE en español.',
+  'en': 'Respond in English.',
+}
 
-### Magic UI MCP Tools
+export function buildSystemPromptForLocale(locale?: string) {
+  const lang = locale || 'en'
+  const instruction = LANG_INSTRUCTIONS[lang as keyof typeof LANG_INSTRUCTIONS] || LANG_INSTRUCTIONS['en']
+  return `${PREAMBLE}\n\n${instruction}`
+}
+```
 
-`@magicuidesign/mcp` available in Claude Code sessions:
+**Usage in API route:**
 
-| Tool                  | Use                               |
-| --------------------- | --------------------------------- |
-| `listRegistryItems`   | Browse all available components   |
-| `searchRegistryItems` | Find components by keyword        |
-| `getRegistryItem`     | Fetch component source + examples |
+```typescript
+// app/api/chat/route.ts
+const body = await req.json()
+const locale = (['en', 'es'].includes(body.locale) ? body.locale : 'en')
+const systemPrompt = buildSystemPromptForLocale(locale)
+```
 
-### Adding New Components
+**Key points:**
+- System prompt appends locale-specific language lock to ensure bot responds in user's language
+- Caller passes `locale` from POST body; validated to ['en', 'es']
+- Defaults to 'en' if missing or invalid
 
-1. `npx shadcn@latest add "https://magicui.design/r/[name].json"`
-2. Component lands in `components/ui/`
-3. Import with `@/components/ui/[name]`
-4. `cn()` from `@/lib/utils` handles conditional class merging
+### Speech Recognition & Synthesis (Voice I/O)
+
+**Files:** `hooks/use-speech-recognition.ts`, `hooks/use-speech-synthesis.ts`
+
+**Recognition pattern (stable instance):**
+
+```typescript
+// Create recognition ONCE on mount
+const recognitionRef = useRef<SpeechRecognition | null>(null)
+const onTranscriptRef = useRef(onTranscript) // Stable callback ref
+
+useEffect(() => {
+  recognitionRef.current = new (window.SpeechRecognition || ...)(...)
+  recognitionRef.current.onresult = (e) => {
+    onTranscriptRef.current?.(e.results[e.results.length - 1][0].transcript)
+  }
+}, []) // Empty deps: one instance per component mount
+
+// Update language imperatively without teardown
+useEffect(() => {
+  if (recognitionRef.current) {
+    recognitionRef.current.lang = `${lang}-${langRegion[lang]}`
+  }
+}, [lang]) // Only lang dependency
+```
+
+**Synthesis pattern (voice selection cascade):**
+
+```typescript
+const PREFERRED_VOICES = {
+  es: ['Paulina', 'Monica', 'Google español', ...],
+  en: ['Samantha', 'Google US English', ...],
+}
+
+function pickVoice(lang: string): SpeechSynthesisVoice | null {
+  const voices = speechSynthesis.getVoices()
+  const preferred = PREFERRED_VOICES[lang as keyof typeof PREFERRED_VOICES] || []
+  
+  // Try preferred names → exact locale match → any prefix match
+  for (const name of preferred) {
+    const v = voices.find(v => v.name.includes(name))
+    if (v) return v
+  }
+  return voices.find(v => v.lang.startsWith(lang)) || null
+}
+```
+
+---
+
+## Lazy-Loading Pattern (`next/dynamic` with SSR: false)
+
+For client-only components (Three.js, speech APIs, etc.) in server components:
+
+**Pattern:**
+
+```typescript
+// components/ui/component-loader.tsx (Client Component shim)
+'use client'
+import dynamic from 'next/dynamic'
+
+export const HeavyComponent = dynamic(
+  () => import('./heavy-component').then(m => m.HeavyComponent),
+  { ssr: false }  // Skip SSR; load only on client
+)
+
+// pages/page.tsx (Server Component)
+import { HeavyComponent } from '@/components/ui/component-loader'
+export default async function Page() {
+  return <HeavyComponent />  // Renders on client; skipped during SSR
+}
+```
+
+**Current usage:**
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| `HeroBackground` | `components/ui/hero-background-loader.tsx` | Three.js particle network |
+| `AIChatWidget` | `components/layout-widgets.tsx` | Full chat with voice + avatar |
+| `DotPattern` | `components/layout-widgets.tsx` | Background pattern |
+| `SkillsSection` | `app/[locale]/page.tsx` | Lazy-loaded section (not critical) |
+| `SocialPostsGrid` | `app/[locale]/page.tsx` | Lazy-loaded social feed |
+| `ContactSection` | `app/[locale]/page.tsx` | Lazy-loaded contact form |
+
+**Key rules:**
+1. Loader file must be Client Component ('use client' at top)
+2. Dynamic import returns module; extract with `.then(m => m.Export)`
+3. Parent can be Server Component (loader acts as boundary)
+4. No props passed through loader; use props in actual component
 
 ---
 
 ## Performance Considerations
 
-- **Bundle Size:** Monitor with `npm run build`; lazy-load heavy components
+- **Bundle Size:** Monitor with `npm run build`; lazy-load heavy components (SkillsSection, SocialPostsGrid, ContactSection use `next/dynamic`)
 - **Cache Strategy:** Per-locale tags prevent cross-locale pollution; 1-hour TTL + webhook revalidation
 - **Database:** Use RLS to prevent N+1 queries; index frequently-queried fields
 - **Images:** Use Sanity CDN for all images; rely on Next.js image optimization
 - **API Calls:** Minimize external service calls; wrap in try/catch for reliability
+- **Speech APIs:** Instantiate only on client; handle browser compatibility (webkit prefix fallback)

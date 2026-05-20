@@ -39,9 +39,10 @@
 │  │  │  • POST /api/revalidate-tag (Sanity webhook)   │    │   │
 │  │  │    - Validates x-sanity-webhook-secret header  │    │   │
 │  │  │    - Revalidates both en & es cache tags       │    │   │
-│  │  │  • POST /api/chat (AI chat proxy, [NEW])       │    │   │
-│  │  │    - Validates allowed CORS origins            │    │   │
-│  │  │    - System prompt builder with inclusive tone │    │   │
+│  │  │  • POST /api/chat (AI chat proxy, [UPDATED])   │    │   │
+│  │  │    - Accepts optional `locale` field in body   │    │   │
+│  │  │    - Uses buildSystemPromptForLocale(locale)   │    │   │
+│  │  │    - Validates CORS origins (allowedOrigins)   │    │   │
 │  │  │  • GET /api/draft-mode/enable (preview token)  │    │   │
 │  │  │  • GET /api/draft-mode/disable                 │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
@@ -114,7 +115,7 @@ middleware.ts (next-intl/middleware)
 
 | Route                       | Generation          | Cache              | Purpose                                                   |
 | --------------------------- | ------------------- | ------------------ | --------------------------------------------------------- |
-| `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer) with AI chat widget |
+| `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (11 sections: hero, about, experience, projects, skills, credentials, writing, strengths, social, contact, footer) with AI chat widget (profile photo, voice I/O, locale-aware suggestions) |
 | `/[locale]/projects`        | ISR × 2             | Tag: `projects`    | Projects list (gallery, skill filter, per-locale content) |
 | `/[locale]/projects/[slug]` | SSG (per-route × 2) | Per-route + locale | Project detail page with OG image                         |
 | `/[locale]/blog`            | ISR × 2             | Tag: `posts`       | Blog post list (locale-specific)                          |
@@ -132,7 +133,7 @@ middleware.ts (next-intl/middleware)
 
 **PageTransition:** `motion.main` keyed by `usePathname()` — opacity/y/blur animation on route change (0.3s easeOut). Hash anchor changes share the same pathname, so transition does NOT fire for in-page scroll.
 
-**SSR Boundary (layout-widgets.tsx):** New `'use client'` wrapper component that hosts `AIChatWidget`, `DotPattern`, and `SanityVisualEditing` with `ssr: false` dynamic imports (cannot use `ssr:false` in Server Components).
+**SSR Boundary (layout-widgets.tsx):** Client Component wrapper that hosts three `ssr: false` components: `AIChatWidget` (full chat with voice/avatar), `DotPattern` (background), `SanityVisualEditing` (draft mode). Cannot use `ssr:false` in Server Components; this wrapper enables client-only rendering.
 
 #### Dynamic Params (SSG with Per-Locale Variants)
 

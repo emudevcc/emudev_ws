@@ -1,9 +1,9 @@
 # Project Roadmap
 
-## Current Status: Phases 1-8.5 + 9.0-9.14 Complete, Bilingual Live
+## Current Status: Phases 1-8.5 + 9.0-9.15 Complete, Bilingual Live
 
-**Timeline:** May 16, 2026
-**Overall Progress:** 99% (Phases 1-8.5 + 9.0-9.14 complete, Phase 9.15+ future)
+**Timeline:** May 19, 2026
+**Overall Progress:** 99% (Phases 1-8.5 + 9.0-9.15 complete, monitoring & analytics pending)
 
 ---
 
@@ -491,6 +491,36 @@ Deliverables:
 - Better UX flow: core info → credentials → content → social proof → contact call-to-action
 - Strengthens conversion funnel (call-to-action positioned before footer)
 
+### Phase 9.15: AI Chat Widget Full Enhancement (COMPLETE)
+
+**Status:** ✅ Complete (May 19, 2026)
+**Priority:** P0 (engagement feature)
+
+**Deliverables:**
+
+- [x] `lib/chat/system-prompt.ts`: PREAMBLE rewritten with warmer tone; new `buildSystemPromptForLocale(locale?)` export
+- [x] `app/api/chat/route.ts`: Accepts optional `locale` field in POST body; validates to ['en', 'es'], defaults to 'en'
+- [x] `components/ui/ai-chat-widget.tsx` (443 LOC): Full widget with profile photo (Sanity CDN), bubble with AnimatedShinyText shimmer, timer (8–20s first, then 30–60s repeating), locale-aware suggestions, voice I/O support, MarkdownText rendering of responses
+- [x] `hooks/use-speech-recognition.ts` (102 LOC): Rewritten for stability—recognition created once on mount, onTranscript in stable useRef, lang updated via separate useEffect
+- [x] `hooks/use-speech-synthesis.ts` (78 LOC): Voice selection per language (PREFERRED_VOICES map), voiceschanged listener for async voice loading (Chrome/Safari compat), pickVoice helper
+- [x] `components/layout-widgets.tsx`: Updated to pass `avatarUrl` prop from settings
+- [x] `app/[locale]/layout.tsx`: Passes `avatarUrl={settings?.avatar ?? undefined}` to LayoutWidgets
+- [x] `lib/social-adapters.ts` (40 LOC): Pure adapters for social posts, relativeTime helper using Intl.RelativeTimeFormat
+- [x] `components/sections/CredentialsSection.tsx`: Fixed language proficiency `levels` array from ['basic', 'intermediate', 'advanced', 'fluent', 'native'] to ['basic', 'conversational', 'professional', 'fluent', 'native'] to match Sanity schema PROFICIENCY values
+- [x] `messages/en.json` + `messages/es.json`: New `chat` namespace with 20 keys: bubble, ariaOpen/Close/Clear/Voice/Mic/Send, headerTitle, headerSubtitle, placeholder, welcome, listening, hint, hintCooldown, errorGeneric/Retry/Scope/Limit/LimitCta, suggestions (3 items)
+- [x] Removed `framer-motion` from dependencies (all animations use `motion/react` directly)
+- [x] `page.tsx`: SkillsSection, SocialPostsGrid, ContactSection now lazy-loaded via `next/dynamic` with `ssr: false`
+
+**Technical Highlights:**
+
+- Locale-aware system prompt appends language-lock instruction for correct bot language
+- Speech recognition stable: single instance, proper cleanup on lang change
+- Speech synthesis voice selection cascades through preferred names → locale match → fallback
+- Social feed backend wired with real Sanity data via adapters
+- CredentialsSection proficiency fix enables correct dot indicators per language level
+- Bundle optimization: removed dead framer-motion, lazy-loaded heavy sections
+- Chat widget fully client-side rendered (SSR: false in layout-widgets boundary)
+
 ### Success Metrics (9.0)
 
 - [x] Uptime: 99.9%
@@ -629,8 +659,9 @@ Phase 1 (DONE)
 | Phase 9.12 | May 16 | May 16 | <1 day               | ✅ Complete      |
 | Phase 9.13 | May 16 | May 16 | <1 day               | ✅ Complete      |
 | Phase 9.14 | May 16 | May 16 | <1 day               | ✅ Complete      |
+| Phase 9.15 | May 19 | May 19 | <1 day               | ✅ Complete      |
 
-**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.14) completed by May 16, 2026 with hero metrics expansion, contact form simplification, smooth scroll, and section reordering. Next phases: monitoring, analytics, admin dashboard, search functionality.
+**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.15) completed by May 19, 2026 with AI chat widget enhancements (profile photo, voice I/O, locale-aware), bundle optimization (framer-motion removal, lazy-load sections), social feed backend wiring, and credential level fix. Next phases: monitoring, analytics, admin dashboard, search functionality.
 
 ---
 
@@ -654,4 +685,5 @@ Phase 1 (DONE)
 | 1.4.0-nav-refactor  | May 15 | 9.6-9.8 | Navigation refactor: removed /about /contact routes, hash anchors, PageTransition, DotPattern fix |
 | 1.5.0-social-redesign | May 15 | 9.9  | Footer & social feed redesign: async server Footer, SocialFeedGrid with pagination (PAGE_SIZE=9) |
 | 1.6.0-hero-metrics  | May 16 | 9.10-9.14 | Hero metrics: 6 stats (yrs exp, skills, creds, posts, langs, links); Contact form 4-field; smooth scroll; section reorder |
-| 1.7.0-future        | TBD    | 9.15+   | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |
+| 1.7.0-ai-chat       | May 19 | 9.15  | AI chat widget full enhancement: profile photo + voice I/O + locale-aware suggestions; system prompt locale-aware; social backend; credential fix; bundle optimization (framer-motion removal, lazy-load sections) |
+| 1.8.0-future        | TBD    | 9.16+   | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |

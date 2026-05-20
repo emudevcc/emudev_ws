@@ -68,7 +68,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             enableSystem={false}
             disableTransitionOnChange
           >
-            <LayoutWidgets showVisualEditing={isDraft} />
+            <LayoutWidgets showVisualEditing={isDraft} avatarUrl={settings?.avatar ?? undefined} />
             <ClassicShell locale={locale} settings={settings} />
             <PageTransition>{children}</PageTransition>
             <FooterSection settings={settings} />

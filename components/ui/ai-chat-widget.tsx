@@ -1,7 +1,11 @@
 'use client'
 
+import Image from 'next/image'
+import { useLocale, useTranslations } from 'next-intl'
 import { Bot, Loader2, MessageCircle, Mic, Send, Trash2, Volume2, VolumeX, X } from 'lucide-react'
 import { FormEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
+import { AnimatedShinyText } from '@/components/ui/animated-shiny-text'
 import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { useSpeechRecognition } from '@/hooks/use-speech-recognition'
 import { useSpeechSynthesis } from '@/hooks/use-speech-synthesis'
@@ -14,17 +18,60 @@ type ChatMessage = {
 
 type WidgetStatus = 'collapsed' | 'open' | 'processing' | 'error' | 'out-of-scope' | 'limit-reached'
 
+type AIChatWidgetProps = {
+  avatarUrl?: string
+}
+
 const MAX_INPUT = 400
 const MAX_SESSION_MESSAGES = 15
 const COOLDOWN_MS = 2000
 
-function detectLang(text: string): 'es-ES' | 'en-US' {
-  const spanishSignals =
-    /\b(qué|como|cómo|cuál|cual|tienes|trabajas|puedes|sobre|hola|gracias|experiencia|proyectos|habilidades)\b/i
-  return spanishSignals.test(text) ? 'es-ES' : 'en-US'
+function parseInline(text: string): ReactNode[] {
+  const parts: ReactNode[] = []
+  const regex = /(\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`)/g
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index))
+    if (match[2]) {
+      parts.push(<strong key={match.index}>{match[2]}</strong>)
+    } else if (match[3]) {
+      parts.push(<em key={match.index}>{match[3]}</em>)
+    } else if (match[4]) {
+      parts.push(
+        <code key={match.index} className="rounded bg-surface-2 px-1 font-mono text-[11px]">
+          {match[4]}
+        </code>
+      )
+    }
+    lastIndex = match.index + match[0].length
+  }
+
+  if (lastIndex < text.length) parts.push(text.slice(lastIndex))
+  return parts
 }
 
-export function AIChatWidget() {
+function MarkdownText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split('\n').map((line, index) => (
+        <span key={`${line}-${index}`}>
+          {index > 0 && <br />}
+          {parseInline(line)}
+        </span>
+      ))}
+    </>
+  )
+}
+
+function getSuggestions(raw: unknown): string[] {
+  return Array.isArray(raw) ? raw.filter((item): item is string => typeof item === 'string') : []
+}
+
+export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
+  const locale = useLocale()
+  const t = useTranslations('chat')
   const [status, setStatus] = useState<WidgetStatus>('collapsed')
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
@@ -34,12 +81,10 @@ export function AIChatWidget() {
   const [ttsEnabled, setTtsEnabled] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const cooldownRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const badgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const lastUserText = useMemo(
-    () => [...messages].reverse().find((message) => message.role === 'user')?.content ?? input,
-    [messages, input]
-  )
-  const speechLang = detectLang(lastUserText)
+  const suggestions = useMemo(() => getSuggestions(t.raw('suggestions')), [t])
+  const speechLang = locale === 'es' ? 'es-ES' : 'en-US'
   const trapRef = useFocusTrap(status !== 'collapsed')
   const {
     supported: sttSupported,
@@ -60,8 +105,20 @@ export function AIChatWidget() {
 
   useEffect(() => {
     if (everOpened) return
-    const badgeTimer = setTimeout(() => setShowBadge(true), 5000)
-    return () => clearTimeout(badgeTimer)
+
+    function scheduleBadge(minMs: number, maxMs: number) {
+      const delay = minMs + Math.random() * (maxMs - minMs)
+      badgeTimerRef.current = setTimeout(() => {
+        setShowBadge((visible) => !visible)
+        scheduleBadge(30000, 60000)
+      }, delay)
+    }
+
+    scheduleBadge(8000, 20000)
+
+    return () => {
+      if (badgeTimerRef.current) clearTimeout(badgeTimerRef.current)
+    }
   }, [everOpened])
 
   useEffect(() => {
@@ -94,6 +151,7 @@ export function AIChatWidget() {
     setStatus('open')
     setEverOpened(true)
     setShowBadge(false)
+    if (badgeTimerRef.current) clearTimeout(badgeTimerRef.current)
   }
 
   function resetConversation() {
@@ -106,8 +164,8 @@ export function AIChatWidget() {
     if (cooldownRef.current) clearTimeout(cooldownRef.current)
   }
 
-  async function sendMessage() {
-    const trimmed = input.trim()
+  async function sendMessage(overrideText?: string) {
+    const trimmed = (overrideText ?? input).trim()
     if (!trimmed || trimmed.length > MAX_INPUT || status === 'processing' || cooldown) return
     if (messages.length >= MAX_SESSION_MESSAGES) {
       setStatus('limit-reached')
@@ -125,7 +183,7 @@ export function AIChatWidget() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: nextMessages.slice(-6) }),
+        body: JSON.stringify({ messages: nextMessages.slice(-6), locale }),
       })
       const data = (await response.json().catch(() => null)) as {
         reply?: string
@@ -162,17 +220,28 @@ export function AIChatWidget() {
     return (
       <>
         {showBadge && (
-          <div className="fixed bottom-24 right-4 z-[60] max-w-[210px] rounded-xl border border-hairline bg-surface-1 px-3 py-2 text-xs text-fg-2 shadow-[var(--shadow-dock)] sm:right-6">
-            Ask me about my work
+          <div className="fixed bottom-24 right-4 z-[60] max-w-[210px] rounded-xl border border-hairline bg-surface-1 px-3 py-2 shadow-[var(--shadow-dock)] sm:right-6">
+            <AnimatedShinyText className="text-xs text-fg-2">{t('bubble')}</AnimatedShinyText>
           </div>
         )}
         <button
           type="button"
           onClick={openWidget}
           className="fixed bottom-6 right-4 z-[60] flex size-14 items-center justify-center rounded-full border border-hairline bg-[var(--dock-bg)] text-fg-1 shadow-[var(--shadow-dock)] backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95 sm:right-6"
-          aria-label="Open chat"
+          aria-label={t('ariaOpen')}
         >
-          <MessageCircle size={22} />
+          {avatarUrl ? (
+            <Image
+              src={avatarUrl}
+              alt="Esteban"
+              width={56}
+              height={56}
+              className="size-14 rounded-full object-cover"
+              priority
+            />
+          ) : (
+            <MessageCircle size={22} />
+          )}
         </button>
       </>
     )
@@ -188,12 +257,22 @@ export function AIChatWidget() {
     >
       <div className="flex items-center justify-between border-b border-hairline bg-surface-1 px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="flex size-8 items-center justify-center rounded-full bg-accent text-white">
-            <Bot size={16} />
+          <span className="flex size-8 items-center justify-center overflow-hidden rounded-full bg-accent text-white">
+            {avatarUrl ? (
+              <Image
+                src={avatarUrl}
+                alt="Esteban"
+                width={32}
+                height={32}
+                className="size-8 rounded-full object-cover"
+              />
+            ) : (
+              <Bot size={16} />
+            )}
           </span>
           <div>
-            <p className="text-sm font-medium text-fg-1">Ask Esteban</p>
-            <p className="text-xs text-fg-3">Portfolio assistant</p>
+            <p className="text-sm font-medium text-fg-1">{t('headerTitle')}</p>
+            <p className="text-xs text-fg-3">{t('headerSubtitle')}</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -208,7 +287,7 @@ export function AIChatWidget() {
                 'rounded-md p-1.5 transition-colors',
                 ttsEnabled ? 'text-accent' : 'text-fg-4 hover:text-fg-1'
               )}
-              aria-label={ttsEnabled ? 'Disable voice output' : 'Enable voice output'}
+              aria-label={ttsEnabled ? t('ariaDisableVoice') : t('ariaEnableVoice')}
             >
               {ttsEnabled ? <Volume2 size={15} /> : <VolumeX size={15} />}
             </button>
@@ -217,7 +296,7 @@ export function AIChatWidget() {
             type="button"
             onClick={resetConversation}
             className="rounded-md p-1.5 text-fg-4 transition-colors hover:text-fg-1"
-            aria-label="Clear conversation"
+            aria-label={t('ariaClear')}
           >
             <Trash2 size={15} />
           </button>
@@ -225,7 +304,7 @@ export function AIChatWidget() {
             type="button"
             onClick={() => setStatus('collapsed')}
             className="rounded-md p-1.5 text-fg-4 transition-colors hover:text-fg-1"
-            aria-label="Close chat"
+            aria-label={t('ariaClose')}
           >
             <X size={15} />
           </button>
@@ -239,8 +318,24 @@ export function AIChatWidget() {
             : ''}
         </div>
         {messages.length === 0 && (
-          <div className="rounded-xl border border-hairline bg-surface-1 px-3 py-3 text-sm text-fg-2">
-            Ask about my Adobe stack, analytics work, projects, or availability.
+          <div className="space-y-3">
+            <div className="rounded-xl border border-hairline bg-surface-1 px-3 py-3 text-sm text-fg-2">
+              {t('welcome')}
+            </div>
+            {suggestions.length > 0 && (
+              <div className="flex flex-col gap-2">
+                {suggestions.map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    type="button"
+                    onClick={() => void sendMessage(suggestion)}
+                    className="w-full rounded-xl border border-hairline bg-surface-1 px-3 py-2 text-left text-xs text-fg-2 transition-colors hover:border-accent/40 hover:bg-surface-2 hover:text-fg-1"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
         {messages.map((message, index) => (
@@ -248,16 +343,15 @@ export function AIChatWidget() {
             key={`${message.role}-${index}`}
             className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
           >
-            <p
-              className={cn(
-                'max-w-[82%] rounded-2xl px-3 py-2 text-sm leading-relaxed',
-                message.role === 'user'
-                  ? 'bg-accent text-white'
-                  : 'border border-hairline bg-surface-1 text-fg-1'
-              )}
-            >
-              {message.content}
-            </p>
+            {message.role === 'assistant' ? (
+              <div className="max-w-[82%] rounded-2xl border border-hairline bg-surface-1 px-3 py-2 text-sm leading-relaxed text-fg-1">
+                <MarkdownText text={message.content} />
+              </div>
+            ) : (
+              <p className="max-w-[82%] rounded-2xl bg-accent px-3 py-2 text-sm leading-relaxed text-white">
+                {message.content}
+              </p>
+            )}
           </div>
         ))}
         {status === 'processing' && (
@@ -272,7 +366,7 @@ export function AIChatWidget() {
       {listening && (
         <div className="flex items-center gap-2 border-t border-hairline px-4 py-2 text-xs text-accent">
           <span className="size-1.5 animate-pulse rounded-full bg-accent" />
-          Listening...
+          {t('listening')}
         </div>
       )}
 
@@ -280,19 +374,18 @@ export function AIChatWidget() {
         <div className="border-t border-hairline px-4 py-2 text-center text-xs text-fg-3">
           {status === 'error' && (
             <>
-              Something went wrong.{' '}
+              {t('errorGeneric')}{' '}
               <button type="button" onClick={() => setStatus('open')} className="text-accent">
-                Try again
+                {t('errorRetry')}
               </button>
             </>
           )}
-          {status === 'out-of-scope' &&
-            'I can only answer questions about my professional background and work.'}
+          {status === 'out-of-scope' && t('errorScope')}
           {status === 'limit-reached' && (
             <>
-              We reached the session limit.{' '}
+              {t('errorLimit')}{' '}
               <a href="#contact" className="text-accent underline">
-                Contact me directly
+                {t('errorLimitCta')}
               </a>
               .
             </>
@@ -308,8 +401,8 @@ export function AIChatWidget() {
             onKeyDown={onInputKeyDown}
             rows={2}
             className="min-h-11 flex-1 resize-none bg-transparent text-base text-fg-1 outline-none placeholder:text-fg-4 sm:text-sm"
-            placeholder="Ask a question..."
-            aria-label="Type your message"
+            placeholder={t('placeholder')}
+            aria-label={t('placeholder')}
             maxLength={MAX_INPUT + 1}
           />
           {sttSupported && (
@@ -320,7 +413,7 @@ export function AIChatWidget() {
                 'rounded-full p-2 transition-colors',
                 listening ? 'bg-accent text-white' : 'text-fg-3 hover:text-fg-1'
               )}
-              aria-label={listening ? 'Listening, click to stop' : 'Activate microphone'}
+              aria-label={listening ? t('ariaStopListening') : t('ariaActivateMic')}
             >
               <Mic size={16} />
             </button>
@@ -329,7 +422,7 @@ export function AIChatWidget() {
             type="submit"
             disabled={!canSend}
             className="rounded-full bg-accent p-2 text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
-            aria-label="Send message"
+            aria-label={t('ariaSend')}
           >
             {status === 'processing' ? (
               <Loader2 size={16} className="animate-spin" />
@@ -339,7 +432,7 @@ export function AIChatWidget() {
           </button>
         </div>
         <div className="mt-1 flex justify-between text-[11px] text-fg-4">
-          <span>{cooldown ? 'One moment...' : 'Enter sends, Shift+Enter adds a line'}</span>
+          <span>{cooldown ? t('hintCooldown') : t('hint')}</span>
           <span className={cn(input.length > MAX_INPUT && 'text-accent')}>
             {Math.min(input.length, MAX_INPUT + 1)}/{MAX_INPUT}
           </span>

@@ -33,15 +33,14 @@ export type SocialItem = {
 
 type FilterId = 'all' | SocialItem['platform']
 
-const TABS: { id: FilterId; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'youtube', label: 'YouTube' },
-  { id: 'tiktok', label: 'TikTok' },
-  { id: 'instagram', label: 'Instagram' },
-  { id: 'reddit', label: 'Reddit' },
-  { id: 'x', label: 'X' },
-  { id: 'threads', label: 'Threads' },
-]
+const PLATFORM_LABELS: Record<SocialItem['platform'], string> = {
+  youtube: 'YouTube',
+  tiktok: 'TikTok',
+  instagram: 'Instagram',
+  reddit: 'Reddit',
+  x: 'X',
+  threads: 'Threads',
+}
 
 const PAGE_SIZE = 9
 
@@ -49,9 +48,26 @@ export function SocialFeedGrid({ items }: { items: SocialItem[] }) {
   const [active, setActive] = useState<FilterId>('all')
   const [page, setPage] = useState(1)
 
+  const activePlatforms = useMemo(
+    () => Array.from(new Set(items.map((item) => item.platform))).sort(),
+    [items]
+  )
+  const tabs = useMemo<{ id: FilterId; label: string }[]>(
+    () => [
+      { id: 'all', label: 'All' },
+      ...activePlatforms.map((platform) => ({
+        id: platform,
+        label: PLATFORM_LABELS[platform],
+      })),
+    ],
+    [activePlatforms]
+  )
+  const effectiveActive =
+    active === 'all' || activePlatforms.includes(active) ? active : ('all' as const)
+
   const filtered = useMemo(
-    () => (active === 'all' ? items : items.filter((i) => i.platform === active)),
-    [active, items]
+    () => (effectiveActive === 'all' ? items : items.filter((i) => i.platform === effectiveActive)),
+    [effectiveActive, items]
   )
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
   const currentPage = totalPages > 0 ? Math.min(page, totalPages) : 1
@@ -64,7 +80,7 @@ export function SocialFeedGrid({ items }: { items: SocialItem[] }) {
     <div>
       {/* Platform filter tabs */}
       <div className="mb-8 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
-        {TABS.map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab.id}
             type="button"
@@ -74,7 +90,7 @@ export function SocialFeedGrid({ items }: { items: SocialItem[] }) {
             }}
             className={cn(
               'shrink-0 rounded-full px-3 py-1.5 font-mono text-xs transition-colors duration-150',
-              active === tab.id
+              effectiveActive === tab.id
                 ? 'bg-foreground text-background'
                 : 'border border-hairline bg-surface-1 text-fg-3 hover:text-foreground'
             )}

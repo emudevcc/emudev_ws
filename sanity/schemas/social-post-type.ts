@@ -23,6 +23,13 @@ export const socialPostType = defineType({
       type: 'string',
       hidden: ({ parent }) => parent?.platform !== 'reddit',
     }),
+    defineField({
+      name: 'postTitle',
+      title: 'Post Title',
+      type: 'string',
+      description: 'Reddit post title. Leave blank for X/Twitter posts.',
+      hidden: ({ parent }) => parent?.platform !== 'reddit',
+    }),
     localizedRichText('body', 'Body'),
     defineField({ name: 'postedAt', type: 'datetime', validation: (rule) => rule.required() }),
     defineField({ name: 'permalink', type: 'url' }),

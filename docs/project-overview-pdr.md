@@ -110,7 +110,7 @@ Ship a zero-maintenance portfolio that:
 | **Frontend**             | Next.js 15.5 (App Router, Turbopack)                                                  |
 | **Internationalization** | next-intl v4 (bilingual EN/ES)                                                        |
 | **Styling**              | Tailwind CSS v4 + custom design tokens (dark-first, [data-theme] attribute, Phase 9.4 complete) + Magic UI |
-| **UI Components**        | 12 Magic UI components in `components/ui/` (10 free-tier + MagicCard + Lens Pro)     |
+| **UI Components**        | 14 Magic UI + custom components (AnimatedShinyText, AIChatWidget, DotPattern, etc.)  |
 | **CMS**                  | Sanity v3 (14 document types, GROQ, bilingual schemas, Presentation preview)          |
 | **Database**             | Supabase Postgres (RLS, Magic Link auth)                                              |
 | **Email**                | Resend (transactional)                                                                |
@@ -158,10 +158,11 @@ Ship a zero-maintenance portfolio that:
 - **Phase 9.12** ✅: Smooth scroll behavior (scroll-behavior: smooth on html with prefers-reduced-motion guard)
 - **Phase 9.13** ✅: Hero metrics expansion (6 stats: yrs experience, skills, credentials, posts, languages, social links; stat anchors to sections)
 - **Phase 9.14** ✅: Homepage section reorder (Strengths & Social moved to bottom, Contact before Footer)
+- **Phase 9.15** ✅: AI chat widget enhancements (profile photo, voice I/O, locale-aware suggestions; system prompt locale-aware; social backend; credential level fix; bundle optimization)
 
-### Future (Phase 9.15+)
+### Future (Phase 9.16+)
 
-- **Phase 9.15** ⏳: Sanity seed data & content population (10 NDJSON files, 14 types, bilingual)
+- **Phase 9.16** ⏳: Sanity seed data & content population (10 NDJSON files, 14 types, bilingual)
 - **Phase 10+** ⏳: Post-launch monitoring, analytics, admin dashboard, search functionality
 
 ---
@@ -205,4 +206,5 @@ Ship a zero-maintenance portfolio that:
 | **Phase 8.5 Complete (Sanity Content Model)**          | May 12, 2026        |
 | **Phase 9.0-9.5 Complete (UI & Design)**               | May 13, 2026        |
 | **Phase 9.6-9.8 Complete (Navigation & Animations)**   | May 15, 2026        |
+| **Phase 9.9-9.15 Complete (Widget & Optimization)**    | May 19, 2026        |
 | **Production Launch (Bilingual)**                      | May 11, 2026 (live) |

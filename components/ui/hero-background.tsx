@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
 // Tuned constants — keep count low so mobile stays smooth
@@ -9,19 +9,10 @@ const CONNECTION_DIST = 3.8 // world-unit threshold for drawing a line between t
 const SPREAD: [number, number, number] = [22, 14, 6]
 const ACCENT_HEX = 0xe34d2a // design-token --accent
 
-// iOS 13+ type shim for DeviceOrientationEvent.requestPermission
-type DeviceOrientationEventWithPermission = typeof DeviceOrientationEvent & {
-  requestPermission?: () => Promise<'granted' | 'denied'>
-}
-
 export function HeroBackground() {
   const mountRef = useRef<HTMLDivElement>(null)
-  // Shared parallax target — written by mousemove OR deviceorientation, read each animation frame
+  // Shared parallax target — written by mousemove or mobile scroll, read each animation frame
   const parallaxRef = useRef({ x: 0, y: 0 })
-  // Callback registered by the useEffect; called from the iOS permission button onClick
-  const enableGyroRef = useRef<(() => void) | null>(null)
-  // Show tilt-enable badge only on iOS (where requestPermission exists)
-  const [showGyroBtn, setShowGyroBtn] = useState(false)
 
   useEffect(() => {
     const mount = mountRef.current
@@ -96,28 +87,18 @@ export function HeroBackground() {
       parallaxRef.current.y = (e.clientY / window.innerHeight - 0.5) * 2
     }
 
-    const onOrientation = (e: DeviceOrientationEvent) => {
+    const initialScrollY = window.scrollY
+    const onScroll = () => {
       if (prefersReducedMotion) return
-      // gamma: left/right tilt (−90…+90°); beta: front/back tilt (−180…+180°)
-      // Phones held upright sit at beta≈45°, so offset before normalising
-      const gamma = e.gamma ?? 0
-      const beta = e.beta ?? 45
-      parallaxRef.current.x = Math.max(-1, Math.min(1, gamma / 45))
-      parallaxRef.current.y = Math.max(-1, Math.min(1, (beta - 45) / 45))
+      const scrollRange = Math.max(1, Math.min(window.innerHeight, mount.clientHeight))
+      const progress = Math.max(-1, Math.min(1, (window.scrollY - initialScrollY) / scrollRange))
+      parallaxRef.current.x = 0
+      parallaxRef.current.y = progress
     }
 
     if (isMobile) {
-      const OrientationEvent = window.DeviceOrientationEvent as DeviceOrientationEventWithPermission
-      if (typeof OrientationEvent.requestPermission === 'function') {
-        // iOS 13+: permission required — expose callback for the button onClick
-        enableGyroRef.current = () => {
-          window.addEventListener('deviceorientation', onOrientation, { passive: true })
-        }
-        setShowGyroBtn(true)
-      } else {
-        // Android / older iOS: no permission gate
-        window.addEventListener('deviceorientation', onOrientation, { passive: true })
-      }
+      onScroll()
+      window.addEventListener('scroll', onScroll, { passive: true })
     } else {
       window.addEventListener('mousemove', onMouseMove, { passive: true })
     }
@@ -152,7 +133,7 @@ export function HeroBackground() {
       cancelAnimationFrame(animId)
       ro.disconnect()
       if (isMobile) {
-        window.removeEventListener('deviceorientation', onOrientation)
+        window.removeEventListener('scroll', onScroll)
       } else {
         window.removeEventListener('mousemove', onMouseMove)
       }
@@ -165,17 +146,6 @@ export function HeroBackground() {
     }
   }, [])
 
-  // Called from the iOS permission button — must be a React onClick to count as user activation
-  const handleGrantGyro = () => {
-    const OrientationEvent = window.DeviceOrientationEvent as DeviceOrientationEventWithPermission
-    OrientationEvent.requestPermission?.()
-      .then((state) => {
-        if (state === 'granted') enableGyroRef.current?.()
-      })
-      .catch(() => {})
-      .finally(() => setShowGyroBtn(false))
-  }
-
   return (
     <>
       {/* Three.js canvas mount */}
@@ -184,37 +154,6 @@ export function HeroBackground() {
         className="pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden="true"
       />
-
-      {/* iOS gyroscope permission badge — only rendered when requestPermission API is present */}
-      {showGyroBtn && (
-        <button
-          type="button"
-          onClick={handleGrantGyro}
-          className="absolute bottom-6 right-4 z-10 flex items-center gap-1.5 rounded-full border border-hairline bg-surface-1/70 px-3 py-1.5 font-mono text-[11px] text-fg-3 backdrop-blur-sm transition-opacity hover:text-foreground"
-          aria-label="Enable tilt parallax effect"
-        >
-          {/* Gyroscope icon */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="3" />
-            <path d="M12 2a10 10 0 0 1 7.39 16.76" />
-            <path d="M12 22A10 10 0 0 1 4.61 5.24" />
-            <path d="M2 12h4" />
-            <path d="M18 12h4" />
-          </svg>
-          Enable tilt
-        </button>
-      )}
 
       {/* Radial vignette: centre clear, edges dissolve into canvas colour #0f0f10 */}
       <div

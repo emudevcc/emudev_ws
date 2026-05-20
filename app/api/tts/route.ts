@@ -4,8 +4,8 @@ const MAX_TEXT_CHARS = 1000
 const TTS_ENDPOINT = 'https://texttospeech.googleapis.com/v1/text:synthesize'
 
 const WAVENET_VOICES: Record<string, { languageCode: string; name: string }> = {
-  en: { languageCode: 'en-US', name: 'en-US-Wavenet-D' },
-  es: { languageCode: 'es-ES', name: 'es-ES-Wavenet-B' },
+  en: { languageCode: 'en-US', name: 'en-US-Wavenet-J' },
+  es: { languageCode: 'es-US', name: 'es-US-Wavenet-C' },
 }
 
 const ttsRateMap = new Map<string, { count: number; windowStart: number }>()

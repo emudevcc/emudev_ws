@@ -25,6 +25,19 @@ type AIChatWidgetProps = {
 const MAX_INPUT = 400
 const MAX_SESSION_MESSAGES = 15
 const COOLDOWN_MS = 2000
+const CHAT_RETRIES = 1
+const CHAT_TIMEOUT_MS = 28000
+
+type ChatApiResponse = {
+  ok: boolean
+  status: number
+  data: {
+    reply?: string
+    error?: string
+    code?: string
+    model?: string
+  } | null
+}
 
 function parseInline(text: string): ReactNode[] {
   const parts: ReactNode[] = []
@@ -81,6 +94,14 @@ function MarkdownText({ text }: { text: string }) {
 
 function getSuggestions(raw: unknown): string[] {
   return Array.isArray(raw) ? raw.filter((item): item is string => typeof item === 'string') : []
+}
+
+function isTransientChatStatus(status: number) {
+  return status === 408 || status === 429 || status >= 500
+}
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
@@ -206,22 +227,50 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
     reset()
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: nextMessages.slice(-6), locale }),
-      })
-      const data = (await response.json().catch(() => null)) as {
-        reply?: string
-        error?: string
-      } | null
+      let chatResponse: ChatApiResponse | null = null
 
-      if (!response.ok) {
-        setStatus(response.status === 400 ? 'out-of-scope' : 'error')
+      for (let attempt = 0; attempt <= CHAT_RETRIES; attempt += 1) {
+        const controller = new AbortController()
+        const timeout = setTimeout(() => controller.abort(), CHAT_TIMEOUT_MS)
+
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: nextMessages.slice(-6), locale }),
+            signal: controller.signal,
+          })
+          const data = (await response.json().catch(() => null)) as ChatApiResponse['data']
+          chatResponse = { ok: response.ok, status: response.status, data }
+
+          if (response.ok || !isTransientChatStatus(response.status) || attempt === CHAT_RETRIES) {
+            break
+          }
+        } catch {
+          if (attempt === CHAT_RETRIES) throw new Error('Chat request failed')
+        } finally {
+          clearTimeout(timeout)
+        }
+
+        await wait(300 * 2 ** attempt)
+      }
+
+      if (!chatResponse) throw new Error('Chat request failed')
+
+      if (!chatResponse.ok) {
+        console.warn('Chat request failed', {
+          status: chatResponse.status,
+          code: chatResponse.data?.code,
+          error: chatResponse.data?.error,
+        })
+        setStatus(chatResponse.status === 400 ? 'out-of-scope' : 'error')
         return
       }
 
-      setMessages((current) => [...current, { role: 'assistant', content: data?.reply ?? '' }])
+      setMessages((current) => [
+        ...current,
+        { role: 'assistant', content: chatResponse.data?.reply ?? '' },
+      ])
       setStatus(nextMessages.length + 1 >= MAX_SESSION_MESSAGES ? 'limit-reached' : 'open')
       setCooldown(true)
       cooldownRef.current = setTimeout(() => setCooldown(false), COOLDOWN_MS)

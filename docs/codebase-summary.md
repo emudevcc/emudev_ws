@@ -7,27 +7,28 @@ emudev_ws/
 ├── app/                          # Next.js App Router pages & actions
 │   ├── api/
 │   │   ├── revalidate-tag/route.ts    # Sanity webhook endpoint (collection cache tags)
+│   │   ├── chat/route.ts              # [NEW] AI chat proxy; allowedOrigins() helper for comma-split CORS; readProfile() fallback chain
 │   │   └── draft-mode/
 │   │       ├── enable/route.ts        # Enable Next.js draft mode (validatePreviewUrl)
 │   │       └── disable/route.ts       # Disable draft mode, redirect to home
+│   ├── icon.svg                       # [NEW] Favicon (geometric 'e' letter, accent color on dark canvas, path-drawn)
+│   ├── apple-icon.tsx                 # [NEW] Apple touch icon (ImageResponse 180×180, same 'e' geometry)
 │   ├── actions/                  # Server actions (contact, auth)
 │   ├── layout.tsx                # Root layout (stripped shell)
 │   ├── page.tsx                  # Root page (redirect to /en)
 │   ├── [locale]/                 # Locale-prefixed routes (en, es) [NEW]
-│   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider; DotPattern with twinkle animation
-│   │   ├── page.tsx              # Homepage (hero + featured projects)
-│   │   ├── about/page.tsx        # About page
+│   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider; DotPattern with twinkle animation; PageTransition animation on route change
+│   │   ├── page.tsx              # Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer)
 │   │   ├── projects/
 │   │   │   ├── page.tsx          # Projects list (ISR × 2 locales, collection cache tag)
 │   │   │   └── [slug]/
 │   │   │       ├── page.tsx      # Project detail (SSG per-route × 2 locales)
 │   │   │       └── opengraph-image.tsx # Dynamic OG image (1200×630)
-│   │   ├── blog/
-│   │   │   ├── page.tsx          # Blog list (ISR × 2 locales)
-│   │   │   └── [slug]/
-│   │   │       ├── page.tsx      # Blog post (SSG per-route × 2 locales)
-│   │   │       └── opengraph-image.tsx # Dynamic OG image (1200×630)
-│   │   └── contact/page.tsx      # Contact page with form
+│   │   └── blog/
+│   │       ├── page.tsx          # Blog list (ISR × 2 locales)
+│   │       └── [slug]/
+│   │           ├── page.tsx      # Blog post (SSG per-route × 2 locales)
+│   │           └── opengraph-image.tsx # Dynamic OG image (1200×630)
 │   ├── robots.ts                 # Robots.txt generator
 │   ├── sitemap.ts                # Dynamic XML sitemap (with locale variants)
 │   └── studio/[[...tool]]/page.tsx # Sanity Studio (root, no locale)
@@ -41,6 +42,7 @@ emudev_ws/
 │   ├── tag-filter.tsx            # Client component for tag filtering
 │   ├── site-nav.tsx              # Navigation + LocaleSwitcher (async server)
 │   ├── sanity-visual-editing.tsx # SanityVisualEditing wrapper for draft mode
+│   ├── layout-widgets.tsx         # [NEW] 'use client' wrapper; hosts AIChatWidget, DotPattern, SanityVisualEditing with ssr: false (cannot use ssr:false in Server Components)
 │   ├── sections/                 # [NEW] 11-section portfolio layout
 │   │   ├── hero-section.tsx           # Hero with name, bio, CTA
 │   │   ├── about-section.tsx          # About biography + fun facts
@@ -97,6 +99,8 @@ emudev_ws/
 │   ├── metadata.ts               # [UPDATED] Metadata helpers (localeAlternates now accepts optional locale param)
 │   ├── content.ts                # [NEW] Content aggregation for portfolio sections
 │   ├── github.ts                 # [NEW] GitHub API client for contributions heatmap
+│   ├── chat/
+│   │   └── system-prompt.ts      # [NEW] System prompt builder with inclusive framing to reduce false out-of-scope rejections
 │   └── utils.ts                  # cn() utility (clsx + tailwind-merge)
 │
 ├── types/
@@ -171,6 +175,9 @@ emudev_ws/
 | `components/portable-text-renderer.tsx`            | 46   | Rich text rendering for Sanity content                                            |
 | `app/[locale]/blog/page.tsx`                       | 43   | Blog list page (ISR with locale cache keys)                                       |
 | `app/api/revalidate-tag/route.ts`                  | 41   | Sanity webhook handler → revalidateTag (validates x-sanity-webhook-secret header) |
+| `app/api/chat/route.ts`                            | ~50  | [NEW] AI chat proxy; `allowedOrigins()` helper for comma-split CORS; `readProfile()` fallback: `CHAT_PROFILE_MARKDOWN` env → `data/profile.md` → `data/profile-template.md` |
+| `lib/chat/system-prompt.ts`                        | ~30  | [NEW] System prompt builder with inclusive framing to reduce false out-of-scope rejections |
+| `components/layout-widgets.tsx`                    | ~40  | [NEW] 'use client' wrapper; hosts `AIChatWidget`, `DotPattern`, `SanityVisualEditing` with `ssr: false` |
 | `components/ui/lang-theme-toggle.tsx`             | ~40  | Language + theme toggle; uses `useSyncExternalStore` for hydration safety          |
 | `components/ui/hero-section.tsx`                   | 39   | Animated hero with name + bio                                                     |
 | `tests/smoke/pages.spec.ts`                        | 35   | Playwright smoke tests for original routes                                        |
@@ -188,16 +195,18 @@ emudev_ws/
 | `components/locale-switcher.tsx`                   | ~22  | Client component for EN↔ES toggle [NEW]                                           |
 | `app/[locale]/blog/[slug]/opengraph-image.tsx`     | 20   | Dynamic OG image for blog posts (1200×630, dark gradient)                         |
 | `app/[locale]/projects/[slug]/opengraph-image.tsx` | 20   | Dynamic OG image for projects                                                     |
+| `app/icon.svg`                                     | —    | [NEW] SVG favicon (geometric 'e' letter, accent color on dark canvas, path-drawn) |
+| `app/apple-icon.tsx`                               | 12   | [NEW] ImageResponse 180×180 Apple touch icon (same 'e' geometry)                  |
 | `components/tag-filter.tsx`                        | 18   | Client component for project filtering by skills/tech                             |
 | `components/sections/HeroSection.tsx`              | ~150 | Hero with avatar, name, title, bio, CTA buttons, and 6 stat anchor links (experience/skills/credentials/posts/languages/links) with hover brightening + ArrowRight affordance |
 | `components/sections/about-section.tsx`            | ~70  | About biography with fun facts and call-to-action                                 |
 | `components/sections/experience-timeline.tsx`      | ~100 | Vertical timeline with MagicCard experience rows                                   |
 | `components/sections/skills-section.tsx`           | ~60  | 2×2 skill tiles with categories and level indicators                              |
 | `components/sections/projects-grid.tsx`            | ~90  | Project gallery with tag filter, MagicCard, BorderBeam, and Lens                  |
-| `components/sections/credentials-section.tsx`      | ~80  | Certifications, education, and language credentials display                       |
+| `components/sections/CredentialsSection.tsx`       | ~80  | Certifications, education, and language credentials display; `levels` array matches Sanity PROFICIENCY values: `['basic', 'conversational', 'professional', 'fluent', 'native']` |
 | `components/sections/writing-list.tsx`             | ~50  | Blog posts list with date, title, excerpt, and author                             |
 | `components/sections/social-posts-grid.tsx`        | 25   | Section wrapper; passes dummy items to SocialFeedGrid                             |
-| `components/ui/social-feed-grid.tsx`               | ~135 | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination implemented: PAGE_SIZE=9, prev/next buttons, page counter; filter tab click resets to page 1; BlurFade key: `${id}-p${page}` forces re-animation on pagination |
+| `components/ui/social-feed-grid.tsx`               | ~135 | Client component: 7 platform filter tabs, 3-col responsive grid, BlurFade animations. Exports `SocialFeedGrid`, `SocialItem`. Pagination added (PAGE_SIZE=9, prev/next controls, resets on filter change); BlurFade key: `${id}-p${page}` forces re-animation on pagination |
 | `components/ui/social-feed-card.tsx`               | ~157 | Individual social card: platform config map, MediaPlaceholder (YT/TikTok/IG), engagement metrics (views/likes/comments/shares), `fmt()` helper |
 | `components/ui/social-platform-icon.tsx`           | ~108 | Inline SVG brand icons (no external dep): 9 platforms — github/linkedin/twitter/x/youtube/instagram/reddit/spotify filled paths (simple-icons CC0) + email stroke + globe fallback. `SocialPlatformIcon` props: `platform`, `size=16` |
 | `components/sections/strengths-card.tsx`           | ~60  | CliftonStrengths cards with descriptions                                          |

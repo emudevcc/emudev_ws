@@ -39,6 +39,9 @@
 │  │  │  • POST /api/revalidate-tag (Sanity webhook)   │    │   │
 │  │  │    - Validates x-sanity-webhook-secret header  │    │   │
 │  │  │    - Revalidates both en & es cache tags       │    │   │
+│  │  │  • POST /api/chat (AI chat proxy, [NEW])       │    │   │
+│  │  │    - Validates allowed CORS origins            │    │   │
+│  │  │    - System prompt builder with inclusive tone │    │   │
 │  │  │  • GET /api/draft-mode/enable (preview token)  │    │   │
 │  │  │  • GET /api/draft-mode/disable                 │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │
@@ -111,7 +114,7 @@ middleware.ts (next-intl/middleware)
 
 | Route                       | Generation          | Cache              | Purpose                                                   |
 | --------------------------- | ------------------- | ------------------ | --------------------------------------------------------- |
-| `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer) |
+| `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer) with AI chat widget |
 | `/[locale]/projects`        | ISR × 2             | Tag: `projects`    | Projects list (gallery, skill filter, per-locale content) |
 | `/[locale]/projects/[slug]` | SSG (per-route × 2) | Per-route + locale | Project detail page with OG image                         |
 | `/[locale]/blog`            | ISR × 2             | Tag: `posts`       | Blog post list (locale-specific)                          |
@@ -119,14 +122,17 @@ middleware.ts (next-intl/middleware)
 | `/studio`                   | SSR                 | None               | Embedded Sanity Studio (root, no locale)                  |
 | `/api/draft-mode/enable`    | Route               | None               | Enable Sanity draft mode (root, validatePreviewUrl)       |
 | `/api/draft-mode/disable`   | Route               | None               | Disable draft mode (root)                                 |
+| `/api/chat`                 | Route               | None               | [NEW] AI chat proxy with CORS support                     |
 | `/robots.txt`               | Generated           | Static             | Robots.txt (allow all except /studio, /api, /admin)       |
 | `/sitemap.xml`              | Generated           | Static             | XML sitemap with locale variants + priorities             |
 
-**Hash Anchor Navigation:** All homepage sections (About, Experience, Skills, Social, Credentials, Strengths, Writing, Contact) are `<section id="…">` elements — no standalone routes for these. ClassicShell nav uses:
+**Hash Anchor Navigation:** All homepage sections (About, Experience, Skills, Social, Credentials, Strengths, Writing, Contact) are `<section id="…">` elements — no standalone routes for these. Nav uses:
 - `<a href="/{locale}#section">` for hash anchors (About, Contact) — same-page scroll, no next-intl Link
 - `Link href="/"`, `Link href="/blog"` for full-route navigation
 
 **PageTransition:** `motion.main` keyed by `usePathname()` — opacity/y/blur animation on route change (0.3s easeOut). Hash anchor changes share the same pathname, so transition does NOT fire for in-page scroll.
+
+**SSR Boundary (layout-widgets.tsx):** New `'use client'` wrapper component that hosts `AIChatWidget`, `DotPattern`, and `SanityVisualEditing` with `ssr: false` dynamic imports (cannot use `ssr:false` in Server Components).
 
 #### Dynamic Params (SSG with Per-Locale Variants)
 

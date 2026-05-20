@@ -2,7 +2,8 @@ import { useTranslations } from 'next-intl'
 import { BlurFade } from '@/components/ui/blur-fade'
 import type { Certification, Education, Language } from '@/lib/sanity-queries'
 
-const levels = ['basic', 'intermediate', 'advanced', 'fluent', 'native']
+// Must match the PROFICIENCY values in sanity/schemas/language-type.ts
+const levels = ['basic', 'conversational', 'professional', 'fluent', 'native']
 
 type CredentialsSectionProps = {
   certs: Certification[]

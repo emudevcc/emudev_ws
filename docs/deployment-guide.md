@@ -157,6 +157,9 @@ Vercel git integration automatically deploys on push; no manual configuration ne
 | `SANITY_STUDIO_REVALIDATE_SECRET` | Same as `SANITY_REVALIDATE_SECRET`                                         | Yes      |
 | `RESEND_API_KEY`                  | Resend email API key (for contact form emails)                             | Yes      |
 | `ADMIN_EMAIL`                     | `esteban.montero@gmail.com`                                                | Yes      |
+| `CHAT_ALLOWED_ORIGIN`             | Comma-separated allowed origins for AI chat CORS (e.g., `https://emudev.cc,https://www.emudev.cc`) | No       |
+| `CHAT_PROFILE_MARKDOWN`           | Optional; inline markdown for the AI chat system prompt (overrides `data/profile.md`) | No       |
+| `ANTHROPIC_API_KEY`               | Anthropic API key for AI chat proxy                                        | No       |
 
 **Note:** Preview deployments (develop branch) use real Sanity data if CI vars set; no secrets needed. Production deployment uses the `production` environment secrets above.
 

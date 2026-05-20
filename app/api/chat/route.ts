@@ -7,12 +7,16 @@ type ChatMessage = {
   content: string
 }
 
+export const maxDuration = 30
+
 const WINDOW_MS = 60 * 60 * 1000
 const MAX_REQUESTS = 30
 const MAX_MESSAGES = 6
 const MAX_MESSAGE_CHARS = 400
-const MODEL = 'gemini-2.5-flash-lite'
+const DEFAULT_MODEL = 'gemini-2.5-flash-lite'
+const FALLBACK_MODEL = 'gemini-2.5-flash'
 const MAX_TOKENS = 350
+const MODEL_TIMEOUT_MS = 12000
 const LOCALES = ['en', 'es'] as const
 
 const rateMap = new Map<string, { count: number; windowStart: number }>()
@@ -115,6 +119,127 @@ function validateLocale(value: unknown): (typeof LOCALES)[number] {
     : 'en'
 }
 
+function jsonError(error: string, code: string, status: number, headers: Record<string, string>) {
+  return NextResponse.json(
+    { error, code },
+    {
+      status,
+      headers: {
+        ...headers,
+        'x-chat-error-code': code,
+      },
+    }
+  )
+}
+
+function modelCandidates() {
+  const configured = process.env.GEMINI_MODEL?.trim() || DEFAULT_MODEL
+  return Array.from(new Set([configured, DEFAULT_MODEL, FALLBACK_MODEL]))
+}
+
+function errorStatus(error: unknown) {
+  if (!error || typeof error !== 'object') return null
+  const candidate = error as { status?: unknown; statusCode?: unknown; code?: unknown }
+  const status = candidate.status ?? candidate.statusCode ?? candidate.code
+  return typeof status === 'number' ? status : null
+}
+
+function errorMessage(error: unknown) {
+  return error instanceof Error
+    ? error.message
+    : typeof error === 'string'
+      ? error
+      : JSON.stringify(error ?? '')
+}
+
+function upstreamErrorCode(error: unknown) {
+  const status = errorStatus(error)
+  const message = errorMessage(error)
+
+  if (status === 400 || /FAILED_PRECONDITION/i.test(message)) {
+    return { status: 503, code: 'GEMINI_BILLING_OR_REGION_REQUIRED' }
+  }
+
+  if (status === 403 || /PERMISSION_DENIED|API key not valid|API_KEY_INVALID/i.test(message)) {
+    return { status: 503, code: 'GEMINI_PERMISSION_DENIED' }
+  }
+
+  if (status === 404 || /NOT_FOUND|not found|model.*not.*found/i.test(message)) {
+    return { status: 503, code: 'GEMINI_MODEL_UNAVAILABLE' }
+  }
+
+  if (status === 429 || /RESOURCE_EXHAUSTED|quota|rate limit/i.test(message)) {
+    return { status: 429, code: 'GEMINI_RATE_LIMITED' }
+  }
+
+  if (/timed out|timeout|DEADLINE_EXCEEDED/i.test(message)) {
+    return { status: 503, code: 'GEMINI_TIMEOUT' }
+  }
+
+  if (status && [408, 500, 502, 503, 504].includes(status)) {
+    return { status: 503, code: 'GEMINI_UPSTREAM_UNAVAILABLE' }
+  }
+
+  if (/overload|unavailable|socket|network|fetch failed/i.test(message)) {
+    return { status: 503, code: 'GEMINI_UPSTREAM_UNAVAILABLE' }
+  }
+
+  return { status: 500, code: 'CHAT_GENERATION_FAILED' }
+}
+
+function isTransientModelError(error: unknown) {
+  const { code } = upstreamErrorCode(error)
+
+  return ['GEMINI_RATE_LIMITED', 'GEMINI_TIMEOUT', 'GEMINI_UPSTREAM_UNAVAILABLE'].includes(code)
+}
+
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  let timeout: ReturnType<typeof setTimeout> | null = null
+
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<never>((_, reject) => {
+        timeout = setTimeout(() => reject(new Error('Chat model request timed out')), timeoutMs)
+      }),
+    ])
+  } finally {
+    if (timeout) clearTimeout(timeout)
+  }
+}
+
+async function generateWithRetry(
+  genAI: GoogleGenerativeAI,
+  systemPrompt: string,
+  contents: Array<{ role: string; parts: Array<{ text: string }> }>
+) {
+  let lastError: unknown
+
+  for (const modelName of modelCandidates()) {
+    const model = genAI.getGenerativeModel({
+      model: modelName,
+      systemInstruction: systemPrompt,
+      generationConfig: { maxOutputTokens: MAX_TOKENS },
+    })
+
+    try {
+      const result = await withTimeout(model.generateContent({ contents }), MODEL_TIMEOUT_MS)
+      return { result, modelName }
+    } catch (error) {
+      lastError = error
+      if (!isTransientModelError(error)) break
+      console.warn('Chat model attempt failed; trying fallback if available', {
+        model: modelName,
+        status: errorStatus(error),
+        code: upstreamErrorCode(error).code,
+        message: errorMessage(error),
+      })
+    }
+  }
+
+  throw lastError
+}
+
 export async function OPTIONS(req: NextRequest) {
   const origin = req.headers.get('origin') ?? ''
   if (!isAllowedOrigin(origin)) return new NextResponse(null, { status: 403 })
@@ -156,41 +281,51 @@ export async function POST(req: NextRequest) {
   }
 
   if (!process.env.GEMINI_API_KEY) {
-    return NextResponse.json({ error: 'Chat service is not configured' }, { status: 503, headers })
+    return jsonError('Chat service is not configured', 'GEMINI_API_KEY_MISSING', 503, headers)
   }
 
   let systemPrompt: string
   try {
     systemPrompt = buildSystemPromptForLocale(locale)
   } catch {
-    return NextResponse.json({ error: 'Chat profile is unavailable' }, { status: 503, headers })
+    return jsonError('Chat profile is unavailable', 'CHAT_PROFILE_UNAVAILABLE', 503, headers)
   }
 
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
-    const model = genAI.getGenerativeModel({
-      model: MODEL,
-      systemInstruction: systemPrompt,
-      generationConfig: { maxOutputTokens: MAX_TOKENS },
-    })
-
     const contents = messages.map((msg) => ({
       role: msg.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: msg.content }],
     }))
 
-    const result = await model.generateContent({ contents })
+    const { result, modelName } = await generateWithRetry(genAI, systemPrompt, contents)
 
     // response.text() throws when Gemini blocks the response (safety/recitation filters)
     let reply: string
     try {
       reply = result.response.text().trim()
     } catch {
-      return NextResponse.json({ error: 'Content filtered' }, { status: 400, headers })
+      return jsonError('Content filtered', 'CONTENT_FILTERED', 400, headers)
     }
 
-    return NextResponse.json({ reply }, { headers })
-  } catch {
-    return NextResponse.json({ error: 'Failed to generate response' }, { status: 500, headers })
+    if (!reply) {
+      return jsonError('Empty model response', 'EMPTY_MODEL_RESPONSE', 503, headers)
+    }
+
+    return NextResponse.json({ reply, model: modelName }, { headers })
+  } catch (error) {
+    const { status, code } = upstreamErrorCode(error)
+    console.error('Chat generation failed', error)
+
+    return jsonError(
+      status === 429
+        ? 'Chat service is rate limited'
+        : status === 503
+          ? 'Chat service is temporarily unavailable'
+          : 'Failed to generate response',
+      code,
+      status,
+      headers
+    )
   }
 }

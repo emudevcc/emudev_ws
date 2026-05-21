@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { ArrowLeft } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
+import { getTranslations } from 'next-intl/server'
 import { getPosts, getPostBySlug } from '@/lib/sanity-queries'
 import { PortableTextRenderer } from '@/components/portable-text-renderer'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { Chip } from '@/components/ui/chip'
 import { routing } from '@/i18n/routing'
@@ -44,18 +44,52 @@ export default async function BlogPostPage({ params }: Props) {
   const { locale, slug } = await params
   const post = await getPostBySlug(slug, locale)
   if (!post) notFound()
+  const t = await getTranslations({ locale })
   const author = post.authorOverride ?? post.author
   const dateLocale = locale === 'es' ? 'es-CR' : 'en-US'
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.emudev.cc').replace(/\/$/, '')
+  const postTitle = post.title ?? ''
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: t('nav.home'),
+        item: `${siteUrl}/${locale}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: t('blog.title'),
+        item: `${siteUrl}/${locale}/blog`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: postTitle,
+      },
+    ],
+  }
 
   return (
     <article className="mx-auto max-w-3xl px-5 py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       <BlurFade delay={0.04}>
-        <Link
-          href="/blog"
-          className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors hover:text-accent"
-        >
-          <ArrowLeft size={12} /> Blog
-        </Link>
+        <div className="mb-8">
+          <Breadcrumb
+            items={[
+              { label: t('nav.home'), href: '/' },
+              { label: t('blog.title'), href: '/blog' },
+              { label: postTitle },
+            ]}
+          />
+        </div>
       </BlurFade>
 
       {post.cover && (

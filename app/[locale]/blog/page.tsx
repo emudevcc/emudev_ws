@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { localeAlternates } from '@/lib/metadata'
 import { getPosts } from '@/lib/sanity-queries'
 import { BlogHeroPost } from '@/components/blog/blog-hero-post'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { BlogListClient } from './_components/blog-list-client'
 
@@ -19,12 +21,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPage({ params }: Props) {
   const { locale } = await params
+  const t = await getTranslations({ locale })
   const posts = (await getPosts(locale)) ?? []
   const publishedPosts = posts.filter((post) => post.status !== 'draft')
   const [heroPost, ...gridPosts] = publishedPosts
 
   return (
     <section className="mx-auto max-w-6xl px-5 py-24">
+      <BlurFade delay={0.02}>
+        <div className="mb-8">
+          <Breadcrumb items={[{ label: t('nav.home'), href: '/' }, { label: t('blog.title') }]} />
+        </div>
+      </BlurFade>
+
       <BlurFade delay={0.04}>
         <div className="mb-12 max-w-3xl">
           <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">Writing</p>

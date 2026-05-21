@@ -156,17 +156,32 @@ Vercel git integration automatically deploys on push; no manual configuration ne
 | `SANITY_STUDIO_REVALIDATE_SECRET` | Same as `SANITY_REVALIDATE_SECRET`                                         | Yes      |
 | `RESEND_API_KEY`                  | Resend email API key (for contact form emails)                             | Yes      |
 | `ADMIN_EMAIL`                     | `esteban.montero@gmail.com`                                                | Yes      |
-| `GEMINI_API_KEY`                  | Google Gemini 2.5 Flash-Lite API key (for AI chat proxy)                   | Yes      |
-| `GOOGLE_TTS_API_KEY`              | Google Cloud Text-to-Speech API key (for voice synthesis)                  | Yes      |
-| `CHAT_ALLOWED_ORIGIN`             | Comma-separated allowed origins for AI chat CORS (e.g., `https://emudev.cc,https://www.emudev.cc`) | No       |
+| `GEMINI_API_KEY`                  | Google Gemini 2.5 Flash-Lite API key (for AI chat proxy; override via `GEMINI_MODEL`) | Yes      |
+| `GOOGLE_TTS_API_KEY`              | Google Cloud Text-to-Speech API key (restrict to "Cloud Text-to-Speech API" in Console) | Yes      |
+| `CHAT_ALLOWED_ORIGIN`             | Comma-separated allowed origins for AI chat CORS; strict whitelist (no wildcard) | No       |
 | `CHAT_PROFILE_MARKDOWN`           | Optional; inline markdown for the AI chat system prompt (overrides `data/profile.md`) | No       |
 
-**AI Chat & TTS Notes:**
-- Chat API: Google Gemini 2.5 Flash-Lite via `@google/generative-ai` package; system prompt appends locale-specific language lock (EN/ES) based on POST body `locale` field
-- TTS API: Google Cloud Text-to-Speech WaveNet voices (EN: `en-US-Wavenet-J`, ES: `es-US-Wavenet-C`); returns base64 MP3
-- `CHAT_ALLOWED_ORIGIN` controls CORS; set to comma-separated domains (e.g., `https://emudev.cc`)
-- `GOOGLE_TTS_API_KEY` must be restricted to "Cloud Text-to-Speech API" in Google Cloud Console for security
-- Speech recognition (STT) runs client-side browser API (Web Speech API); no server-side secrets needed
+**AI Chat & TTS Setup:**
+
+**Chat API (Google Gemini):**
+- Model: `gemini-2.5-flash-lite` (primary), fallback: `gemini-2.5-flash`
+- Timeout: 12s (Promise.race), maxDuration=30s
+- Error handling: 9 custom error codes (GEMINI_*, CHAT_GENERATION_FAILED, CONTENT_FILTERED 400 on safety blocks)
+- Rate limit: 30 req/hr/IP; rate map auto-prunes stale entries on window reset
+- CORS: Strict whitelist via `CHAT_ALLOWED_ORIGIN` (no `|| '*'` fallback)
+- System prompt: Locale-aware (appends language lock per locale from POST body)
+- Override: `GEMINI_MODEL` env var for fallback selection
+
+**TTS API (Google Cloud WaveNet):**
+- Voices: `en-US-Wavenet-J` (EN), `es-US-Wavenet-C` (ES)
+- Output: base64 MP3; client plays via `new Audio('data:audio/mpeg;base64,' + audioBase64)`
+- Rate limit: 30 req/hr/IP; stale-entry pruning prevents unbounded growth
+- CORS: Same strict pattern as chat API
+- Security: Restrict `GOOGLE_TTS_API_KEY` to "Cloud Text-to-Speech API" in Google Cloud Console
+
+**Speech Recognition (STT):**
+- Browser Web Speech API (client-side only)
+- No server secrets needed
 
 **Note:** Preview deployments (develop) use real Sanity data if CI vars set. Production uses `production` environment secrets.
 
@@ -718,52 +733,37 @@ npx playwright test tests/smoke/i18n-bilingual.spec.ts tests/smoke/content-model
 
 ### Webhook Not Firing
 
-1. Verify webhook URL in Sanity settings: `https://emudev.cc/api/revalidate-tag`
-2. Check secret matches `SANITY_REVALIDATE_SECRET` (in header)
-3. Test webhook via Sanity UI (has test button)
-4. Check Vercel logs for webhook delivery errors
-5. Verify secret is passed in **header**, not query param
+1. Verify webhook URL: `https://emudev.cc/api/revalidate-tag`; secret in **header** not query param
+2. Test via Sanity UI test button; check Vercel logs for delivery errors
 
 ### Contact Form Submission Fails
 
-1. Verify Supabase RLS policies (allow anon INSERT)
-2. Check `contact_submissions` table exists
-3. Run `npm run supabase:push` to apply migrations
-4. Check Supabase logs for errors
-5. Verify `RESEND_API_KEY` is set (email is best-effort, doesn't block form submission)
+1. Verify Supabase RLS allows anon INSERT; check `contact_submissions` table exists
+2. Run `npm run supabase:push` to apply migrations; check Supabase logs
+3. `RESEND_API_KEY` is optional — email is best-effort and won't block submission
 
 ### Email Not Sending
 
-1. Verify `RESEND_API_KEY` in GitHub secrets
-2. Check Resend dashboard for failed deliveries
-3. Verify `ADMIN_EMAIL` is correct
-4. Check GitHub Actions logs for Resend API errors
-5. Confirm email is instantiated inside try/catch (won't cause 500 if key missing)
+1. Verify `RESEND_API_KEY` + `ADMIN_EMAIL` in GitHub secrets
+2. Check Resend dashboard for failed deliveries and GitHub Actions logs
 
 ### Locale Not Switching
 
-1. Check `i18n/routing.ts` has `localePrefix: 'always'`
-2. Verify `middleware.ts` is in root directory
-3. Check `messages/en.json` and `messages/es.json` exist with matching keys
-4. Clear browser cache and verify Accept-Language header
-5. Test with bare path (e.g., `/about`) — should redirect to `/en/about`
+1. Check `i18n/routing.ts` has `localePrefix: 'always'`; verify `middleware.ts` is in root
+2. Confirm `messages/en.json` + `messages/es.json` have matching keys
+3. Test bare path (`/about`) — should redirect to `/en/about`
 
 ### Draft Mode Not Working
 
-1. Verify `/api/draft-mode/enable` route exists
-2. Check `SANITY_STUDIO_PREVIEW_URL` is set to production domain
-3. Check `SANITY_STUDIO_REVALIDATE_SECRET` matches webhook secret
-4. Verify CSP header allows `frame-ancestors 'self'`
-5. Check Sanity Studio settings have preview URL configured
-6. Ensure draft mode cookie is being set (check dev tools)
+1. Verify `/api/draft-mode/enable` route exists; check CSP allows `frame-ancestors 'self'`
+2. Confirm `SANITY_STUDIO_PREVIEW_URL` + `SANITY_STUDIO_REVALIDATE_SECRET` are set
+3. Check Sanity Studio preview URL config; verify draft mode cookie is set in dev tools
 
 ### Smoke Tests Failing
 
-1. Check all routes return 200 status
-2. Verify locale routes exist: `/en/...`, `/es/...`
-3. Check message files have exact key parity
-4. Verify LocaleSwitcher component works
-5. Run tests locally against staging: `BASE_URL=https://staging.emudev.cc npm run test:smoke`
+1. Check all routes return 200 and locale routes exist: `/en/...`, `/es/...`
+2. Verify message files have exact key parity (`messages/en.json` ↔ `messages/es.json`)
+3. Run locally: `BASE_URL=https://staging.emudev.cc npm run test:smoke`
 
 ---
 
@@ -789,17 +789,10 @@ After merging to main:
 
 Before tagging a release:
 
-- [ ] All commits squashed or cleaned up
-- [ ] Version bumped in `package.json`
-- [ ] `CHANGELOG.md` updated with release notes
-- [ ] Smoke tests passing
-- [ ] No console errors or warnings
-- [ ] Lighthouse score >90
-- [ ] Performance metrics met (FCP <1.5s, LCP <2.5s)
-- [ ] Accessibility audit passing
+- [ ] Version bumped in `package.json`, `CHANGELOG.md` updated
+- [ ] Smoke tests passing, no console errors
+- [ ] Lighthouse >90, FCP <1.5s, LCP <2.5s
 - [ ] Security headers verified (HSTS, CSP, X-Frame-Options)
-- [ ] i18n coverage complete (all UI strings translated)
-- [ ] Draft mode + Presentation Tool tested
-- [ ] Contact form + email tested
-- [ ] Webhook revalidation tested
+- [ ] i18n coverage complete (all keys translated in EN + ES)
+- [ ] Draft mode, contact form, webhook revalidation tested
 - [ ] Billing/monitoring alerts configured

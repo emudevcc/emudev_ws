@@ -289,71 +289,50 @@ redirect(`/studio`)
 
 ---
 
+## AI Chat API Pattern (Google Gemini)
+
+**File:** `app/api/chat/route.ts`
+
+- **Model:** gemini-2.5-flash-lite (primary), gemini-2.5-flash (fallback); override via GEMINI_MODEL env var
+- **Timeout:** 12s (Promise.race), maxDuration=30s
+- **Error codes:** GEMINI_BILLING_OR_REGION_REQUIRED, GEMINI_PERMISSION_DENIED, GEMINI_MODEL_UNAVAILABLE, GEMINI_RATE_LIMITED, GEMINI_TIMEOUT, GEMINI_UPSTREAM_UNAVAILABLE, CHAT_GENERATION_FAILED, CONTENT_FILTERED (400 on safety blocks)
+- **Rate limit:** 30 req/hr/IP; rate map auto-prunes stale entries on window reset
+- **CORS:** Strict whitelist via CHAT_ALLOWED_ORIGIN (no wildcard fallback)
+- **Retry logic:** generateWithRetry() iterates modelCandidates(); continues on rate-limit, throws otherwise
+- **System prompt:** buildSystemPromptForLocale(locale) appends language lock per locale from POST body
+
+---
+
+## Text-to-Speech Pattern (Google Cloud WaveNet)
+
+**File:** `app/api/tts/route.ts` (REST API)
+
+- **Voices:** en-US-Wavenet-J (EN), es-US-Wavenet-C (ES)
+- **Output:** base64 MP3; client plays via `new Audio('data:audio/mpeg;base64,' + audioBase64)`
+- **Rate limit:** 30 req/hr/IP; stale-entry pruning prevents unbounded growth
+- **CORS:** Same strict pattern as chat API
+- **Hook:** `use-speech-synthesis.ts` wraps `/api/tts` call; interface: `{ supported, speaking, speak(text, lang?), cancel() }`
+
+---
+
+## Mobile Scroll Parallax Pattern (Hero Background)
+
+**File:** `components/ui/hero-background.tsx`
+
+- **Detection:** `(pointer: coarse)` for mobile, `(prefers-reduced-motion: reduce)` for accessibility
+- **Mobile path:** scroll event → calculate progress (0–1) → set camera Y parallax
+- **Desktop path:** mousemove event → normalize coordinates → set camera XY parallax
+- **Animation loop:** useFrame() lerps camera position (0.04 factor) + ambient rotation (Y +0.00009, X +0.00004)
+- **Key rules:** Always check prefers-reduced-motion first; use shared parallaxRef for both event types; lerp for smooth transitions
+
+---
+
 ## Supabase Client Usage
 
-### Server-Side
-
-```typescript
-// lib/supabase-server.ts
-export async function createSupabaseServerClient() {
-  const cookieStore = await cookies()
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: (cookies) => {
-          // Set cookies in response
-        },
-      },
-    }
-  )
-}
-```
-
-**Use for:**
-
-- Server actions (contact form submission)
-- Middleware (auth state management)
-- Page-level data fetching (requires admin auth)
-
-### Browser-Side (Discouraged in this Project)
-
-```typescript
-// lib/supabase-browser.ts
-export function createSupabaseBrowserClient() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
-}
-```
-
-**Limitations:**
-
-- Can only INSERT/SELECT via RLS policies
-- Suitable for anonymous contact form, not admin panels
-
-### RLS Policies
-
-```sql
--- Public: anyone can submit contact form
-CREATE POLICY "public_insert_contact" ON contact_submissions
-  FOR INSERT TO anon WITH CHECK (true);
-
--- Admin only: read submissions
-CREATE POLICY "admin_read_contact" ON contact_submissions
-  FOR SELECT
-  USING (auth.jwt() ->> 'email' = current_setting('app.admin_email', true));
-```
-
-**Rules:**
-
-- Never trust client for authorization — RLS is the enforcement layer
-- `anon` role for public operations (INSERT only)
-- Authenticated role with email check for admin operations
-- Test policies in staging before production
+- **Server:** `createSupabaseServerClient()` — cookie-based, use in server actions & middleware
+- **Browser:** `createSupabaseBrowserClient()` — anon-only, contact form INSERTs only
+- **RLS:** Enforce authorization at database layer; `anon` role INSERT-only, authenticated role via email check
+- **Never trust client** — RLS is the enforcement mechanism
 
 ---
 

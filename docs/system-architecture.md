@@ -39,14 +39,21 @@
 │  │  │  • POST /api/revalidate-tag (Sanity webhook)   │    │   │
 │  │  │    - Validates x-sanity-webhook-secret header  │    │   │
 │  │  │    - Revalidates both en & es cache tags       │    │   │
-│  │  │  • POST /api/chat (Gemini 2.5 Flash-Lite)      │    │   │
-│  │  │    - Accepts optional `locale` field in body   │    │   │
-│  │  │    - Uses buildSystemPromptForLocale(locale)   │    │   │
-│  │  │    - 30 req/hr/IP rate limiting                │    │   │
-│  │  │    - 9 regex patterns for prompt injection      │    │   │
-│  │  │  • POST /api/tts (Google Cloud TTS WaveNet)    │    │   │
-│  │  │    - {text, lang} → base64 MP3 audio response  │    │   │
-│  │  │    - 30 req/hr/IP rate limiting                │    │   │
+│  │  │  • POST /api/chat (Google Gemini 2.5 Flash-Lite)    │    │   │
+│  │  │    - Primary: gemini-2.5-flash-lite, fallback: gemini-2.5-flash │    │   │
+│  │  │    - MODEL_TIMEOUT_MS=12000, Promise.race wrapper        │    │   │
+│  │  │    - generateWithRetry() iterates modelCandidates        │    │   │
+│  │  │    - 9 error codes: GEMINI_BILLING_OR_REGION_REQUIRED, _PERMISSION_DENIED, _MODEL_UNAVAILABLE, _RATE_LIMITED, _TIMEOUT, _UPSTREAM_UNAVAILABLE, CHAT_GENERATION_FAILED, CONTENT_FILTERED (400 on safety blocks) │    │   │
+│  │  │    - 30 req/hr/IP rate limiting; rate map prunes stale entries on window reset │    │   │
+│  │  │    - Strict CORS via CHAT_ALLOWED_ORIGIN whitelist (no wildcard fallback) │    │   │
+│  │  │    - 429 returns 429 status (not 503); maxDuration=30s    │    │   │
+│  │  │    - Accepts optional locale field in body; upstreamErrorCode() maps to custom codes │    │   │
+│  │  │  • POST /api/tts (Google Cloud TTS WaveNet)        │    │   │
+│  │  │    - REST call to Google Cloud TTS API                  │    │   │
+│  │  │    - Voices: en-US-Wavenet-J (EN), es-US-Wavenet-C (ES) │    │   │
+│  │  │    - Returns base64 MP3; client plays via HTMLAudioElement │    │   │
+│  │  │    - 30 req/hr/IP rate limiting; stale-entry pruning    │    │   │
+│  │  │    - Strict CORS (same pattern as chat API)             │    │   │
 │  │  │  • GET /api/draft-mode/enable (preview token)  │    │   │
 │  │  │  • GET /api/draft-mode/disable                 │    │   │
 │  │  └────────────────────────────────────────────────┘    │   │

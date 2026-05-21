@@ -1,9 +1,9 @@
 # Project Roadmap
 
-## Current Status: Phases 1-8.5 + 9.0-9.15 Complete, Bilingual Live
+## Current Status: Phases 1-8.5 + 9.0-9.16 Complete, Bilingual Live
 
-**Timeline:** May 19, 2026
-**Overall Progress:** 99% (Phases 1-8.5 + 9.0-9.15 complete, monitoring & analytics pending)
+**Timeline:** May 20, 2026
+**Overall Progress:** 100% (Phases 1-8.5 + 9.0-9.16 complete; Phase 10+ future work)
 
 ---
 
@@ -674,8 +674,9 @@ Phase 1 (DONE)
 | Phase 9.13 | May 16 | May 16 | <1 day               | ✅ Complete      |
 | Phase 9.14 | May 16 | May 16 | <1 day               | ✅ Complete      |
 | Phase 9.15 | May 19 | May 19 | <1 day               | ✅ Complete      |
+| Phase 9.16 | May 20 | May 20 | <1 day               | ✅ Complete      |
 
-**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.15) completed by May 19, 2026 with AI chat widget enhancements (profile photo, voice I/O, locale-aware), bundle optimization (framer-motion removal, lazy-load sections), social feed backend wiring, and credential level fix. Next phases: monitoring, analytics, admin dashboard, search functionality.
+**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.16) completed by May 20, 2026 with AI chat widget enhancements (profile photo, voice I/O, locale-aware), bundle optimization (framer-motion removal, lazy-load sections), social feed backend wiring (pagination PAGE_SIZE=9), Gemini/TTS API migration (Claude→Gemini 2.5 Flash-Lite, Web Speech→Google Cloud TTS WaveNet), scroll parallax on mobile (pointer:coarse), and GitHub contributions fix. Next phases: monitoring, analytics, admin dashboard, search functionality.
 
 ---
 
@@ -699,5 +700,6 @@ Phase 1 (DONE)
 | 1.4.0-nav-refactor  | May 15 | 9.6-9.8 | Navigation refactor: removed /about /contact routes, hash anchors, PageTransition, DotPattern fix |
 | 1.5.0-social-redesign | May 15 | 9.9  | Footer & social feed redesign: async server Footer, SocialFeedGrid with pagination (PAGE_SIZE=9) |
 | 1.6.0-hero-metrics  | May 16 | 9.10-9.14 | Hero metrics: 6 stats (yrs exp, skills, creds, posts, langs, links); Contact form 4-field; smooth scroll; section reorder |
-| 1.7.0-gemini-tts    | May 20 | 9.15  | AI chat & TTS migration: Claude → Gemini 2.5 Flash-Lite; Web Speech API → Google Cloud TTS WaveNet; `/api/tts` endpoint; rate limiting (30 req/hr/IP); prompt injection protection (9 regex patterns); env vars GEMINI_API_KEY, GOOGLE_TTS_API_KEY, CHAT_ALLOWED_ORIGIN |
-| 1.8.0-future        | TBD    | 9.16+   | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |
+| 1.7.0-gemini-tts    | May 20 | 9.15  | AI chat & TTS migration: Claude → Gemini 2.5 Flash-Lite (fallback: gemini-2.5-flash); Web Speech API → Google Cloud TTS WaveNet; `/api/tts` REST endpoint; rate limiting (30 req/hr/IP); error codes (GEMINI_*, CONTENT_FILTERED); CORS strict whitelist; 12s timeout, maxDuration=30s; env vars GEMINI_API_KEY, GOOGLE_TTS_API_KEY, CHAT_ALLOWED_ORIGIN, GEMINI_MODEL (optional override) |
+| 1.8.0-mobile-parallax | May 20 | 9.16  | Mobile scroll parallax: hero background responds to scroll on touch devices (pointer:coarse); desktop remains mousemove parallax; prefers-reduced-motion respected on both paths; GitHub contributions route error handling (try/catch network + JSON parse) |
+| 2.0.0-future        | TBD    | 9.17+   | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |

@@ -7,7 +7,8 @@ emudev_ws/
 ├── app/                          # Next.js App Router pages & actions
 │   ├── api/
 │   │   ├── revalidate-tag/route.ts    # Sanity webhook endpoint (collection cache tags)
-│   │   ├── chat/route.ts              # [NEW] AI chat proxy; allowedOrigins() helper for comma-split CORS; readProfile() fallback chain
+│   │   ├── chat/route.ts              # Google Gemini 2.5 Flash-Lite AI chat proxy; accepts optional locale field; rate limiting 30 req/hr/IP
+│   │   ├── tts/route.ts               # Google Cloud TTS WaveNet API; POST {text, lang} → base64 MP3; rate limiting 30 req/hr/IP
 │   │   └── draft-mode/
 │   │       ├── enable/route.ts        # Enable Next.js draft mode (validatePreviewUrl)
 │   │       └── disable/route.ts       # Disable draft mode, redirect to home
@@ -59,7 +60,7 @@ emudev_ws/
 │   │   ├── footer-section.tsx         # Async server component: brand column, Navigate + Explore nav columns, copyright bar
 │   │   └── contact-section.tsx        # Contact form + CTA
 │   ├── ui/                       # UI primitives
-│       ├── hero-background.tsx           # Three.js particle network (110 nodes, accent connections)
+│       ├── hero-background.tsx           # Three.js particle network (110 nodes, accent connections); desktop: mousemove parallax; mobile (pointer:coarse): scroll parallax
 │       ├── hero-background-loader.tsx    # SSR-safe dynamic import shim (ssr: false)
 │       ├── hero-section.tsx              # Animated hero on homepage
 │       ├── animated-shiny-text.tsx       # MagicUI: shimmer text gradient
@@ -178,15 +179,15 @@ emudev_ws/
 | `app/[locale]/about/page.tsx`                      | 27   | About page (standalone route, 2 locales, reuses AboutSection component)           |
 | `app/[locale]/blog/page.tsx`                       | 43   | Blog list page (ISR with locale cache keys)                                       |
 | `app/api/revalidate-tag/route.ts`                  | 41   | Sanity webhook handler → revalidateTag (validates x-sanity-webhook-secret header) |
-| `app/api/chat/route.ts`                            | 186  | AI chat proxy using Google Gemini 2.5 Flash-Lite (not Claude); accepts optional `locale` field in POST body; validates to ['en', 'es'], defaults to 'en'; `buildSystemPromptForLocale(locale)` for locale-aware system instructions; rate limiting 30 req/hr/IP; 9 regex patterns for prompt injection protection |
-| `app/api/tts/route.ts`                             | TBD  | [NEW] Google Cloud TTS WaveNet; POST `{text, lang}` → Google Cloud TTS REST API → base64 MP3 audio; WaveNet voices EN `en-US-Wavenet-J`, ES `es-US-Wavenet-C`; rate limiting 30 req/hr/IP with stale-entry pruning |
-| `lib/chat/system-prompt.ts`                        | ~50  | [UPDATED] System prompt builder with inclusive framing + `buildSystemPromptForLocale(locale?)` export; appends language-lock instruction per locale (EN/ES) |
-| `components/layout-widgets.tsx`                    | ~45  | [UPDATED] 'use client' wrapper; hosts `AIChatWidget` (w/ avatarUrl prop), `DotPattern`, `SanityVisualEditing` with `ssr: false` |
-| `components/ui/ai-chat-widget.tsx`                 | 443  | [NEW] Full AI chat widget: profile photo, bubble with AnimatedShinyText, timer, locale-aware suggestions, voice I/O, MarkdownText rendering; **[POLISH]** ping ring on collapsed button + scale pulse animation, URL parsing in `parseInline()`, quick-reply chips when assistant msg ends with `?` |
+| `app/api/chat/route.ts`                            | 186  | Google Gemini 2.5 Flash-Lite AI chat proxy (fallback: gemini-2.5-flash); PRIMARY_MODEL timeout 12s via Promise.race; generateWithRetry() iterates modelCandidates; 9 error codes (GEMINI_BILLING_OR_REGION_REQUIRED, GEMINI_PERMISSION_DENIED, GEMINI_MODEL_UNAVAILABLE, GEMINI_RATE_LIMITED, GEMINI_TIMEOUT, GEMINI_UPSTREAM_UNAVAILABLE, CHAT_GENERATION_FAILED, 400 CONTENT_FILTERED on safety blocks); rate limiting 30 req/hr/IP; accepts optional locale field; upstreamErrorCode() maps errors; strict CORS via CHAT_ALLOWED_ORIGIN env var |
+| `app/api/tts/route.ts`                             | ~100 | Google Cloud TTS WaveNet; POST `{text, lang}` → REST API call → base64 MP3 audio; WaveNet voices EN `en-US-Wavenet-J`, ES `es-US-Wavenet-C`; rate limiting 30 req/hr/IP with stale-entry pruning; returns data:audio/mpeg;base64 URI for HTMLAudioElement playback; strict CORS |
+| `lib/chat/system-prompt.ts`                        | ~50  | System prompt builder with inclusive framing + `buildSystemPromptForLocale(locale?)` export; appends language-lock instruction per locale (EN/ES) |
+| `components/layout-widgets.tsx`                    | ~45  | 'use client' wrapper; hosts `AIChatWidget` (w/ avatarUrl prop), `DotPattern`, `SanityVisualEditing` with `ssr: false` |
+| `components/ui/ai-chat-widget.tsx`                 | 443  | Full AI chat widget: profile photo, bubble with AnimatedShinyText, timer, locale-aware suggestions, voice I/O (STT browser API + TTS server route), MarkdownText rendering; CHAT_RETRIES=1, CHAT_TIMEOUT_MS=18000 with AbortController; isTransientChatStatus() retries on 408/429/>=500; lastSpokenContentRef prevents duplicate TTS; ChatApiResponse type with {ok,status,data}; max 15 messages/session |
 | `hooks/use-speech-recognition.ts`                  | 102  | [NEW] Rewritten: recognition instance once on mount, onTranscript in stable useRef, lang via separate effect |
-| `hooks/use-speech-synthesis.ts`                    | 57   | [UPDATED] Rewritten to fetch `/api/tts` server route instead of `window.speechSynthesis`; plays MP3 via `new Audio('data:audio/mpeg;base64,' + audioBase64)`; interface unchanged: `{ supported: true, speaking, speak(text, lang?), cancel() }` |
+| `hooks/use-speech-synthesis.ts`                    | 57   | Rewritten to fetch `/api/tts` server route instead of `window.speechSynthesis`; plays MP3 via `new Audio('data:audio/mpeg;base64,' + audioBase64)`; interface unchanged: `{ supported: true, speaking, speak(text, lang?), cancel() }` |
 | `lib/social-adapters.ts`                           | ~40  | [NEW] Pure adapters: adaptSocialPost(s), relativeTime helper using Intl.RelativeTimeFormat |
-| `components/sections/CredentialsSection.tsx`       | ~85  | [UPDATED] Language proficiency `levels` array fixed from ['basic', 'intermediate', ...] to ['basic', 'conversational', 'professional', 'fluent', 'native'] |
+| `components/sections/CredentialsSection.tsx`       | ~85  | Language proficiency `levels` array: ['basic', 'conversational', 'professional', 'fluent', 'native'] |
 | `components/ui/lang-theme-toggle.tsx`             | ~40  | Language + theme toggle; uses `useSyncExternalStore` for hydration safety          |
 | `components/ui/hero-section.tsx`                   | 39   | Animated hero with name + bio                                                     |
 | `tests/smoke/pages.spec.ts`                        | 35   | Playwright smoke tests for original routes                                        |
@@ -239,10 +240,10 @@ emudev_ws/
 | `hooks/use-active-section.ts`                      | ~40  | Scroll tracking hook for active section highlighting                              |
 | `messages/en.json`                                 | ~100 | English UI strings (namespaced: nav, home, projects, blog, contact, common, chat); **[UPDATED]** `chat.quickReplies` array added: ["Yes!", "No thanks", "Tell me more"] |
 | `messages/es.json`                                 | ~100 | Spanish translations (exact key structure parity, chat namespace: aria labels, suggestions, etc.); **[UPDATED]** `chat.quickReplies` array with Spanish equivalents |
-| `components/ui/hero-background.tsx`                | 149 | Three.js client component: 110-particle network, accent-orange connection lines, mouse parallax, ambient rotation |
+| `components/ui/hero-background.tsx`                | 149 | Three.js client component: 110-particle network, accent-orange connection lines; desktop: mousemove → camera XY parallax; mobile (pointer:coarse): scroll event → camera Y parallax via scroll progress; ambient rotation Y +0.00009, X +0.00004 per frame, lerp 0.04; prefers-reduced-motion respected |
 | `components/ui/hero-background-loader.tsx`         | 10  | SSR-safe dynamic import wrapper (ssr: false) for Three.js particle background |
 | `components/ui/page-transition.tsx`                | 12  | Client component: motion.main keyed by usePathname(), opacity 0→1, y: 8→0, blur 4px→0, 300ms easeOut |
-| `app/globals.css`                                  | 279 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles + animations + --hero-vignette; **[NEW]** `chat-pulse` keyframe for collapsed button scale animation |
+| `app/globals.css`                                  | 279 | Custom design token system (dark-first, [data-theme] attribute) + Tailwind mapping + base element styles + animations + --hero-vignette; `chat-pulse` keyframe for collapsed button scale animation |
 | `components.json`                                  | ~20  | shadcn/ui project config (aliases, style: new-york, baseColor: zinc)              |
 
 ---
@@ -517,7 +518,6 @@ redirect(`/studio`)
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase anon key (safe to expose)
 - `NEXT_PUBLIC_SITE_URL` — Canonical site URL (for metadata)
 - `NEXT_PUBLIC_SITE_DOMAIN` — Domain for email From: (e.g., emudev.cc)
-- `GEMINI_API_KEY` — Google Gemini 2.5 Flash-Lite API key (for AI chat)
 
 ### Private (Runtime & Build)
 
@@ -529,8 +529,9 @@ redirect(`/studio`)
 - `SUPABASE_PAT` — Supabase personal access token (for `supabase db push`)
 - `RESEND_API_KEY` — Resend transactional email API (required at runtime for contact emails; instantiated inside try/catch)
 - `ADMIN_EMAIL` — Allow-list for sendMagicLink (comma-separated)
+- `GEMINI_API_KEY` — Google Gemini 2.5 Flash-Lite API key (for AI chat, env override via GEMINI_MODEL)
 - `GOOGLE_TTS_API_KEY` — Google Cloud Text-to-Speech API key (WaveNet voices)
-- `CHAT_ALLOWED_ORIGIN` — CORS whitelist for AI chat (optional, comma-separated domains)
+- `CHAT_ALLOWED_ORIGIN` — CORS whitelist for AI chat (optional, comma-separated domains; strict origin check, no wildcard fallback)
 - `CHAT_PROFILE_MARKDOWN` — Optional inline markdown for AI chat system prompt (overrides `data/profile.md`)
 
 ### Environment-Level (GitHub Secrets)
@@ -573,7 +574,7 @@ Each has isolated copies of the above secrets.
 | `eslint`                     | ^9      | Linting (v10 incompatible with eslint-plugin-react@7.x) |
 | `@playwright/test`           | 1.59.1  | Static and browser smoke tests                          |
 | `motion/react`               | v11+    | Animation library (framer-motion v11+, all animations use this, standalone framer-motion removed) |
-| `@google/generative-ai`      | Latest  | Google Gemini 2.5 Flash-Lite API client (AI chat)       |
+| `@google/generative-ai`      | ^0.24.1 | Google Gemini 2.5 Flash-Lite API client (AI chat)       |
 | `clsx`                       | latest  | Conditional class merging                               |
 | `tailwind-merge`             | latest  | Tailwind class deduplication (used in cn() utility)     |
 | `next-themes`                | latest  | Dark/light theme provider for Phase 9.2 toggle          |

@@ -45,8 +45,9 @@ emudev_ws/
 │   ├── tag-filter.tsx            # Client component for tag filtering
 │   ├── site-nav.tsx              # Navigation + LocaleSwitcher (async server)
 │   ├── sanity-visual-editing.tsx # SanityVisualEditing wrapper for draft mode
-│   ├── layout-widgets.tsx         # [NEW] 'use client' wrapper; hosts AIChatWidget, DotPattern, SanityVisualEditing with ssr: false (cannot use ssr:false in Server Components)
+│   ├── layout-widgets.tsx         # [UPDATED] 'use client' wrapper (opacity-40); hosts AIChatWidget, DotPattern, SanityVisualEditing with ssr: false; entire dot layer dims uniformly to recede behind content
 │   ├── sections/                 # [NEW] 11-section portfolio layout
+│   │   ├── breadcrumb.tsx         # [NEW] Breadcrumb navigation component; accepts items: { label, href? }[], aria-current, middot separator, locale-aware Link, max-w-60 truncation
 │   │   ├── hero-section.tsx           # Hero with name, bio, CTA
 │   │   ├── about-section.tsx          # About biography + fun facts
 │   │   ├── experience-timeline.tsx    # Vertical timeline with MagicCards
@@ -60,7 +61,8 @@ emudev_ws/
 │   │   ├── footer-section.tsx         # Async server component: brand column, Navigate + Explore nav columns, copyright bar
 │   │   └── contact-section.tsx        # Contact form + CTA
 │   ├── ui/                       # UI primitives
-│       ├── hero-background.tsx           # Three.js particle network (110 nodes, accent connections); desktop: mousemove parallax; mobile (pointer:coarse): scroll parallax
+│       ├── breadcrumb.tsx                # Breadcrumb navigation: items array with label/href, aria-current, middot separator, locale-aware Link, max-w-60 truncation
+│       ├── hero-background.tsx           # [UPDATED] Three.js particle network: 110 total particles across 3 depth layers (far: 55@1.2px opacity 0.30, mid: 38@2.2px opacity 0.65, near: 17@3.8px opacity 0.92); ~9 green accent nodes (#22c55e), ~5 cold-blue stars (#b8d4ff); orange connection lines (#e34d2a) opacity 0.42 at CONNECTION_DIST=4.2; desktop mousemove parallax (lerp 0.04, camera ±1.5×/±1.0× units); mobile (pointer:coarse) scroll parallax (scroll progress → camera Y)
 │       ├── hero-background-loader.tsx    # SSR-safe dynamic import shim (ssr: false)
 │       ├── hero-section.tsx              # Animated hero on homepage
 │       ├── animated-shiny-text.tsx       # MagicUI: shimmer text gradient
@@ -68,7 +70,7 @@ emudev_ws/
 │       ├── blur-fade.tsx                 # MagicUI: scroll-in blur + fade animation
 │       ├── border-beam.tsx               # MagicUI: animated border on cards
 │       ├── dock.tsx                      # MagicUI: macOS-style magnifying dock
-│       ├── dot-pattern.tsx               # MagicUI: SVG dot grid background (hydration fix: conditional glow defs)
+│       ├── dot-pattern.tsx               # [UPDATED] MagicUI SVG dot grid with space depth + color accents: 3 depth tiers (30% small/far 0.55×, 55% medium 1.0×, 15% large/near 1.6×); depth opacity (far 0.18, mid 0.32, near 0.50); ~6% green pulse (fillOpacity 0.80), ~6% orange pulse (0.70), ~12% white twinkle; deterministic seeding (3 seeds per dot for delay/duration/color); hydration fix: conditional glow defs
 │       ├── interactive-hover-button.tsx  # MagicUI: hover-reveal CTA button
 │       ├── lang-theme-toggle.tsx         # [UPDATED] Lang + theme toggle (useSyncExternalStore hydration fix)
 │       ├── lens.tsx                      # MagicUI Pro: zoom-on-hover image lens

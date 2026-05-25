@@ -768,19 +768,27 @@ export default async function Page() {
 | `SocialPostsGrid` | `app/[locale]/page.tsx` | Lazy-loaded social feed |
 | `ContactSection` | `app/[locale]/page.tsx` | Lazy-loaded contact form |
 
-**Key rules:**
+---
+
+## Breadcrumb Component Pattern
+
+**File:** `components/ui/breadcrumb.tsx` | **Props:** `items: Array<{ label: string; href?: string }>`
+
+**Usage:** Blog post detail (`home → blog → post title`), Projects detail (`home → projects → project title`)
+
+**Key characteristics:**
+- Locale-aware next-intl Link for navigation items
+- Last item: `aria-current="page"`, no href
+- Separator: middot (·)
+- Text truncation: `max-w-60` on last item
+- JSON-LD breadcrumb schema for SEO pages
+
+**Rule:** Place before page `<h1>` for semantic order and schema markup.
+
+### Lazy-Loading Pattern Key Rules
+
 1. Loader file must be Client Component ('use client' at top)
 2. Dynamic import returns module; extract with `.then(m => m.Export)`
 3. Parent can be Server Component (loader acts as boundary)
 4. No props passed through loader; use props in actual component
 
----
-
-## Performance Considerations
-
-- **Bundle Size:** Monitor with `npm run build`; lazy-load heavy components (SkillsSection, SocialPostsGrid, ContactSection use `next/dynamic`)
-- **Cache Strategy:** Per-locale tags prevent cross-locale pollution; 1-hour TTL + webhook revalidation
-- **Database:** Use RLS to prevent N+1 queries; index frequently-queried fields
-- **Images:** Use Sanity CDN for all images; rely on Next.js image optimization
-- **API Calls:** Minimize external service calls; wrap in try/catch for reliability
-- **Speech APIs:** Instantiate only on client; handle browser compatibility (webkit prefix fallback)

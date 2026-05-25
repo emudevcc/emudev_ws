@@ -128,10 +128,10 @@ middleware.ts (next-intl/middleware)
 | --------------------------- | ------------------- | ------------------ | --------------------------------------------------------- |
 | `/en`, `/es`                | SSG × 2             | 1 hour             | Homepage (11 sections: hero, about, experience, projects, skills, credentials, writing, strengths, social, contact, footer) with AI chat widget (profile photo, voice I/O, locale-aware suggestions) |
 | `/[locale]/about`           | SSG × 2             | 1 hour             | About page (standalone route, reuses AboutSection component, 2 locales) |
-| `/[locale]/projects`        | ISR × 2             | Tag: `projects`    | Projects list (gallery, skill filter, per-locale content) |
-| `/[locale]/projects/[slug]` | SSG (per-route × 2) | Per-route + locale | Project detail page with OG image                         |
-| `/[locale]/blog`            | ISR × 2             | Tag: `posts`       | Blog post list (locale-specific)                          |
-| `/[locale]/blog/[slug]`     | SSG (per-route × 2) | Per-route + locale | Blog post detail with OG image                            |
+| `/[locale]/projects`        | ISR × 2             | Tag: `projects`    | Projects list with breadcrumb (home → projects)           |
+| `/[locale]/projects/[slug]` | SSG (per-route × 2) | Per-route + locale | Project detail with breadcrumb (home → projects → title)  |
+| `/[locale]/blog`            | ISR × 2             | Tag: `posts`       | Blog post list with breadcrumb (home → blog)              |
+| `/[locale]/blog/[slug]`     | SSG (per-route × 2) | Per-route + locale | Blog post detail with breadcrumb (home → blog → title); JSON-LD breadcrumb schema |
 | `/studio`                   | SSR                 | None               | Embedded Sanity Studio (root, no locale)                  |
 | `/api/draft-mode/enable`    | Route               | None               | Enable Sanity draft mode (root, validatePreviewUrl)       |
 | `/api/draft-mode/disable`   | Route               | None               | Disable draft mode (root)                                 |

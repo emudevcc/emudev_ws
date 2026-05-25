@@ -337,9 +337,9 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
       role="dialog"
       aria-modal="true"
       aria-label="Chat with Esteban"
-      className="fixed bottom-20 right-3 z-[60] flex max-h-[min(620px,calc(100vh-112px))] w-[calc(100vw-24px)] flex-col overflow-hidden rounded-2xl border border-hairline bg-canvas shadow-[var(--shadow-dock)] sm:bottom-24 sm:right-6 sm:w-[360px]"
+      className="fixed bottom-20 right-3 z-[60] flex max-h-[min(620px,calc(100vh-112px))] w-[calc(100vw-24px)] flex-col overflow-hidden rounded-2xl border border-widget-border bg-widget-bg shadow-[var(--shadow-dock)] backdrop-blur-xl sm:bottom-24 sm:right-6 sm:w-[360px]"
     >
-      <div className="flex items-center justify-between border-b border-hairline bg-surface-1 px-4 py-3">
+      <div className="flex items-center justify-between border-b border-widget-border bg-widget-surface px-4 py-3">
         <div className="flex items-center gap-2">
           <span className="flex size-8 items-center justify-center overflow-hidden rounded-full bg-accent text-white">
             {avatarUrl ? (
@@ -403,7 +403,7 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
         </div>
         {messages.length === 0 && (
           <div className="space-y-3">
-            <div className="rounded-xl border border-hairline bg-surface-1 px-3 py-3 text-sm text-fg-2">
+            <div className="rounded-xl border border-[var(--hairline-mid)] bg-widget-surface px-3 py-3 text-sm text-fg-2">
               {t('welcome')}
             </div>
             {suggestions.length > 0 && (
@@ -413,7 +413,7 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
                     key={suggestion}
                     type="button"
                     onClick={() => void sendMessage(suggestion)}
-                    className="w-full rounded-xl border border-hairline bg-surface-1 px-3 py-2 text-left text-xs text-fg-2 transition-colors hover:border-accent/40 hover:bg-surface-2 hover:text-fg-1"
+                    className="w-full rounded-xl border border-[var(--hairline-mid)] bg-widget-surface px-3 py-2 text-left text-xs text-fg-2 transition-colors hover:border-accent/40 hover:bg-[var(--hairline-mid)] hover:text-fg-1"
                   >
                     {suggestion}
                   </button>
@@ -428,7 +428,7 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
             className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
           >
             {message.role === 'assistant' ? (
-              <div className="max-w-[82%] rounded-2xl border border-hairline bg-surface-1 px-3 py-2 text-sm leading-relaxed text-fg-1">
+              <div className="max-w-[82%] rounded-2xl border border-[var(--hairline-mid)] bg-widget-surface px-3 py-2 text-sm leading-relaxed text-fg-1">
                 <MarkdownText text={message.content} />
               </div>
             ) : (
@@ -448,13 +448,13 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
       </div>
 
       {showChips && (
-        <div className="flex flex-wrap gap-2 border-t border-hairline px-4 py-2">
+        <div className="flex flex-wrap gap-2 border-t border-[var(--hairline-mid)] px-4 py-2">
           {activeChips.map((reply) => (
             <button
               key={reply}
               type="button"
               onClick={() => void sendMessage(reply)}
-              className="rounded-full border border-hairline bg-surface-1 px-3 py-1 text-xs text-fg-2 transition-colors hover:border-accent/40 hover:bg-surface-2 hover:text-fg-1"
+              className="rounded-full border border-[var(--hairline-mid)] bg-widget-surface px-3 py-1 text-xs text-fg-2 transition-colors hover:border-accent/40 hover:bg-[var(--hairline-mid)] hover:text-fg-1"
             >
               {reply}
             </button>
@@ -463,7 +463,7 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
       )}
 
       {(listening || requesting) && (
-        <div className="flex items-center justify-between gap-3 border-t border-hairline px-4 py-2 text-xs text-accent">
+        <div className="flex items-center justify-between gap-3 border-t border-[var(--hairline-mid)] px-4 py-2 text-xs text-accent">
           <div className="flex items-center gap-2">
             <span className="size-1.5 animate-pulse rounded-full bg-accent" />
             {requesting ? t('listeningPermission') : t('listening')}
@@ -485,7 +485,7 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
       )}
 
       {(status === 'error' || status === 'out-of-scope' || status === 'limit-reached') && (
-        <div className="border-t border-hairline px-4 py-2 text-center text-xs text-fg-3">
+        <div className="border-t border-[var(--hairline-mid)] px-4 py-2 text-center text-xs text-fg-3">
           {status === 'error' && (
             <>
               {t('errorGeneric')}{' '}
@@ -507,8 +507,8 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
         </div>
       )}
 
-      <form onSubmit={onSubmit} className="border-t border-hairline p-3">
-        <div className="flex items-end gap-2 rounded-xl border border-hairline bg-surface-input p-2">
+      <form onSubmit={onSubmit} className="border-t border-[var(--hairline-mid)] p-3">
+        <div className="flex items-end gap-2 rounded-xl border border-widget-border bg-widget-surface p-2">
           <textarea
             value={input}
             onChange={(event) => setInput(event.target.value.slice(0, MAX_INPUT + 1))}

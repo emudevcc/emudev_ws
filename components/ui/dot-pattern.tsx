@@ -8,13 +8,19 @@ import { cn } from '@/lib/utils'
 function dotTiming(index: number) {
   const seed1 = Math.sin(index * 12.9898) * 43758.5453
   const seed2 = Math.sin(index * 78.233) * 43758.5453
+  const seed3 = Math.sin(index * 45.11) * 43758.5453
   const n1 = seed1 - Math.floor(seed1)
   const n2 = seed2 - Math.floor(seed2)
+  const n3 = seed3 - Math.floor(seed3)
 
   return {
     delay: n1 * 7,
     duration: 2.5 + n2 * 2.5, // 2.5–5s
-    isStar: n1 < 0.12, // ~12% of dots twinkle
+    isStar: n1 < 0.12, // ~12% twinkle — mutually exclusive with color dots
+    isGreen: n1 > 0.94, // ~6% --status-ok green
+    isOrange: n1 > 0.88 && n1 < 0.94, // ~6% --accent orange; mutually exclusive with green/isStar
+    // 3-tier depth: ~30% small (far), ~55% medium (mid), ~15% large (near)
+    sizeMultiplier: n3 < 0.3 ? 0.55 : n3 < 0.85 ? 1.0 : 1.6,
   }
 }
 
@@ -27,7 +33,7 @@ function dotTiming(index: number) {
  * @param {number} [y=0] - The y-offset of the entire pattern
  * @param {number} [cx=1] - The x-offset of individual dots
  * @param {number} [cy=1] - The y-offset of individual dots
- * @param {number} [cr=1] - The radius of each dot
+ * @param {number} [cr=1] - The base radius of each dot (scaled by depth tier)
  * @param {string} [className] - Additional CSS classes to apply to the SVG container
  * @param {boolean} [glow=false] - Whether dots should have a glowing animation effect
  * @param {boolean} [twinkle=false] - Whether a random subset of dots (~12%) should pulse like stars
@@ -74,6 +80,8 @@ interface DotPatternProps extends React.SVGProps<SVGSVGElement> {
  * - When glow is enabled, dots will animate with random delays and durations
  * - Uses Motion for animations
  * - Dots color can be controlled via the text color utility classes
+ * - ~30% of dots are small/faint (far), ~55% medium, ~15% large/bright (near) for space depth
+ * - ~6% of dots pulse green (#22c55e), ~6% pulse orange (#e34d2a) as color accents
  */
 
 export function DotPattern({
@@ -130,7 +138,7 @@ export function DotPattern({
       ref={containerRef}
       aria-hidden="true"
       className={cn(
-        'pointer-events-none absolute inset-0 h-full w-full text-neutral-400/80',
+        'pointer-events-none absolute inset-0 h-full w-full text-neutral-300/70',
         className
       )}
       {...props}
@@ -145,22 +153,51 @@ export function DotPattern({
       )}
       {dots.map((dot) => {
         const shouldTwinkle = twinkle && dot.isStar && !prefersReducedMotion
+        const isGreenDot = dot.isGreen && !glow
+        const isOrangeDot = dot.isOrange && !glow
+        const isColorDot = isGreenDot || isOrangeDot
+
+        // Depth-based opacity for white/currentColor dots: small=far=dim, large=near=bright
+        const baseOp = dot.sizeMultiplier < 0.7 ? 0.18 : dot.sizeMultiplier > 1.4 ? 0.5 : 0.32
+        const starMax = dot.sizeMultiplier > 1.4 ? 0.95 : 0.82
 
         return (
           <motion.circle
             key={`${dot.x}-${dot.y}`}
             cx={dot.x}
             cy={dot.y}
-            r={cr}
-            fill={glow ? `url(#${id}-gradient)` : 'currentColor'}
-            fillOpacity={twinkle && !glow ? 0.2 : undefined}
-            initial={glow ? { opacity: 0.4, scale: 1 } : shouldTwinkle ? { fillOpacity: 0.2 } : {}}
+            r={glow ? cr : cr * dot.sizeMultiplier}
+            fill={
+              glow
+                ? `url(#${id}-gradient)`
+                : isGreenDot
+                  ? '#22c55e'
+                  : isOrangeDot
+                    ? '#e34d2a'
+                    : 'currentColor'
+            }
+            fillOpacity={isColorDot ? undefined : twinkle && !glow ? baseOp : undefined}
+            initial={
+              glow
+                ? { opacity: 0.4, scale: 1 }
+                : isGreenDot
+                  ? { fillOpacity: 0.1 }
+                  : isOrangeDot
+                    ? { fillOpacity: 0.1 }
+                    : shouldTwinkle
+                      ? { fillOpacity: baseOp }
+                      : {}
+            }
             animate={
               glow
                 ? { opacity: [0.4, 1, 0.4], scale: [1, 1.5, 1] }
-                : shouldTwinkle
-                  ? { fillOpacity: [0.2, 0.72, 0.2] }
-                  : {}
+                : isGreenDot && !prefersReducedMotion
+                  ? { fillOpacity: [0.1, 0.8, 0.1] }
+                  : isOrangeDot && !prefersReducedMotion
+                    ? { fillOpacity: [0.1, 0.7, 0.1] }
+                    : shouldTwinkle
+                      ? { fillOpacity: [baseOp, starMax, baseOp] }
+                      : {}
             }
             transition={
               glow
@@ -171,15 +208,23 @@ export function DotPattern({
                     delay: dot.delay,
                     ease: 'easeInOut',
                   }
-                : shouldTwinkle
+                : isColorDot && !prefersReducedMotion
                   ? {
-                      duration: dot.duration,
+                      duration: dot.duration * 1.4,
                       repeat: Infinity,
                       repeatType: 'loop',
                       delay: dot.delay,
                       ease: 'easeInOut',
                     }
-                  : {}
+                  : shouldTwinkle
+                    ? {
+                        duration: dot.duration,
+                        repeat: Infinity,
+                        repeatType: 'loop',
+                        delay: dot.delay,
+                        ease: 'easeInOut',
+                      }
+                    : {}
             }
           />
         )

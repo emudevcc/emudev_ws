@@ -116,6 +116,9 @@
 @theme inline {
   /* Semantic design tokens */
   --color-canvas: var(--canvas);
+  --color-widget-bg: var(--widget-bg);
+  --color-widget-border: var(--widget-border);
+  --color-widget-surface: var(--widget-surface);
   --color-surface-1: var(--surface-1);
   --color-surface-2: var(--surface-2);
   --color-hairline: var(--hairline);

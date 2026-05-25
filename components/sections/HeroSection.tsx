@@ -47,6 +47,11 @@ export function HeroSection({
     >
       <HeroBackground />
       <div className="relative mx-auto w-full max-w-6xl">
+        {/* Theme-adaptive scrim: dark canvas in dark mode, white canvas in light mode */}
+        <div
+          className="pointer-events-none absolute -inset-x-6 -inset-y-8 rounded-[2rem] bg-canvas/60 backdrop-blur-md"
+          aria-hidden="true"
+        />
         <BlurFade delay={0}>
           <div className="mb-8 flex items-center gap-4">
             <div className="relative size-20 overflow-hidden rounded-full border border-border bg-muted">

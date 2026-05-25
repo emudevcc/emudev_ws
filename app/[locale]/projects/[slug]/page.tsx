@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, ArrowUpRight } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
+import { ArrowUpRight } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 import { getProjects, getProjectBySlug } from '@/lib/sanity-queries'
 import { PortableTextRenderer } from '@/components/portable-text-renderer'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { Chip } from '@/components/ui/chip'
 import { routing } from '@/i18n/routing'
 import { localeAlternates } from '@/lib/metadata'
+import { Breadcrumb } from '@/components/ui/breadcrumb'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
@@ -45,18 +46,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { locale, slug } = await params
-  const project = await getProjectBySlug(slug, locale)
+  const [t, project] = await Promise.all([getTranslations(), getProjectBySlug(slug, locale)])
   if (!project) notFound()
 
   return (
     <article className="mx-auto max-w-3xl px-5 py-24">
       <BlurFade delay={0.04}>
-        <Link
-          href="/projects"
-          className="mb-8 inline-flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors hover:text-accent"
-        >
-          <ArrowLeft size={12} /> Projects
-        </Link>
+        <div className="mb-8">
+          <Breadcrumb
+            items={[
+              { label: t('nav.home'), href: '/' },
+              { label: t('nav.projects'), href: '/projects' },
+              { label: project.title ?? '' },
+            ]}
+          />
+        </div>
       </BlurFade>
 
       <BlurFade delay={0.08}>

@@ -1,9 +1,9 @@
 # Project Roadmap
 
-## Current Status: Phases 1-8.5 + 9.0-9.16 Complete, Bilingual Live
+## Current Status: Phases 1-8.5 + 9.0-9.17 Complete, Bilingual Live
 
-**Timeline:** May 20, 2026
-**Overall Progress:** 100% (Phases 1-8.5 + 9.0-9.16 complete; Phase 10+ future work)
+**Timeline:** May 25, 2026
+**Overall Progress:** 100% (Phases 1-8.5 + 9.0-9.17 complete; Phase 10+ future work)
 
 ---
 
@@ -494,6 +494,75 @@ Deliverables:
 - Better UX flow: core info → credentials → content → social proof → contact call-to-action
 - Strengthens conversion funnel (call-to-action positioned before footer)
 
+### Phase 9.16: Mobile Scroll Parallax & GitHub Contributions Fix (COMPLETE)
+
+**Status:** ✅ Complete (May 20, 2026)
+**Priority:** P1 (stability + mobile UX)
+
+**Deliverables:**
+
+- [x] Mobile scroll parallax: Hero background responds to scroll on touch devices (pointer:coarse); desktop remains mousemove parallax
+- [x] Replaced gyroscope-based parallax with scroll progress (0–1) → camera Y position (±1.0×) on mobile
+- [x] prefers-reduced-motion respected on both desktop and mobile parallax paths
+- [x] GitHub contributions route error handling: try/catch for network errors + JSON parse failures
+- [x] Graceful fallback: empty contributions array if API call fails
+
+**Technical Highlights:**
+
+- Mobile detection via CSS media query `(pointer: coarse)` in hero-background.tsx
+- Scroll event listener calculates document.scrollingElement.scrollTop / (scrollHeight - clientHeight)
+- Desktop parallax unaffected; mobile parallax replaces gyroscope permission prompt
+
+### Phase 9.17: Visual Enhancements — Space Depth Hero & DotPattern + Breadcrumb Navigation (COMPLETE)
+
+**Status:** ✅ Complete (May 25, 2026)
+**Priority:** P1 (visual polish + SEO)
+
+**Deliverables:**
+
+**HeroBackground Space Depth Redesign:**
+
+- [x] Redesigned particle system: 110 total particles across 3 depth layers (far: 55@1.2px opacity 0.30, mid: 38@2.2px opacity 0.65, near: 17@3.8px opacity 0.92)
+- [x] Accent nodes: ~9 green (#22c55e) at 3.2px opacity 0.82, ~5 cold-blue (#b8d4ff) at 2.8px opacity 0.60
+- [x] Orange connection lines (#e34d2a) at opacity 0.42 with CONNECTION_DIST=4.2
+- [x] Documentation updated: design-guidelines.md, codebase-summary.md
+
+**DotPattern Space Depth + Color Accents Redesign:**
+
+- [x] Depth tier sizes: 30% small/far (0.55×), 55% medium (1.0×), 15% large/near (1.6×)
+- [x] Depth opacity (white dots): far 0.18, mid 0.32, near 0.50
+- [x] Deterministic pseudorandom seeding: 3 seeds per dot (delay, duration, color)
+- [x] Color accents: ~6% green pulse (fillOpacity peak 0.80), ~6% orange pulse (0.70), ~12% white twinkle (mutually exclusive)
+- [x] Dot radius reduced to `cr={1}` (was 1.5)
+- [x] LayoutWidgets wrapper now has `opacity-40` for background recession effect
+- [x] Documentation updated: design-guidelines.md, codebase-summary.md
+
+**Breadcrumb Navigation (New Component):**
+
+- [x] New `components/ui/breadcrumb.tsx` component
+- [x] Props: `items: Array<{ label: string; href?: string }>`
+- [x] Features: aria-current on current page, middot separator, locale-aware Link, max-w-60 truncation
+- [x] Added to blog list: home → blog
+- [x] Added to blog post detail: home → blog → post title (with JSON-LD breadcrumb schema for SEO)
+- [x] Added to projects list: home → projects
+- [x] Added to projects detail: home → projects → project title
+- [x] Documentation added: code-standards.md (Breadcrumb pattern section)
+
+**Technical Highlights:**
+
+- Space depth creates perception of background recession via particle layering + opacity gradients
+- Color accent seeding ensures consistent per-dot behavior (delay/duration/color always match for same dot index)
+- Breadcrumb JSON-LD schema improves rich snippet rendering in search results
+- Mobile parallax fix + space depth redesign enhance perceived depth on all devices
+- Documentation updated across 4 files (codebase-summary, design-guidelines, code-standards, system-architecture)
+
+**Success Metrics:**
+
+- [x] Visual polish: space depth perceived via layering and accent colors
+- [x] SEO improvement: breadcrumb schema for blog/project detail pages
+- [x] Mobile UX: smooth scroll parallax without permission prompts
+- [x] Background recession: opacity-40 on LayoutWidgets dims DotPattern effectively
+
 ### Phase 9.15: AI Chat Widget & TTS Migration (COMPLETE)
 
 **Status:** ✅ Complete (May 19-20, 2026)
@@ -675,8 +744,9 @@ Phase 1 (DONE)
 | Phase 9.14 | May 16 | May 16 | <1 day               | ✅ Complete      |
 | Phase 9.15 | May 19 | May 19 | <1 day               | ✅ Complete      |
 | Phase 9.16 | May 20 | May 20 | <1 day               | ✅ Complete      |
+| Phase 9.17 | May 25 | May 25 | <1 day               | ✅ Complete      |
 
-**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.16) completed by May 20, 2026 with AI chat widget enhancements (profile photo, voice I/O, locale-aware), bundle optimization (framer-motion removal, lazy-load sections), social feed backend wiring (pagination PAGE_SIZE=9), Gemini/TTS API migration (Claude→Gemini 2.5 Flash-Lite, Web Speech→Google Cloud TTS WaveNet), scroll parallax on mobile (pointer:coarse), and GitHub contributions fix. Next phases: monitoring, analytics, admin dashboard, search functionality.
+**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.17) completed by May 25, 2026 with AI chat widget enhancements (profile photo, voice I/O, locale-aware), bundle optimization (framer-motion removal, lazy-load sections), social feed backend wiring (pagination PAGE_SIZE=9), Gemini/TTS API migration (Claude→Gemini 2.5 Flash-Lite, Web Speech→Google Cloud TTS WaveNet), mobile scroll parallax (pointer:coarse), GitHub contributions fix, space depth hero redesign (3-layer particle system with accent colors), DotPattern depth tiers + color accents (deterministic seeding, opacity-40 background recession), and breadcrumb navigation (blog/projects with JSON-LD schema). Next phases: monitoring, analytics, admin dashboard, search functionality.
 
 ---
 
@@ -702,4 +772,5 @@ Phase 1 (DONE)
 | 1.6.0-hero-metrics  | May 16 | 9.10-9.14 | Hero metrics: 6 stats (yrs exp, skills, creds, posts, langs, links); Contact form 4-field; smooth scroll; section reorder |
 | 1.7.0-gemini-tts    | May 20 | 9.15  | AI chat & TTS migration: Claude → Gemini 2.5 Flash-Lite (fallback: gemini-2.5-flash); Web Speech API → Google Cloud TTS WaveNet; `/api/tts` REST endpoint; rate limiting (30 req/hr/IP); error codes (GEMINI_*, CONTENT_FILTERED); CORS strict whitelist; 12s timeout, maxDuration=30s; env vars GEMINI_API_KEY, GOOGLE_TTS_API_KEY, CHAT_ALLOWED_ORIGIN, GEMINI_MODEL (optional override) |
 | 1.8.0-mobile-parallax | May 20 | 9.16  | Mobile scroll parallax: hero background responds to scroll on touch devices (pointer:coarse); desktop remains mousemove parallax; prefers-reduced-motion respected on both paths; GitHub contributions route error handling (try/catch network + JSON parse) |
-| 2.0.0-future        | TBD    | 9.17+   | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |
+| 1.9.0-space-depth-breadcrumbs | May 25 | 9.17 | Visual enhancements: HeroBackground 3-layer depth system (110 particles, accent green/blue nodes, orange connections); DotPattern depth tiers (0.55/1.0/1.6× sizes, far/mid/near opacities), color accents (6% green, 6% orange, 12% white twinkle), deterministic seeding, opacity-40 background recession; Breadcrumb component (new UI, blog/projects with JSON-LD schema); documentation updates |
+| 2.0.0-future        | TBD    | 10+   | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |

@@ -143,7 +143,7 @@ Ship a zero-maintenance portfolio that:
 - **Phase 8.4** ✅: SEO & sitemap (locale variants and hreflang alternates)
 - **Phase 8.5** ✅: Sanity content model refactor (14 document types, grouped Studio, expanded GROQ)
 
-### Completed Phase 9 Work (May 11-16, 2026)
+### Completed Phase 9 Work (May 11-25, 2026)
 
 - **Phase 9.0** ✅: Production deployment (bilingual live May 11, 2026)
 - **Phase 9.1** ✅: Magic UI installation (12 components: 10 free-tier + 2 Pro local)
@@ -161,11 +161,13 @@ Ship a zero-maintenance portfolio that:
 - **Phase 9.13** ✅: Hero metrics expansion (6 stats: yrs experience, skills, credentials, posts, languages, social links; stat anchors to sections)
 - **Phase 9.14** ✅: Homepage section reorder (Strengths & Social moved to bottom, Contact before Footer)
 - **Phase 9.15** ✅: AI chat widget enhancements (profile photo, voice I/O, locale-aware suggestions; system prompt locale-aware; social backend; credential level fix; bundle optimization)
+- **Phase 9.16** ✅: Mobile scroll parallax & GitHub contributions fix (scroll-based parallax on pointer:coarse, prefers-reduced-motion safe, network error handling)
+- **Phase 9.17** ✅: Visual enhancements (HeroBackground 3-layer depth system with accent colors; DotPattern depth tiers + color accents + deterministic seeding; Breadcrumb navigation with JSON-LD schema; opacity-40 background recession)
 
-### Future (Phase 9.16+)
+### Future (Phase 10+)
 
-- **Phase 9.16** ⏳: Sanity seed data & content population (10 NDJSON files, 14 types, bilingual)
-- **Phase 10+** ⏳: Post-launch monitoring, analytics, admin dashboard, search functionality
+- **Phase 10** ⏳: Sanity seed data & content population (10 NDJSON files, 14 types, bilingual)
+- **Phase 11+** ⏳: Post-launch monitoring, analytics, admin dashboard, search functionality
 
 ---
 

@@ -219,21 +219,38 @@ Injected via `app/[locale]/layout.tsx` with `next/font/google`, used in `:root` 
 
 **Rule:** All `transition-*` utilities should pair with `var(--ease)` and `var(--dur)` or `var(--dur-fast)`. Always add `@media (prefers-reduced-motion: reduce)` support.
 
-### DotPattern Twinkle Animation
+### DotPattern (Space Depth + Color Accents Redesign)
 
 **File:** `components/ui/dot-pattern.tsx`
 
-Ambient star-like animation for DotPattern background (used in layouts):
+Redesigned with space depth layers and color accent system:
 
-- **Trigger:** `twinkle={true}` prop enables animation
-- **Selection:** ~12% of dots randomly selected via `dotTiming(index)` hash function (seed: `n1 < 0.12`)
-- **Animation:** Per-dot `fillOpacity: [0.2, 0.72, 0.2]` pulse, duration 2.5–5s (staggered per-dot via `dotTiming()`)
-- **Stagger:** Delay range 0–7s, applied via `dotTiming()` independent hash seed
-- **Easing:** `easeInOut` for smooth pulse
-- **Reduced Motion:** Respects `useReducedMotion()` — skips animation if user prefers reduced motion
-- **Color:** Uses `text-muted-foreground` token for dot fill color (via `className` prop)
+**Depth sizing (size multipliers):**
+- 30% small/far dots: 0.55× radius (appear distant)
+- 55% medium dots: 1.0× radius (normal size)
+- 15% large/near dots: 1.6× radius (appear close)
 
-**Usage (layout.tsx):**
+**Depth opacity (white dots only):**
+- Far: opacity 0.18
+- Mid: opacity 0.32
+- Near: opacity 0.50
+
+**Color accents (deterministic pseudorandom seeding):**
+- 3 independent seeds per dot for: delay, duration, and color class
+- ~6% green pulse (fillOpacity peak 0.80)
+- ~6% orange pulse (fillOpacity peak 0.70)
+- ~12% white twinkle animation
+- All three color classes mutually exclusive per dot
+
+**Twinkling animation (twinkle={true}):**
+- Star selection: ~12% of dots randomly selected via seed `n1 < 0.12`
+- Animation: `fillOpacity: [0.2, 0.72, 0.2]` pulse
+- Duration: 2.5–5s per-dot (calculated via seed)
+- Delay: 0–7s per-dot (independent hash seed)
+- Easing: `easeInOut`
+- Respects `useReducedMotion()` for accessibility
+
+**Layout integration:**
 ```tsx
 <DotPattern 
   twinkle 
@@ -241,7 +258,9 @@ Ambient star-like animation for DotPattern background (used in layouts):
 />
 ```
 
-**Note:** DotPattern with `twinkle` does not use `fillOpacity` for non-twinkling dots (they stay static at 0.2). The `glow` prop is separate and controls a different radial gradient animation.
+**LayoutWidgets wrapper (opacity-40):** Entire dot layer dims uniformly via opacity-40 on wrapper div, receding behind page content.
+
+**Radius:** Dot size reduced to `cr={1}` (was 1.5) for refined appearance.
 
 ### Smooth Scroll Behavior
 
@@ -424,17 +443,33 @@ For custom interactive elements:
 
 ## Three.js Background Pattern
 
-### Hero Particle Network
+### Hero Particle Network (Space Depth Redesign)
 
-The hero section features a Three.js particle network (`components/ui/hero-background.tsx`):
+The hero section features a Three.js particle network (`components/ui/hero-background.tsx`) with 3 depth layers:
 
-**Technical approach:**
-- 110 white particles distributed in 3D space; accent-orange connection lines (20% opacity) for nearby nodes
-- Mouse parallax: camera follows cursor via `lerp(mouseX, mouseY)` for subtle depth effect
-- Ambient rotation: slow `group.rotation.y/x` for infinite motion
-- Mobile optimized: low pixel ratio cap (1.5×), fixed particle count, static topology
+**Particle composition:**
+- **Total:** 110 particles across 3 depth layers
+- **Far layer:** 55 particles, 1.2px, opacity 0.30, white
+- **Mid layer:** 38 particles, 2.2px, opacity 0.65, white
+- **Near layer:** 17 particles, 3.8px, opacity 0.92, white
+
+**Accent nodes:**
+- ~9 green accent nodes (#22c55e), 3.2px, opacity 0.82
+- ~5 cold-blue stars (#b8d4ff), 2.8px, opacity 0.60
+
+**Connection lines:**
+- Orange (#e34d2a), opacity 0.42
+- CONNECTION_DIST = 4.2 for proximity-based linking
+
+**Parallax behavior:**
+- **Desktop:** Mouse parallax via `lerp(mouseX, mouseY)` with lerp factor 0.04; camera position ±1.5× (X/Y)
+- **Mobile (pointer:coarse):** Scroll-based parallax (replaced gyroscope to avoid iOS permission prompts); scroll progress (0–1) → camera Y position ±1.0×
+- **Ambient rotation:** Y +0.00009, X +0.00004 per frame
+
+**Accessibility:**
+- Mobile optimized: capped pixel ratio (1.5×), fixed particle count, static topology
 - Motion-safe: `prefers-reduced-motion` → static frame (no rotation, no parallax)
-- Vignette overlay: `radial-gradient` using `--hero-vignette` token (dark: white fade, light: accent fade)
+- Vignette overlay: `radial-gradient` using `--hero-vignette` token (dark: white fade, light: accent-orange fade)
 
 **SSR boundary (critical):**
 Three.js renders only on client. Use the `hero-background-loader.tsx` shim in server components:

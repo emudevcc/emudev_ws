@@ -17,9 +17,6 @@
   --hairline: rgba(255, 255, 255, 0.08);
   --hairline-mid: rgba(255, 255, 255, 0.1);
   --dock-bg: rgba(20, 20, 22, 0.7);
-  --widget-bg: rgba(40, 40, 52, 0.99);
-  --widget-border: rgba(255, 255, 255, 0.15);
-  --widget-surface: rgba(255, 255, 255, 0.1);
   --fg-1: #ffffff;
   --fg-2: rgba(255, 255, 255, 0.75);
   --fg-3: rgba(255, 255, 255, 0.55);
@@ -103,9 +100,6 @@
   --hairline: rgba(0, 0, 0, 0.08);
   --hairline-mid: rgba(0, 0, 0, 0.1);
   --dock-bg: rgba(240, 238, 233, 0.8);
-  --widget-bg: rgba(240, 238, 233, 0.92);
-  --widget-border: rgba(0, 0, 0, 0.12);
-  --widget-surface: rgba(0, 0, 0, 0.05);
   --fg-1: #111111;
   --fg-2: rgba(0, 0, 0, 0.7);
   --fg-3: rgba(0, 0, 0, 0.55);

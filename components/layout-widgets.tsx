@@ -29,13 +29,13 @@ interface LayoutWidgetsProps {
 export function LayoutWidgets({ showVisualEditing, avatarUrl }: LayoutWidgetsProps) {
   return (
     <>
-      <div className="fixed inset-0 -z-10 overflow-hidden">
+      <div className="fixed inset-0 -z-10 overflow-hidden opacity-40">
         <DotPattern
           width={28}
           height={28}
           cr={1}
           twinkle
-          className="text-muted-foreground [mask-image:linear-gradient(to_bottom,white,transparent_85%)]"
+          className="text-fg-2 [mask-image:linear-gradient(to_bottom,white,transparent_85%)]"
         />
       </div>
       <AIChatWidget avatarUrl={avatarUrl} />

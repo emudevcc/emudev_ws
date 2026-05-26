@@ -6,5 +6,5 @@ import dynamic from 'next/dynamic'
 // HeroSection is a Server Component, so the dynamic import lives here instead.
 export const HeroBackground = dynamic(
   () => import('@/components/ui/hero-background').then((m) => m.HeroBackground),
-  { ssr: false }
+  { ssr: false, loading: () => null }
 )

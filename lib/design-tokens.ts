@@ -18,7 +18,7 @@ export const tokens = {
       fg1: '#ffffff',
       fg2: 'rgba(255,255,255,0.75)',
       fg3: 'rgba(255,255,255,0.55)',
-      fg4: 'rgba(255,255,255,0.40)',
+      fg4: 'rgba(255,255,255,0.45)',
       hero: '#e34d2a',
     },
     light: {

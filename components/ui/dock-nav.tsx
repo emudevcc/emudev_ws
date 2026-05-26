@@ -63,9 +63,12 @@ export function DockNav({ locale }: DockNavProps) {
         <Dock className="mt-0 bg-transparent" iconSize={38} iconMagnification={56}>
           {items.map(({ id, icon: Icon, label }) => (
             <DockIcon key={id} className="bg-background/80" title={label}>
-              <button
-                type="button"
-                onClick={() => goTo(id)}
+              <a
+                href={`/${locale}#${id}`}
+                onClick={(event) => {
+                  event.preventDefault()
+                  goTo(id)
+                }}
                 className={cn(
                   'inline-flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground',
                   active === id &&
@@ -74,7 +77,7 @@ export function DockNav({ locale }: DockNavProps) {
                 aria-label={label}
               >
                 <Icon size={16} />
-              </button>
+              </a>
             </DockIcon>
           ))}
         </Dock>

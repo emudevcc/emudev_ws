@@ -31,7 +31,7 @@ export function LangThemeToggle() {
       <button
         type="button"
         onClick={switchLocale}
-        className="inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        className="inline-flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         aria-label={locale === 'es' ? 'English' : 'Español'}
       >
         <Languages size={15} />
@@ -39,7 +39,7 @@ export function LangThemeToggle() {
       <button
         type="button"
         onClick={() => setTheme(isDark ? 'light' : 'dark')}
-        className="inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        className="inline-flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={15} /> : <Moon size={15} />}

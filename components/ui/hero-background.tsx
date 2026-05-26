@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 const SPREAD: [number, number, number] = [22, 14, 6]
@@ -23,6 +23,7 @@ const COLD_BLUE_HEX = 0xb8d4ff // cool blue-white — space depth tint
 export function HeroBackground() {
   const mountRef = useRef<HTMLDivElement>(null)
   const parallaxRef = useRef({ x: 0, y: 0 })
+  const [lifecycleKey, setLifecycleKey] = useState(0)
 
   useEffect(() => {
     const mount = mountRef.current
@@ -195,20 +196,40 @@ export function HeroBackground() {
     }
     animate()
 
+    let disposed = false
+    const disposeScene = () => {
+      if (disposed) return
+      disposed = true
+      if (animId) cancelAnimationFrame(animId)
+      disposables.forEach((d) => d.dispose())
+      renderer.dispose()
+      if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement)
+    }
+
+    const onPageHide = () => {
+      disposeScene()
+    }
+
+    const onPageShow = () => {
+      if (disposed) setLifecycleKey((key) => key + 1)
+    }
+
+    window.addEventListener('pagehide', onPageHide)
+    window.addEventListener('pageshow', onPageShow)
+
     // ── Cleanup ───────────────────────────────────────────────────────────────
     return () => {
-      cancelAnimationFrame(animId)
       ro.disconnect()
+      window.removeEventListener('pagehide', onPageHide)
+      window.removeEventListener('pageshow', onPageShow)
       if (isMobile) {
         window.removeEventListener('scroll', onScroll)
       } else {
         window.removeEventListener('mousemove', onMouseMove)
       }
-      disposables.forEach((d) => d.dispose())
-      renderer.dispose()
-      if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement)
+      disposeScene()
     }
-  }, [])
+  }, [lifecycleKey])
 
   return (
     <>

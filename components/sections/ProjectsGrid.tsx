@@ -45,7 +45,13 @@ function ProjectClassicCard({ project }: { project: ProjectSummary }) {
       {project.cover && (
         <Lens lensSize={150} zoomFactor={1.35}>
           <div className="relative aspect-video bg-muted">
-            <Image src={project.cover} alt={project.title ?? ''} fill className="object-cover" />
+            <Image
+              src={project.cover}
+              alt={project.title ?? ''}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
           </div>
         </Lens>
       )}

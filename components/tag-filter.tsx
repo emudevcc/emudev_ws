@@ -40,7 +40,7 @@ export function TagFilter({ projects }: TagFilterProps) {
         <div className="mb-8 flex flex-wrap gap-2">
           <button
             onClick={() => setActive(null)}
-            className={`h-8 rounded-full border px-3 font-mono text-[11px] uppercase tracking-[0.04em] transition-colors ${
+            className={`h-10 rounded-full border px-3 font-mono text-[11px] uppercase tracking-[0.04em] transition-colors ${
               active === null
                 ? 'border-accent bg-accent text-white'
                 : 'border-hairline text-muted-foreground hover:border-accent/60 hover:text-foreground'
@@ -52,7 +52,7 @@ export function TagFilter({ projects }: TagFilterProps) {
             <button
               key={skill._id}
               onClick={() => setActive(active === skill._id ? null : skill._id)}
-              className={`h-8 rounded-full border px-3 font-mono text-[11px] uppercase tracking-[0.04em] transition-colors ${
+              className={`h-10 rounded-full border px-3 font-mono text-[11px] uppercase tracking-[0.04em] transition-colors ${
                 active === skill._id
                   ? 'border-accent bg-accent text-white'
                   : 'border-hairline text-muted-foreground hover:border-accent/60 hover:text-foreground'

@@ -14,7 +14,7 @@ export function AboutSection({ about, settings }: AboutSectionProps) {
   const paragraphs = richTextToParagraphs(about?.paragraphs, [t('fallback')])
 
   return (
-    <section id="about" className="mx-auto max-w-6xl px-5 py-24">
+    <section id="about" className="mx-auto max-w-6xl px-5 py-24 scroll-mt-16">
       <BlurFade delay={0}>
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
           {t('eyebrow')}

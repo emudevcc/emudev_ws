@@ -9,7 +9,7 @@ export function WritingList({ posts }: { posts: PostSummary[] }) {
   const published = posts.filter((post) => post.status !== 'draft').slice(0, 6)
 
   return (
-    <section id="writing" className="mx-auto max-w-6xl px-5 py-24">
+    <section id="writing" className="mx-auto max-w-6xl px-5 py-24 scroll-mt-16">
       <BlurFade delay={0}>
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
           {t('eyebrow')}

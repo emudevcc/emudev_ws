@@ -13,7 +13,7 @@ export function ProjectsGrid({ projects }: { projects: ProjectSummary[] }) {
   const t = useTranslations('projectsHome')
 
   return (
-    <section id="projects" className="mx-auto max-w-6xl px-5 py-24">
+    <section id="projects" className="mx-auto max-w-6xl px-5 py-24 scroll-mt-16">
       <BlurFade delay={0}>
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
           {t('eyebrow')}

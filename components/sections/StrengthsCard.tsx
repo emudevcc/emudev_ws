@@ -7,7 +7,7 @@ export function StrengthsCard({ strengths }: { strengths: Strength[] }) {
   const t = useTranslations('strengths')
 
   return (
-    <section id="strengths" className="mx-auto max-w-6xl px-5 py-16">
+    <section id="strengths" className="mx-auto max-w-6xl px-5 py-16 scroll-mt-16">
       <BlurFade delay={0}>
         <p className="mb-3 font-mono text-xs text-muted-foreground">{t('eyebrow')}</p>
         <h2 className="mb-10 text-4xl font-bold tracking-tight">{t('title')}</h2>

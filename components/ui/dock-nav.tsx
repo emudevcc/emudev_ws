@@ -52,7 +52,8 @@ export function DockNav({ locale }: DockNavProps) {
   }
 
   return (
-    <div
+    <nav
+      aria-label="Page sections"
       className={cn(
         'fixed inset-x-0 bottom-4 z-50 hidden justify-center px-4 md:flex',
         'transition-all duration-300 ease-out',
@@ -75,6 +76,7 @@ export function DockNav({ locale }: DockNavProps) {
                     'bg-primary text-primary-foreground hover:text-primary-foreground'
                 )}
                 aria-label={label}
+                aria-current={active === id ? 'location' : undefined}
               >
                 <Icon size={16} />
               </a>
@@ -82,6 +84,6 @@ export function DockNav({ locale }: DockNavProps) {
           ))}
         </Dock>
       </div>
-    </div>
+    </nav>
   )
 }

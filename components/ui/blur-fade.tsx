@@ -5,6 +5,7 @@ import {
   AnimatePresence,
   motion,
   useInView,
+  useReducedMotion,
   type MotionProps,
   type UseInViewOptions,
   type Variants,
@@ -46,6 +47,7 @@ export function BlurFade({
   const ref = useRef(null)
   const inViewResult = useInView(ref, { once: true, margin: inViewMargin })
   const isInView = !inView || inViewResult
+  const prefersReducedMotion = useReducedMotion()
   const defaultVariants: Variants = {
     hidden: {
       [direction === 'left' || direction === 'right' ? 'x' : 'y']:
@@ -66,6 +68,11 @@ export function BlurFade({
 
   const shouldTransitionFilter =
     hiddenFilter != null && visibleFilter != null && hiddenFilter !== visibleFilter
+
+  // Skip animation entirely when user prefers reduced motion (WCAG 2.3.3 / INP)
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>
+  }
 
   return (
     <AnimatePresence>

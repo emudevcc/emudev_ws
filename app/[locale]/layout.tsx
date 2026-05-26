@@ -38,13 +38,25 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
   const settings = await getSiteSettings(locale)
   const siteName = settings?.siteName ?? 'emudev'
   const description = settings?.description ?? 'Software engineer portfolio - Esteban Montero'
+  const ogImage = '/opengraph-image'
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://emudev.cc'),
     title: { default: siteName, template: `%s | ${siteName}` },
     description,
     alternates: localeAlternates('', locale),
-    openGraph: { siteName, type: 'website' },
+    openGraph: {
+      siteName,
+      title: siteName,
+      description,
+      url: `/${locale}`,
+      type: 'website',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: siteName }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: [ogImage],
+    },
   }
 }
 
@@ -62,10 +74,38 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+        {/* Speculation Rules: prerender same-origin pages on moderate hover intent (~200ms).
+            Excludes Studio and API routes to avoid side effects.
+            Chromium-only — Safari/Firefox ignore this script safely. */}
+        <script
+          type="speculationrules"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              prerender: [
+                {
+                  where: {
+                    and: [
+                      { href_matches: '/*' },
+                      { not: { href_matches: '/studio*' } },
+                      { not: { href_matches: '/api/*' } },
+                    ],
+                  },
+                  eagerness: 'moderate',
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:ring-2 focus:ring-ring"
+        >
+          Skip to main content
+        </a>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
             attribute="data-theme"

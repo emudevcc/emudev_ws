@@ -75,6 +75,12 @@ export default async function Page({ params }) {
 
 ---
 
+## Client Privacy — Company Alias Pattern
+
+Protect sensitive client names via `companyAlias` field in experience schema. GROQ projection uses `coalesce(companyAlias, company)` as `displayCompany` — alias shown if set, real name as fallback. Raw `company` field excluded from projection (stays in Sanity Studio only). Complete privacy boundary by updating `profile.md` (gitignored) for AI chat responses.
+
+---
+
 ## Hash-Anchor Navigation Pattern
 
 **When to use:** Same-page scroll navigation (e.g., About and Contact sections on homepage).

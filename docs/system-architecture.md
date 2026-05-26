@@ -222,8 +222,8 @@ Singletons:
 Portfolio (content):
 ├── Project { title.en/es, slug, description.en/es, content.en/es, cover, tech[], metrics, liveUrl, repoUrl, publishedAt }
 ├── Skill { name, category, level, iconSlug, description.en/es }
-├── Experience { role.en/es, company, duration, description.en/es, tech[] }
-├── Certification { title.en/es, issuer, date, credential, logo }
+├── Experience { role.en/es, company (internal), companyAlias (optional), clientAliases[], duration, description.en/es, tech[] } **[UPDATED]**
+├── Certification { title.en/es, issuer, date, credentialId, credentialUrl, logo }
 └── Project Gallery (future variant)
 
 Blog:
@@ -259,6 +259,7 @@ groq`*[_type == "project" && slug.current == $slug][0] {
 - No null/broken content in either locale
 - Admin only translates what's necessary; English is the safety net
 - Reference expansion via `->` (e.g., `tech[]->{name, category}`)
+- **Client Privacy:** Experience queries project `"displayCompany": coalesce(companyAlias, company)` — raw `company` field excluded from frontend (stays in Studio only). Enables confidential client names via opt-in `companyAlias` field.
 
 #### ISR Cache Layer with Locale Differentiation
 

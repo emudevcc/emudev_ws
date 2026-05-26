@@ -283,6 +283,30 @@ Added smooth scroll animation for anchor navigation:
 
 Applied globally to all `<a href="#anchor">` navigation (hero stats, footer, section links). Respects `prefers-reduced-motion` for accessibility.
 
+### Hero Section — Backdrop Blur Scrim (Theme-Adaptive Overlay)
+
+**File:** `components/sections/HeroSection.tsx`
+
+Added a theme-adaptive blur scrim as the first child of the hero content wrapper:
+
+```tsx
+<div
+  className="pointer-events-none absolute -inset-x-6 -inset-y-8 rounded-[2rem] bg-canvas/60 backdrop-blur-md"
+  aria-hidden="true"
+/>
+```
+
+**Purpose:**
+- Dims the particle field behind hero text for improved legibility
+- Theme-aware: uses `--canvas` token for automatic dark/light mode switching
+  - **Dark mode:** `rgba(15,15,16,0.60)` — dims green accent nodes and orange connection lines
+  - **Light mode:** `rgba(255,255,255,0.60)` — softens dot pattern behind text
+- `pointer-events-none` — purely visual, no interaction capture
+- `aria-hidden="true"` — semantic empty layer, not announced to screen readers
+- `backdrop-blur-md` — 16px blur effect for subtle softening
+
+**Design rationale:** The scrim improves text contrast without replacing the hero background entirely, preserving the space depth effect while enhancing readability.
+
 ### PageTransition Component (Route Animations)
 
 **File:** `components/ui/page-transition.tsx`

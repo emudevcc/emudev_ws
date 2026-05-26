@@ -169,7 +169,7 @@ emudev_ws/
 | -------------------------------------------------- | ---- | --------------------------------------------------------------------------------- |
 | `types/sanity.types.ts`                            | ~900 | Generated Sanity document types for the 14-type content model                     |
 | `types/supabase.types.ts`                          | 188  | Generated Supabase table types (contact_submissions, auth.users, etc.)            |
-| `lib/sanity-queries.ts`                            | ~550 | 14+ ISR-cached GROQ queries, locale-v3 cache keys, coalesce fallback, collection tags |
+| `lib/sanity-queries.ts`                            | ~550 | 14+ ISR-cached GROQ queries, locale-v3 cache keys, coalesce fallback for bilingual fields and experience `companyAlias` privacy aliasing (`displayCompany: coalesce(companyAlias, company)`), collection tags |
 | `lib/design-tokens.ts`                              | 125  | Typed `as const` design tokens (colors, spacing, radii, typography, shadow, motion) for programmatic component access |
 | `sanity/lib/i18n-helpers.ts`                        | ~80  | 6 shared localized field factories (localizedString, localizedText, localizedSlug, etc.) |
 | `components/contact-form.tsx`                      | 83   | React 19 useActionState form with validation feedback                             |
@@ -189,12 +189,14 @@ emudev_ws/
 | `hooks/use-speech-recognition.ts`                  | 102  | [NEW] Rewritten: recognition instance once on mount, onTranscript in stable useRef, lang via separate effect |
 | `hooks/use-speech-synthesis.ts`                    | 57   | Rewritten to fetch `/api/tts` server route instead of `window.speechSynthesis`; plays MP3 via `new Audio('data:audio/mpeg;base64,' + audioBase64)`; interface unchanged: `{ supported: true, speaking, speak(text, lang?), cancel() }` |
 | `lib/social-adapters.ts`                           | ~40  | [NEW] Pure adapters: adaptSocialPost(s), relativeTime helper using Intl.RelativeTimeFormat |
-| `components/sections/CredentialsSection.tsx`       | ~85  | Language proficiency `levels` array: ['basic', 'conversational', 'professional', 'fluent', 'native'] |
+| `components/sections/CredentialsSection.tsx`       | ~85  | Certifications, education, languages; `CredentialRow` extended with optional `href` (external link wrapper) and `credentialId` (displays ID below issuer); `ExternalLink` icon shown on hover when href present; language proficiency `levels` array: ['basic', 'conversational', 'professional', 'fluent', 'native'] |
 | `components/ui/lang-theme-toggle.tsx`             | ~40  | Language + theme toggle; uses `useSyncExternalStore` for hydration safety          |
+| `components/ui/experience-card.tsx`                | ~35  | Experience row card; renders `displayCompany` (alias or real company name, privacy-safe), role, duration, description |
 | `components/ui/hero-section.tsx`                   | 39   | Animated hero with name + bio                                                     |
 | `tests/smoke/pages.spec.ts`                        | 35   | Playwright smoke tests for original routes                                        |
 | `tests/smoke/i18n-bilingual.spec.ts`               | ~190 | Playwright smoke tests for i18n routing, message key parity, locale rendering     |
 | `tests/smoke/content-model.spec.ts`                | ~95  | Static contracts: 14 schema types, 6 i18n helpers, query exports, cache version   |
+| `sanity/schemas/experience-type.ts`                | ~95  | Sanity experience schema with bilingual role/description, company (internal), companyAlias (public display), clientAliases (array), and tech references |
 | `sanity/schemas/project-type.ts`                   | ~90  | Sanity project schema with bilingual fields, cover, tech, gallery, metrics        |
 | `components/site-nav.tsx`                          | 30   | Navigation + LocaleSwitcher (async server)                                        |
 | `app/[locale]/page.tsx`                            | 30   | Homepage with hero + featured projects (per-locale)                               |

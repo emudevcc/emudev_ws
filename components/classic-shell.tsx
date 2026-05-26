@@ -20,7 +20,8 @@ export function ClassicShell({ locale, settings }: ClassicShellProps) {
           contact: 'Contacto',
         }
       : { home: 'Home', projects: 'Projects', blog: 'Blog', about: 'About', contact: 'Contact' }
-  const navLinkClass = 'transition-colors hover:text-foreground'
+  const navLinkClass =
+    'rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
 
   return (
     <>
@@ -29,7 +30,10 @@ export function ClassicShell({ locale, settings }: ClassicShellProps) {
           <Link href="/" className="font-mono text-sm font-semibold tracking-tight">
             {settings?.siteName ?? 'emudev'}
           </Link>
-          <nav className="hidden items-center gap-5 text-sm text-muted-foreground md:flex">
+          <nav
+            aria-label="Main navigation"
+            className="hidden items-center gap-5 text-sm text-muted-foreground md:flex"
+          >
             <Link href="/" className={navLinkClass}>
               {labels.home}
             </Link>

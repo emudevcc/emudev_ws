@@ -33,7 +33,7 @@ export function ContactSection({ settings }: ContactSectionProps) {
   }
 
   return (
-    <section id="contact" className="mx-auto max-w-6xl px-5 py-24">
+    <section id="contact" className="mx-auto max-w-6xl px-5 py-24 scroll-mt-16">
       <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">{t('eyebrow')}</p>
       <h2 className="text-4xl font-bold tracking-tight">{t('title')}</h2>
       <p className="mt-3 max-w-2xl text-muted-foreground">{t('subtitle')}</p>
@@ -85,7 +85,7 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="h-10 rounded-md border border-border bg-background px-3 text-sm outline-none transition-colors focus:border-ring"
+        className="h-10 rounded-md border border-border bg-background px-3 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1"
       />
     </label>
   )
@@ -99,7 +99,7 @@ function Textarea({ name, label, required }: { name: string; label: string; requ
         name={name}
         required={required}
         rows={4}
-        className="resize-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-ring"
+        className="resize-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1"
       />
     </label>
   )

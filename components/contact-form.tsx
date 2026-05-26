@@ -44,7 +44,7 @@ export function ContactForm() {
           required
           maxLength={100}
           placeholder="Your name"
-          className="h-10 w-full rounded-md border border-hairline bg-surface-input px-3 text-sm outline-none transition-colors focus:border-ring"
+          className="h-10 w-full rounded-md border border-hairline bg-surface-input px-3 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1"
         />
       </div>
 
@@ -58,7 +58,7 @@ export function ContactForm() {
           type="email"
           required
           placeholder="you@example.com"
-          className="h-10 w-full rounded-md border border-hairline bg-surface-input px-3 text-sm outline-none transition-colors focus:border-ring"
+          className="h-10 w-full rounded-md border border-hairline bg-surface-input px-3 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1"
         />
       </div>
 
@@ -73,7 +73,7 @@ export function ContactForm() {
           rows={5}
           maxLength={2000}
           placeholder="Tell me about your project…"
-          className="w-full resize-none rounded-md border border-hairline bg-surface-input px-3 py-2 text-sm outline-none transition-colors focus:border-ring"
+          className="w-full resize-none rounded-md border border-hairline bg-surface-input px-3 py-2 text-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1"
         />
       </div>
 

@@ -46,7 +46,7 @@ export function HeroSection({
   return (
     <section
       id="home"
-      className="relative flex min-h-screen flex-col justify-center px-5 pb-20 pt-28"
+      className="relative flex min-h-screen flex-col justify-center px-5 pb-20 pt-28 scroll-mt-16"
     >
       <HeroBackground />
       <div className="relative mx-auto w-full max-w-6xl">
@@ -73,7 +73,11 @@ export function HeroSection({
                   {name.slice(0, 2)}
                 </div>
               )}
-              <span className="absolute bottom-1 right-1 size-3 rounded-full border-2 border-background bg-emerald-500" />
+              <span
+                className="absolute bottom-1 right-1 size-3 rounded-full border-2 border-background bg-emerald-500"
+                aria-label="Available for work"
+                role="img"
+              />
             </div>
             <div className="space-y-1 font-mono text-xs text-muted-foreground">
               {settings?.location && <p>{settings.location}</p>}

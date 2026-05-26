@@ -31,6 +31,9 @@ export function HeroSection({
   const role = settings?.role ?? 'Software Engineer'
   const resume = settings?.resumePdfEn ?? settings?.resumePdfEs
   const intro = richTextToPlainText(settings?.heroIntro)
+  const avatarBlurDataUrl = settings?.avatar
+    ? `${settings.avatar}${settings.avatar.includes('?') ? '&' : '?'}w=20&blur=50&q=10&auto=format`
+    : undefined
   const stats = [
     { value: yearsOfExperience, label: t('statExperience'), href: '#experience' },
     { value: skillCount, label: t('statSkills'), href: '#skills' },
@@ -56,7 +59,15 @@ export function HeroSection({
           <div className="mb-8 flex items-center gap-4">
             <div className="relative size-20 overflow-hidden rounded-full border border-border bg-muted">
               {settings?.avatar ? (
-                <Image src={settings.avatar} alt={name} fill className="object-cover" priority />
+                <Image
+                  src={settings.avatar}
+                  alt={name}
+                  fill
+                  className="object-cover"
+                  priority
+                  placeholder={avatarBlurDataUrl ? 'blur' : undefined}
+                  blurDataURL={avatarBlurDataUrl}
+                />
               ) : (
                 <div className="flex size-full items-center justify-center font-mono text-lg">
                   {name.slice(0, 2)}

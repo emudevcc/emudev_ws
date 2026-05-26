@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl'
+import { ExternalLink } from 'lucide-react'
 import { BlurFade } from '@/components/ui/blur-fade'
 import type { Certification, Education, Language } from '@/lib/sanity-queries'
 
@@ -35,6 +36,8 @@ export function CredentialsSection({ certs, education, languages }: CredentialsS
                   meta={[cert.issuer, cert.issueDate ? new Date(cert.issueDate).getFullYear() : '']
                     .filter(Boolean)
                     .join(' - ')}
+                  href={cert.credentialUrl}
+                  credentialId={cert.credentialId}
                 />
               ))}
             </div>
@@ -83,15 +86,51 @@ export function CredentialsSection({ certs, education, languages }: CredentialsS
   )
 }
 
-function CredentialRow({ title, meta }: { title?: string; meta?: string }) {
-  return (
+function CredentialRow({
+  title,
+  meta,
+  href,
+  credentialId,
+}: {
+  title?: string
+  meta?: string
+  href?: string
+  credentialId?: string
+}) {
+  const content = (
     <div className="flex items-start gap-3">
-      <div className="mt-1 size-2 rounded-full bg-accent" />
+      <div className="mt-1 size-2 shrink-0 rounded-full bg-accent" />
       <div>
-        <p className="text-sm font-medium">{title}</p>
+        <p className="flex items-center gap-1.5 text-sm font-medium">
+          <span>{title}</span>
+          {href && (
+            <ExternalLink
+              size={13}
+              className="text-muted-foreground transition-colors group-hover:text-accent"
+              aria-hidden="true"
+            />
+          )}
+        </p>
         {meta && <p className="mt-1 font-mono text-[11px] text-muted-foreground">{meta}</p>}
+        {credentialId && (
+          <p className="mt-1 font-mono text-[11px] text-muted-foreground">#{credentialId}</p>
+        )}
       </div>
     </div>
+  )
+
+  if (!href) return content
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Open credential: ${title ?? credentialId ?? 'certification'}`}
+      className="group block transition-colors hover:text-foreground"
+    >
+      {content}
+    </a>
   )
 }
 

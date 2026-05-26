@@ -99,7 +99,7 @@ export type About = {
 export type Experience = {
   _id: string
   role?: string
-  company?: string
+  displayCompany?: string
   companyUrl?: string
   companyLogo?: string
   location?: string
@@ -109,7 +109,6 @@ export type Experience = {
   summary?: unknown[]
   highlights?: string[]
   tech?: SkillSummary[]
-  clients?: string[]
   order?: number
 }
 
@@ -179,6 +178,33 @@ export type Testimonial = {
 const normalizeLocale = (locale?: string): Locale => (locale === 'es' ? 'es' : 'en')
 const cacheVersion = 'localized-v5'
 const revalidateSeconds = Number(process.env.SANITY_REVALIDATE_SECONDS ?? 60)
+
+const clientPrivacyAliases = [
+  { pattern: /\bQurate Retail Group\b/gi, replacement: 'Global Retail Group' },
+  { pattern: /\bVolkswagen\b/gi, replacement: 'Global Automotive Brand' },
+  { pattern: /\bVerizon\b/gi, replacement: 'Global Telecommunications Company' },
+  { pattern: /\bDisney\b/gi, replacement: 'Global Media and Entertainment Company' },
+  { pattern: /\bBoehringer Ingelheim\b/gi, replacement: 'Global Pharmaceutical Company' },
+  { pattern: /\bBiogen\b/gi, replacement: 'Global Biotechnology Company' },
+  { pattern: /\bP&G\b|\bPG\b/gi, replacement: 'Global Consumer Goods Company' },
+]
+
+function sanitizeClientNames(value: string) {
+  return clientPrivacyAliases.reduce(
+    (current, alias) => current.replace(alias.pattern, alias.replacement),
+    value
+  )
+}
+
+function sanitizeSanityText<T>(value: T): T {
+  if (typeof value === 'string') return sanitizeClientNames(value) as T
+  if (Array.isArray(value)) return value.map((item) => sanitizeSanityText(item)) as T
+  if (!value || typeof value !== 'object') return value
+
+  return Object.fromEntries(
+    Object.entries(value).map(([key, item]) => [key, sanitizeSanityText(item)])
+  ) as T
+}
 
 const skillProjection = groq`{
   _id,
@@ -341,8 +367,8 @@ export const getSiteSettings = (locale?: string) => {
   const safeLocale = normalizeLocale(locale)
 
   return unstable_cache(
-    async () =>
-      sanityFetch<SiteSettings | null>({
+    async () => {
+      const settings = await sanityFetch<SiteSettings | null>({
         query: groq`*[_type == "siteSettings"] | order(_updatedAt desc)[0] {
           fullName,
           shortName,
@@ -365,7 +391,10 @@ export const getSiteSettings = (locale?: string) => {
           "socialLinks": socialLinks[visible != false]{ platform, handle, url, visible }
         }`,
         params: { locale: safeLocale },
-      }),
+      })
+
+      return settings ? sanitizeSanityText(settings) : settings
+    },
     [`${cacheVersion}-site-settings-${safeLocale}`],
     { tags: ['site-settings'], revalidate: revalidateSeconds }
   )()
@@ -389,15 +418,18 @@ export const getAbout = (locale?: string) => {
   const safeLocale = normalizeLocale(locale)
 
   return unstable_cache(
-    async () =>
-      sanityFetch<About | null>({
+    async () => {
+      const about = await sanityFetch<About | null>({
         query: groq`*[_type == "about"] | order(_updatedAt desc)[0] {
           "paragraphs": coalesce(paragraphs[$locale], paragraphs.en),
           "funFacts": coalesce(funFacts[$locale], funFacts.en),
           "photoCaption": coalesce(photoCaption[$locale], photoCaption.en)
         }`,
         params: { locale: safeLocale },
-      }),
+      })
+
+      return about ? sanitizeSanityText(about) : about
+    },
     [`${cacheVersion}-about-${safeLocale}`],
     { tags: ['about'], revalidate: revalidateSeconds }
   )()
@@ -407,12 +439,12 @@ export const getExperiences = (locale?: string) => {
   const safeLocale = normalizeLocale(locale)
 
   return unstable_cache(
-    async () =>
-      sanityFetch<Experience[]>({
+    async () => {
+      const experiences = await sanityFetch<Experience[]>({
         query: groq`*[_type == "experience"] | order(coalesce(order, 9999) asc, startDate desc) {
           _id,
           "role": coalesce(role[$locale], role.en),
-          company,
+          "displayCompany": coalesce(companyAlias, company),
           companyUrl,
           "companyLogo": companyLogo.asset->url,
           location,
@@ -422,11 +454,13 @@ export const getExperiences = (locale?: string) => {
           "summary": coalesce(summary[$locale], summary.en),
           "highlights": coalesce(highlights[$locale], highlights.en),
           "tech": tech[]->${skillProjection},
-          clients,
           order
         }`,
         params: { locale: safeLocale },
-      }),
+      })
+
+      return sanitizeSanityText(experiences)
+    },
     [`${cacheVersion}-experiences-${safeLocale}`],
     { tags: ['experiences'], revalidate: revalidateSeconds }
   )()

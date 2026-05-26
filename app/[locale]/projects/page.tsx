@@ -10,10 +10,18 @@ type Props = { params: Promise<{ locale: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
+  const title = 'Projects'
+  const description = 'A collection of projects by Esteban Montero'
 
   return {
-    title: 'Projects',
-    description: 'A collection of projects by Esteban Montero',
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/${locale}/projects`,
+      type: 'website',
+    },
     alternates: localeAlternates('/projects', locale),
   }
 }

@@ -88,9 +88,26 @@ export default async function HomePage({ params }: Props) {
       return y < min ? y : min
     }, thisYear) ?? thisYear
   const yearsOfExperience = thisYear - earliestYear
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://emudev.cc'
+  const sameAs =
+    settings?.socialLinks
+      ?.filter((link) => link.url && ['github', 'linkedin'].includes(link.platform ?? ''))
+      .map((link) => link.url as string) ?? []
+  const personJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: settings?.fullName ?? settings?.siteName ?? 'Esteban Montero',
+    url: `${siteUrl}/${locale}`,
+    jobTitle: settings?.role ?? 'Software Engineer',
+    sameAs,
+  }
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <HeroSection
         settings={settings}
         yearsOfExperience={yearsOfExperience}

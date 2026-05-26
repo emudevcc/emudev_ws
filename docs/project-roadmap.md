@@ -1,9 +1,9 @@
 # Project Roadmap
 
-## Current Status: Phases 1-8.5 + 9.0-9.17 Complete, Bilingual Live
+## Current Status: Phases 1-8.5 + 9.0-9.18 Complete, Bilingual Live
 
 **Timeline:** May 25, 2026
-**Overall Progress:** 100% (Phases 1-8.5 + 9.0-9.17 complete; Phase 10+ future work)
+**Overall Progress:** 100% (Phases 1-8.5 + 9.0-9.18 complete; Phase 10+ future work)
 
 ---
 
@@ -219,9 +219,9 @@
 
 ## Phase 9: Post-Launch & UI Enhancement (COMPLETE)
 
-**Status:** ✅ Phases 9.0-9.14 complete; 9.15+ planned
-**Current Date:** May 16, 2026
-**Overall Progress:** 99%
+**Status:** ✅ Phases 9.0-9.18 complete
+**Current Date:** May 25, 2026
+**Overall Progress:** 100%
 
 ### Phase 9.0: Production Deployment (COMPLETE)
 
@@ -562,6 +562,28 @@ Deliverables:
 - [x] SEO improvement: breadcrumb schema for blog/project detail pages
 - [x] Mobile UX: smooth scroll parallax without permission prompts
 - [x] Background recession: opacity-40 on LayoutWidgets dims DotPattern effectively
+
+### Phase 9.18: Certifications Enhancement & Client Privacy (COMPLETE)
+
+**Status:** ✅ Complete (May 25, 2026)
+
+**Certifications Widget (CredentialsSection):**
+- [x] `CredentialRow` with optional `href` (external link wrapper) and `credentialId` (mono/muted display)
+- [x] ExternalLink icon on hover when href present (fades to accent color via group-hover)
+- [x] Data passed from GROQ: `credentialUrl`, `credentialId`
+
+**Client Name Privacy (Experience):**
+- [x] Schema: `companyAlias` (opt-in public name), `clientAliases` array (public-safe labels)
+- [x] GROQ projection: `"displayCompany": coalesce(companyAlias, company)` (raw `company` excluded from frontend)
+- [x] UI: ExperienceCard renders `displayCompany` (alias if set, real name as fallback)
+
+**Hero Scrim (UX Polish):**
+- [x] Theme-adaptive `backdrop-blur-md bg-canvas/60` overlay as content wrapper's first child
+- [x] Dark mode: dims particle field; Light mode: softens dot pattern; improves text contrast
+
+**Documentation Updates:**
+- [x] codebase-summary.md, design-guidelines.md, code-standards.md, system-architecture.md
+- [x] All files optimized to stay under 800 LOC
 
 ### Phase 9.15: AI Chat Widget & TTS Migration (COMPLETE)
 

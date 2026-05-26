@@ -163,6 +163,7 @@ Ship a zero-maintenance portfolio that:
 - **Phase 9.15** ✅: AI chat widget enhancements (profile photo, voice I/O, locale-aware suggestions; system prompt locale-aware; social backend; credential level fix; bundle optimization)
 - **Phase 9.16** ✅: Mobile scroll parallax & GitHub contributions fix (scroll-based parallax on pointer:coarse, prefers-reduced-motion safe, network error handling)
 - **Phase 9.17** ✅: Visual enhancements (HeroBackground 3-layer depth system with accent colors; DotPattern depth tiers + color accents + deterministic seeding; Breadcrumb navigation with JSON-LD schema; opacity-40 background recession)
+- **Phase 9.18** ✅: Certifications & client privacy (clickable credential links with external link icons + credential IDs; client name privacy via companyAlias field; hero blur scrim for text contrast; theme-adaptive overlay)
 
 ### Future (Phase 10+)
 

@@ -27,7 +27,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
       </p>
       <h3 className="font-semibold">{experience.role}</h3>
       <p className="text-sm text-muted-foreground">
-        {[experience.company, experience.location].filter(Boolean).join(' - ')}
+        {[experience.displayCompany, experience.location].filter(Boolean).join(' - ')}
       </p>
       {summary && <p className="mt-3 text-sm leading-7 text-muted-foreground">{summary}</p>}
       {experience.tech && experience.tech.length > 0 && (

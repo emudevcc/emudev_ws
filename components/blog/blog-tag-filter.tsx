@@ -29,7 +29,7 @@ export function BlogTagFilter({ tags, onFilter }: BlogTagFilterProps) {
         type="button"
         onClick={() => select(null)}
         className={cn(
-          'h-8 rounded-full border px-3 font-mono text-[11px] uppercase tracking-[0.04em] transition-colors',
+          'h-10 rounded-full border px-3 font-mono text-[11px] uppercase tracking-[0.04em] transition-colors',
           selected === null
             ? 'border-accent bg-accent text-accent-foreground'
             : 'border-hairline text-muted-foreground hover:border-accent/60 hover:text-foreground'
@@ -43,7 +43,7 @@ export function BlogTagFilter({ tags, onFilter }: BlogTagFilterProps) {
           type="button"
           onClick={() => select(tag._id)}
           className={cn(
-            'h-8 rounded-full border px-3 font-mono text-[11px] uppercase tracking-[0.04em] transition-colors',
+            'h-10 rounded-full border px-3 font-mono text-[11px] uppercase tracking-[0.04em] transition-colors',
             selected === tag._id
               ? 'border-accent bg-accent text-accent-foreground'
               : 'border-hairline text-muted-foreground hover:border-accent/60 hover:text-foreground'

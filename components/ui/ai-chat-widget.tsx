@@ -439,7 +439,11 @@ export function AIChatWidget({ avatarUrl }: AIChatWidgetProps) {
           </div>
         ))}
         {status === 'processing' && (
-          <div className="flex items-center gap-1 px-3 py-2" aria-label="Assistant is typing">
+          <div
+            className="flex items-center gap-1 px-3 py-2"
+            role="status"
+            aria-label="Assistant is typing"
+          >
             <span className="size-1.5 animate-bounce rounded-full bg-fg-3" />
             <span className="size-1.5 animate-bounce rounded-full bg-fg-3 [animation-delay:150ms]" />
             <span className="size-1.5 animate-bounce rounded-full bg-fg-3 [animation-delay:300ms]" />

@@ -670,6 +670,64 @@ Production live at https://emudev.cc (both /en and /es)
 
 ---
 
+## SEO & Metadata Layer
+
+### OG Image Generation
+
+**File:** `app/opengraph-image.tsx` (default for all pages)
+
+- **Runtime:** Edge (fast generation)
+- **Size:** 1200×630 pixels (standard Twitter/LinkedIn ratio)
+- **Format:** PNG via `ImageResponse` from Next.js
+- **Per-page:** Blog/project detail routes have dynamic OG images with post/project title, author, date
+
+### Structured Data (JSON-LD)
+
+**Homepage:** Person schema with jobTitle, sameAs (LinkedIn/GitHub links)
+
+**Blog/Project details:** BreadcrumbList schema for search snippet enhancement (home → category → page title)
+
+### Sitemap & Robots
+
+**File:** `app/sitemap.ts` — Generates all locale variants with `lastModified` and `changeFrequency`
+
+**File:** `app/robots.ts` — Allows all crawlers; disallows AI training bots (GPTBot, ClaudeBot, Google-Extended, CCBot, anthropic-ai, cohere-ai)
+
+### Hreflang & Canonical Links
+
+**Per-page:** `generateMetadata()` produces self-referential canonicals (e.g., `/en/about` → canonical: `/en/about`) and hreflang alternates (en, es, x-default)
+
+**Rationale:** All pages always locale-prefixed; no bare `/path` URLs
+
+---
+
+## Analytics & Performance Monitoring
+
+### Vercel Analytics & Speed Insights
+
+**Integration:** Imported in `app/[locale]/layout.tsx` as React components
+
+```tsx
+<Analytics />        // Pageviews, session count, referrer, device type, locale
+<SpeedInsights />    // Core Web Vitals (LCP, FID, CLS), first-party execution time
+```
+
+**No env vars needed:** Auto-configured via Vercel project settings
+
+**Client cost:** Zero; uses browser Web Vitals API + Vercel edge infrastructure
+
+### Performance Optimizations
+
+**Speculation Rules API:** `<head>` includes speculationrules script that prerendering same-origin pages on moderate hover (~200ms). Excludes `/studio/*` and `/api/*` to avoid side effects. Chromium-only; Safari/Firefox ignore safely.
+
+**LQIP (Low-Quality Image Placeholder):** Hero avatar uses Sanity CDN URL params (`?w=20&blur=50&q=10`) for blur preview
+
+**Responsive Images:** ProjectsGrid uses `sizes="(max-width: 768px) 100vw, 50vw"` for proper srcset selection
+
+**CDN Preconnect:** `<link rel="preconnect" href="https://cdn.sanity.io" />` in layout head reduces Sanity CDN latency
+
+---
+
 ## Monitoring & Alerting
 
 ### Key Metrics

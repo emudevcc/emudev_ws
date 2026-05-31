@@ -798,3 +798,7 @@ export default async function Page() {
 3. Parent can be Server Component (loader acts as boundary)
 4. No props passed through loader; use props in actual component
 
+---
+
+**Extended patterns:** See `code-standards-extended.md` for SEO (OG images, JSON-LD, AI bot rules), WCAG 2.2 accessibility, performance (Speculation Rules, LQIP, CDN preconnect), and analytics.
+

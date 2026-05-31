@@ -567,6 +567,72 @@ Deliverables:
 
 **Status:** ✅ Complete (May 25, 2026)
 
+### Phase 9.19: Vercel Analytics & Speed Insights (COMPLETE)
+
+**Status:** ✅ Complete (May 26, 2026)
+**Priority:** P1 (monitoring/observability)
+
+**Deliverables:**
+
+- [x] Added `@vercel/analytics` and `@vercel/speed-insights` packages
+- [x] Imported `Analytics` and `SpeedInsights` components in `app/[locale]/layout.tsx`
+- [x] No additional env vars needed; auto-configured via Vercel project settings
+- [x] Analytics tracks: pageviews, session count, referrer, device type, locale (geo IP)
+- [x] Speed Insights tracks: Core Web Vitals (LCP, FID, CLS), first-party execution time
+- [x] Zero client-side cost: uses browser Web Vitals API + Vercel edge infrastructure
+
+### Phase 9.20: SEO & Structured Data (OG Images, JSON-LD, AI Bot Rules) (COMPLETE)
+
+**Status:** ✅ Complete (May 26, 2026)
+**Priority:** P1 (SEO)
+
+**Deliverables:**
+
+- [x] `app/opengraph-image.tsx` — Default OG image (1200×630, ImageResponse edge runtime)
+- [x] Per-page OG images: `/[locale]/blog/[slug]/opengraph-image.tsx`, `/[locale]/projects/[slug]/opengraph-image.tsx`
+- [x] JSON-LD Person schema on homepage (jobTitle, sameAs links)
+- [x] Breadcrumb JSON-LD schema on blog/project detail pages (home → category → page)
+- [x] `app/robots.ts` updated: disallows AI training bots (GPTBot, ClaudeBot, Google-Extended, CCBot, anthropic-ai, cohere-ai)
+- [x] `app/sitemap.ts` includes all locale variants with `lastModified` and `changeFrequency`
+- [x] Per-page `generateMetadata()` with self-referential canonicals and hreflang alternates
+
+### Phase 9.21: WCAG 2.2 Accessibility & Performance Optimizations (COMPLETE)
+
+**Status:** ✅ Complete (May 26, 2026)
+**Priority:** P1 (accessibility/performance)
+
+**Accessibility (WCAG 2.2):**
+
+- [x] `scroll-mt-16` on all 9 section anchors (fixes 56px header obscuring sections on anchor nav)
+- [x] Focus-visible rings on all form inputs and nav links (`focus-visible:ring-2 ring-ring/50 ring-offset-1`)
+- [x] `aria-current="location"` on active dock nav items
+- [x] `aria-label="Main navigation"` on header nav; `aria-label="Page sections"` on dock nav
+- [x] Skip link (first `<body>` child) with target `id="main-content"` on main element
+- [x] `useReducedMotion()` in BlurFade (renders plain div instead of animating)
+- [x] `prefers-reduced-motion` guard in hero-background.tsx (both mobile scroll parallax and desktop mousemove parallax)
+- [x] `prefers-reduced-motion` guard in dot-pattern.tsx (twinkling animation skipped)
+- [x] Contrast fix: `--fg-4` opacity raised to 0.45 (from 0.40) for WCAG AA compliance
+- [x] Alt text + `role="img" aria-label` on decorative elements (hero status dot, etc.)
+
+**Performance:**
+
+- [x] Speculation Rules API in `<head>`: prerendering same-origin pages on moderate hover (~200ms); excludes `/studio/*` and `/api/*`
+- [x] LQIP (Low-Quality Image Placeholder): Hero avatar uses Sanity CDN URL params (`?w=20&blur=50&q=10`)
+- [x] Responsive images: ProjectsGrid uses `sizes="(max-width: 768px) 100vw, 50vw"` for proper srcset selection
+- [x] CDN preconnect: `<link rel="preconnect" href="https://cdn.sanity.io" />` in layout head
+
+**Documentation:**
+
+- [x] `docs/code-standards-extended.md` (306 LOC) — SEO patterns, WCAG 2.2 accessibility patterns, performance patterns, analytics setup
+- [x] Updated `docs/code-standards.md` with reference to extended patterns
+- [x] Updated `docs/system-architecture.md` with SEO layer, analytics section
+- [x] Updated `docs/design-guidelines.md` with WCAG 2.2 section
+- [x] Updated `docs/codebase-summary.md` with new files and feature notes
+
+### Phase 9.18: Certifications Enhancement & Client Privacy (COMPLETE)
+
+**Status:** ✅ Complete (May 25, 2026)
+
 **Certifications Widget (CredentialsSection):**
 - [x] `CredentialRow` with optional `href` (external link wrapper) and `credentialId` (mono/muted display)
 - [x] ExternalLink icon on hover when href present (fades to accent color via group-hover)
@@ -767,8 +833,11 @@ Phase 1 (DONE)
 | Phase 9.15 | May 19 | May 19 | <1 day               | ✅ Complete      |
 | Phase 9.16 | May 20 | May 20 | <1 day               | ✅ Complete      |
 | Phase 9.17 | May 25 | May 25 | <1 day               | ✅ Complete      |
+| Phase 9.19 | May 26 | May 26 | <1 day               | ✅ Complete      |
+| Phase 9.20 | May 26 | May 26 | <1 day               | ✅ Complete      |
+| Phase 9.21 | May 26 | May 26 | <1 day               | ✅ Complete      |
 
-**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.17) completed by May 25, 2026 with AI chat widget enhancements (profile photo, voice I/O, locale-aware), bundle optimization (framer-motion removal, lazy-load sections), social feed backend wiring (pagination PAGE_SIZE=9), Gemini/TTS API migration (Claude→Gemini 2.5 Flash-Lite, Web Speech→Google Cloud TTS WaveNet), mobile scroll parallax (pointer:coarse), GitHub contributions fix, space depth hero redesign (3-layer particle system with accent colors), DotPattern depth tiers + color accents (deterministic seeding, opacity-40 background recession), and breadcrumb navigation (blog/projects with JSON-LD schema). Next phases: monitoring, analytics, admin dashboard, search functionality.
+**Actual:** Production bilingual deployment completed in ~2 weeks (May 1-11, 2026). All Phase 9 work (9.0-9.21) completed by May 26, 2026. Phase 9.15-9.18: AI chat widget enhancements (Gemini 2.5 Flash-Lite, Google Cloud TTS WaveNet, profile photo, voice I/O, locale-aware), bundle optimization (framer-motion removal, lazy-load sections), social feed backend wiring (pagination PAGE_SIZE=9), mobile scroll parallax (pointer:coarse), GitHub contributions fix, space depth hero redesign (3-layer particles, accent colors), DotPattern depth tiers + deterministic seeding, breadcrumb navigation, certifications enhancement, client privacy aliasing. Phase 9.19-9.21: Vercel Analytics + Speed Insights (no env vars, zero client cost), SEO layer (OG images, JSON-LD Person/Breadcrumb schemas, AI bot disallow rules), WCAG 2.2 accessibility (scroll-mt-16 header fix, focus-visible rings, aria-current, nav landmarks, skip link, prefers-reduced-motion throughout, contrast fix to 0.45), performance optimizations (Speculation Rules API, LQIP, responsive images, CDN preconnect). Documentation: code-standards-extended.md (306 LOC), architecture + design guidelines updated. Next phases: admin dashboard, search, newsletter.
 
 ---
 
@@ -795,4 +864,5 @@ Phase 1 (DONE)
 | 1.7.0-gemini-tts    | May 20 | 9.15  | AI chat & TTS migration: Claude → Gemini 2.5 Flash-Lite (fallback: gemini-2.5-flash); Web Speech API → Google Cloud TTS WaveNet; `/api/tts` REST endpoint; rate limiting (30 req/hr/IP); error codes (GEMINI_*, CONTENT_FILTERED); CORS strict whitelist; 12s timeout, maxDuration=30s; env vars GEMINI_API_KEY, GOOGLE_TTS_API_KEY, CHAT_ALLOWED_ORIGIN, GEMINI_MODEL (optional override) |
 | 1.8.0-mobile-parallax | May 20 | 9.16  | Mobile scroll parallax: hero background responds to scroll on touch devices (pointer:coarse); desktop remains mousemove parallax; prefers-reduced-motion respected on both paths; GitHub contributions route error handling (try/catch network + JSON parse) |
 | 1.9.0-space-depth-breadcrumbs | May 25 | 9.17 | Visual enhancements: HeroBackground 3-layer depth system (110 particles, accent green/blue nodes, orange connections); DotPattern depth tiers (0.55/1.0/1.6× sizes, far/mid/near opacities), color accents (6% green, 6% orange, 12% white twinkle), deterministic seeding, opacity-40 background recession; Breadcrumb component (new UI, blog/projects with JSON-LD schema); documentation updates |
-| 2.0.0-future        | TBD    | 10+   | Post-launch: monitoring, analytics, admin dashboard, search, advanced features      |
+| 1.10.0-analytics-seo-a11y | May 26 | 9.19-9.21 | Vercel Analytics + Speed Insights (zero client cost; Web Vitals API + edge infra); SEO layer (OG images via ImageResponse, JSON-LD Person/Breadcrumb schemas, AI bot disallow rules); WCAG 2.2 accessibility (scroll-mt-16 header fix, focus-visible rings, aria-current, nav landmarks, skip link, prefers-reduced-motion throughout, contrast 0.45); performance (Speculation Rules API eager:moderate, LQIP blur placeholders, responsive image sizes, CDN preconnect); documentation (code-standards-extended.md 306 LOC, system-architecture + design-guidelines updated) |
+| 2.0.0-future        | TBD    | 10+   | Post-launch: admin dashboard, search, newsletter, testimonials, advanced features    |

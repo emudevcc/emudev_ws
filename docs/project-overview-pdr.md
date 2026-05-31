@@ -164,6 +164,9 @@ Ship a zero-maintenance portfolio that:
 - **Phase 9.16** ✅: Mobile scroll parallax & GitHub contributions fix (scroll-based parallax on pointer:coarse, prefers-reduced-motion safe, network error handling)
 - **Phase 9.17** ✅: Visual enhancements (HeroBackground 3-layer depth system with accent colors; DotPattern depth tiers + color accents + deterministic seeding; Breadcrumb navigation with JSON-LD schema; opacity-40 background recession)
 - **Phase 9.18** ✅: Certifications & client privacy (clickable credential links with external link icons + credential IDs; client name privacy via companyAlias field; hero blur scrim for text contrast; theme-adaptive overlay)
+- **Phase 9.19** ✅: Vercel Analytics & Speed Insights (Core Web Vitals monitoring, zero client-side cost)
+- **Phase 9.20** ✅: SEO layer (OG images via ImageResponse, JSON-LD Person/Breadcrumb schemas, AI bot disallow rules in robots.txt)
+- **Phase 9.21** ✅: WCAG 2.2 accessibility & performance (scroll-mt-16 header fix, focus-visible rings, aria-current location, nav landmarks, skip link, prefers-reduced-motion throughout, contrast fix to 0.45; Speculation Rules API, LQIP, responsive images, CDN preconnect)
 
 ### Future (Phase 10+)
 
@@ -212,4 +215,6 @@ Ship a zero-maintenance portfolio that:
 | **Phase 9.0-9.5 Complete (UI & Design)**               | May 13, 2026        |
 | **Phase 9.6-9.8 Complete (Navigation & Animations)**   | May 15, 2026        |
 | **Phase 9.9-9.15 Complete (Widget & Optimization)**    | May 19, 2026        |
+| **Phase 9.16-9.18 Complete (Parallax & Depth)**        | May 25, 2026        |
+| **Phase 9.19-9.21 Complete (Analytics, SEO, A11y)**    | May 26, 2026        |
 | **Production Launch (Bilingual)**                      | May 11, 2026 (live) |

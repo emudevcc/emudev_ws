@@ -111,6 +111,9 @@ test.describe('i18n static contracts', () => {
 test.describe('i18n browser integration', () => {
   test.skip(!runIntegration, 'Set I18N_SMOKE_INTEGRATION=1 and run against a live Next server.')
 
+  const mainNav = (page: import('@playwright/test').Page) =>
+    page.getByRole('navigation', { name: 'Main navigation' })
+
   test('default locale redirect and locale-prefixed routes resolve', async ({ page, request }) => {
     const root = await request.get('/', { maxRedirects: 0 })
     expect([301, 302, 307, 308]).toContain(root.status())
@@ -130,13 +133,13 @@ test.describe('i18n browser integration', () => {
   }) => {
     await page.goto('/en')
     for (const label of ['Home', 'Projects', 'Blog', 'About', 'Contact']) {
-      await expect(page.getByRole('navigation').getByRole('link', { name: label })).toBeVisible()
+      await expect(mainNav(page).getByRole('link', { name: label })).toBeVisible()
     }
     await expect(page.locator('body')).not.toContainText('MISSING_MESSAGE')
 
     await page.goto('/es')
     for (const label of ['Inicio', 'Proyectos', 'Blog', 'Sobre mí', 'Contacto']) {
-      await expect(page.getByRole('navigation').getByRole('link', { name: label })).toBeVisible()
+      await expect(mainNav(page).getByRole('link', { name: label })).toBeVisible()
     }
     await expect(page.locator('body')).not.toContainText('MISSING_MESSAGE')
   })
@@ -146,12 +149,12 @@ test.describe('i18n browser integration', () => {
 
     await page.getByRole('button', { name: /Español|Spanish/i }).click()
     await page.waitForURL('**/es/about')
-    await expect(page.getByRole('navigation').getByRole('link', { name: 'Inicio' })).toBeVisible()
+    await expect(mainNav(page).getByRole('link', { name: 'Inicio' })).toBeVisible()
     await expect(page.locator('html')).toHaveAttribute('lang', 'es')
 
     await page.getByRole('button', { name: /English|Inglés/i }).click()
     await page.waitForURL('**/en/about')
-    await expect(page.getByRole('navigation').getByRole('link', { name: 'Home' })).toBeVisible()
+    await expect(mainNav(page).getByRole('link', { name: 'Home' })).toBeVisible()
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
   })
 

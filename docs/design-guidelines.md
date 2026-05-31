@@ -563,6 +563,83 @@ Magic UI component used in collapsed chat bubble for "Ask me about my work" tagl
 
 ---
 
+## WCAG 2.2 Accessibility Compliance
+
+### Scroll-Margin for Fixed Header (WCAG 2.4.11)
+
+All section anchor targets have `scroll-mt-16` (64px = 56px fixed header + 8px buffer):
+
+```tsx
+<section id="about" className="scroll-mt-16">
+```
+
+Applied to: 9 sections (hero, about, experience, projects, skills, credentials, writing, strengths, social, contact, contact)
+
+### Focus-Visible Rings (WCAG 2.4.7)
+
+All interactive elements show visible focus on keyboard navigation:
+
+```css
+@layer components {
+  @apply focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1
+}
+```
+
+Form inputs, nav links, buttons all inherit this pattern.
+
+### Aria-Current on Active Nav (WCAG 4.1.2)
+
+Dock nav indicates active section:
+
+```tsx
+<a aria-current={active === 'about' ? 'location' : undefined}>
+```
+
+### Nav Landmarks (WCAG 1.3.1)
+
+Both header nav and dock nav have explicit `aria-label`:
+
+```tsx
+<nav aria-label="Main navigation">     {/* header nav */}
+<nav aria-label="Page sections">        {/* dock nav */}
+```
+
+### Skip Link (WCAG 2.4.1)
+
+First visible element on page allows keyboard users to skip to main content:
+
+```tsx
+<a href="#main-content" className="sr-only focus:not-sr-only focus:fixed ..." />
+```
+
+Target: `<motion.main id="main-content">` in PageTransition component.
+
+### Prefers-Reduced-Motion (WCAG 2.3.3)
+
+All animations respect user preference:
+
+**Global:** `@media (prefers-reduced-motion: reduce) { scroll-behavior: auto }`
+
+**BlurFade component:** Returns plain `<div>` (no animation) when `useReducedMotion()` true
+
+**Hero parallax:** Motion skipped entirely on both mobile (scroll parallax) and desktop (mousemove parallax)
+
+**DotPattern twinkling:** Twinkling animation skipped; static dots rendered
+
+### Contrast Ratio (WCAG 2.4.3)
+
+Dark mode `--fg-4` (disabled/meta text) opacity raised to 0.45 (from 0.40) to meet WCAG AA minimum (4.5:1).
+
+### Alt Text & Roles (WCAG 1.1.1)
+
+All decorative images or icons have `role="img"` + `aria-label`. Example:
+
+```tsx
+<div role="img" aria-label="Available for work" className="w-3 h-3 bg-green-500" />
+```
+
+---
+
 ## Component Checklist
 
 Before shipping any new component:

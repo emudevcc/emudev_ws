@@ -17,9 +17,10 @@ emudev_ws/
 │   ├── actions/                  # Server actions (contact, auth)
 │   ├── layout.tsx                # Root layout (stripped shell)
 │   ├── page.tsx                  # Root page (redirect to /en)
+│   ├── opengraph-image.tsx       # [NEW] Default OG image (1200×630, ImageResponse)
 │   ├── [locale]/                 # Locale-prefixed routes (en, es) [NEW]
-│   │   ├── layout.tsx            # Fonts (Inter + JetBrains Mono) + NextIntlClientProvider + ThemeProvider; DotPattern with twinkle animation; PageTransition animation on route change
-│   │   ├── page.tsx              # Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer)
+│   │   ├── layout.tsx            # [UPDATED] Fonts + NextIntlClientProvider + ThemeProvider; Speculation Rules (eagerness: moderate, excludes /studio and /api); skip link; Analytics + SpeedInsights from Vercel
+│   │   ├── page.tsx              # Homepage (all sections: hero, about, experience, projects, skills, social, credentials, strengths, writing, contact, footer); JSON-LD Person schema
 │   │   ├── about/
 │   │   │   └── page.tsx          # About page (standalone route, reuses AboutSection)
 │   │   ├── projects/
@@ -32,7 +33,7 @@ emudev_ws/
 │   │       └── [slug]/
 │   │           ├── page.tsx      # Blog post (SSG per-route × 2 locales)
 │   │           └── opengraph-image.tsx # Dynamic OG image (1200×630)
-│   ├── robots.ts                 # Robots.txt generator
+│   ├── robots.ts                 # [UPDATED] Disallows AI training bots (GPTBot, ClaudeBot, Google-Extended, CCBot, anthropic-ai, cohere-ai)
 │   ├── sitemap.ts                # Dynamic XML sitemap (with locale variants)
 │   └── studio/[[...tool]]/page.tsx # Sanity Studio (root, no locale)
 │
@@ -199,8 +200,11 @@ emudev_ws/
 | `sanity/schemas/experience-type.ts`                | ~95  | Sanity experience schema with bilingual role/description, company (internal), companyAlias (public display), clientAliases (array), and tech references |
 | `sanity/schemas/project-type.ts`                   | ~90  | Sanity project schema with bilingual fields, cover, tech, gallery, metrics        |
 | `components/site-nav.tsx`                          | 30   | Navigation + LocaleSwitcher (async server)                                        |
-| `app/[locale]/page.tsx`                            | 30   | Homepage with hero + featured projects (per-locale)                               |
+| `app/[locale]/page.tsx`                            | 30   | Homepage with hero + featured projects (per-locale); JSON-LD Person schema        |
 | `app/layout.tsx`                                   | 28   | Root layout (stripped shell)                                                      |
+| `app/[locale]/layout.tsx`                          | ~128 | Fonts + NextIntlClientProvider + ThemeProvider; Speculation Rules in head; skip link; Analytics + SpeedInsights |
+| `app/opengraph-image.tsx`                          | 20   | Default OG image (1200×630, ImageResponse edge runtime)                           |
+| `app/robots.ts`                                    | ~18  | Robots.txt: allows all, disallows AI training bots (GPTBot, ClaudeBot, etc.)      |
 | `lib/sanity-client.ts`                             | 29   | Sanity client initialization + sanityFetch                                        |
 | `sanity/schemas/post-type.ts`                      | 27   | Sanity post schema with bilingual fields                                          |
 | `app/[locale]/projects/page.tsx`                   | 27   | Projects list page (ISR with per-locale tags)                                     |
